@@ -1,0 +1,79 @@
+.new-number-of-employee{
+    display: flex;
+    width: 350px !important;
+}
+
+.personal-details{
+    margin-top: 20px;
+    border: 1px solid #D9D9D9;
+    width: 1015px;
+    height: 90px;
+    top: 372px;
+    padding: 16px;
+    border-radius: 16px;
+}
+
+.personal-details p{
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #6E6E6E;
+    margin-bottom: 10px;
+}
+
+.personal-details-section{
+    display: flex;
+    justify-content: space-between;
+}
+
+.personal-details-section h1{
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #4E4E4E;
+}
+
+.personal-details-section h2{
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color:#2E2E2E; 
+}
+
+.security-info{
+    width: 1016px;
+    height: 118px;
+    top: 1180px;
+    padding: 16px 504px 16px 16px;
+    border-radius: 16px;
+    border: 1px solid #D9D9D9;
+}
+
+.security-info h1{
+    color: #6E6E6E;
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    margin-bottom: 10px;
+}
+
+.thesecurity-info {
+    display: flex;
+    justify-content: space-between;
+}

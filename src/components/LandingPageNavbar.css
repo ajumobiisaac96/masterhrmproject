@@ -1,0 +1,64 @@
+/* Base Navbar Styles */
+.LandingPage-Navbar {
+  padding: 2rem 10rem;
+}
+
+.LandingPage-Navbar ul {
+  display: flex;
+  border: 1px solid #D9D9D9;
+  border-radius: 49px;
+  padding: 10px;
+}
+
+.LandingPage-Navbar ul li {
+  padding: 10px;
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21.78px;
+  text-align: center;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: #2E2E2E;
+  cursor: pointer;
+}
+
+.LandingPage-Navbar ul li.active,
+.LandingPage-Navbar ul li:hover {
+  background-color: #007BFF;
+  border-radius: 20px;
+  font-size: 14px;
+  color: #fff;
+}
+
+/* Content Sections */
+.display-nav-image > div {
+  display: none; /* Hide all sections by default */
+  padding: 2rem 10rem;
+}
+
+.display-nav-image > .active-content {
+  display: flex; /* Show only the active section */
+}
+
+.display-nav-image .left {
+  width: 483px;
+  height: 157px;
+}
+
+.display-nav-image .left h1 {
+  font-family: Inter;
+  font-weight: bold;
+  color: #2E2E2E;
+}
+
+.display-nav-image .left p {
+  font-family: Inter;
+  color: #6E6E6E;
+}
+
+.display-nav-image img {
+  width: 700px;
+  height: 468.35px;
+}
+

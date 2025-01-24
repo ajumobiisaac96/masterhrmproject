@@ -1,0 +1,249 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+.div-one{
+    display: flex;
+    align-items: center;
+    margin-left: -800px;
+}
+
+.div1-1 img{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-left: 800px;
+}
+
+.div1-2 h1{
+    font-family: Inter;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 29.05px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #2E2E2E;
+}
+
+.div1-2 h2{
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #4E4E4E;
+}
+
+.btn-4 button{
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color:#22C55E;
+    background-color: #DCFCE8;
+    width: 65px;
+    height:27px;
+    padding: 4px;
+    gap: 5px;
+    border-radius: 24px;
+    margin-left: -100px;
+}
+
+.employee-info{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start !important;
+}
+
+.employee-info h2{
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #4E4E4E;
+    margin-top: 8px;
+}
+
+.employee-info .icon{
+    margin-right: 10px;
+}
+
+.employee-profile-info{
+    display: flex;
+    width: 1000px;
+    justify-content: space-between;
+}
+
+.employee-profile-info button{
+    margin-left: 0px;
+    width:180px;
+    height: 40px;
+    padding: 8px;
+    gap: 8px;
+    border-radius: 4px;
+    border: 1px solid ;
+    background-color:#F8F8F8 ;
+    color: #2E2E2E;
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none; 
+}
+
+.employee-profile-info button:hover{
+    background-color: #007BFF;
+    color: #DCFCE8;
+}
+
+.employee-profile-info button:active{
+    background-color: #007BFF;
+    color: #DCFCE8;
+}
+
+.dashboard-detail{
+    display: flex;
+    flex-direction: column;
+    width: 1000px;
+    top: 521px;
+    left: 48px;
+    border-radius: 16px;
+    border: 2px solid  #D9D9D9;
+    padding: 5px;
+    padding-left: 10px;
+    scrollbar-width: none;
+    overflow-y: scroll;
+}
+
+.compensation{
+    display: none;
+}
+
+.row-1{
+    display: flex;
+    width: 900px;
+    justify-content: space-between;
+}
+
+.row-1 div{
+    height: 55px !important;
+}
+
+.header h1{
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color:#2E2E2E;
+}
+
+.row-1 h2{
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #4E4E4E;
+    margin-bottom: 0px !important;
+}
+
+.row-1 h3{
+    font-family: Inter;
+    font-size: 16px !important;
+    font-weight: 500;
+    line-height: 18px !important;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #2E2E2E;
+    margin-top: 0px !important;
+}
+
+.row-1 div{
+    margin-top: 10px;
+    margin-BOTTOM: 15px;
+    width: 232px;
+    height: 46px;
+    gap: 2px;
+}
+
+.row-1 p{
+    background-color: #DCFCE8;
+    color: red;
+    width: 240px !important ;
+    height: 4px;
+    padding: 0px 22px 0px 0px;
+    border-radius: 17px;
+}
+
+.row-1 h1{
+    background-color: #22C55E;
+    width: 202px;
+    height: 4px;
+    border-radius: 17px;
+    position: relative;
+    bottom: 4px;
+}
+
+.row-1 .green{
+    color: #22C55E !important;
+}
+
+.compensation .row-1{
+    margin-bottom: 50px;
+}
+
+.red {
+    color: red !important;
+}
+
+
+.employee-profile-info button.active {
+    background-color: #007bff; /* Highlight color */
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .employee-profile-info button {
+    margin-right: 10px;
+    padding: 10px;
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px ; 
+  }
+
+  .dashboard-detail{
+    height: 300px;
+  }
+
+  .dashboard-details-2-2 .row-1{
+    margin-bottom: 30px;
+  }
+
+  .employee-profile-info button{
+    width: 190px;
+  }
+
+  

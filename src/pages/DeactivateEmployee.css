@@ -1,0 +1,42 @@
+.suspend-employee-form{
+    overflow-x: hidden;
+    scrollbar-width: none;
+}
+
+.second-row{
+    margin-top: 5px !important;
+}
+
+.another-row p{
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #2E2E2E;
+    margin-top: 20px;
+}
+
+.another-row-dropDown div{
+    margin-bottom: 5px;
+}
+
+.another-row-content{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.fourthh-row{
+    color: #720000 ;
+    background-color: #FF6464 ;
+    margin-top: 20px;
+    width: 974px;
+    height: 88px;
+    padding: 16px;
+    gap: 10px;
+    border-radius: 16px;
+    border: 1px solid #720000 ;
+}

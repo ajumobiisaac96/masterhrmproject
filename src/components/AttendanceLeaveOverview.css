@@ -1,0 +1,98 @@
+/* AttendanceLeaveOverview.css */
+
+.attendance-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .attendance-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .calendar-card {
+    grid-column: span 1;
+  }
+  
+  .calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .day-header {
+    font-weight: bold;
+    text-align: center;
+    color: #555;
+  }
+  
+  .date {
+    padding: 8px;
+    text-align: center;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .present {
+    background-color: #e0f7fa;
+  }
+  
+  .absent {
+    background-color: #ffebee;
+  }
+  
+  .undertime {
+    background-color: #fff9c4;
+  }
+  
+  .leave {
+    background-color: #c8e6c9;
+  }
+  
+  .right-side {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .leave-overview-card,
+  .leave-history-card {
+    grid-column: span 1;
+  }
+  
+  .leave-overview p,
+  .leave-history p {
+    margin: 8px 0;
+  }
+  
+  .leave-overview span,
+  .leave-history span {
+    font-weight: bold;
+  }
+  
+  .pending {
+    color: orange;
+  }
+  
+  .approved {
+    color: green;
+  }
+  
+  .rejected {
+    color: red;
+  }
+  

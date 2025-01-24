@@ -1,0 +1,55 @@
+.div-1{
+margin-left: -480px;
+}
+
+.Department-info h3{
+    margin-left: -800px;
+}
+
+.Department-info .btn-2{
+    margin-left: 800px;
+}
+
+.Department-info .btn-2:hover{
+    width: 150px;
+}
+
+
+.department-Head{
+    display: flex;
+    flex-direction: column;
+    margin-left: 0px;
+}
+
+.department-Head label{
+    font-family: Inter;
+font-size: 16px;
+font-weight: 500;
+line-height: 19.36px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+color: #2E2E2E;
+}
+
+.department-Head select{
+    width: 968px;
+height: 52px;
+padding: 14px 16px 14px 16px;
+border-radius: 8px;
+border: 2px solid #D9D9D9;
+outline: none;
+}
+
+    
+.department-Head .select-option{
+    font-family: Inter;
+font-size: 16px;
+font-weight: 400;
+line-height: 19.36px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+color: #2E2E2E;
+
+}

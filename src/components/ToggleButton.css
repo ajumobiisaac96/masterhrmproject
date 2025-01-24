@@ -1,0 +1,33 @@
+/* Container styling for the toggle button */
+.toggle-button {
+    width: 50px;
+    height: 25px;
+    background-color: grey; /* Default color when off */
+    border-radius: 50px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Blue background when toggle is on */
+  .toggle-button.on {
+    background-color: blue;
+  }
+  
+  /* Toggle "thumb" (the circle) */
+  .toggle-thumb {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2.5px; /* Center the circle vertically */
+    left: 2.5px; /* Position when off */
+    transition: left 0.3s ease;
+  }
+  
+  /* Position the thumb to the right when the toggle is on */
+  .toggle-button.on .toggle-thumb {
+    left: 27.5px; /* Adjust to position when on */
+  }
+  

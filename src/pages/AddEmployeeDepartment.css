@@ -1,0 +1,196 @@
+.dashboard-detail-1 h1{
+    text-decoration:none !important;
+    color: #2E2E2E;
+}
+
+.number-of-employee{
+    margin-top: 20px;
+}
+
+.div-1 .div1-1 img{
+    margin-left: 500px;
+}
+
+.div1-2 h2{
+    width: 300px;
+}
+
+.grey-btn{
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 19.36px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #2E2E2E;
+    background-color: #ffff;
+    border: 1px solid #D9D9D9;
+}
+
+.employee-info{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.employee-info-description p{
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 16.94px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #4E4E4E;
+}
+
+.employee-info-description h1{
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16.94px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #6E6E6E;
+}
+
+.dashboard h3{
+    font-family: Inter;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 29.05px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #2E2E2E;
+    margin-top: 30px;
+}
+
+.dashboard .search-input{
+    width: 980px;
+    height: 40px;
+    top: 534px;
+    left: 48px;
+    padding: 8px 490px 8px 16px;
+    border-radius: 24px;
+    border: 2px solid #D9D9D9;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.dashboard .search-input input{
+    border: none;
+    width: 1000px;
+    margin-left: 10px;
+    outline: none;
+}
+
+.dashboard .search-input input::placeholder{
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #6E6E6E;
+}
+
+.employee-department-section{
+    width: 1,017px;
+    height: 206px;
+    top: 606px;
+    left: 48px;
+    gap: 3px;
+    border: 1px solid #D9D9D9;
+    border-radius: 16px;
+    margin-top: 20px;
+    overflow-y:scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.row-one{
+    padding: 10px;
+    display: flex;
+    width: 980px;
+    justify-content: space-between;
+}
+
+.row-one p{
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16.94px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #4E4E4E;
+    width: 160px;
+    height: 17px;
+}
+
+.employee-department-section hr{
+    width: 980px;
+    margin-left: 0px;
+    margin-bottom: 5px;
+}
+
+.employee-department-section .row-two{
+    display: flex;
+    width: 970px;
+    justify-content: space-between;
+}
+
+.row-two div{
+    display: flex;
+}
+
+.row-two p{
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16.94px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #4E4E4E;
+    width: 160px;
+    height: 17px;
+}
+
+.active-btn{
+    width: 120px !important; 
+    height: 27px !important;
+    padding: 4px;
+    gap: 5px;
+    border-radius: 24px;
+    border: 1px solid #22C55E;
+    color: #22C55E;
+    background-color: #DCFCE8;
+}
+
+.grey-btn-1{
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #2E2E2E;
+    background-color: #ffff;
+    border: 1px solid #D9D9D9;
+    width: 100px;
+    margin-left: 850px;
+}
+
+.grey-btn-1:hover{
+    color: #007BFF;
+    background-color: #ffff;
+    width: 100px;
+}
+

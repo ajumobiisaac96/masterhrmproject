@@ -1,0 +1,20 @@
+.top-attendance {
+    width: 48%;
+    border-radius: 16px;
+    border: 1px solid #D9D9D9;
+    padding:10px;
+
+  }
+  
+  .top-attendance h3{
+    margin-top:7px;
+  }
+
+  .top-attendance ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .top-attendance li {
+    margin: 5px 0;
+  }

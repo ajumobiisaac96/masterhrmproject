@@ -1,0 +1,226 @@
+.dashboard-details h1{
+    color: #2E2E2E;
+}
+
+.dashboard-details-1 .active{
+    width: Hug (154px)px;
+    height: Hug (35px)px;
+    padding: 8px;
+    gap: 4px;
+    border-radius: 24px;
+    background-color: #007BFF;
+    color: #ffff;
+    text-align: center;
+}
+
+.dashboard-details-1 p:hover{
+    width: Hug (154px)px;
+    height: Hug (35px)px;
+    padding: 8px;
+    gap: 4px;
+    border-radius: 24px;
+    background-color: #007BFF;
+    color: #ffff;
+    text-align: center;
+    cursor: pointer;
+}
+
+.add-employee-form{
+    width: 970px;
+    height: 582px;
+    margin-top: 20px;
+    gap: 24px;
+    border-radius: 16px;
+    border: 2px solid #D9D9D9;   
+    scrollbar-width: none;
+    overflow-y: scroll;
+}
+
+.splited-row{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.left-hand-side-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.left-hand-side-col label{
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    margin-bottom: 10px;
+}
+
+.left-hand-side-col span{
+    color: red;
+}
+
+.left-hand-side-col input{
+    width: 450px;
+    height: 52px;
+    padding: 16px 329px 17px 16px;
+    border-radius: 8px;
+    border: 2px solid #D9D9D9;
+    background-color: transparent;
+    outline: none;
+}
+
+.left-hand-side-col input::placeholder{
+    font-family: Inter;
+    width: 500px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+}
+
+.left-hand-side-col select{
+    width: 450px;
+    height: 52px;
+    padding: 16px 329px 17px 16px;
+    border-radius: 8px;
+    border: 2px solid #D9D9D9;
+    background-color: transparent;
+    outline: none;
+}
+
+.left-hand-side-col option{
+    font-family: Inter;
+    width: 500px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+}
+
+.right-hand-side-col label{
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    margin-bottom: 10px;
+}
+
+.right-hand-side-col span{
+    color: red;
+}
+
+.right-hand-side-col input{
+    width: 450px;
+    height: 52px;
+    padding: 16px 329px 17px 16px;
+    border-radius: 8px;
+    border: 2px solid #D9D9D9;
+    background-color: transparent;
+    outline: none;
+}
+
+.right-hand-side-col input::placeholder{
+    font-family: Inter;
+    width: 500px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+}
+
+.right-hand-side-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.right-hand-side-col select{
+    width: 450px;
+    height: 52px;
+    padding: 16px 329px 17px 16px;
+    border-radius: 8px;
+    border: 2px solid #D9D9D9;
+    background-color: transparent;
+    outline: none;
+}
+
+.right-hand-side-col option{
+    font-family: Inter;
+    width: 500px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+}
+
+.single-row{
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.single-row label {
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    margin-bottom: 10px;
+}
+
+.single-row span{
+    color: red;
+}
+
+.single-row input{
+    height: 52px;
+    padding: 16px 869px 17px 16px;
+    border-radius: 8px;
+    border: 2px solid #D9D9D9;
+    outline: none;
+    background-color: transparent;
+}
+
+.single-row input::placeholder{
+    font-family: Inter;
+    width: 500px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+}
+
+.add-employee-btn .btn-2{
+    margin-left: 400px !important;
+}
+
+.add-employee-btn .btn-2:hover{
+    width:150px
+}
+
+.container-2{
+ display: none;
+ margin-left:150px ;
+ margin-top: 100px;
+}
+
+.container-2 h3{
+    text-align: center !important;
+}

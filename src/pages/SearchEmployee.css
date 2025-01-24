@@ -1,0 +1,61 @@
+.number-of-employee{
+    display: flex;
+    align-items: center ;  
+}
+
+.showing-entries{
+    display: flex;
+    margin-top: 10px;
+    width: 980px;
+    justify-content: space-between;
+}
+
+.number-div{
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 16.94px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #4E4E4E;
+}
+
+.number-div span{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.pagination{
+    display: flex;
+    width: Hug (309px)px;
+    height: Hug (37px)px;
+    gap: 8px;
+    opacity: 0px;
+}
+
+.pagination p{
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 16.94px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #6E6E6E;
+}
+
+.pagination .active-1{
+    width: 37px;
+    height: Hug (37px)px;
+    gap: 10px;
+    border-radius: 8px;
+    border: 1px solid #6E6E6E;
+    text-align: center;
+    padding:1px ;
+}
+
+.employee-department-section{
+    height: 270px;
+}
+

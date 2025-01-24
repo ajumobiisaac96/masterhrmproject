@@ -1,0 +1,45 @@
+.first-graph{
+  margin-top: 20px;
+  display: flex;
+  width: 1000px;
+  justify-content: space-between;
+}
+
+.slide-one {
+  display: flex;
+  justify-content: space-between;
+  width: 1000px;
+  margin-top: 20px;
+}
+
+.slide-one-1 {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.graph-container {
+  width: 48%;
+}
+
+.view-button {
+  align-self: flex-end;
+  margin: 20px 0;
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.view-button:hover {
+  background-color: #0056b3;
+}
+
+.attendance-trends {
+  display: flex;
+  justify-content: space-between;
+  width: 1000px;
+  margin-top: 20px;
+}

@@ -1,0 +1,267 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.number-of-employee{
+    display: flex;
+    justify-content: space-between;
+    width: 1000px;
+    align-items: center;
+}
+
+.number-of-employee .div-1 h2{
+    font-family: Inter;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 29.05px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    margin-left: 500px;
+    margin-top: -20px;
+}
+
+.number-of-employee .div-2{
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-1 button{
+    width: 88px;
+    height: 40px;
+    padding: 8px;
+    gap: 8px;
+    border-radius: 4px;
+    border: 1px solid #D9D9D9;
+    background-color: #F8F8F8;
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #2E2E2E;
+    margin-bottom: -200px !important;
+}
+
+.btn-8 button{
+  width: 88px;
+  height: 40px;
+  padding: 8px;
+  gap: 8px;
+  border-radius: 4px;
+  border: 1px solid #D9D9D9;
+  background-color: #F8F8F8;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 19.36px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: #2E2E2E;
+  margin-bottom: -200px !important;
+}
+
+.btn button{
+    width: 197px;
+    height: 40px;
+    padding: 8px;
+    gap: 8px;
+    border-radius: 4px;
+}
+
+.dashboard-details-2{
+    margin-top: 20px;
+}
+
+.dashboard-details-2 .card{
+    width: 244px;
+    height: 308px;
+    border-radius: 16px;
+    border: 2px solid #D9D9D9;
+}
+
+.dashboard-details-2 .div-1{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    margin: 10px;
+}
+
+.card h1{
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #2E2E2E;
+    margin: 10px;
+}
+
+.card h2{
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.94px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #4E4E4E;
+    margin: 10px;
+}
+
+.card hr{
+    width: 242px;
+    margin-left: 0;
+    margin-bottom: 20px;
+}
+
+.card p{
+    cursor: pointer;
+}
+
+.dashboard-details-2 .div-2{
+    display: flex;
+    flex-direction: row;
+}
+
+.number-of-employee .div-3{
+    /* margin: 20px; */
+    position: relative; /* Ensure dropdowns position correctly */
+
+  }
+  
+  .btn-container {
+    position: relative;
+  }
+  .div-3 .dropdownstyle {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    position: absolute;
+    z-index: 100;
+    top: 100%; /* Position it directly below the button */
+    left: 0;
+    width: 200px; /* Match the button width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .dropdownstyle p {
+    margin: 5px 0;
+    cursor: pointer;
+  }
+  
+  .dropdownstyle p:hover {
+    background-color: #ddd;
+  }
+
+.div-2 h1{
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.94px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #4E4E4E;
+}
+
+.div-2 h2{
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #2E2E2E;
+}
+
+.div-3{
+    display: flex;
+    margin-top:20px;
+    justify-content: space-between;
+}
+
+.status h1{
+    margin: 10px;
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.94px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #4E4E4E;
+}
+
+.status h2{
+    width: Fill (65px)px;
+    height: Hug (27px)px;
+    padding: 4px;
+    gap: 5px;
+    border-radius: 24px;
+    background-color: #DCFCE8;
+    color: #22C55E;
+}
+
+.div-1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative; /* Ensure dropdown aligns to this container */
+  }
+  
+  .three-dots {
+    cursor: pointer;
+    font-size: 16px;
+    color: #4e4e4e;
+  }
+  
+  .suspend-menu {
+    position: absolute;
+    top: 10px; /* Adjust based on spacing from the three dots */
+    right: -20px;
+    border-radius: 8px;
+    background-color: #F8F8F8;
+    padding: 10px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .suspend-menu button {
+    width: 100px;
+    text-align: center;
+    height: 30px;
+    color: black; /* Text color */
+    border: none;
+    background-color: none !important;
+    padding: 8px 12px;  
+    margin-bottom: -20px; /* Space between buttons */
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .suspend-menu button:hover {
+    background-color: #7e7c7c; /* Slightly darker red for hover effect */
+    color: #F8F8F8;
+  }
+
+  .btn-2 {
+    border: none !important;
+    background-color: #fff!important;
+  }
+  
+  .btn-2 .btn-5{
+    width: 100px;
+  }

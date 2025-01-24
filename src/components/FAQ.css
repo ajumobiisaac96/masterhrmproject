@@ -1,0 +1,52 @@
+/* FAQ Section */
+.FAQ-section {
+    padding: 2rem;
+  }
+  
+  .FAQ-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 15px 15px;
+    color: #4E4E4E;
+    border-bottom: 1px solid #D9D9D9;
+    font-family: Inter;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 29.05px;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+  }
+  
+  .FAQ-question.active {
+    font-weight: bold;
+    width: 100%;
+  }
+  
+  .FAQ-arrow {
+    font-size: 16px;
+    transform: rotate(-90deg); /* Rotate arrow icon to point downward */
+    transition: transform 2s ease;
+  }
+  
+  .FAQ-answer {
+    display: none; /* Hide the answer by default */
+    padding: 10px 10px;
+    font-size: 14px;
+    color: #6E6E6E;
+    font-family: Inter;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 29.05px;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+
+  }
+  
+  /* Display answer only when question is active */
+  .FAQ-question.active + .FAQ-answer {
+    display: block;
+    padding-top: 10px;
+  }
+  

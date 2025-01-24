@@ -1,0 +1,55 @@
+/* HRActionTable.css */
+
+.hr-action-table {
+    margin: 20px auto;
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    text-align: left;
+  }
+  
+  .hr-action-table table {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  
+  .hr-action-table th,
+  .hr-action-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .hr-action-table th {
+    background-color: #fff;
+    color: #333;
+    text-transform: uppercase;
+  }
+  
+  .hr-action-table tbody tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .hr-action-table td:last-child {
+    text-align: center;
+  }
+  
+  /* Status styles */
+  .status-button {
+    padding: 6px 12px;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .status-successful {
+    background-color: #28a745;
+  }
+  
+  .status-completed {
+    background-color: #007bff;
+  }
+  

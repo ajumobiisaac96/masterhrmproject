@@ -1,0 +1,50 @@
+.leave-managment-charts {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    margin-top: 15px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .CircularChart {
+    width: 496px;
+    height: 248px;
+    top: 321px;
+    left: 48px;
+    padding: 16px 68px 28px 16px;
+    border-radius: 16px;
+    border: 1px solid #D9D9D9;   
+    background-color: #FFFFFF; 
+  }
+
+  .new-div-1{
+    width:400px;
+  }
+
+  .new-div-1 input{
+    width: 600px !important;
+    outline: none;
+  }
+
+  .new-div-1 input::placeholder{
+    font-size: 14px;
+    width: 600px !important;
+  }
+
+ .leave-managment-table h2{
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #4E4E4E;
+    margin-top: 20px;
+    margin-bottom: 20px
+    }
+

@@ -1,0 +1,31 @@
+.progress-bars {
+    margin-top:-2px;
+    height:305px;
+    border-radius: 12px;
+    width: 480px;
+    border: 1px solid #D9D9D9;
+    padding: 0 10px;
+  }
+  
+  .progress-bars h3{
+    margin-top: 15px;
+  }
+
+  .progress-bar-container {
+    margin-bottom: 10px;
+  }
+  
+  .progress-bar {
+    width: 100%;
+    background-color: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .progress {
+    height: 20px;
+    background-color: #4caf50;
+    text-align: center;
+    color: white;
+    border-radius: 5px;
+  }
