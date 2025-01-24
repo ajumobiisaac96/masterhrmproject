@@ -19,6 +19,7 @@
   text-align: center;
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
+  list-style-type: none;
   color: #2E2E2E;
   cursor: pointer;
 }

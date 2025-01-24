@@ -37,7 +37,7 @@ const LandingPage = () => {
             <li><a href="#benefits">Benefits</a></li>
             <li><a href="#faq">FAQ</a></li>
         </ul>
-        <Link to={'/companyregister'} ><button class="demo-button">
+        <Link to={'/companyregister'} ><button class="demo-button" style={{textDecoration: 'none'}}>
             Request Demo
             <span class="arrow-icon">➔</span>
         </button></Link>
@@ -48,13 +48,13 @@ const LandingPage = () => {
     <div className="hero-section" id='home'>
         <h1>Stop Wasting Time on Manual HR Tasks <br />
         <span>Simplify</span> Management</h1>
-        <p>Streamline attendance, payroll, leave tracking, and reporting to save time and boost productivity</p>
+        <p>Streamline attendance, payroll, leave tracking, and reporting to save time and <br /> boost productivity</p>
         <Link to={'/companyregister'} ><button className='hero-btn' >Request Demo <FontAwesomeIcon icon="fa-solid fa-arrow-right" /> </button></Link>
         <img src={HeroImage} alt="" />
     </div>
 
 
-      <div className='sub-info-h1'>
+      <div className='sub-info-h1' style={{lineHeight:'70px', fontSize:'22px'}} >
         <h1>Everything You Need to Manage Your Workforce</h1>
       </div>
 
@@ -80,12 +80,12 @@ const LandingPage = () => {
 
     </div>
 
-    <div className='sub-info-h1'  >
+    <div className='sub-info-h1' style={{lineHeight:'50px', fontSize:'22px'}} >
         <h1>Your Complete Workforce <br /> Management Solution</h1>
     </div>
 
-    <div className='sub-info-p' id="features" >
-        <h1>Streamline your HR processes with a <br /> platform designed to manage every aspect of your workforce</h1>
+    <div className='sub-info-p' id="features" style={{lineHeight:'30px'}} >
+        <h1>Streamline your HR processes with a platform <br /> designed to manage every aspect of your workforce</h1>
     </div>
 
    <div >
