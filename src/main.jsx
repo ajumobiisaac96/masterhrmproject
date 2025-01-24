@@ -1,8 +1,9 @@
+// filepath: /c:/Users/USER/Desktop/masterhrmproject/src/main.jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
-import './styles/custom.css'
+import './styles/custom.css';
 
 ReactDOM.render(
   <React.StrictMode>
