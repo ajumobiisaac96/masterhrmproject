@@ -351,7 +351,7 @@ const Dashboard = () => {
                     <h5>07:20:03</h5>
                   </div>
                 </div>
-                <button>Manage Task</button>
+                <button style={{width:'170px'}} >Manage Deaprtment</button>
               </div>
             </div>
 
