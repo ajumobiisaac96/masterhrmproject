@@ -215,10 +215,22 @@
     width:150px
 }
 
-.container-2{
- display: none;
- margin-left:150px ;
- margin-top: 100px;
+.container-3{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 420px;
+    height: 300px;
+    border-radius: 8px;
+    background-color: #FFFFFF;
+    padding-left: 30px;
+    padding-right: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999; 
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
 }
 
 .container-2 h3{
