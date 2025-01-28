@@ -305,7 +305,7 @@ const AddEmployee = () => {
               <button className='btn-2'> Add Employee</button>
             </div>
 
-          <div className="container-2">
+          <div className="container-3">
         <FontAwesomeIcon icon={faCircleCheck} className="check-icon" />
         <div className="pop-up-txt">
           <h1>Employee Added Sucessful</h1>

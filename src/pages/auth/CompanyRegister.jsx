@@ -201,7 +201,7 @@
 
 {showPopup && (
   <>
-    <div className="overlay"></div>
+    {/* <div className="overlay"></div> */}
     <div className="container-2">
       <FontAwesomeIcon icon={faCircleCheck} className="check-icon" />
       <div className="pop-up-txt">
