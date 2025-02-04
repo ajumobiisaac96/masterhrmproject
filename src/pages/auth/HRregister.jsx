@@ -16,6 +16,7 @@ const HRregister = () => {
 
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false); // State for button disabled and text
   const navigate = useNavigate(); // Hook for navigation
 
   // Handle input changes
@@ -29,53 +30,56 @@ const HRregister = () => {
     setSuccessMessage('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Basic validation
     const { first_name, last_name, role, email, password, admin_code } = formData;
     if (!first_name || !last_name || !role || !email || !password || !admin_code) {
       setErrorMessage('All fields are required.');
       return;
     }
-  
+
     // Get company_id from local storage
     const company_id = localStorage.getItem('company_id').trim(); // Remove any spaces
     console.log(company_id);
-  
+
     // Submit form data with company_id as a query parameter
-    axios
-      .post(`https://proximahr.onrender.com/admin/create-admin?company_id=${company_id}`, formData)
-      .then((response) => {
-        console.log('Response from backend:', response); // Log the entire response object
-  
-        // If you want to log just the response data, you can do this:
-        console.log('Response data:', response.data);
-  
-        // Handle success response
-        setSuccessMessage('Team created successfully! You will be redirected to the login page.');
-  
-        // Redirect to the login page after 2 seconds
-        setTimeout(() => {
-          navigate('/login');
-        }, 2000);
-  
-        // Clear form data
-        setFormData({
-          first_name: '',
-          last_name: '',
-          role: '',
-          email: '',
-          password: '',
-          admin_code: '',
-        });
-      })
-      .catch((error) => {
-        console.error('Error details:', error.response || error.message);
-        setErrorMessage('Failed to connect to the server. Please try again later.');
+    try {
+      setIsSubmitting(true); // Disable the button and change text
+      const response = await axios.post(
+        `https://proximahr.onrender.com/admin/create-admin?company_id=${company_id}`,
+        formData
+      );
+      console.log('Response from backend:', response); // Log the entire response object
+      console.log('Response data:', response.data); // Log just the response data
+
+      // Handle success response
+      setSuccessMessage('Team created successfully! You will be redirected to the login page.');
+      setErrorMessage('');
+
+      // Redirect to the login page after 2 seconds
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+
+      // Clear form data
+      setFormData({
+        first_name: '',
+        last_name: '',
+        role: '',
+        email: '',
+        password: '',
+        admin_code: '',
       });
+    } catch (error) {
+      console.error('Error during form submission:', error);
+      setErrorMessage('An error occurred. Please try again.');
+      setSuccessMessage('');
+    } finally {
+      setIsSubmitting(false); // Re-enable the button and reset text
+    }
   };
-  
 
   return (
     <div>
@@ -151,7 +155,9 @@ const HRregister = () => {
               />
             </div>
           </div>
-          <button className='btn-general' type="submit">Create an Account</button>
+          <button className='btn-general' type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Creating an account...' : 'Create an Account'}
+          </button>
         </form>
 
         {errorMessage && <p className="error-message">{errorMessage}</p>}
