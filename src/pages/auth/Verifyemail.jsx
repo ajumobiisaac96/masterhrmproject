@@ -82,7 +82,7 @@ const Verifyemail = () => {
               </p>
             )}
           </div>
-          <button type="submit" disabled={loading}>
+          <button type="submit" disabled={loading} className='btn-general'>
             {loading ? 'Verifying...' : 'Verify Code'}
           </button>
         </form>
