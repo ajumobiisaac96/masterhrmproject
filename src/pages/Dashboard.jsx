@@ -469,6 +469,7 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import '../pages/Dashboard.css';
+import { Link } from "react-router-dom";
 import EmployerNavbar from "../components/EmployerNavbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUsers, faBuilding, faCalendar } from "@fortawesome/free-solid-svg-icons";
@@ -542,8 +543,8 @@ const Dashboard = () => {
 
         // ✅ API URLs
         const apiUrl = `https://proximahr.onrender.com/dashboard/company-overview?company_id=${companyId}`;
-        const departmentApiUrl = `https://proximahr.onrender.com/dashboard/department-overview?company_id=${companyId}&_=${Date.now()}`;
-        const leaveApiUrl = `https://proximahr.onrender.com/dashboard/leave-overview?company_id=${companyId}&_=${Date.now()}`;
+        const departmentApiUrl = `https://proximahr.onrender.com/dashboard/department-overview?company_id=${companyId}`;
+        const leaveApiUrl = `https://proximahr.onrender.com/dashboard/leave-overview?company_id=${companyId}`;
         const payrollApiUrl = `https://proximahr.onrender.com/dashboard/payroll-overview?company_id=${companyId}`;
         const eventsApiUrl = `https://proximahr.onrender.com/dashboard/events?company_id=${companyId}`;
 
@@ -747,7 +748,7 @@ const Dashboard = () => {
                     <h5>{averageHoursWorked} Hours/Day</h5>
                   </div>
                 </div>
-                <button style={{ width: '170px', backgroundColor: "#007BFF", color: "#fff"}}>Manage Department</button>
+                <Link to="/department"><button style={{ width: '170px', backgroundColor: "#007BFF", color: "#fff"}}>Manage Department</button></Link>
               </div>
 
 

@@ -217,7 +217,7 @@ const HRlogin = () => {
         <div className="login">
           <h1>
             Don't have an account?
-            <Link to="/register">
+            <Link to="/companyregister">
               <span> Signup</span>
             </Link>
           </h1>

@@ -310,6 +310,7 @@ color: #4E4E4E;
     border-radius: 8px;
     color: #fff;
     margin-top: 20px;
+    border: none !important;
 }
 
 .div-2 .btn button{
