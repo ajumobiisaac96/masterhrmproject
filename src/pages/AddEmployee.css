@@ -209,14 +209,20 @@
 
 .add-employee-btn .btn-2{
     margin-left: 400px !important;
+    background-color: #007BFF!important;
+    color: #FFFFFF !important;
 }
 
 .add-employee-btn .btn-2:hover{
-    width:150px
+    width:140px;
+    color:#007BFF !important;
+    background-color: #FFFFFF !important;
+    transition: 0.3s;
+    border: 1px solid #007BFF !important;
 }
 
 .container-3{
-    display: none;
+    display: block;
     flex-direction: column;
     align-items: center;
     width: 420px;

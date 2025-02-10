@@ -47,6 +47,19 @@
     outline: none;
 }
 
+
+.add-department-feilds textarea{
+    width: 950px;
+    height: 52px;
+    padding: 16px 767px 17px 16px;
+    border-radius: 8px;
+    border: 2px solid #D9D9D9;
+    margin-top: 10px;
+    outline: none;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
 .add-department-feilds-1 ::placeholder{
     font-family: Inter;
     width: 900px;
@@ -104,6 +117,53 @@
     justify-content: center;
 }
 
+.add-department-feilds button{
+    width: 120px;
+    height: 40;
+    top: 794px;
+    left: 441px;
+    border-radius: 4px;
+    padding-top: 8px;
+    padding-right: 16px;
+    padding-bottom: 8px;
+    padding-left: 16px;
+    gap: 8px;
+    background-color: #007BFF;    
+    border: none;
+    color: white;
+    margin-top: 20px;
+}
+
+.add-department-feilds button:hover{
+    background-color: transparent;
+    color: #007BFF;
+    border: 1px solid #007BFF;
+    width: 120px;
+}
+
+.department-button button{
+    width: 231;
+    height: 40;
+    top: 794px;
+    left: 441px;
+    border-radius: 4px;
+    padding-top: 8px;
+    padding-right: 16px;
+    padding-bottom: 8px;
+    padding-left: 16px;
+    gap: 8px;
+    background-color: #007BFF;    
+    border: none;
+    color: white;
+    margin-top: 20px;
+}
+
+.department-button button:hover{
+    background-color: transparent;
+    color: #007BFF;
+    border: 1px solid #007BFF;
+}
+
 .dashboard-details .left-arrow {
     margin-right: 10px;
     text-decoration: none;
@@ -111,4 +171,22 @@
 
 .dashboard-details h5{
     text-decoration: none !important;
+}
+
+.add-department-feilds-1 button{
+    width: 140px;
+    height: 40px;
+    border-radius: 4px;
+    padding: 8px 16px;
+    gap: 8px;
+    background-color: #007BFF;
+    border: none;
+    color: white;
+    margin-top: 20px;
+}
+
+.add-department-feilds-1 button:hover{
+    background-color: transparent;
+    color: #007BFF;
+    border: 1px solid #007BFF;
 }
