@@ -508,25 +508,33 @@ const EmployeeManagement = () => {
           </div>
 
           {loading ? (
-            <p>Loading employees...</p>
-          ) : error ? (
-            <div className="error-box">
-              <p style={{ color: "red", whiteSpace: "pre-wrap" }}>Error: {error}</p>
-            </div>
-          ) : employees.length > 0 ? (
-            <div className="dashboard-details-2">
-              {employees.map((employee) => (
-                <EmployeeCard
-                  key={employee.employee_id}
-                  employee={employee}
-                  isDropdownOpen={activeDropdown === employee.employee_id}
-                  onToggleDropdown={toggleDropdown}
-                />
-              ))}
-            </div>
-          ) : (
-            <p>No employees found</p>
-          )}
+                <p>Loading employees...</p>
+              ) : error ? (
+                <div className="error-box">
+                  <p style={{ color: "red", whiteSpace: "pre-wrap" }}>Error: {error}</p>
+                </div>
+              ) : employees.length > 0 ? (
+                <div 
+                  className="dashboard-details-2"
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(4, 1fr)", // ✅ 4-column grid
+                    gap: "20px", // ✅ Adds spacing between cards
+                  }}
+                >
+                  {employees.map((employee) => (
+                    <EmployeeCard
+                      key={employee.employee_id}
+                      employee={employee}
+                      isDropdownOpen={activeDropdown === employee.employee_id}
+                      onToggleDropdown={toggleDropdown}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <p>No employees found</p>
+              )}
+
         </div>
       </div>
     </div>
