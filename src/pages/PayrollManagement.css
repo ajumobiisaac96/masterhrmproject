@@ -115,7 +115,7 @@
 .number-of-employee {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 0px;
 }
 
 .new-div-1 {
@@ -132,6 +132,51 @@
 .div-2 {
   display: flex;
   align-items: center;
+}
+
+.save-pdf-btn{
+  background-color: #F8F8F8;
+  border: 1px solid #D9D9D9;
+  color: #2E2E2E;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px 850px;
+  cursor: pointer;
+  border-radius: 8px;
+  width: 150px;
+}
+
+.view-allowance-btn{
+  background-color: #007BFF ;
+  border: 1px solid #007BFF;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px 0px;
+  cursor: pointer;
+  border-radius: 8px;
+  width: 250px;
+}
+
+.view-more-btn{
+  background-color: #F8F8F8;
+  border: 1px solid #D9D9D9;
+  color: #2E2E2E;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px 5px;
+  cursor: pointer;
+  border-radius: 8px;
+  width: 150px;
 }
 
 .btn {
@@ -168,4 +213,29 @@ td {
 th {
   background-color: #f4f4f4;
   font-weight: bold;
+}
+
+.payroll-management-charts {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.chart-container {
+  flex: 1;
+  height: 400px; /* Fixed height */
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.trend-chart {
+  width: 60%;
+}
+
+.distribution-chart {
+  width: 60%;
 }

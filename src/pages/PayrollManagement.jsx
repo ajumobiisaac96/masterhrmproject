@@ -1,271 +1,436 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import {Link} from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import './PayrollManagement.css';
 import test from '../assets/test.png';
-import PayrollCircularChart from '../components/PayrollCircularChart';
-import LineChart from '../components/LineChart';
-import AllowanceAndContribution from './AllowanceAndContribution';
-import payrollData from '../data/payrollData';
-import payrollSummary from '../data/payrollSummary';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch, faFilter, faCalendar, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js';
+import { Doughnut, Line } from 'react-chartjs-2';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement);
+
 const PayrollManagement = () => {
-  const [isDepartmentOpen, setIsDepartmentOpen] = useState(false);
-  const [filter, setFilter] = useState('all'); // State to keep track of the filter criteria
-  const [selectedMonth, setSelectedMonth] = useState('January'); // State to keep track of the selected month
-  const [selectedDepartment, setSelectedDepartment] = useState('All'); // State to keep track of the selected department
-  const [isAllowanceView, setIsAllowanceView] = useState(false);
+  const [payrollSummary, setPayrollSummary] = useState({ totalCost: 0, pendingPayment: 0, approvedPayment: 0, upcomingSalary: '' });
+  const [payrollTrend, setPayrollTrend] = useState({ months: [], payrollCosts: [] });
+  const [payrollDistribution, setPayrollDistribution] = useState({ labels: [], data: [] });
+  const [employees, setEmployees] = useState([]);
+  const [visibleEmployees, setVisibleEmployees] = useState(10);
+  const [selectedDepartment, setSelectedDepartment] = useState('All');
+  const [selectedYearTrend, setSelectedYearTrend] = useState(new Date().getFullYear());
+  const [selectedYearDistribution, setSelectedYearDistribution] = useState(new Date().getFullYear());
+  const [selectedYearTable, setSelectedYearTable] = useState(new Date().getFullYear());  
+  const [searchTerm, setSearchTerm] = useState('');
+  const [departments, setDepartments] = useState([]);
+  const [selectedStatus, setSelectedStatus] = useState('All');
+  const [statusList] = useState(['All', 'Paid', 'Processing', 'Unpaid']);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const toggleDepartmentDropdown = () => {
-    setIsDepartmentOpen(!isDepartmentOpen);
-  };
+  // 📌 **UseRef to capture charts for PDF download**
+  const chartsRef = useRef(null);
 
-  const handleFilterChange = (status) => {
-    setFilter(status);
-    setIsDepartmentOpen(false); // Close the dropdown after selecting a filter
-  };
+  useEffect(() => {
+    const fetchPayrollData = async () => {
+      setLoading(true);
+      setError("");
+      try {
+        const companyId = localStorage.getItem("company_id");
+        if (!companyId) throw new Error("Company ID is missing.");
 
-  const handleMonthChange = (event) => {
-    setSelectedMonth(event.target.value);
-  };
+        const storedAuthData = localStorage.getItem("authData");
+        if (!storedAuthData) throw new Error("Authentication data is missing.");
 
-  const handleDepartmentChange = (event) => {
-    setSelectedDepartment(event.target.value);
-  };
+        const authData = JSON.parse(storedAuthData);
+        const token = authData?.token;
+        if (!token) throw new Error("Authentication token is missing.");
 
-  const handleViewAllowance = () => {
-    setIsAllowanceView(true);
-  };
+        const [summaryRes, trendRes, distributionRes, employeesRes] = await Promise.all([
+          fetch(`https://proximahr.onrender.com/payroll-management/summary?company_id=${companyId}`, {
+            headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
+          }),
+          fetch(`https://proximahr.onrender.com/payroll-management/cost-trend?company_id=${companyId}&year=${selectedYearTrend}`, {
+            headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
+          }),
 
-  const handleBackToPayroll = () => {
-    setIsAllowanceView(false);
-  };
+          fetch(`https://proximahr.onrender.com/payroll-management/cost-distribution?company_id=${companyId}&year=${selectedYearDistribution}`, {
+            headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
+          }),
+          fetch(`https://proximahr.onrender.com/payroll-management/employees?company_id=${companyId}&year=${selectedYearTable}`, {
+            headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
+          }),
+        ]);
 
-  const filteredPayrolls = payrollData.filter((payroll) => {
-    if (filter === 'all') return true;
-    return payroll.status === filter;
-  }).slice(0, 7); // Display only the first 7 filtered payrolls
+        if (!summaryRes.ok || !trendRes.ok || !distributionRes.ok || !employeesRes.ok) {
+          throw new Error("Failed to fetch payroll data.");
+        }
 
-  const getHeading = () => {
-    switch (filter) {
-      case 'all':
-        return 'All Payroll Records';
-      case 'processed':
-        return 'Processed Payroll Records';
-      case 'pending':
-        return 'Pending Payroll Records';
-      default:
-        return 'Filtered Payroll Records';
-    }
-  };
+        const [summary, trend, distribution, employeesData] = await Promise.all([
+          summaryRes.json(),
+          trendRes.json(),
+          distributionRes.json(),
+          employeesRes.json(),
+        ]);
+        
+        // 🔍 Check API response in console
+        console.log("Payroll Trend API Response:", trend);
 
-  const getStatusStyle = (status) => {
-    return {
-      color: status === 'processed' ? 'green' : status === 'pending' ? 'orange' : 'black',
+        console.log("Employees API Response:", employeesData);
+
+        setPayrollSummary({
+          totalCost: summary.payroll_cost || 0,
+          pendingPayment: summary.pending_payment_count || 0,
+          approvedPayment: summary.approved_payroll_count || 0,
+          upcomingSalary: summary.upcoming_salary_date ? new Date(summary.upcoming_salary_date).toLocaleDateString('en-GB').replace(/\//g, '-') : ''
+        });
+
+        setPayrollTrend({
+          months: trend?.payroll_cost_trend?.length
+            ? trend.payroll_cost_trend.map(item => `Month ${item.month}`)
+            : ["No Data"],
+          payrollCosts: trend?.payroll_cost_trend?.length
+            ? trend.payroll_cost_trend.map(item => item.payroll_cost)
+            : [0]
+        });
+        
+        
+          setPayrollDistribution(
+            distribution?.allowances_and_contributions ||
+            distribution?.deductions ||
+            distribution?.net_pay
+              ? {
+                  labels: ["Allowances & Contributions", "Deductions", "Net Pay"],
+                  data: [
+                    distribution.allowances_and_contributions ?? 0,
+                    distribution.deductions ?? 0,
+                    distribution.net_pay ?? 0,
+                  ],
+                }
+              : { labels: [], data: [] } // ❌ Empty if no records exist
+          );
+
+        
+
+        const employeesList = employeesData?.employees_data || [];
+        setEmployees(employeesList);
+        setDepartments(['All', ...new Set(employeesList.map(emp => emp.department))]);
+
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     };
+
+  fetchPayrollData();
+}, [selectedYearTrend, selectedYearDistribution, selectedYearTable]); // <- This ensures data updates when year changes
+
+  const filteredEmployees = employees.filter(emp => {
+    return (
+      (searchTerm === '' || emp.name.toLowerCase().includes(searchTerm.toLowerCase())) &&
+      (selectedDepartment === 'All' || emp.department === selectedDepartment) &&
+      (selectedStatus === 'All' || emp.payment_status.toLowerCase() === selectedStatus.toLowerCase())
+    );
+  });
+
+  // Function to show more employees
+  const handleViewMore = () => {
+    setVisibleEmployees(prev => prev + 10);
   };
 
+  const handleYearChangeTable = (event) => {
+    setSelectedYearTable(event.target.value);
+  };
+  const handleYearChangeTrend = (event) => {
+    setSelectedYearTrend(event.target.value);
+  };
+  const handleYearChangeDistribution = (event) => {
+    setSelectedYearDistribution(event.target.value);
+  };
+  
+
+  // 📌 **Function to download charts as PDF**
   const downloadPDF = () => {
-    const input = document.getElementById('charts');
-    html2canvas(input).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
+    if (!chartsRef.current) {
+      console.error("Charts container is missing");
+      return;
+    }
+
+    html2canvas(chartsRef.current, { scale: 2 }).then(canvas => {
+      const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF();
-      pdf.addImage(imgData, 'PNG', 0, 0);
-      pdf.save('payroll-charts.pdf');
+      pdf.addImage(imgData, "PNG", 10, 10, 190, 120);
+      pdf.save("payroll-charts.pdf");
     });
   };
 
   return (
-    <div>
-      <div className="main-dashboard">
-        <Sidebar />
-        <div className="dashboard">
-          {isAllowanceView ? (
-            <AllowanceAndContribution payrollData={payrollData} onBack={handleBackToPayroll} />
-          ) : (
-            <>
-                        <div className="slide-one-1">
-            <div className="slide-one-1">
-              <div className="name">
-                <h5>Joseph Dooley</h5>
-                <h6>Good Morning</h6>
-              </div> 
-            </div>
-            <div className="slide-one-2-1">
-              <div className="notification">
-                <FontAwesomeIcon icon="fa-solid fa-bell" />
-                <h6>6</h6>
+        <div>
+          <div className="main-dashboard">
+            <Sidebar />
+            <div className="dashboard">
+              <div className="slide-one-1">
+                <div className="slide-one-1">
+                  <div className="name">
+                    <h5>Joseph Dooley</h5>
+                    <h6>Good Morning</h6>
+                  </div> 
+                </div>
+                <div className="slide-one-2-1">
+                  <div className="notification">
+                    <FontAwesomeIcon icon="fa-solid fa-bell" />
+                    <h6>6</h6>
+                  </div>
+                  <div className="user-profile">
+                    <img src={test} alt="My profile" className="My-profile" />
+                  </div>
+                </div> 
               </div>
-
-              <div className="user-profile">
-                <img src={test} alt="My profile" className="My-profile" />
-              </div>
-            </div> 
-          </div>
               <hr className="horizontal" />
               <div className="dashboard-details">
                 <h5>Payroll Management</h5>
-                <h6>24 Thursday October 2024</h6>
+                <h6>{new Date().toDateString()}</h6>
               </div>
-              <div className="dashboard-details-1">
+    
+               {/* Get Payroll Summary */}
+               <div className="dashboard-details-1">
                 <div className="first-grid">
                   <FontAwesomeIcon icon="fa-circle-check" className="dashboard-icon-1" style={{ color: '#22C55E' }} />
                   <div>
                     <h6>Total Payroll Cost</h6>
-                    <h5>₦{payrollSummary.totalCost}</h5>
+                    <h5>₦{payrollSummary.totalCost.toLocaleString()}</h5>
                   </div>
                 </div>
                 <div className="first-grid">
                   <FontAwesomeIcon icon="fa-solid fa-calendar" className="dashboard-icon-2" style={{ color: '#007BFF' }} />
                   <div>
                     <h6>Pending Payment</h6>
-                    <h5>₦{payrollSummary.pendingPayment}</h5>
+                    <h5>{payrollSummary.pendingPayment} employees</h5>
                   </div>
                 </div>
                 <div className="first-grid">
                   <FontAwesomeIcon icon="fa-clock" className="dashboard-icon-3" style={{ color: '#6F42C1' }} />
                   <div>
                     <h6>Approved Payment</h6>
-                    <h5>₦{payrollSummary.approvedPayment}</h5>
+                    <h5>{payrollSummary.approvedPayment} employees</h5>
                   </div>
                 </div>
                 <div className="first-grid">
                   <FontAwesomeIcon icon="fa-solid fa-triangle-exclamation" className="dashboard-icon-4" style={{ color: '#FF6464' }} />
                   <div>
                     <h6>Upcoming Salary</h6>
-                    <h5>Last day of the month</h5>
+                    <h5>{payrollSummary.upcomingSalary}</h5>
                   </div>
                 </div>
               </div>
-              <div id="charts" className="payroll-management-charts">
-                <div className="chart-container">
-                  <PayrollCircularChart
-                    title="Payroll Cost Distribution"
-                    data={payrollData}
-                    style={{
-                      backgroundColor: '#FFFFFF',
-                      width: '100%',
-                      height: '300px',
-                      padding: '16px',
-                      borderRadius: '16px',
-                      border: '1px solid #D9D9D9',
-                      margin: '0 auto',
-                    }}
-                  />
-                </div>
-                <div className="chart-container">
-                  <LineChart
-                    title="Payroll Cost Trend"
-                    data={payrollData}
-                    style={{
-                      backgroundColor: '#FFFFFF',
-                      width: '100%',
-                      height: '300px',
-                      padding: '16px',
-                      borderRadius: '16px',
-                      border: '1px solid #D9D9D9',
-                      margin: '0 auto',
-                    }}
-                  />
-                </div>
-              </div>
-              <button onClick={downloadPDF}>Download Charts as PDF</button>
-              <div className="number-of-employee">
-                <div className="new-div-1">
-                  <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" className="glass-icon" />
-                  <input type="text" placeholder="Search" />
-                </div>
-                <div className="filters">
-                  <select className="filter-select" value={selectedMonth} onChange={handleMonthChange}>
-                    <option value="January">January</option>
-                    <option value="February">February</option>
-                    <option value="March">March</option>
-                    <option value="April">April</option>
-                    <option value="May">May</option>
-                    <option value="June">June</option>
-                    <option value="July">July</option>
-                    <option value="August">August</option>
-                    <option value="September">September</option>
-                    <option value="October">October</option>
-                    <option value="November">November</option>
-                    <option value="December">December</option>
-                  </select>
-                  <select className="filter-select" value={selectedDepartment} onChange={handleDepartmentChange}>
-                    <option value="All">All</option>
-                    <option value="Human Resources">Human Resources</option>
-                    <option value="Finance">Finance</option>
-                    <option value="IT">IT</option>
-                    <option value="Marketing">Marketing</option>
-                    <option value="Sales">Sales</option>
-                  </select>
-                  <div className="btn">
-                    <button onClick={toggleDepartmentDropdown}>
-                      <FontAwesomeIcon icon="fa-filter" /> Filter
-                    </button>
-                    {isDepartmentOpen && (
-                      <div className="dropdownstyle department-dropdown">
-                        <p onClick={() => handleFilterChange('all')}>All</p>
-                        <p onClick={() => handleFilterChange('processed')}>Paid</p>
-                        <p onClick={() => handleFilterChange('pending')}>Processing</p>
+    
+              <div className="payroll-management-charts">
+                      {/* Payroll Cost Trend Chart */}
+                      <div className="chart-container trend-chart" 
+                        style={{ 
+                          display: 'flex', 
+                          flexDirection: 'column', 
+                          alignItems: 'center', 
+                          justifyContent: 'center', 
+                          height: '400px', 
+                          padding: '20px', 
+                          boxSizing: 'border-box', 
+                          overflow: 'hidden'
+                        }}
+                      >
+                        <h3 style={{ fontSize: '18px', marginBottom: '10px' }}>Payroll Cost Trend</h3>
+
+                        <select 
+                          className="filter-select" 
+                          value={selectedYearTrend} 
+                          onChange={(e) => setSelectedYearTrend(e.target.value)}
+                          style={{ marginBottom: '10px', padding: '5px', fontSize: '14px' }}
+                        >
+                          {[...Array(10).keys()].map((i) => (
+                            <option key={i} value={new Date().getFullYear() - i}>
+                              {new Date().getFullYear() - i}
+                            </option>
+                          ))}
+                        </select>
+
+                        {/* Ensure Chart Expands Inside the Box */}
+                        <div style={{ width: '100%', height: '320px', display: 'flex', justifyContent: 'center' }}>
+                          {payrollTrend.payrollCosts.length > 0 && payrollTrend.payrollCosts.some(value => value !== 0) ? (
+                            <Line
+                              data={{
+                                labels: payrollTrend.months,
+                                datasets: [{
+                                  label: 'Payroll Cost Trend',
+                                  data: payrollTrend.payrollCosts,
+                                  borderColor: '#36A2EB',
+                                  fill: false
+                                }]
+                              }}
+                              options={{
+                                responsive: true,
+                                maintainAspectRatio: false, // Allows chart to stretch inside container
+                                plugins: {
+                                  legend: { display: true, position: "bottom" }
+                                }
+                              }}
+                            />
+                          ) : (
+                            <p style={{ textAlign: 'center', fontSize: '16px', color: 'red', marginTop: '50px' }}>
+                              No records found for {selectedYearTrend}.
+                            </p>
+                          )}
+                        </div>
                       </div>
-                    )}
-                  </div>
-                </div>
-              </div>
+
+                      {/* Payroll Cost Distribution Chart */}
+                      <div className="chart-container distribution-chart" 
+                        style={{ 
+                          display: 'flex', 
+                          flexDirection: 'column', 
+                          alignItems: 'center', 
+                          justifyContent: 'center', 
+                          height: '400px', 
+                          padding: '20px', 
+                          boxSizing: 'border-box', 
+                          overflow: 'hidden'
+                        }}
+                      >
+                        <h3 style={{ fontSize: '18px', marginBottom: '10px' }}>Payroll Cost Distribution</h3>
+
+                        <select 
+                          className="filter-select" 
+                          value={selectedYearDistribution} 
+                          onChange={(e) => setSelectedYearDistribution(e.target.value)}
+                          style={{ marginBottom: '10px', padding: '5px', fontSize: '14px' }}
+                        >
+                          {[...Array(10).keys()].map((i) => (
+                            <option key={i} value={new Date().getFullYear() - i}>
+                              {new Date().getFullYear() - i}
+                            </option>
+                          ))}
+                        </select>
+
+                        {/* Ensure Chart Expands Inside the Box */}
+                        <div style={{ width: '100%', height: '320px', display: 'flex', justifyContent: 'center' }}>
+                          {payrollDistribution.data.some(value => value !== 0) && payrollDistribution.labels.length > 0 ? (
+                            <Doughnut
+                              data={{
+                                labels: payrollDistribution.labels,
+                                datasets: [{
+                                  data: payrollDistribution.data,
+                                  backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
+                                }]
+                              }}
+                              options={{
+                                responsive: true,
+                                maintainAspectRatio: false, // Allows chart to stretch inside container
+                                plugins: {
+                                  legend: { display: true, position: "bottom" }
+                                }
+                              }}
+                            />
+                          ) : (
+                            <p style={{ textAlign: 'center', fontSize: '16px', color: 'red', marginTop: '50px' }}>
+                              No records found for {selectedYearDistribution}.
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+ 
+
+
+          {/* Save PDF Button (Now Working ✅) */}
+          <div>
+            <button onClick={downloadPDF} className="save-pdf-btn">Save PDF</button>
+          </div>
+          
+
+            {/* Search & Filters */}
+            <div className="number-of-employee">
+                        <div className="new-div-1">
+                        <div className="number-of-employee">
+                            <input type="text" placeholder="Search employee" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                            <select className="filter-select" value={selectedYearTable} onChange={(e) => setSelectedYearTable(e.target.value)}>
+                              {[...Array(10).keys()].map((i) => (
+                                <option key={i} value={new Date().getFullYear() - i}>
+                                  {new Date().getFullYear() - i}
+                                </option>
+                              ))}
+                            </select>
+
+                          </div>
+                        </div>
+                        <div className="filters">
+                          <select className="filter-select" value={selectedDepartment} onChange={(e) => setSelectedDepartment(e.target.value)}>
+                            {departments.map((dept, index) => (
+                              <option key={index} value={dept}>{dept}</option>
+                            ))}
+                          </select>
+                          <select className="filter-select" value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)}>
+                            {statusList.map((status, index) => (
+                              <option key={index} value={status}>{status}</option>
+                            ))}
+                          </select>
+                          <button className="btn">
+                            <FontAwesomeIcon icon={faFilter} /> Filter
+                          </button>
+                        </div>
+                      </div>
               <div className="filtered-results">
-                <h2>{getHeading()}</h2>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                  <thead>
-                    <tr>
-                      <th style={tableHeaderStyle}>Employee</th>
-                      <th style={tableHeaderStyle}>Department</th>
-                      <th style={tableHeaderStyle}>Amount</th>
-                      <th style={tableHeaderStyle}>Date</th>
-                      <th style={tableHeaderStyle}>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredPayrolls.map((payroll, index) => (
-                      <tr key={index} style={tableRowStyle}>
-                        <td style={tableCellStyle}>{payroll.employee}</td>
-                        <td style={tableCellStyle}>{payroll.department}</td>
-                        <td style={tableCellStyle}>₦{payroll.amount}</td>
-                        <td style={tableCellStyle}>{payroll.date}</td>
-                        <td style={{ ...tableCellStyle, ...getStatusStyle(payroll.status) }}>
-                          {payroll.status}
+                <h2>All</h2>
+                {loading ? (
+                  <p>Loading...</p>
+                ) : error ? (
+                  <p style={{ color: 'red' }}>{error}</p>
+                ) : (
+                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <thead>
+                      <tr>
+                        <th>Employee</th>
+                        <th>Department</th>
+                        <th>Base Salary</th>
+                        <th>Deductions (PAYE)</th>
+                        <th>Net Pay</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {filteredEmployees.length > 0 ? (
+                      filteredEmployees.map((employee, index) => (
+                        <tr key={index}>
+                          <td>{employee.name}</td>
+                          <td>{employee.department}</td>
+                          <td>₦{employee.base_salary?.toLocaleString()}</td>
+                          <td>₦{employee.deductions?.toLocaleString()}</td>
+                          <td>₦{employee.net_pay?.toLocaleString()}</td>
+                          <td>{employee.payment_status}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="6" style={{ textAlign: 'center', fontSize: '16px', color: 'red', padding: '20px' }}>
+                          No records found for {selectedYearTable}.
                         </td>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <button onClick={handleViewAllowance}>View Allowance and Contribution</button>
+                    )}
+
+                    </tbody>
+                  </table>
+                )}
               </div>
-            </>
-          )}
+          {/* View Allowance & View More Buttons */}
+          <div style={{ marginTop: '20px', display: 'flex', justifyContent:"flex-end", gap: '20px' }}>
+            <Link to='/AllowanceAndContribution'><button className="view-allowance-btn">View Allowance</button></Link>
+            <button onClick={handleViewMore} className="view-more-btn">View More</button>
+          </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  );
-};
-
-// Styling
-const tableHeaderStyle = {
-  border: '1px solid #ddd',
-  padding: '12px',
-  textAlign: 'left',
-  backgroundColor: '#f4f4f4',
-  fontWeight: 'bold',
-};
-
-const tableRowStyle = {
-  borderBottom: '1px solid #ddd',
-};
-
-const tableCellStyle = {
-  padding: '12px',
-  border: '1px solid #ddd',
-};
-
-export default PayrollManagement;
+      );
+    };
+    
+    export default PayrollManagement;
