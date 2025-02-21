@@ -283,18 +283,18 @@ const AddDepartment = () => {
                     <hr className="horizontal" />
                     <div className="dashboard-details">
                         <Link to={'/department'}>
-                            <h5><FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow" /> Add New Department</h5>
+                            <h5 style={{textDecoration: "none"}} ><FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow" /> Add New Department</h5>
                         </Link>
                         <h6>{new Date().toDateString()}</h6>
                     </div>
                     {error && <p style={{ color: "red" }}>{error}</p>}
                     <div className="add-department">
                         <div className="add-department-feilds">
-                            <label htmlFor="">Department Name</label>
+                            <label htmlFor="">Department Name <span style={{color:"red"}}>(Required)</span> </label>
                             <input type="text" placeholder='Enter Department' value={departmentName} onChange={(e) => setDepartmentName(e.target.value)} />
                         </div>
                         <div className="add-department-feilds">
-                            <label htmlFor="">Department Head</label>
+                            <label htmlFor="">Department Head <span style={{color:'green'}} >(Optional)</span> </label>
                             <select value={departmentHead} onChange={handleDepartmentHeadChange}>
                                 <option value="">Select Department Head</option>
                                 {staffs.length > 0 && staffs.map((employee) => (
@@ -306,7 +306,7 @@ const AddDepartment = () => {
                         </div>
                         <div className="add-department-feilds-1">
                             <div className="staff-input" style={{ width: "100%", display: "flex", flexDirection: "column" }}>
-                                <label htmlFor="">Staff Members</label>
+                                <label htmlFor="">Staff Members <span style={{color:'green'}} >(Optional)</span> </label>
                                 <select multiple >
                                     {staffs.length > 0 ? staffs.map((employee) => (
                                         <option key={employee.employee_id} value={employee.employee_id}>

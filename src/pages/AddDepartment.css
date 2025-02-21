@@ -108,8 +108,29 @@
     color: #2E2E2E;
 }
 
+.add-department-feilds option{
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.36px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #2E2E2E;
+}
+
 .add-department-feilds-1 button{
     width: 140px;
+}
+
+.add-department-feilds-1 select{
+    width: 550px;
+    height: 52px;
+    padding: 16px 767px 17px 16px;
+    border-radius: 8px;
+    border: 2px solid #D9D9D9;
+    margin-top: 10px;
+    outline: none;
 }
 
 .department-button{
@@ -189,4 +210,14 @@
     background-color: transparent;
     color: #007BFF;
     border: 1px solid #007BFF;
+}
+
+.add-department-feilds select{
+    width: 950px;
+    height: 52px;
+    padding: 16px 767px 17px 16px;
+    border-radius: 8px;
+    border: 2px solid #D9D9D9;
+    margin-top: 10px;
+    outline: none;
 }

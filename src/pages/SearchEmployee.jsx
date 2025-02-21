@@ -442,7 +442,7 @@ const SearchEmployee = () => {
                     </div>
 
                     <hr className="horizontal" />
-                    <div className="dashboard-details">
+                    <div className="dashboard-details" style={{ marginBottom: "1rem" }}>
                         <Link to={"/department/add-new-department"}>
                             <h5>
                                 <FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow" /> Add Employees
@@ -462,9 +462,9 @@ const SearchEmployee = () => {
                             />
                         </div>
                         <div className="btn">
-                            <Link to={"/add-employee-to-department"}>
-                                <button><FontAwesomeIcon icon="fa-solid fa-plus" /> Add To Department</button>
-                            </Link>
+
+                                <button onClick={handleAddToDepartment} disabled={selectedEmployees.length === 0}><FontAwesomeIcon icon="fa-solid fa-plus" /> Add To Department</button>
+
                         </div>
                     </div>
 

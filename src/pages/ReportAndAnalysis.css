@@ -43,3 +43,19 @@
   width: 1000px;
   margin-top: 20px;
 }
+
+.view-department-overtime-hours{
+  width: 278px;
+  height: 40px;
+  margin-top: 10px;
+  margin-left:735px ;
+  border-radius: 4px;
+  border-width: 1px;
+  padding: 8px;
+  gap: 8px;
+  background-color: #F8F8F8;
+  color: #2e2e2e;
+  border: 1px solid #D9D9D9;
+  cursor: pointer;
+}
+

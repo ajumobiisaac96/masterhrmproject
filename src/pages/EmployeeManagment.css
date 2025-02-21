@@ -265,4 +265,17 @@
   
   .btn-2 .btn-5{
     width: 100px;
+    text-align: center;
+    height: 30px;
+    color: #fff; 
+    border: none;
+    background-color: #007BFF;
+    border-radius: 5px;
+    cursor: pointer;
   }
+
+.btn-2 .btn-5:hover{
+  background: transparent;
+  color: #007BFF;
+  border: 1px solid #007BFF
+}
