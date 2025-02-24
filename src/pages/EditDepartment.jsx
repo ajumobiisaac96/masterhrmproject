@@ -6,6 +6,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {Link} from 'react-router-dom'
+import EmployerNavbar from '../components/EmployerNavbar';
 
 library.add(fas);
 
@@ -18,10 +19,7 @@ const EditDepartment = () => {
             <div className="dashboard">
             <div className="slide-one-1">
             <div className="slide-one-1">
-              <div className="name">
-                <h5>Joseph Dooley</h5>
-                <h6>Good Morning</h6>
-              </div> 
+                <EmployerNavbar />
             </div>
             <div className="slide-one-2-1">
               <div className="notification">
@@ -38,7 +36,7 @@ const EditDepartment = () => {
               <hr className="horizontal" />
     
               <div className="dashboard-detail-1">
-                <Link to = "/department/add-new-department" ><h1 className="employee-profile"><FontAwesomeIcon icon="fa-solid fa-arrow-left" className = "left-arrow"></FontAwesomeIcon>Edit Department</h1></Link>
+                <Link to = "/department" ><h1 className="employee-profile"><FontAwesomeIcon icon="fa-solid fa-arrow-left" className = "left-arrow"></FontAwesomeIcon>Edit Department</h1></Link>
                 <h6>24 Thursday October 2024</h6>
               </div>
     

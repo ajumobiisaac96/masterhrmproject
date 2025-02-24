@@ -19,7 +19,7 @@
     text-align: left;
     text-underline-position: from-font;
     text-decoration-skip-ink: none;
-    margin-left: 500px;
+    margin-left: 0px !important;
     margin-top: -20px;
 }
 
@@ -92,6 +92,10 @@
     align-items: center;
     flex-direction: row;
     margin: 10px;
+}
+
+.card{
+    height: 350px !important;
 }
 
 .card h1{

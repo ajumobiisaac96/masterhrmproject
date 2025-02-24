@@ -8,11 +8,28 @@
 }
 
 .div-1 .div1-1 img{
-    margin-left: 500px;
+    margin-left: 0px;
 }
 
 .div1-2 h2{
-    width: 300px;
+    width: 300px !important;
+    text-align: left !important;
+    margin-left: 0px !important;
+}
+
+.div1-2 h3{
+    font-family: Inter !important;
+    font-weight: 500 !important;
+    font-size: 16px !important;
+    line-height: 0px !important;
+    letter-spacing: 0% !important;
+    color: #2E2E2E !important;
+
+}
+
+.div-1{
+    margin-left: 0px !important;
+    width: 450px !important;
 }
 
 .grey-btn{
@@ -173,6 +190,7 @@
     background-color: #DCFCE8;
 }
 
+
 .grey-btn-1{
     font-family: Inter;
     font-size: 16px;
@@ -194,3 +212,24 @@
     width: 100px;
 }
 
+.button-div button {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 99;
+    height: 35;
+    top: 836px;
+    left: 966px;
+    gap: 8px;
+    border-radius: 4px;
+    border-width: 1px;
+    padding: 8px;
+    border: 1px solid #D9D9D9;
+    margin-left: 920px;
+    cursor: pointer;
+}
+
+.button-div button:hover{
+    color: #007BFF;
+    background-color: #ffff;
+}

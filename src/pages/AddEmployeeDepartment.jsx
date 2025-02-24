@@ -522,6 +522,187 @@
 
 // export default AddEmployeeDepartment;
 
+// import React, { useState, useEffect } from 'react';
+// import Sidebar from '../components/Sidebar';
+// import test from '../assets/test.png';
+// import '../pages/AddEmployeeDepartment.css';
+// import '../pages/profile.css';
+// import { library } from '@fortawesome/fontawesome-svg-core';
+// import { fas } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { Link } from 'react-router-dom';
+// import EmployerNavbar from '../components/EmployerNavbar';
+
+// library.add(fas);
+
+// const AddEmployeeDepartment = () => {
+//   const [departmentDetails, setDepartmentDetails] = useState(null);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const [employees, setEmployees] = useState([]);
+
+//   useEffect(() => {
+//     const fetchDepartmentDetails = async () => {
+//         const companyId = localStorage.getItem('company_id');
+//         const departmentId = localStorage.getItem('department_id'); // ✅ Ensure correct department ID retrieval
+
+//         console.log("Company ID:", companyId); // Debugging
+//         console.log("Department ID:", departmentId); // Debugging
+
+//         if (!companyId || !departmentId) {
+//             setError('Company ID or Department ID is missing.');
+//             setLoading(false);
+//             return;
+//         }
+
+//         try {
+//             const token = JSON.parse(localStorage.getItem('authData'))?.token;
+//             if (!token) throw new Error('Authentication token is missing.');
+
+//             const apiUrl = `https://proximahr.onrender.com/departments/${departmentId}/department-details?company_id=${companyId}`;
+//             console.log("Fetching from API:", apiUrl); // Debugging API request
+
+//             const response = await fetch(apiUrl, {
+//                 method: 'GET',
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                     Authorization: `Bearer ${token}`,
+//                 },
+//             });
+
+//             if (!response.ok) throw new Error(`Failed to fetch department details: ${response.status} ${response.statusText}`);
+
+//             const data = await response.json();
+//             console.log("Department Details Response:", data); // ✅ Log department response
+
+//             setDepartmentDetails(data?.data || {});
+//             setLoading(false);
+
+//             // ✅ Fetch employees after department details are available
+//             fetchEmployees();
+//         } catch (err) {
+//             setError(err.message);
+//             setLoading(false);
+//         }
+//     };
+
+//     fetchDepartmentDetails();
+// }, []);
+
+
+//   if (loading) {
+//     return <div>Loading department details...</div>;
+//   }
+
+//   if (error) {
+//     return <div style={{ color: 'red' }}>{error}</div>;
+//   }
+
+//   // Access the correct nested properties
+//   const { hod_details, department_name, description } = departmentDetails;
+//   const { first_name, last_name, email, phone_number, work_location } = hod_details || {};
+
+//   return (
+//     <div>
+//       <div className="main-dashboard">
+//         <Sidebar />
+//         <div className="dashboard">
+//           <div className="slide-one-1">
+//             <EmployerNavbar />
+//           </div>
+//           <hr className="horizontal" />
+//           <div className="dashboard-details">
+//             <Link to={'/department'}>
+//               <h5>
+//                 <FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow" />
+//                 Department: {department_name}
+//               </h5>
+//             </Link>
+//             <h6>{new Date().toDateString()}</h6>
+//           </div>
+
+//           {/* Department Info */}
+//           <div className="dashboard-details-1">
+//             <div className="number-of-employee">
+//               <div className="div-1">
+//                 <div className="div1-1">
+//                   <img src={test} alt="Department Head" className="My-profile" />
+//                 </div>
+//                 <div className="div1-2" style={{ marginTop: '10px' }}>
+//                   <h2>{first_name} {last_name}</h2> {/* HOD's Name */}
+//                 </div>
+//               </div>
+//               <div className="div-2">
+//                 <div className="btn">
+//                   <button className="grey-btn">Deactivate Department</button>
+//                   <Link to="/department/edit-department">
+//                     <button>
+//                       <FontAwesomeIcon icon="fa-solid fa-pen-to-square" /> Edit Profile
+//                     </button>
+//                   </Link>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+
+//           {/* Employee Info Section */}
+//           <div className="employee-info">
+//             <div>
+//               <h2><FontAwesomeIcon icon="fa-envelope" className="icon" />{email}</h2>
+//               <h2><FontAwesomeIcon icon="fa-solid fa-phone" className="icon" />{phone_number}</h2>
+//               <h2><FontAwesomeIcon icon="fa-solid fa-location-dot" className="icon" />{work_location}</h2>
+//             </div>
+//             <div className="employee-info-description">
+//               <h1>Description</h1>
+//               <p>{description || 'No description available'}</p>
+//             </div>
+//           </div>
+
+//           {/* Employees in Department */}
+//           <h3>Employees in Department</h3>
+//           <div className="employee-department-section">
+//               <div className="row-one">
+//                   <p>Full Name</p>
+//                   <p>Job Title</p>
+//                   <p>Employee ID</p>
+//                   <p>Status</p>
+//                   <p>Work Mode</p>
+//                   <p>Position</p>
+//               </div>
+
+//               <hr />
+
+//               {employees.length === 0 ? (
+//                   <p style={{ textAlign: "center", fontSize: "16px", color: "red", fontWeight: "bold" }}>
+//                       No employees found
+//                   </p>
+//               ) : (
+//                   employees.map((employee, index) => (
+//                       <div className="row-two" key={index}>
+//                           <div>
+//                               <img src={test} alt="Employee" className="My-profile" />
+//                               <p>{employee.name}</p>
+//                           </div>
+//                           <p>{employee.job_title}</p>
+//                           <p>{employee.employee_id}</p>
+//                           <p className="active-btn">{employee.employment_status}</p>
+//                           <p>{employee.work_mode}</p>
+//                           <p>{employee.position}</p>
+//                       </div>
+//                   ))
+//               )}
+//           </div>
+
+//           <button className="grey-btn-1">View more</button>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default AddEmployeeDepartment;
+
+
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import test from '../assets/test.png';
@@ -536,198 +717,243 @@ import EmployerNavbar from '../components/EmployerNavbar';
 library.add(fas);
 
 const AddEmployeeDepartment = () => {
-  const [departmentDetails, setDepartmentDetails] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [employees, setEmployees] = useState([]);
+    const [departmentDetails, setDepartmentDetails] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [employees, setEmployees] = useState([]);
 
-  useEffect(() => {
+    // ✅ Fetch Department List and Create Mapping
+    const fetchDepartments = async () => {
+        try {
+            const token = JSON.parse(localStorage.getItem('authData'))?.token;
+            if (!token) throw new Error('Authentication token is missing.');
+
+            const companyId = localStorage.getItem('company_id');
+
+            const apiUrl = `https://proximahr.onrender.com/departments/?company_id=${companyId}`;
+            const response = await fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (!response.ok) throw new Error('Failed to fetch departments.');
+
+            const data = await response.json();
+            console.log("Department List:", data.departments);
+
+            // Store department name → ID mapping
+            const departmentMap = {};
+            data.departments.forEach(dept => {
+                departmentMap[dept.name.toLowerCase()] = dept.id;
+            });
+
+            return departmentMap;
+        } catch (err) {
+            console.error("Error fetching departments:", err);
+            return {};
+        }
+    };
+
+    // ✅ Fetch Employees Based on Department ID
+    const fetchEmployees = async (departmentId) => {
+      try {
+          const token = JSON.parse(localStorage.getItem('authData'))?.token;
+          if (!token) throw new Error('Authentication token is missing.');
+  
+          const companyId = localStorage.getItem('company_id');
+          const page = 1;
+          const pageSize = 10;
+  
+          console.log("Fetching Employees for Department ID:", departmentId);
+  
+          const apiUrl = `https://proximahr.onrender.com/employee-management/all-employees?company_id=${companyId}&page=${page}&page_size=${pageSize}`;
+          const response = await fetch(apiUrl, {
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${token}`,
+              },
+          });
+  
+          if (!response.ok) throw new Error('Failed to fetch employees.');
+  
+          const data = await response.json();
+          console.log('Full Employees API Response:', JSON.stringify(data, null, 2));
+  
+          // 🔥 Fetch department list so we can map department names to IDs
+          const departmentMap = await fetchDepartments();
+  
+          // ✅ Check if `employee.department` exists before calling `.toLowerCase()`
+          const filteredEmployees = data.data.filter(employee => {
+              if (!employee.department) {
+                  console.warn(`Skipping employee ${employee.name} due to missing department field.`);
+                  return false;
+              }
+  
+              const empDeptId = departmentMap[employee.department.toLowerCase()] || null;
+              console.log(`Checking Employee: ${employee.name}, Mapped Department ID: ${empDeptId}`);
+              return String(empDeptId) === String(departmentId);
+          });
+  
+          console.log("Filtered Employees:", filteredEmployees);
+          setEmployees(filteredEmployees);
+      } catch (err) {
+          setError(err.message);
+      }
+  };
+  
+
+    // ✅ Fetch Department Details and Call Employee Fetch
     const fetchDepartmentDetails = async () => {
-      const companyId = localStorage.getItem('company_id');
-      const departmentName = localStorage.getItem('department_name');
-
-      if (!companyId || !departmentName) {
-        setError('Company ID or Department Name is missing.');
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const token = JSON.parse(localStorage.getItem('authData'))?.token;
-        if (!token) throw new Error('Authentication token is missing.');
-
-        // API call to fetch department details
-        const apiUrl = `https://proximahr.onrender.com/departments/department-details?company_id=${companyId}&department_name=${departmentName}`;
-        const response = await fetch(apiUrl, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) throw new Error('Failed to fetch department details.');
-
-        const data = await response.json();
-        console.log('Department Details:', data); // Log the API response
-
-        setDepartmentDetails(data?.data || {});
-        setLoading(false);
-
-        // Fetch employees for this department
-        fetchEmployees(data?.data?.department_name);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
-    };
-
-    const fetchEmployees = async (departmentName) => {
-      try {
-        const token = JSON.parse(localStorage.getItem('authData'))?.token;
-        if (!token) throw new Error('Authentication token is missing.');
-
         const companyId = localStorage.getItem('company_id');
-        const page = 1;  // Default page
-        const pageSize = 10;  // Default page size
-        const name = ''; // Optional search by name, empty string means no search
+        const departmentId = localStorage.getItem('department_id');
 
-        // Build the query parameters
-        const apiUrl = `https://proximahr.onrender.com/employee-management/all-employees?company_id=${companyId}&page=${page}&page_size=${pageSize}&department_name=${departmentName}&name=${name}`;
+        console.log("Company ID:", companyId);
+        console.log("Department ID:", departmentId);
 
-        const response = await fetch(apiUrl, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        if (!companyId || !departmentId) {
+            setError('Company ID or Department ID is missing.');
+            setLoading(false);
+            return;
+        }
 
-        if (!response.ok) throw new Error('Failed to fetch employees.');
+        try {
+            const token = JSON.parse(localStorage.getItem('authData'))?.token;
+            if (!token) throw new Error('Authentication token is missing.');
 
-        const data = await response.json();
-        console.log('All Employees Response:', data); // Log the full response to inspect it
+            const apiUrl = `https://proximahr.onrender.com/departments/${departmentId}/department-details?company_id=${companyId}`;
+            console.log("Fetching from API:", apiUrl);
 
-        // Extract employee data from the second object in the 'data' array
-        const employeeData = data?.data[1]?.name ? [data?.data[1]] : []; // Check if employee data exists
-        console.log('Employee Data:', employeeData);  // Log the extracted employee data
+            const response = await fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
-        // Directly set employees from the API response
-        setEmployees(employeeData || []); // Set employees array
-      } catch (err) {
-        setError(err.message);
-      }
+            if (!response.ok) throw new Error(`Failed to fetch department details: ${response.status} ${response.statusText}`);
+
+            const data = await response.json();
+            console.log("Department Details Response:", data);
+
+            setDepartmentDetails(data?.data || {});
+            setLoading(false);
+
+            // ✅ Fetch employees AFTER department details are available
+            fetchEmployees(departmentId);
+        } catch (err) {
+            setError(err.message);
+            setLoading(false);
+        }
     };
 
-    fetchDepartmentDetails();
-  }, []);
+    useEffect(() => {
+        fetchDepartmentDetails();
+    }, []);
 
-  if (loading) {
-    return <div>Loading department details...</div>;
-  }
+    if (loading) {
+        return <div>Loading department details...</div>;
+    }
 
-  if (error) {
-    return <div style={{ color: 'red' }}>{error}</div>;
-  }
+    if (error) {
+        return <div style={{ color: 'red' }}>{error}</div>;
+    }
 
-  // Access the correct nested properties
-  const { hod_details, department_name, description } = departmentDetails;
-  const { first_name, last_name, email, phone_number, work_location } = hod_details || {};
+    // ✅ Extract department details
+    const { hod_details, department_name, description } = departmentDetails;
+    const { first_name, last_name, email, phone_number, work_location } = hod_details || {};
 
-  return (
-    <div>
-      <div className="main-dashboard">
-        <Sidebar />
-        <div className="dashboard">
-          <div className="slide-one-1">
-            <EmployerNavbar />
-          </div>
-          <hr className="horizontal" />
-          <div className="dashboard-details">
-            <Link to={'/department'}>
-              <h5>
-                <FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow" />
-                Department: {department_name}
-              </h5>
-            </Link>
-            <h6>{new Date().toDateString()}</h6>
-          </div>
+    return (
+        <div>
+            <div className="main-dashboard">
+                <Sidebar />
+                <div className="dashboard">
+                    <div className="slide-one-1">
+                        <EmployerNavbar />
+                    </div>
+                    <hr className="horizontal" />
+                    <div className="dashboard-details">
+                        <Link to={'/department'}>
+                            <h5>
+                                <FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow" />
+                                Department: {department_name}
+                            </h5>
+                        </Link>
+                        <h6>{new Date().toDateString()}</h6>
+                    </div>
 
-          {/* Department Info */}
-          <div className="dashboard-details-1">
-            <div className="number-of-employee">
-              <div className="div-1">
-                <div className="div1-1">
-                  <img src={test} alt="Department Head" className="My-profile" />
-                </div>
-                <div className="div1-2" style={{ marginTop: '10px' }}>
-                  <h2>{first_name} {last_name}</h2> {/* HOD's Name */}
-                </div>
-              </div>
-              <div className="div-2">
-                <div className="btn">
-                  <button className="grey-btn">Deactivate Department</button>
-                  <Link to="/department/edit-department">
-                    <button>
-                      <FontAwesomeIcon icon="fa-solid fa-pen-to-square" /> Edit Profile
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Employee Info Section */}
-          <div className="employee-info">
-            <div>
-              <h2><FontAwesomeIcon icon="fa-envelope" className="icon" />{email}</h2>
-              <h2><FontAwesomeIcon icon="fa-solid fa-phone" className="icon" />{phone_number}</h2>
-              <h2><FontAwesomeIcon icon="fa-solid fa-location-dot" className="icon" />{work_location}</h2>
-            </div>
-            <div className="employee-info-description">
-              <h1>Description</h1>
-              <p>{description || 'No description available'}</p>
-            </div>
-          </div>
-
-          {/* Employees in Department */}
-          <h3>Employees in Department</h3>
-          <div className="employee-department-section">
-            <div className="row-one">
-              <p>Full Name</p>
-              <p>Job Title</p>
-              <p>Employee ID</p>
-              <p>Status</p>
-              <p>Work Mode</p>
-              <p>Position</p>
-            </div>
-
-            <hr />
-
-            {employees.length === 0 ? (
-              <p>No employees in this department.</p>
-            ) : (
-              employees.map((employee, index) => (
-                <div className="row-two" key={index}>
-                  <div>
-                    <img src={test} alt="Employee" className="My-profile" />
-                    <p>{employee.name}</p>
+              {/* Department Info */}
+                <div className="dashboard-details-1">
+                  <div className="number-of-employee">
+                    <div className="div-1">
+                      <div className="div1-1">
+                        <img src={test} alt="Department Head" className="My-profile" />
+                      </div>
+                      <div className="div1-2" style={{ marginTop: '10px' }}>
+                          <h2>{first_name} {last_name}</h2>
+                          <h3><FontAwesomeIcon icon="fa-envelope" /> {email || "No email available"}</h3>
+                          <h3><FontAwesomeIcon icon="fa-phone" /> {phone_number || "No phone available"}</h3>
+                          <h3><FontAwesomeIcon icon="fa-map-marker-alt" /> {work_location || "No location available"}</h3>
+                      </div>
+                    </div>
+                    <div className="div-2">
+                      <div className="btn" style={{ width: '520px', display: 'flex', justifyContent: 'space-between' }}>
+                        <button className="grey-btn">Deactivate Department</button>
+                        <Link to="/department/edit-department">
+                          <button>
+                            <FontAwesomeIcon icon="fa-solid fa-pen-to-square" /> Edit Profile
+                          </button>
+                        </Link>
+                      </div>
+                    </div>
                   </div>
-                  <p>{employee.job_title}</p>
-                  <p>{employee.employee_id}</p>
-                  <p className="active-btn">{employee.employment_status}</p>
-                  <p>{employee.work_mode}</p>
-                  <p>{employee.position}</p>
                 </div>
-              ))
-            )}
-          </div>
 
-          <button className="grey-btn-1">View more</button>
+                    {/* Employees in Department */}
+                    <h3>Employees in Department</h3>
+                    <div className="employee-department-section">
+                        <div className="row-one">
+                            <p>Full Name</p>
+                            <p>Job Title</p>
+                            <p>Employee ID</p>
+                            <p>Status</p>
+                            <p>Work Mode</p>
+                            <p>Position</p>
+                        </div>
+
+                        <hr />
+
+                        {employees.length === 0 ? (
+                            <p style={{ textAlign: "center", fontSize: "16px", color: "red", fontWeight: "bold" }}>
+                                No employees found
+                            </p>
+                        ) : (
+                            employees.map((employee, index) => (
+                                <div className="row-two" key={index}>
+                                    <div>
+                                        <img src={test} alt="Employee" className="My-profile" />
+                                        <p>{employee.name}</p>
+                                    </div>
+                                    <p>{employee.job_title}</p>
+                                    <p>{employee.employee_id}</p>
+                                    <p className="active-btn">{employee.employment_status}</p>
+                                    <p>{employee.work_mode}</p>
+                                    <p>{employee.position}</p>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                    <div className="button-div">
+                        <button>View more</button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default AddEmployeeDepartment;

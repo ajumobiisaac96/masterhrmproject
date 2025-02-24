@@ -518,7 +518,7 @@
 
 
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import test from '../assets/test.png';
 import '../pages/AddEmployee.css';
@@ -570,6 +570,29 @@ const AddEmployee = () => {
   const [error, setError] = useState({});
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
+  const [departments, setDepartments] = useState([]); // ✅ Store fetched departments
+
+  useEffect(() => {
+      const fetchDepartments = async () => {
+          try {
+              const companyId = localStorage.getItem('company_id');
+              const storedAuthData = localStorage.getItem('authData');
+              const token = storedAuthData ? JSON.parse(storedAuthData).token : null;
+
+              if (!companyId || !token) return;
+              
+              const response = await fetch(`https://proximahr.onrender.com/departments?company_id=${companyId}`, {
+                  headers: { Authorization: `Bearer ${token}` }
+              });
+
+              const data = await response.json();
+              setDepartments(data.departments || []);
+          } catch (error) {
+              console.error("Failed to fetch departments:", error);
+          }
+      };
+      fetchDepartments();
+  }, []);
 
   // Define required fields and date fields
   const requiredFields = [
@@ -608,55 +631,94 @@ const AddEmployee = () => {
   const handleAddEmployee = async () => {
     setLoading(true);
     setError({});
+    
     try {
-      // Validate the form before submitting
-      const formErrors = validateForm();
-      if (Object.keys(formErrors).length > 0) {
-        setError(formErrors);
-        setLoading(false);
-        return;
-      }
+        // ✅ Validate form before sending
+        const formErrors = validateForm();
+        if (Object.keys(formErrors).length > 0) {
+            setError(formErrors);
+            setLoading(false);
+            return;
+        }
 
-      const companyId = localStorage.getItem('company_id');
-      if (!companyId) throw new Error('Company ID is missing. Please log in again.');
+        console.log("Form Data Before Submission:", formData); // ✅ Log form data
 
-      const storedAuthData = localStorage.getItem('authData');
-      if (!storedAuthData) throw new Error('Authentication data is missing. Please log in.');
+        const companyId = localStorage.getItem('company_id');
+        if (!companyId) throw new Error('Company ID is missing. Please log in again.');
 
-      const authData = JSON.parse(storedAuthData);
-      const token = authData?.token;
-      if (!token) throw new Error('Authentication token is missing. Please log in.');
+        const storedAuthData = localStorage.getItem('authData');
+        if (!storedAuthData) throw new Error('Authentication data is missing. Please log in.');
 
-      const payload = {
-        ...formData,
-        base_salary: Number(formData.base_salary) || 0,
-        paye_deduction: Number(formData.paye_deduction) || 0,
-        employee_contribution: Number(formData.employee_contribution) || 0,
-        company_match: Number(formData.company_match) || 0,
-      };
+        const authData = JSON.parse(storedAuthData);
+        const token = authData?.token;
+        if (!token) throw new Error('Authentication token is missing. Please log in.');
 
-      const response = await fetch(`https://proximahr.onrender.com/employee-management/create-employee-profile?company_id=${companyId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
-      });
+        // ✅ Ensure Correct Data Formatting
+        const payload = {
+            employee_id: formData.Employee_Id.trim(),
+            first_name: formData.First_Name.trim(),
+            last_name: formData.Last_Name.trim(),
+            email: formData.Email.trim(),
+            phone_number: formData.Phone_Number.trim(),
+            date_of_birth: formData.Date_of_Birth ? new Date(formData.Date_of_Birth).toISOString().split("T")[0] : null,
+            gender: formData.Gender.trim(),
+            home_address: formData.Home_Address.trim(),
+            country: formData.Country.trim(),
+            job_title: formData.job_title.trim(),
+            department: formData.department.trim(),
+            role: formData.role.trim(),
+            employment_date: formData.employment_date ? new Date(formData.employment_date).toISOString().split("T")[0] : null,
+            work_mode: formData.work_mode.trim(),
+            work_location: formData.work_location.trim(),
+            working_hours: Number(formData.working_hours) || 0,
+            weekly_workdays: Number(formData.weekly_workdays) || 0,
+            base_salary: Number(formData.base_salary) || 0,
+            payment_frequency: formData.payment_frequency.trim(),
+            account_name: formData.account_name.trim(),
+            account_number: formData.account_number.trim(),
+            bank_name: formData.bank_name.trim(),
+            overtime_hours_allowance: Number(formData.overtime_hours_allowance) || 0,
+            housing_allowance: Number(formData.housing_allowance) || 0,
+            transport_allowance: Number(formData.transport_allowance) || 0,
+            medical_allowance: Number(formData.medical_allowance) || 0,
+            employee_contribution: Number(formData.employee_contribution) || 0,
+            company_match: Number(formData.company_match) || 0,
+            paye_deduction: Number(formData.paye_deduction) || 0,
+            insurance_provider: formData.insurance_provider.trim(),
+            leadway_insurance: formData.leadway_insurance.trim(),
+            annual_leave_days: Number(formData.annual_leave_days) || 0,
+        };
 
-      const result = await response.json();
-      if (!response.ok) {
-        throw new Error(result.detail || 'Failed to create employee');
-      }
+        console.log("Formatted Payload:", payload); // ✅ Log formatted payload before sending API request
 
-      localStorage.setItem('employee_id', result.data.employee_id);
-      setSuccess(true);
+        // ✅ Send API request
+        const response = await fetch(`https://proximahr.onrender.com/employee-management/create-employee-profile?company_id=${companyId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(payload),
+        });
+
+        const result = await response.json();
+        console.log("API Response:", result); // ✅ Log API response
+
+        if (!response.ok) {
+            console.error("API Error Response:", result);
+            throw new Error(result.detail ? JSON.stringify(result.detail, null, 2) : 'Failed to create employee');
+        }
+
+        localStorage.setItem('employee_id', result.data.employee_id);
+        setSuccess(true);
     } catch (err) {
-      setError({ general: err.message });
+        console.error("Error:", err.message); // ✅ Log errors
+        setError({ general: err.message });
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
+
 
   return (
     <div>
@@ -742,17 +804,54 @@ const AddEmployee = () => {
                         </select>
                       )}
                       {key === 'department' && (
-                        <select name={key} value={value} onChange={handleInputChange} className="formInput">
+                        <select 
+                          name="department" 
+                          value={formData.department} 
+                          onChange={(e) => setFormData({ ...formData, department: e.target.value })} 
+                          className="formInput"
+                        >
                           <option value="">Select Department</option>
-                          <option value="HR">HR</option>
-                          <option value="Engineering">Engineering</option>
-                          {/* Populate with real departments */}
+                          {departments.length > 0 ? (
+                              departments.map(dept => (
+                                  <option key={dept.id} value={dept.name}>{dept.name}</option> // ✅ Storing Name
+                              ))
+                          ) : (
+                              <option disabled>Loading departments...</option>
+                          )}
                         </select>
                       )}
                       {dateFields.includes(key) ? (
                         <input type="date" name={key} value={value} onChange={handleInputChange} className="formInput" />
                       ) : (
-                        <input type="text" name={key} value={value} onChange={handleInputChange} placeholder={`Enter ${key.replace(/_/g, ' ')}`} className="formInput" />
+                          <input 
+                              type="text" 
+                              name={key} 
+                              value={value} 
+                              onChange={handleInputChange} 
+                              placeholder={
+                                key === 'First_Name' ? 'Enter first name' :
+                                key === 'Last_Name' ? 'Enter last name' :
+                                key === 'Email' ? 'Enter a valid email' :
+                                key === 'Phone_Number' ? 'Enter phone number' :
+                                key === 'Date_of_Birth' ? 'Select date of birth' :
+                                key === 'Home_Address' ? 'Enter home address' :
+                                key === 'Country' ? 'Select country' :
+                                key === 'Job_title' ? 'Enter Job title' :
+                                key === 'role' ? 'Enter role' :
+                                key === 'employment_date' ? 'Select employment date' :
+                                key === 'work_mode' ? 'Enter work mode' :
+                                key === 'work_location' ? 'Enter work location' :
+                                key === 'base_salary' ? 'Enter base salary' :
+                                key === 'payment_frequency' ? 'Enter payment frequency' :
+                                key === 'account_name' ? 'Enter account name' :
+                                key === 'account_number' ? 'Enter account number' :
+                                key === 'bank_name' ? 'Enter bank name' :
+                                key === 'medical_allowance' ? 'Enter medical allowance' :
+                                key === 'annual_leave_days' ? 'Enter annual leave days' :
+                                `Enter ${key.replace(/_/g, ' ')}`
+                              } // ✅ Custom Placeholder for Each Field
+                              className="formInput"
+                            />
                       )}
                       {error[key] && <div className="error-message">{error[key]}</div>}
                     </div>

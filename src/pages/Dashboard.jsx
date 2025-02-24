@@ -309,7 +309,7 @@ const Dashboard = () => {
                     <h5>{monthlyApprovedLeaves}</h5>
                   </div>
                 </div>
-                <button style={{ width: '170px', backgroundColor: "#007BFF", color: "#fff"}}>Manage Leaves</button>
+                <Link to={'/LeaveManagment'} ><button style={{ width: '170px', backgroundColor: "#007BFF", color: "#fff"}}>Manage Leaves</button></Link>
               </div>
             </div>
 
@@ -351,7 +351,7 @@ const Dashboard = () => {
                         <h5>{nextPayrollDate}</h5>
                       </div>
                     </div>
-                    <button style={{ width: '170px', backgroundColor: "#007BFF", color: "#fff"}} >Manage Payroll</button>
+                    <Link to={'/PayrollManagement'} ><button style={{ width: '170px', backgroundColor: "#007BFF", color: "#fff"}} >Manage Payroll</button></Link>
                   </div>
                 </div>  
 

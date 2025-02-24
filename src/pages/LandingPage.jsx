@@ -122,7 +122,7 @@ const LandingPage = () => {
       <div className="left-col">
         <h1>Streamline Your HR Operations with Proxima Hr </h1>
         <p>Proxima Hr is a cutting-edge Human Resource Management System that revolutionizes workforce management. It empowers HR professionals to handle complex tasks effortlessly, from payroll to attendance tracking. By centralizing data , it saves time and reduces errors, allowing focus on building a productive workforce.</p>
-        <Link to={'/companyregister'} ><button class="demo-button">
+        <Link to={'/companyregister'} ><button class="demo-button" style={{textDecoration: 'none'}}>
             Request Demo
             <span class="arrow-icon">➔</span>
         </button></Link>

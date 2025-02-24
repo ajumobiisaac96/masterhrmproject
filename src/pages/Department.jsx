@@ -951,10 +951,15 @@ const Department = () => {
     };
 
     // 🔹 Handles Edit Icon Click
-    const handleEditClick = (departmentName) => {
-        // Store the selected department name for later use
+    const handleEditClick = (departmentId, departmentName) => {
+        // ✅ Store department ID and name in local storage
+        localStorage.setItem('department_id', departmentId);
         localStorage.setItem('department_name', departmentName);
+        
+        // ✅ Log department ID to console
+        console.log(`Selected Department - Name: ${departmentName}, ID: ${departmentId}`);
     };
+    
 
     return (
         <div>
@@ -1029,8 +1034,10 @@ const Department = () => {
                                         <div className="one-div">
                                             <div><h1>{dept.name}</h1></div>
                                             <div className="special-div">
-                                                <Link to={'/department/add-employee-department'}>
-                                                    <FontAwesomeIcon icon="fa-solid fa-pen-to-square" onClick={() => handleEditClick(dept.name)} />
+                                            <Link to={'/department/edit-department'}>
+                                                    <FontAwesomeIcon 
+                                                        icon="fa-solid fa-pen-to-square" 
+                                                    />
                                                 </Link>
                                                 <FontAwesomeIcon icon="fa-solid fa-trash-can" />
                                             </div>
@@ -1062,7 +1069,7 @@ const Department = () => {
                                         </div>
                                         <div className="five-div">
                                             <Link to={"/department/add-employee-department"}>
-                                                <button onClick={() => handleEditClick(dept.name)} >View Department</button>
+                                                <button onClick={() => handleEditClick(dept.id, dept.name)}  >View Department</button>
                                             </Link>
                                         </div>
                                     </div>

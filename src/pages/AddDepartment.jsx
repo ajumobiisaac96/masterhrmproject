@@ -203,6 +203,9 @@ const AddDepartment = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    const [departmentDescription, setDepartmentDescription] = useState(""); // ✅ Add this
+
+
 
     useEffect(() => {
         // ✅ Retrieve selected employees from localStorage
@@ -217,63 +220,73 @@ const AddDepartment = () => {
     };
 
     const handleAddDepartment = async () => {
-        setLoading(true);
-        setError("");
         try {
-            const companyId = localStorage.getItem("company_id");
-            if (!companyId) throw new Error("Company ID is missing. Please log in again.");
-
+            setLoading(true);
+    
+            // ✅ Retrieve auth token
             const storedAuthData = localStorage.getItem("authData");
             if (!storedAuthData) throw new Error("Authentication data is missing. Please log in.");
-
-            const authData = JSON.parse(storedAuthData);
+    
+            let authData;
+            try {
+                authData = JSON.parse(storedAuthData);
+            } catch (error) {
+                throw new Error("Invalid authentication data format. Please log in again.");
+            }
+    
             const token = authData?.token;
             if (!token) throw new Error("Authentication token is missing. Please log in.");
-
-            if (!departmentName.trim()) throw new Error("Department name is required.");
-            if (!description.trim()) throw new Error("Department description is required.");
-
-            const formattedStaffs = staffs.length > 0 ? staffs.map(emp => emp.employee_id) : [];
-
-            const payload = {
-                name: departmentName.trim(),
-                hod: departmentHead || null,
-                staffs: formattedStaffs,
-                description: description.trim(),
+    
+            // ✅ Get Company ID
+            const companyId = localStorage.getItem("company_id");
+            if (!companyId) throw new Error("Company ID is missing. Please log in again.");
+    
+            // ✅ Fix: Ensure `staffs` contains valid strings
+            const validStaffs = Array.isArray(staffs) 
+                ? staffs.filter(employee => employee?.employee_id).map(employee => String(employee.employee_id)) 
+                : [];
+    
+            // ✅ Define request body
+            const departmentData = {
+                name: departmentName.trim(), // Ensure name is a valid string
+                hod: departmentHead ? departmentHead.trim() : "", // HOD must be a string or empty
+                staffs: validStaffs, // ✅ Ensure `staffs` is a clean array of strings
+                description: departmentDescription.trim() || "", // Ensure description is valid
             };
-
-            console.log("Payload being sent:", JSON.stringify(payload, null, 2));
-
-            // ✅ Include company_id in the API URL
-            const apiUrl = `https://proximahr.onrender.com/departments/create-department?company_id=${companyId}`;
-
-            const response = await fetch(apiUrl, {
+    
+            console.log("Sending Data:", departmentData);
+    
+            // ✅ Send API request
+            const response = await fetch(`https://proximahr.onrender.com/departments/create-department?company_id=${companyId}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`,
                 },
-                body: JSON.stringify(payload),
+                body: JSON.stringify(departmentData),
             });
-
-            const result = await response.json();
-            console.log("API Response:", result);
-
-            if (!response.ok) {
-                throw new Error(result.detail || "Failed to create department");
+    
+            const responseData = await response.json();
+            console.log("API Response:", responseData); // ✅ Debugging step
+    
+            if (response.status === 201) {
+                console.log("Department created successfully:", responseData);
+                navigate("/department"); // ✅ Redirect on success
+            } else {
+                throw new Error(JSON.stringify(responseData, null, 2)); // Convert to readable format
             }
-
-            alert("Department Created Successfully!");
-            localStorage.removeItem("selectedEmployees");
-            navigate("/department");
-        } catch (err) {
-            console.error("Error creating department:", err);
-            setError(err.message);
+        } catch (error) {
+            console.error("Error creating department:", error);
+            setError(error.message); // ✅ Display error in UI
         } finally {
             setLoading(false);
         }
     };
-
+    
+    
+    
+    
+    
     return (
         <div>
             <div className="main-dashboard">
@@ -324,9 +337,14 @@ const AddDepartment = () => {
                                 </Link>
                             </div>
                         </div>
-                        <div className="add-department-feilds">
-                            <label htmlFor="">Department Description</label>
-                            <textarea placeholder='Provide a brief description of the department function.' value={description} onChange={(e) => setDescription(e.target.value)} />
+                        <div className="add-department-feilds"
+                        value={departmentDescription}
+                        >                            
+                            <label htmlFor="">Department Description <span style={{color:'red'}} >(Required)</span></label>
+                            <textarea 
+                                placeholder='Provide a brief description of the department function.' 
+                                value={departmentDescription} 
+                                onChange={(e) => setDepartmentDescription(e.target.value)} />
                         </div>
                     </div>
 
