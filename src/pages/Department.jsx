@@ -1,863 +1,242 @@
-// import {React, useState} from 'react';
-// import Sidebar from '../components/Sidebar'
-// import test from '../assets/test.png'
-// import '../pages/Department.css'
+// import { React, useState, useEffect } from 'react';
+// import Sidebar from '../components/Sidebar';
+// import test from '../assets/test.png';
+// import '../pages/Department.css';
 // import { library } from '@fortawesome/fontawesome-svg-core';
-// import { fas} from '@fortawesome/free-solid-svg-icons';
+// import { fas } from '@fortawesome/free-solid-svg-icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import {Link} from 'react-router-dom';
-// import EmployerNavbar from '../components/EmployerNavbar'
-
+// import { Link, useNavigate } from 'react-router-dom';
+// import EmployerNavbar from '../components/EmployerNavbar';
 
 // library.add(fas);
 
 // const Department = () => {
-//     const [isOpen, setIsOpen] = useState(false);
-//     return (
-//         <div>
-//           <div className="main-dashboard">
-//             <Sidebar/>
-//             <div className="dashboard">
-//               <div className="slide-one-1">
-//                 <EmployerNavbar/>
-//             </div>
+//   const navigate = useNavigate(); // Using useNavigate for routing
+//   const [isOpen, setIsOpen] = useState(false);
+//   const [departments, setDepartments] = useState([]);
+//   const [filteredDepartments, setFilteredDepartments] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState("");
+//   const [selectedFilter, setSelectedFilter] = useState("All");
+//   const [searchTerm, setSearchTerm] = useState("");
+
+//   useEffect(() => {
+//     const fetchDepartments = async () => {
+//       try {
+//         setLoading(true);
+//         const companyId = localStorage.getItem("company_id");
+//         if (!companyId) throw new Error("Company ID is missing. Please log in again.");
+
+//         const storedAuthData = localStorage.getItem("authData");
+//         if (!storedAuthData) throw new Error("Authentication data is missing. Please log in.");
+
+//         let authData;
+//         try {
+//           authData = JSON.parse(storedAuthData);
+//         } catch (error) {
+//           throw new Error("Invalid authentication data format. Please log in again.");
+//         }
+
+//         const token = authData?.token;
+//         if (!token) throw new Error("Authentication token is missing. Please log in.");
+
+//         const apiUrl = `https://proximahr.onrender.com/departments/?company_id=${companyId}`;
+//         const response = await fetch(apiUrl, {
+//           method: "GET",
+//           headers: {
+//             "Content-Type": "application/json",
+//             Authorization: `Bearer ${token}`,
+//           },
+//         });
+
+//         if (!response.ok) throw new Error("Failed to fetch department list.");
+
+//         const data = await response.json();
+//         setDepartments(data.departments || []);
+//         setFilteredDepartments(data.departments || []);
+
+//         // Store departments in localStorage
+//         localStorage.setItem('total_departments', JSON.stringify(data.departments || []));
+//       } catch (err) {
+//         setError(err.message);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchDepartments();
+//   }, []);
+
+//   // 🔹 Handles Dropdown Filter
+//   const handleFilter = (departmentName) => {
+//     setSelectedFilter(departmentName);
+//     setIsOpen(false);
+//     if (departmentName === "All") {
+//       setFilteredDepartments(departments);
+//     } else {
+//       setFilteredDepartments(departments.filter(dept => dept.name.toLowerCase() === departmentName.toLowerCase()));
+//     }
+//   };
+
+//   const handleCardClick = (departmentId) => {
+//     // Find the department data from the departments array
+//     const department = departments.find(dept => dept.id === departmentId);
     
-//               <hr className="horizontal" />
-    
-//               <div className="dashboard-details">
-//                 <h5>Department</h5>
-//                 <h6>24 Thursday October 2024</h6>
-//               </div>
-    
-
-//               <div className="number-of-employee">
-//                 <div className="new-div-1">
-//                     <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" className="glass-icon" /><input type="text" placeholder='Search Department' />
-//                 </div>
-//                 <div className="div-2">
-//                   <div className="btn-1">
-//                   <button onClick={() => setIsOpen(!isOpen)}>
-//                     <FontAwesomeIcon icon="fa-solid fa-filter" /> filter
-//                   </button>
-//                 </div>
-//                 {isOpen && (
-//                   <div className = "dropdownstyle" >
-//                     <p>All</p>
-//                     <p>Engineering</p>
-//                     <p>Design</p>
-//                     <p>Marketing</p>
-//                     <p>sales</p>
-//                     <p>Data science</p>
-//                     <p>operations</p>
-//                   </div>
-//                 )}
-//                   <div className="btn">
-//                       <Link to={"/department/add-new-department"}><button><FontAwesomeIcon icon="fa-solid fa-plus" />Add New Department</button></Link>
-//                   </div>
-//                 </div>
-//               </div>
-
-    
-//               <div className="dashboard-details-2-1-1">
-//                 <div className="card-3">
-//                 <div className="one-div">
-//                     <div><h1>Engineering</h1></div>
-//                     <div className = "special-div">
-//                         <FontAwesomeIcon icon="fa-solid fa-pen-to-square" />
-//                         <FontAwesomeIcon icon="fa-solid fa-trash-can" />
-//                     </div>
-//                 </div>
-//                 <hr className = "new-hr"/>
-//                 <div className="two-div">
-//                     <div>
-//                         <img src={test} alt="My profile" className ="My-profile" />
-//                     </div>
-//                     <div>
-//                         <p>Department Head</p>
-//                         <h2>Sarah Johnson</h2>
-//                     </div>
-//                 </div>
-//                 <div className="three-div">
-//                     <div  className = "new-div" >
-//                         <div><FontAwesomeIcon icon="fa-solid fa-users" className = "new-div-icon" /></div>
-//                         <div  >
-//                             <p>Team Members</p>
-//                             <h2>65</h2>
-//                         </div>
-//                     </div>
-//                     <div className = "new-div-2">
-//                         <div><FontAwesomeIcon icon="fa-solid fa-clock" className = "new-div-icon" /></div>
-//                         <div>
-//                             <p>Attendance</p>
-//                             <h2>98%</h2>
-//                         </div>
-//                     </div>
-//                 </div>
-//                 <div className="four-div">
-//                   <div className="div-1-1">
-//                     <img src={test} alt="My profile" className ="My-four-div-profile" />
-//                     <h2>60+</h2>
-//                   </div>
-//                   <div className="div-2-2">
-//                     <p>Description</p>
-//                     <h1>Develops and maintains technical systems and software</h1>
-//                   </div>
-//                 </div>
-//                 <div className="five-div">
-//                   <Link to={"/department/add-employee-department"}><button>view Department</button></Link>
-//                 </div>
-//                 </div>
-
-
-//                 <div className="card-3">
-//                 <div className="one-div">
-//                     <div><h1>Engineering</h1></div>
-//                     <div className = "special-div">
-//                         <FontAwesomeIcon icon="fa-solid fa-pen-to-square" />
-//                         <FontAwesomeIcon icon="fa-solid fa-trash-can" />
-//                     </div>
-//                 </div>
-//                 <hr className = "new-hr"/>
-//                 <div className="two-div">
-//                     <div>
-//                         <img src={test} alt="My profile" className ="My-profile" />
-//                     </div>
-//                     <div>
-//                         <p>Department Head</p>
-//                         <h2>Sarah Johnson</h2>
-//                     </div>
-//                 </div>
-//                 <div className="three-div">
-//                     <div  className = "new-div" >
-//                         <div><FontAwesomeIcon icon="fa-solid fa-users" className = "new-div-icon" /></div>
-//                         <div  >
-//                             <p>Team Members</p>
-//                             <h2>65</h2>
-//                         </div>
-//                     </div>
-//                     <div className = "new-div-2">
-//                         <div><FontAwesomeIcon icon="fa-solid fa-clock" className = "new-div-icon" /></div>
-//                         <div>
-//                             <p>Attendance</p>
-//                             <h2>98%</h2>
-//                         </div>
-//                     </div>
-//                 </div>
-//                 <div className="four-div">
-//                   <div className="div-1-1">
-//                     <img src={test} alt="My profile" className ="My-four-div-profile" />
-//                     <h2>60+</h2>
-//                   </div>
-//                   <div className="div-2-2">
-//                     <p>Description</p>
-//                     <h1>Develops and maintains technical systems and software</h1>
-//                   </div>
-//                 </div>
-//                 <div className="five-div">
-//                 <Link to={"/department/add-employee-department"}><button className='general-btn' >view Department</button></Link>
-//                 </div>
-//                 </div>
-
-//               </div>
-
-//               <div className="dashboard-details-2-1-1">
-//                 <div className="card-3">
-//                 <div className="one-div">
-//                     <div><h1>Engineering</h1></div>
-//                     <div className = "special-div">
-//                         <FontAwesomeIcon icon="fa-solid fa-pen-to-square" />
-//                         <FontAwesomeIcon icon="fa-solid fa-trash-can" />
-//                     </div>
-//                 </div>
-//                 <hr className = "new-hr"/>
-//                 <div className="two-div">
-//                     <div>
-//                         <img src={test} alt="My profile" className ="My-profile" />
-//                     </div>
-//                     <div>
-//                         <p>Department Head</p>
-//                         <h2>Sarah Johnson</h2>
-//                     </div>
-//                 </div>
-//                 <div className="three-div">
-//                     <div  className = "new-div" >
-//                         <div><FontAwesomeIcon icon="fa-solid fa-users" className = "new-div-icon" /></div>
-//                         <div  >
-//                             <p>Team Members</p>
-//                             <h2>65</h2>
-//                         </div>
-//                     </div>
-//                     <div className = "new-div-2">
-//                         <div><FontAwesomeIcon icon="fa-solid fa-clock" className = "new-div-icon" /></div>
-//                         <div>
-//                             <p>Attendance</p>
-//                             <h2>98%</h2>
-//                         </div>
-//                     </div>
-//                 </div>
-//                 <div className="four-div">
-//                   <div className="div-1-1">
-//                     <img src={test} alt="My profile" className ="My-four-div-profile" />
-//                     <h2>60+</h2>
-//                   </div>
-//                   <div className="div-2-2">
-//                     <p>Description</p>
-//                     <h1>Develops and maintains technical systems and software</h1>
-//                   </div>
-//                 </div>
-//                 <div className="five-div">
-//                 <Link to={"/department/add-employee-department"}><button>view Department</button></Link>
-//                 </div>
-//                 </div>
-
-
-//                 <div className="card-3">
-//                 <div className="one-div">
-//                     <div><h1>Engineering</h1></div>
-//                     <div className = "special-div">
-//                         <FontAwesomeIcon icon="fa-solid fa-pen-to-square" />
-//                         <FontAwesomeIcon icon="fa-solid fa-trash-can" />
-//                     </div>
-//                 </div>
-//                 <hr className = "new-hr"/>
-//                 <div className="two-div">
-//                     <div>
-//                         <img src={test} alt="My profile" className ="My-profile" />
-//                     </div>
-//                     <div>
-//                         <p>Department Head</p>
-//                         <h2>Sarah Johnson</h2>
-//                     </div>
-//                 </div>
-//                 <div className="three-div">
-//                     <div  className = "new-div" >
-//                         <div><FontAwesomeIcon icon="fa-solid fa-users" className = "new-div-icon" /></div>
-//                         <div  >
-//                             <p>Team Members</p>
-//                             <h2>65</h2>
-//                         </div>
-//                     </div>
-//                     <div className = "new-div-2">
-//                         <div><FontAwesomeIcon icon="fa-solid fa-clock" className = "new-div-icon" /></div>
-//                         <div>
-//                             <p>Attendance</p>
-//                             <h2>98%</h2>
-//                         </div>
-//                     </div>
-//                 </div>
-//                 <div className="four-div">
-//                   <div className="div-1-1">
-//                     <img src={test} alt="My profile" className ="My-four-div-profile" />
-//                     <h2>60+</h2>
-//                   </div>
-//                   <div className="div-2-2">
-//                     <p>Description</p>
-//                     <h1>Develops and maintains technical systems and software</h1>
-//                   </div>
-//                 </div>
-//                 <div className="five-div">
-//                 <Link to={"/department/add-employee-department"}><button>view Department</button></Link>
-//                 </div>
-//                 </div>
-
-//               </div>
-
-//               <div className="dashboard-details-2-1-1">
-//                 <div className="card-3">
-//                 <div className="one-div">
-//                     <div><h1>Engineering</h1></div>
-//                     <div className = "special-div">
-//                         <FontAwesomeIcon icon="fa-solid fa-pen-to-square" />
-//                         <FontAwesomeIcon icon="fa-solid fa-trash-can" />
-//                     </div>
-//                 </div>
-//                 <hr className = "new-hr"/>
-//                 <div className="two-div">
-//                     <div>
-//                         <img src={test} alt="My profile" className ="My-profile" />
-//                     </div>
-//                     <div>
-//                         <p>Department Head</p>
-//                         <h2>Sarah Johnson</h2>
-//                     </div>
-//                 </div>
-//                 <div className="three-div">
-//                     <div  className = "new-div" >
-//                         <div><FontAwesomeIcon icon="fa-solid fa-users" className = "new-div-icon" /></div>
-//                         <div  >
-//                             <p>Team Members</p>
-//                             <h2>65</h2>
-//                         </div>
-//                     </div>
-//                     <div className = "new-div-2">
-//                         <div><FontAwesomeIcon icon="fa-solid fa-clock" className = "new-div-icon" /></div>
-//                         <div>
-//                             <p>Attendance</p>
-//                             <h2>98%</h2>
-//                         </div>
-//                     </div>
-//                 </div>
-//                 <div className="four-div">
-//                   <div className="div-1-1">
-//                     <img src={test} alt="My profile" className ="My-four-div-profile" />
-//                     <h2>60+</h2>
-//                   </div>
-//                   <div className="div-2-2">
-//                     <p>Description</p>
-//                     <h1>Develops and maintains technical systems and software</h1>
-//                   </div>
-//                 </div>
-//                 <div className="five-div">
-//                 <Link to={"/department/add-employee-department"}><button>view Department</button></Link>
-//                 </div>
-//                 </div>
-
-
-//                 <div className="card-3">
-//                 <div className="one-div">
-//                     <div><h1>Engineering</h1></div>
-//                     <div className = "special-div">
-//                         <FontAwesomeIcon icon="fa-solid fa-pen-to-square" />
-//                         <FontAwesomeIcon icon="fa-solid fa-trash-can" />
-//                     </div>
-//                 </div>
-//                 <hr className = "new-hr"/>
-//                 <div className="two-div">
-//                     <div>
-//                         <img src={test} alt="My profile" className ="My-profile" />
-//                     </div>
-//                     <div>
-//                         <p>Department Head</p>
-//                         <h2>Sarah Johnson</h2>
-//                     </div>
-//                 </div>
-//                 <div className="three-div">
-//                     <div  className = "new-div" >
-//                         <div><FontAwesomeIcon icon="fa-solid fa-users" className = "new-div-icon" /></div>
-//                         <div  >
-//                             <p>Team Members</p>
-//                             <h2>65</h2>
-//                         </div>
-//                     </div>
-//                     <div className = "new-div-2">
-//                         <div><FontAwesomeIcon icon="fa-solid fa-clock" className = "new-div-icon" /></div>
-//                         <div>
-//                             <p>Attendance</p>
-//                             <h2>98%</h2>
-//                         </div>
-//                     </div>
-//                 </div>
-//                 <div className="four-div">
-//                   <div className="div-1-1">
-//                     <img src={test} alt="My profile" className ="My-four-div-profile" />
-//                     <h2>60+</h2>
-//                   </div>
-//                   <div className="div-2-2">
-//                     <p>Description</p>
-//                     <h1>Develops and maintains technical systems and software</h1>
-//                   </div>
-//                 </div>
-//                 <div className="five-div">
-//                 <Link to={"/department/add-employee-department"}><button>view Department</button></Link>
-//                 </div>
-//                 </div>
-
-//               </div>
-//               <div className="dashboard-details-2-1-1">
-//                 <div className="card-3">
-//                 <div className="one-div">
-//                     <div><h1>Engineering</h1></div>
-//                     <div className = "special-div">
-//                         <FontAwesomeIcon icon="fa-solid fa-pen-to-square" />
-//                         <FontAwesomeIcon icon="fa-solid fa-trash-can" />
-//                     </div>
-//                 </div>
-//                 <hr className = "new-hr"/>
-//                 <div className="two-div">
-//                     <div>
-//                         <img src={test} alt="My profile" className ="My-profile" />
-//                     </div>
-//                     <div>
-//                         <p>Department Head</p>
-//                         <h2>Sarah Johnson</h2>
-//                     </div>
-//                 </div>
-//                 <div className="three-div">
-//                     <div  className = "new-div" >
-//                         <div><FontAwesomeIcon icon="fa-solid fa-users" className = "new-div-icon" /></div>
-//                         <div  >
-//                             <p>Team Members</p>
-//                             <h2>65</h2>
-//                         </div>
-//                     </div>
-//                     <div className = "new-div-2">
-//                         <div><FontAwesomeIcon icon="fa-solid fa-clock" className = "new-div-icon" /></div>
-//                         <div>
-//                             <p>Attendance</p>
-//                             <h2>98%</h2>
-//                         </div>
-//                     </div>
-//                 </div>
-//                 <div className="four-div">
-//                   <div className="div-1-1">
-//                     <img src={test} alt="My profile" className ="My-four-div-profile" />
-//                     <h2>60+</h2>
-//                   </div>
-//                   <div className="div-2-2">
-//                     <p>Description</p>
-//                     <h1>Develops and maintains technical systems and software</h1>
-//                   </div>
-//                 </div>
-//                 <div className="five-div">
-//                 <Link to={"/department/add-employee-department"}><button>view Department</button></Link>
-//                 </div>
-//                 </div>
-
-
-//                 <div className="card-3">
-//                 <div className="one-div">
-//                     <div><h1>Engineering</h1></div>
-//                     <div className = "special-div">
-//                         <FontAwesomeIcon icon="fa-solid fa-pen-to-square" />
-//                         <FontAwesomeIcon icon="fa-solid fa-trash-can" />
-//                     </div>
-//                 </div>
-//                 <hr className = "new-hr"/>
-//                 <div className="two-div">
-//                     <div>
-//                         <img src={test} alt="My profile" className ="My-profile" />
-//                     </div>
-//                     <div>
-//                         <p>Department Head</p>
-//                         <h2>Sarah Johnson</h2>
-//                     </div>
-//                 </div>
-//                 <div className="three-div">
-//                     <div  className = "new-div" >
-//                         <div><FontAwesomeIcon icon="fa-solid fa-users" className = "new-div-icon" /></div>
-//                         <div  >
-//                             <p>Team Members</p>
-//                             <h2>65</h2>
-//                         </div>
-//                     </div>
-//                     <div className = "new-div-2">
-//                         <div><FontAwesomeIcon icon="fa-solid fa-clock" className = "new-div-icon" /></div>
-//                         <div>
-//                             <p>Attendance</p>
-//                             <h2>98%</h2>
-//                         </div>
-//                     </div>
-//                 </div>
-//                 <div className="four-div">
-//                   <div className="div-1-1">
-//                     <img src={test} alt="My profile" className ="My-four-div-profile" />
-//                     <h2>60+</h2>
-//                   </div>
-//                   <div className="div-2-2">
-//                     <p>Description</p>
-//                     <h1>Develops and maintains technical systems and software</h1>
-//                   </div>
-//                 </div>
-//                 <div className="five-div">
-//                 <Link to={"/department/add-employee-department"}><button>view Department</button></Link>
-//                 </div>
-//                 </div>
-
-//               </div>
-
-    
-//             </div>
-    
-//           </div>
-//         </div>
-//       )
+//     if (department) {
+//       // Store the department information in localStorage
+//       localStorage.setItem('department_data', JSON.stringify(department));
 //     }
     
+//     // Navigate to the Edit Department page
+//     navigate(`/department/edit-department`); // Using navigate from react-router-dom v6+
+//   };
 
-// export default Department
+//   // 🔹 Handle View Department Button Click
+//   const handleViewDepartmentClick = (department) => {
+//     // Store the department data dynamically
+//     localStorage.setItem('department_data', JSON.stringify(department));
+//     // Store department ID dynamically for navigation
+//     localStorage.setItem('department_id', department.id);
 
+//     // Navigate to the Edit Department page
+//     navigate(`/department/add-employee-department`);
+//   };
 
-// import { React, useState, useEffect } from 'react';
-// import Sidebar from '../components/Sidebar';
-// import test from '../assets/test.png';
-// import '../pages/Department.css';
-// import { library } from '@fortawesome/fontawesome-svg-core';
-// import { fas } from '@fortawesome/free-solid-svg-icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { Link } from 'react-router-dom';
-// import EmployerNavbar from '../components/EmployerNavbar';
+//   // 🔹 Handles Search Input Filtering
+//   const handleSearch = (e) => {
+//     const term = e.target.value.toLowerCase();
+//     setSearchTerm(term);
 
-// library.add(fas);
+//     if (term === "") {
+//       setFilteredDepartments(departments);
+//     } else {
+//       setFilteredDepartments(departments.filter(dept => dept.name.toLowerCase().includes(term)));
+//     }
+//   };
 
-// const Department = () => {
-//     const [isOpen, setIsOpen] = useState(false);
-//     const [departments, setDepartments] = useState([]);
-//     const [loading, setLoading] = useState(true);
-//     const [error, setError] = useState("");
+//   return (
+//     <div>
+//       <div className="main-dashboard">
+//         <Sidebar />
+//         <div className="dashboard">
+//           <div className="slide-one-1">
+//             <EmployerNavbar />
+//           </div>
+//           <hr className="horizontal" />
+//           <div className="dashboard-details">
+//             <h5>Department</h5>
+//             <h6>{new Date().toDateString()}</h6>
+//           </div>
 
-//     useEffect(() => {
-//         const fetchDepartments = async () => {
-//             try {
-//                 setLoading(true);
-//                 const companyId = localStorage.getItem("company_id");
-//                 if (!companyId) {
-//                     throw new Error("Company ID is missing. Please log in again.");
-//                 }
-
-//                 const storedAuthData = localStorage.getItem("authData");
-//                 if (!storedAuthData) {
-//                     throw new Error("Authentication data is missing. Please log in.");
-//                 }
-
-//                 let authData;
-//                 try {
-//                     authData = JSON.parse(storedAuthData);
-//                 } catch (error) {
-//                     throw new Error("Invalid authentication data format. Please log in again.");
-//                 }
-
-//                 const token = authData?.token;
-//                 if (!token) {
-//                     throw new Error("Authentication token is missing. Please log in.");
-//                 }
-
-//                 const apiUrl = `https://proximahr.onrender.com/departments/?company_id=${companyId}`;
-//                 const response = await fetch(apiUrl, {
-//                     method: "GET",
-//                     headers: {
-//                         "Content-Type": "application/json",
-//                         Authorization: `Bearer ${token}`,
-//                     },
-//                 });
-
-//                 if (!response.ok) {
-//                     throw new Error("Failed to fetch department list.");
-//                 }
-
-//                 const data = await response.json();
-//                 setDepartments(data.departments || []);
-//             } catch (err) {
-//                 setError(err.message);
-//             } finally {
-//                 setLoading(false);
-//             }
-//         };
-
-//         fetchDepartments();
-//     }, []);
-
-//     return (
-//         <div>
-//             <div className="main-dashboard">
-//                 <Sidebar />
-//                 <div className="dashboard">
-//                     <div className="slide-one-1">
-//                         <EmployerNavbar />
-//                     </div>
-//                     <hr className="horizontal" />
-//                     <div className="dashboard-details">
-//                         <h5>Department</h5>
-//                         <h6>{new Date().toDateString()}</h6>
-//                     </div>
-
-//                     <div className="number-of-employee">
-//                         <div className="new-div-1">
-//                             <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" className="glass-icon" />
-//                             <input type="text" placeholder='Search Department' />
-//                         </div>
-//                         <div className="div-2">
-//                             <div className="btn-1">
-//                                 <button onClick={() => setIsOpen(!isOpen)}>
-//                                     <FontAwesomeIcon icon="fa-solid fa-filter" /> filter
-//                                 </button>
-//                             </div>
-//                             {isOpen && (
-//                                 <div className="dropdownstyle">
-//                                     <p>All</p>
-//                                     <p>Engineering</p>
-//                                     <p>Design</p>
-//                                     <p>Marketing</p>
-//                                     <p>Sales</p>
-//                                     <p>Data Science</p>
-//                                     <p>Operations</p>
-//                                 </div>
-//                             )}
-//                             <div className="btn">
-//                                 <Link to={"/department/add-new-department"}>
-//                                     <button><FontAwesomeIcon icon="fa-solid fa-plus" />Add New Department</button>
-//                                 </Link>
-//                             </div>
-//                         </div>
-//                     </div>
-
-//                     {loading ? (
-//                         <p>Loading departments...</p>
-//                     ) : error ? (
-//                         <p style={{ color: 'red' }}>{error}</p>
-//                     ) : (
-//                         <div className="dashboard-details-2-1-1">
-//                             {departments.length === 0 ? (
-//                                 <p>No departments found.</p>
-//                             ) : (
-//                                 departments.map((dept, index) => (
-//                                     <div className="card-3" key={index}>
-//                                         <div className="one-div">
-//                                             <div><h1>{dept.name}</h1></div>
-//                                             <div className="special-div">
-//                                                 <FontAwesomeIcon icon="fa-solid fa-pen-to-square" />
-//                                                 <FontAwesomeIcon icon="fa-solid fa-trash-can" />
-//                                             </div>
-//                                         </div>
-//                                         <hr className="new-hr" />
-//                                         <div className="two-div">
-//                                             <div>
-//                                                 <img src={test} alt="Department Head" className="My-profile" />
-//                                             </div>
-//                                             <div>
-//                                                 <p>Department Head</p>
-//                                                 <h2>{dept.hod ? `${dept.hod.first_name} ${dept.hod.last_name}` : 'Not Assigned'}</h2>
-//                                             </div>
-//                                         </div>
-//                                         <div className="three-div">
-//                                             <div className="new-div">
-//                                                 <div><FontAwesomeIcon icon="fa-solid fa-users" className="new-div-icon" /></div>
-//                                                 <div>
-//                                                     <p>Team Members</p>
-//                                                     <h2>{dept.staff_size}</h2>
-//                                                 </div>
-//                                             </div>
-//                                         </div>
-//                                         <div className="four-div">
-//                                             <div className="div-2-2">
-//                                                 <p>Description</p>
-//                                                 <h1>{dept.description || 'No description available'}</h1>
-//                                             </div>
-//                                         </div>
-//                                         <div className="five-div">
-//                                             <Link to={"/department/add-employee-department"}>
-//                                                 <button>View Department</button>
-//                                             </Link>
-//                                         </div>
-//                                     </div>
-//                                 ))
-//                             )}
-//                         </div>
-//                     )}
-//                 </div>
+//           <div className="number-of-employee">
+//             <div className="new-div-1">
+//               <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" className="glass-icon" />
+//               <input
+//                 type="text"
+//                 placeholder="Search Department"
+//                 value={searchTerm}
+//                 onChange={handleSearch} // ✅ Search Functionality
+//               />
 //             </div>
+//             <div className="div-2">
+//               <div className="btn-1">
+//                 <button onClick={() => setIsOpen(!isOpen)}>
+//                   <FontAwesomeIcon icon="fa-solid fa-filter" /> {selectedFilter}
+//                 </button>
+//               </div>
+//               {isOpen && (
+//                 <div className="dropdownstyle">
+//                   <p onClick={() => handleFilter("All")}>All</p>
+//                   {departments.map((dept, index) => (
+//                     <p key={index} onClick={() => handleFilter(dept.name)}>
+//                       {dept.name}
+//                     </p>
+//                   ))}
+//                 </div>
+//               )}
+//               <div className="btn">
+//                 <Link to={"/department/add-new-department"}>
+//                   <button><FontAwesomeIcon icon="fa-solid fa-plus" />Add New Department</button>
+//                 </Link>
+//               </div>
+//             </div>
+//           </div>
+
+//           {loading ? (
+//             <p>Loading departments...</p>
+//           ) : error ? (
+//             <p style={{ color: 'red' }}>{error}</p>
+//           ) : (
+//             <div style={{
+//               display: "grid",
+//               gridTemplateColumns: "repeat(2, 1fr)", // ✅ 2 Columns Grid
+//               gap: "20px",
+//               padding: "20px"
+//             }}>
+//               {filteredDepartments.length === 0 ? (
+//                 <p>No departments found</p>
+//               ) : (
+//                 filteredDepartments.map((dept, index) => (
+//                   <div key={index} className="card-3" style={{
+//                     border: "1px solid #ddd",
+//                     padding: "15px",
+//                     borderRadius: "10px",
+//                     backgroundColor: "#fff",
+//                     boxShadow: "0 2px 5px rgba(0,0,0,0.1)"
+//                   }}>
+//                     <div className="one-div">
+//                       <div><h1>{dept.name}</h1></div>
+//                       <div className="special-div">
+//                         {/* Edit Icon for the specific department */}
+//                         <FontAwesomeIcon 
+//                           icon="fa-solid fa-pen-to-square" 
+//                           onClick={() => handleCardClick(dept.id)} 
+//                         />
+//                         <FontAwesomeIcon icon="fa-solid fa-trash-can" />
+//                       </div>
+//                     </div>
+//                     <hr className="new-hr" />
+//                     <div className="two-div">
+//                       <div>
+//                         <img src={test} alt="Department Head" className="My-profile" />
+//                       </div>
+//                       <div>
+//                         <p>Department Head</p>
+//                         <h2>{dept.hod ? `${dept.hod.first_name} ${dept.hod.last_name}` : 'Not Assigned'}</h2>
+//                       </div>
+//                     </div>
+//                     <div className="three-div">
+//                       <div className="new-div">
+//                         <div><FontAwesomeIcon icon="fa-solid fa-users" className="new-div-icon" /></div>
+//                         <div>
+//                           <p>Team Members</p>
+//                           <h2>{dept.staff_size !== undefined ? dept.staff_size : 0}</h2>
+//                         </div>
+//                       </div>
+//                     </div>
+//                     <div className="four-div">
+//                       <div className="div-2-2">
+//                         <p>Description</p>
+//                         <h1>{dept.description || 'No description available'}</h1>
+//                       </div>
+//                     </div>
+//                     <div className="five-div">
+//                       {/* View Department Button */}
+//                       <button onClick={() => handleViewDepartmentClick(dept)}>View Department</button>
+//                     </div>
+//                   </div>
+//                 ))
+//               )}
+//             </div>
+//           )}
 //         </div>
-//     );
+//       </div>
+//     </div>
+//   );
 // };
 
 // export default Department;
 
-// import { React, useState, useEffect } from 'react';
-// import Sidebar from '../components/Sidebar';
-// import test from '../assets/test.png';
-// import '../pages/Department.css';
-// import { library } from '@fortawesome/fontawesome-svg-core';
-// import { fas } from '@fortawesome/free-solid-svg-icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { Link } from 'react-router-dom';
-// import EmployerNavbar from '../components/EmployerNavbar';
-
-// library.add(fas);
-
-// const Department = () => {
-//     const [isOpen, setIsOpen] = useState(false);
-//     const [departments, setDepartments] = useState([]);
-//     const [filteredDepartments, setFilteredDepartments] = useState([]);
-//     const [loading, setLoading] = useState(true);
-//     const [error, setError] = useState("");
-//     const [selectedFilter, setSelectedFilter] = useState("All");
-//     const [searchTerm, setSearchTerm] = useState("");
-
-//     useEffect(() => {
-//         const fetchDepartments = async () => {
-//             try {
-//                 setLoading(true);
-//                 const companyId = localStorage.getItem("company_id");
-//                 if (!companyId) throw new Error("Company ID is missing. Please log in again.");
-
-//                 const storedAuthData = localStorage.getItem("authData");
-//                 if (!storedAuthData) throw new Error("Authentication data is missing. Please log in.");
-
-//                 let authData;
-//                 try {
-//                     authData = JSON.parse(storedAuthData);
-//                 } catch (error) {
-//                     throw new Error("Invalid authentication data format. Please log in again.");
-//                 }
-
-//                 const token = authData?.token;
-//                 if (!token) throw new Error("Authentication token is missing. Please log in.");
-
-//                 const apiUrl = `https://proximahr.onrender.com/departments/?company_id=${companyId}`;
-//                 const response = await fetch(apiUrl, {
-//                     method: "GET",
-//                     headers: {
-//                         "Content-Type": "application/json",
-//                         Authorization: `Bearer ${token}`,
-//                     },
-//                 });
-
-//                 if (!response.ok) throw new Error("Failed to fetch department list.");
-
-//                 const data = await response.json();
-//                 setDepartments(data.departments || []);
-//                 setFilteredDepartments(data.departments || []);
-//             } catch (err) {
-//                 setError(err.message);
-//             } finally {
-//                 setLoading(false);
-//             }
-//         };
-
-//         fetchDepartments();
-//     }, []);
-
-//     // 🔹 Handles Dropdown Filter
-//     const handleFilter = (departmentName) => {
-//         setSelectedFilter(departmentName);
-//         setIsOpen(false);
-//         if (departmentName === "All") {
-//             setFilteredDepartments(departments);
-//         } else {
-//             setFilteredDepartments(departments.filter(dept => dept.name.toLowerCase() === departmentName.toLowerCase()));
-//         }
-//     };
-
-//     // 🔹 Handles Search Input Filtering
-//     const handleSearch = (e) => {
-//         const term = e.target.value.toLowerCase();
-//         setSearchTerm(term);
-
-//         if (term === "") {
-//             setFilteredDepartments(departments);
-//         } else {
-//             setFilteredDepartments(departments.filter(dept => dept.name.toLowerCase().includes(term)));
-//         }
-//     };
-
-//     return (
-//         <div>
-//             <div className="main-dashboard">
-//                 <Sidebar />
-//                 <div className="dashboard">
-//                     <div className="slide-one-1">
-//                         <EmployerNavbar />
-//                     </div>
-//                     <hr className="horizontal" />
-//                     <div className="dashboard-details">
-//                         <h5>Department</h5>
-//                         <h6>{new Date().toDateString()}</h6>
-//                     </div>
-
-//                     <div className="number-of-employee">
-//                         <div className="new-div-1">
-//                             <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" className="glass-icon" />
-//                             <input
-//                                 type="text"
-//                                 placeholder="Search Department"
-//                                 value={searchTerm}
-//                                 onChange={handleSearch} // ✅ Search Functionality
-//                             />
-//                         </div>
-//                         <div className="div-2">
-//                             <div className="btn-1">
-//                                 <button onClick={() => setIsOpen(!isOpen)}>
-//                                     <FontAwesomeIcon icon="fa-solid fa-filter" /> {selectedFilter}
-//                                 </button>
-//                             </div>
-//                             {isOpen && (
-//                                 <div className="dropdownstyle">
-//                                     <p onClick={() => handleFilter("All")}>All</p>
-//                                     {departments.map((dept, index) => (
-//                                         <p key={index} onClick={() => handleFilter(dept.name)}>
-//                                             {dept.name}
-//                                         </p>
-//                                     ))}
-//                                 </div>
-//                             )}
-//                             <div className="btn">
-//                                 <Link to={"/department/add-new-department"}>
-//                                     <button><FontAwesomeIcon icon="fa-solid fa-plus" />Add New Department</button>
-//                                 </Link>
-//                             </div>
-//                         </div>
-//                     </div>
-
-//                     {loading ? (
-//                         <p>Loading departments...</p>
-//                     ) : error ? (
-//                         <p style={{ color: 'red' }}>{error}</p>
-//                     ) : (
-//                         <div style={{
-//                             display: "grid",
-//                             gridTemplateColumns: "repeat(2, 1fr)", // ✅ 2 Columns Grid
-//                             gap: "20px",
-//                             padding: "20px"
-//                         }}>
-//                             {filteredDepartments.length === 0 ? (
-//                                 <p>No departments found.</p>
-//                             ) : (
-//                                 filteredDepartments.map((dept, index) => (
-//                                     <div className="card-3" key={index} style={{
-//                                         border: "1px solid #ddd",
-//                                         padding: "15px",
-//                                         borderRadius: "10px",
-//                                         backgroundColor: "#fff",
-//                                         boxShadow: "0 2px 5px rgba(0,0,0,0.1)"
-//                                     }}>
-//                                         <div className="one-div">
-//                                             <div><h1>{dept.name}</h1></div>
-//                                             <div className="special-div">
-//                                                 <Link to={'/department/add-employee-department'} ><FontAwesomeIcon icon="fa-solid fa-pen-to-square" /></Link>
-//                                                 <FontAwesomeIcon icon="fa-solid fa-trash-can" />
-//                                             </div>
-//                                         </div>
-//                                         <hr className="new-hr" />
-//                                         <div className="two-div">
-//                                             <div>
-//                                                 <img src={test} alt="Department Head" className="My-profile" />
-//                                             </div>
-//                                             <div>
-//                                                 <p>Department Head</p>
-//                                                 <h2>{dept.hod ? `${dept.hod.first_name} ${dept.hod.last_name}` : 'Not Assigned'}</h2>
-//                                             </div>
-//                                         </div>
-//                                         <div className="three-div">
-//                                             <div className="new-div">
-//                                                 <div><FontAwesomeIcon icon="fa-solid fa-users" className="new-div-icon" /></div>
-//                                                 <div>
-//                                                     <p>Team Members</p>
-//                                                     <h2>{dept.staff_size !== undefined ? dept.staff_size : 0}</h2>
-//                                                 </div>
-//                                             </div>
-//                                         </div>
-//                                         <div className="four-div">
-//                                             <div className="div-2-2">
-//                                                 <p>Description</p>
-//                                                 <h1>{dept.description || 'No description available'}</h1>
-//                                             </div>
-//                                         </div>
-//                                         <div className="five-div">
-//                                             <Link to={"/department/add-employee-department"}>
-//                                                 <button>View Department</button>
-//                                             </Link>
-//                                         </div>
-//                                     </div>
-//                                 ))
-//                             )}
-//                         </div>
-//                     )}
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default Department;
 
 import { React, useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
@@ -866,221 +245,294 @@ import '../pages/Department.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import EmployerNavbar from '../components/EmployerNavbar';
 
 library.add(fas);
 
 const Department = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [departments, setDepartments] = useState([]);
-    const [filteredDepartments, setFilteredDepartments] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
-    const [selectedFilter, setSelectedFilter] = useState("All");
-    const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  const [departments, setDepartments] = useState([]);
+  const [filteredDepartments, setFilteredDepartments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("All");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showDeletePopup, setShowDeletePopup] = useState(false); // State to control popup visibility
+  const [selectedDepartmentId, setSelectedDepartmentId] = useState(null); // Store the department to be deleted
 
-    useEffect(() => {
-        const fetchDepartments = async () => {
-            try {
-                setLoading(true);
-                const companyId = localStorage.getItem("company_id");
-                if (!companyId) throw new Error("Company ID is missing. Please log in again.");
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        setLoading(true);
+        const companyId = localStorage.getItem("company_id");
+        if (!companyId) throw new Error("Company ID is missing. Please log in again.");
 
-                const storedAuthData = localStorage.getItem("authData");
-                if (!storedAuthData) throw new Error("Authentication data is missing. Please log in.");
+        const storedAuthData = localStorage.getItem("authData");
+        if (!storedAuthData) throw new Error("Authentication data is missing. Please log in.");
 
-                let authData;
-                try {
-                    authData = JSON.parse(storedAuthData);
-                } catch (error) {
-                    throw new Error("Invalid authentication data format. Please log in again.");
-                }
-
-                const token = authData?.token;
-                if (!token) throw new Error("Authentication token is missing. Please log in.");
-
-                const apiUrl = `https://proximahr.onrender.com/departments/?company_id=${companyId}`;
-                const response = await fetch(apiUrl, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                if (!response.ok) throw new Error("Failed to fetch department list.");
-
-                const data = await response.json();
-                setDepartments(data.departments || []);
-                setFilteredDepartments(data.departments || []);
-
-                // Store departments in localStorage
-                localStorage.setItem('total_departments', JSON.stringify(data.departments || []));
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchDepartments();
-    }, []);
-
-    // 🔹 Handles Dropdown Filter
-    const handleFilter = (departmentName) => {
-        setSelectedFilter(departmentName);
-        setIsOpen(false);
-        if (departmentName === "All") {
-            setFilteredDepartments(departments);
-        } else {
-            setFilteredDepartments(departments.filter(dept => dept.name.toLowerCase() === departmentName.toLowerCase()));
+        let authData;
+        try {
+          authData = JSON.parse(storedAuthData);
+        } catch (error) {
+          throw new Error("Invalid authentication data format. Please log in again.");
         }
+
+        const token = authData?.token;
+        if (!token) throw new Error("Authentication token is missing. Please log in.");
+
+        const apiUrl = `https://proximahr.onrender.com/departments/?company_id=${companyId}`;
+        const response = await fetch(apiUrl, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch department list.");
+
+        const data = await response.json();
+        setDepartments(data.departments || []);
+        setFilteredDepartments(data.departments || []);
+        localStorage.setItem('total_departments', JSON.stringify(data.departments || []));
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    // 🔹 Handles Search Input Filtering
-    const handleSearch = (e) => {
-        const term = e.target.value.toLowerCase();
-        setSearchTerm(term);
+    fetchDepartments();
+  }, []);
 
-        if (term === "") {
-            setFilteredDepartments(departments);
-        } else {
-            setFilteredDepartments(departments.filter(dept => dept.name.toLowerCase().includes(term)));
+  const handleFilter = (departmentName) => {
+    setSelectedFilter(departmentName);
+    setIsOpen(false);
+    if (departmentName === "All") {
+      setFilteredDepartments(departments);
+    } else {
+      setFilteredDepartments(departments.filter(dept => dept.name.toLowerCase() === departmentName.toLowerCase()));
+    }
+  };
+
+  // 🔹 Handle Delete Department Confirmation
+  const handleDeleteDepartment = async () => {
+    try {
+      const companyId = localStorage.getItem("company_id");
+      const authToken = JSON.parse(localStorage.getItem("authData"))?.token;
+
+      if (!companyId || !authToken) {
+        setError('You are not authorized to delete this department.');
+        return;
+      }
+
+      const response = await fetch(
+        `https://proximahr.onrender.com/departments/${selectedDepartmentId}/delete-department?company_id=${companyId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`,
+          },
         }
-    };
+      );
 
-    // 🔹 Handles Edit Icon Click
-    const handleEditClick = (departmentId, departmentName) => {
-        // ✅ Store department ID and name in local storage
-        localStorage.setItem('department_id', departmentId);
-        localStorage.setItem('department_name', departmentName);
-        
-        // ✅ Log department ID to console
-        console.log(`Selected Department - Name: ${departmentName}, ID: ${departmentId}`);
-    };
-    
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error:', errorData);
+        setError(`Failed to delete department: ${errorData.detail || 'Unknown error'}`);
+        return;
+      }
 
-    return (
-        <div>
-            <div className="main-dashboard">
-                <Sidebar />
-                <div className="dashboard">
-                    <div className="slide-one-1">
-                        <EmployerNavbar />
-                    </div>
-                    <hr className="horizontal" />
-                    <div className="dashboard-details">
-                        <h5>Department</h5>
-                        <h6>{new Date().toDateString()}</h6>
-                    </div>
+      const data = await response.json();
+      setSuccessMessage('Department deleted successfully!');
+      // Remove deleted department from local state
+      setDepartments(prevDepartments => prevDepartments.filter(department => department.id !== selectedDepartmentId));
+      setTimeout(() => {
+        window.location.reload(); // Reload the page after deletion
+      }, 1000); // Delay to allow the success message to appear
+    } catch (error) {
+      setError(`Error: ${error.message}`);
+    }
+    // Close the popup after deletion
+    setShowDeletePopup(false);
+  };
 
-                    <div className="number-of-employee">
-                        <div className="new-div-1">
-                            <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" className="glass-icon" />
-                            <input
-                                type="text"
-                                placeholder="Search Department"
-                                value={searchTerm}
-                                onChange={handleSearch} // ✅ Search Functionality
-                            />
-                        </div>
-                        <div className="div-2">
-                            <div className="btn-1">
-                                <button onClick={() => setIsOpen(!isOpen)}>
-                                    <FontAwesomeIcon icon="fa-solid fa-filter" /> {selectedFilter}
-                                </button>
-                            </div>
-                            {isOpen && (
-                                <div className="dropdownstyle">
-                                    <p onClick={() => handleFilter("All")}>All</p>
-                                    {departments.map((dept, index) => (
-                                        <p key={index} onClick={() => handleFilter(dept.name)}>
-                                            {dept.name}
-                                        </p>
-                                    ))}
-                                </div>
-                            )}
-                            <div className="btn">
-                                <Link to={"/department/add-new-department"}>
-                                    <button><FontAwesomeIcon icon="fa-solid fa-plus" />Add New Department</button>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
+  const handleCardClick = (departmentId) => {
+    const department = departments.find(dept => dept.id === departmentId);
+    if (department) {
+      // Save the department data
+      localStorage.setItem('department_data', JSON.stringify(department));
 
-                    {loading ? (
-                        <p>Loading departments...</p>
-                    ) : error ? (
-                        <p style={{ color: 'red' }}>{error}</p>
-                    ) : (
-                        <div style={{
-                            display: "grid",
-                            gridTemplateColumns: "repeat(2, 1fr)", // ✅ 2 Columns Grid
-                            gap: "20px",
-                            padding: "20px"
-                        }}>
-                            {filteredDepartments.length === 0 ? (
-                                <p>No departments found.</p>
-                            ) : (
-                                filteredDepartments.map((dept, index) => (
-                                    <div className="card-3" key={index} style={{
-                                        border: "1px solid #ddd",
-                                        padding: "15px",
-                                        borderRadius: "10px",
-                                        backgroundColor: "#fff",
-                                        boxShadow: "0 2px 5px rgba(0,0,0,0.1)"
-                                    }}>
-                                        <div className="one-div">
-                                            <div><h1>{dept.name}</h1></div>
-                                            <div className="special-div">
-                                            <Link to={'/department/edit-department'}>
-                                                    <FontAwesomeIcon 
-                                                        icon="fa-solid fa-pen-to-square" 
-                                                    />
-                                                </Link>
-                                                <FontAwesomeIcon icon="fa-solid fa-trash-can" />
-                                            </div>
-                                        </div>
-                                        <hr className="new-hr" />
-                                        <div className="two-div">
-                                            <div>
-                                                <img src={test} alt="Department Head" className="My-profile" />
-                                            </div>
-                                            <div>
-                                                <p>Department Head</p>
-                                                <h2>{dept.hod ? `${dept.hod.first_name} ${dept.hod.last_name}` : 'Not Assigned'}</h2>
-                                            </div>
-                                        </div>
-                                        <div className="three-div">
-                                            <div className="new-div">
-                                                <div><FontAwesomeIcon icon="fa-solid fa-users" className="new-div-icon" /></div>
-                                                <div>
-                                                    <p>Team Members</p>
-                                                    <h2>{dept.staff_size !== undefined ? dept.staff_size : 0}</h2>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="four-div">
-                                            <div className="div-2-2">
-                                                <p>Description</p>
-                                                <h1>{dept.description || 'No description available'}</h1>
-                                            </div>
-                                        </div>
-                                        <div className="five-div">
-                                            <Link to={"/department/add-employee-department"}>
-                                                <button onClick={() => handleEditClick(dept.id, dept.name)}  >View Department</button>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                ))
-                            )}
-                        </div>
-                    )}
-                </div>
+      // Save staff data with detailed employee information (name, job title, etc.)
+      const staffData = department.staff || [];
+      localStorage.setItem('staff_data', JSON.stringify(staffData));  // Store staff data
+    }
+    navigate(`/department/edit-department`);
+  };
+
+  const handleViewDepartmentClick = (department) => {
+    console.log("Department:", department);
+    const staffData = department.staff || []; 
+    localStorage.setItem('staff_data', JSON.stringify(staffData)); 
+    console.log("Stored staff data:", staffData);
+
+    localStorage.setItem('department_data', JSON.stringify(department));
+    localStorage.setItem('department_id', department.id);
+  
+    navigate(`/department/add-employee-department`);
+  };
+
+  const handleSearch = (e) => {
+    const term = e.target.value.toLowerCase();
+    setSearchTerm(term);
+
+    if (term === "") {
+      setFilteredDepartments(departments);
+    } else {
+      setFilteredDepartments(departments.filter(dept => dept.name.toLowerCase().includes(term)));
+    }
+  };
+
+  return (
+    <div>
+      <div className="main-dashboard">
+        <Sidebar />
+        <div className="dashboard">
+          <div className="slide-one-1">
+            <EmployerNavbar />
+          </div>
+          <hr className="horizontal" />
+          <div className="dashboard-details">
+            <h5>Department</h5>
+            <h6>{new Date().toDateString()}</h6>
+          </div>
+
+          {/* Success or Error Messages */}
+          {error && <div className="message error">{error}</div>}
+          {successMessage && <div className="message success">{successMessage}</div>}
+
+          <div className="number-of-employee">
+            <div className="new-div-1">
+              <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" className="glass-icon" />
+              <input
+                type="text"
+                placeholder="Search Department"
+                value={searchTerm}
+                onChange={handleSearch}
+              />
             </div>
+            <div className="div-2">
+              <div className="btn-1">
+                <button onClick={() => setIsOpen(!isOpen)}>
+                  <FontAwesomeIcon icon="fa-solid fa-filter" /> {selectedFilter}
+                </button>
+              </div>
+              {isOpen && (
+                <div className="dropdownstyle">
+                  <p onClick={() => handleFilter("All")}>All</p>
+                  {departments.map((dept, index) => (
+                    <p key={index} onClick={() => handleFilter(dept.name)}>
+                      {dept.name}
+                    </p>
+                  ))}
+                </div>
+              )}
+              <div className="btn">
+                <Link to={"/department/add-new-department"}>
+                  <button><FontAwesomeIcon icon="fa-solid fa-plus" />Add New Department</button>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {loading ? (
+            <p>Loading departments...</p>
+          ) : error ? (
+            <p style={{ color: 'red' }}>{error}</p>
+          ) : (
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, 1fr)",
+              gap: "20px",
+              padding: "20px"
+            }}>
+              {filteredDepartments.length === 0 ? (
+                <p>No departments found</p>
+              ) : (
+                filteredDepartments.map((dept, index) => (
+                  <div key={index} className="card-3">
+                    <div className="one-div">
+                      <div><h1>{dept.name}</h1></div>
+                      <div className="special-div">
+                        <FontAwesomeIcon
+                          icon="fa-solid fa-pen-to-square"
+                          onClick={() => handleCardClick(dept.id)}
+                        />
+                        <FontAwesomeIcon
+                          icon="fa-solid fa-trash-can"
+                          onClick={() => {
+                            setSelectedDepartmentId(dept.id);
+                            setShowDeletePopup(true);
+                          }} 
+                        />
+                      </div>
+                    </div>
+                    <hr className="new-hr" />
+                    <div className="two-div">
+                      <div>
+                        <img src={test} alt="Department Head" className="My-profile" />
+                      </div>
+                      <div>
+                        <p>Department Head</p>
+                        <h2>{dept.hod ? `${dept.hod.first_name} ${dept.hod.last_name}` : 'Not Assigned'}</h2>
+                      </div>
+                    </div>
+                    <div className="three-div">
+                      <div className="new-div">
+                        <div><FontAwesomeIcon icon="fa-solid fa-users" className="new-div-icon" /></div>
+                        <div>
+                          <p>Team Members</p>
+                          <h2>{dept.staff_size !== undefined ? dept.staff_size : 0}</h2>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="four-div">
+                      <div className="div-2-2">
+                        <p>Description</p>
+                        <h1>{dept.description || 'No description available'}</h1>
+                      </div>
+                    </div>
+                    <div className="five-div">
+                      <button onClick={() => handleViewDepartmentClick(dept)}>View Department</button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
         </div>
-    );
+      </div>
+
+
+      {/* Delete Confirmation Popup */}
+      {showDeletePopup && (
+        <div className="delete-popup show">
+          <div className="check-icon">
+            <FontAwesomeIcon icon="fa-solid fa-exclamation-circle" />
+          </div>
+          <h2>Are you sure you want to delete this department?</h2>
+          <div className="options">
+            <button className="btn" onClick={handleDeleteDepartment}>Yes, Delete</button>
+            <button className="cancel-btn" onClick={() => setShowDeletePopup(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default Department;

@@ -82,7 +82,7 @@
 }
 
 
-.row-two .grey-btn{
+.row-two {
     width: 158px;
     height: 35px;
     padding: 8px;
@@ -93,11 +93,29 @@
     background-color: #F8F8F8;
 }
 
+.grey-btn{
+    width: 70px;
+    height: 35px;
+    border-radius: 4px;
+    gap: 8px;
+    border-width: 1px;
+    padding: 8px;
+}
+
 .btn-2{
     display: flex;
     align-items: center;
     justify-content: center;
     width: 150px;   
+    background-color: #007BFF !important;
+    color: #FFFFFF !important;
+    border: 1px solid #007BFF !important;
+    margin-top: 10px;
+}
+
+.btn-2:hover{
+    background-color: #FFFFFF !important;
+    color: #007BFF !important;
 }
 
 .department-description{

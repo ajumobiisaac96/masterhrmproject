@@ -540,30 +540,30 @@ const AddEmployee = () => {
     Date_of_Birth: '',
     Gender: '',
     Home_Address: '',
-    Country: '',
-    job_title: '',
-    department: '',
-    role: '',
-    employment_date: '',
-    work_mode: '',
-    work_location: '',
-    working_hours: '',
-    weekly_workdays: '',
-    base_salary: '',
-    payment_frequency: '',
-    account_name: '',
-    account_number: '',
-    bank_name: '',
-    overtime_hours_allowance: '',
-    housing_allowance: '',
-    transport_allowance: '',
-    medical_allowance: '',
-    employee_contribution: '',
-    company_match: '',
-    paye_deduction: '',
-    insurance_provider: '',
-    leadway_insurance: '',
-    annual_leave_days: '',
+    Nationality: '',
+    Job_Title: '',
+    Department: '',
+    Role: '',
+    Employment_Date: '',
+    Work_Mode: '',
+    Work_Location: '',
+    Working_Hours: '',
+    Weekly_Workdays: '',
+    Base_Salary: '',
+    Payment_Frequency: '',
+    Account_Name: '',
+    Account_Number: '',
+    Bank_Name: '',
+    Overtime_Hours_Allowance: '',
+    Housing_Allowance: '',
+    Transport_Allowance: '',
+    Medical_Allowance: '',
+    Employee_Contribution: '',
+    Company_Match: '',
+    Paye_Deduction: '',
+    Insurance_Provider: '',
+    LeadWay_Health_Insurance: '',
+    Annual_Leave_Days: '',
   });
   
   const [loading, setLoading] = useState(false);
@@ -597,10 +597,10 @@ const AddEmployee = () => {
   // Define required fields and date fields
   const requiredFields = [
     'First_Name', 'Employee_Id', 'Last_Name', 'Email', 'Phone_Number', 'Date_of_Birth', 
-    'Gender', 'Country', 'job_title', 'department', 'role', 'employment_date'
+    'Gender', 'Nationality', 'Job_Title', 'Department', 'Role', 'Employment_Date'
   ];
 
-  const dateFields = ['Date_of_Birth', 'employment_date']; // Fields where date input is required
+  const dateFields = ['Date_of_Birth', 'Employment_Date']; // Fields where date input is required
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -663,30 +663,30 @@ const AddEmployee = () => {
             date_of_birth: formData.Date_of_Birth ? new Date(formData.Date_of_Birth).toISOString().split("T")[0] : null,
             gender: formData.Gender.trim(),
             home_address: formData.Home_Address.trim(),
-            country: formData.Country.trim(),
-            job_title: formData.job_title.trim(),
-            department: formData.department.trim(),
-            role: formData.role.trim(),
-            employment_date: formData.employment_date ? new Date(formData.employment_date).toISOString().split("T")[0] : null,
-            work_mode: formData.work_mode.trim(),
-            work_location: formData.work_location.trim(),
-            working_hours: Number(formData.working_hours) || 0,
-            weekly_workdays: Number(formData.weekly_workdays) || 0,
-            base_salary: Number(formData.base_salary) || 0,
-            payment_frequency: formData.payment_frequency.trim(),
-            account_name: formData.account_name.trim(),
-            account_number: formData.account_number.trim(),
-            bank_name: formData.bank_name.trim(),
-            overtime_hours_allowance: Number(formData.overtime_hours_allowance) || 0,
-            housing_allowance: Number(formData.housing_allowance) || 0,
-            transport_allowance: Number(formData.transport_allowance) || 0,
-            medical_allowance: Number(formData.medical_allowance) || 0,
-            employee_contribution: Number(formData.employee_contribution) || 0,
-            company_match: Number(formData.company_match) || 0,
-            paye_deduction: Number(formData.paye_deduction) || 0,
-            insurance_provider: formData.insurance_provider.trim(),
-            leadway_insurance: formData.leadway_insurance.trim(),
-            annual_leave_days: Number(formData.annual_leave_days) || 0,
+            country: formData.Nationality.trim(),
+            job_title: formData.Job_Title.trim(),
+            department: formData.Department.trim(),
+            role: formData.Role.trim(),
+            employment_date: formData.Employment_Date ? new Date(formData.Employment_Date).toISOString().split("T")[0] : null,
+            work_mode: formData.Work_Mode.trim(),
+            work_location: formData.Work_Location.trim(),
+            working_hours: Number(formData.Working_Hours) || 0,
+            weekly_workdays: Number(formData.Weekly_Workdays) || 0,
+            base_salary: Number(formData.Base_Salary) || 0,
+            payment_frequency: formData.Payment_Frequency.trim(),
+            account_name: formData.Account_Name.trim(),
+            account_number: formData.Account_Number.trim(),
+            bank_name: formData.Bank_Name.trim(),
+            overtime_hours_allowance: Number(formData.Overtime_Hours_Allowance) || 0,
+            housing_allowance: Number(formData.Housing_Allowance) || 0,
+            transport_allowance: Number(formData.Transport_Allowance) || 0,
+            medical_allowance: Number(formData.Medical_Allowance) || 0,
+            employee_contribution: Number(formData.Employee_Contribution) || 0,
+            company_match: Number(formData.Company_Match) || 0,
+            paye_deduction: Number(formData.Paye_Deduction) || 0,
+            insurance_provider: formData.Insurance_Provider.trim(),
+            leadway_insurance: formData.LeadWay_Health_Insurance.trim(),
+            annual_leave_days: Number(formData.Annual_Leave_Days) || 0,
         };
 
         console.log("Formatted Payload:", payload); // ✅ Log formatted payload before sending API request
@@ -779,9 +779,9 @@ const AddEmployee = () => {
 
               <div className="add-employee-form" style={{ padding: 20 }}>
                 {Object.entries(formData).map(([key, value]) => (
-                  (activeSection === 'Basic Information' && ['Employee_Id', 'First_Name', 'Last_Name', 'Email', 'Phone_Number', 'Date_of_Birth', 'Gender', 'Home_Address', 'Country'].includes(key)) ||
-                  (activeSection === 'Employment Details' && ['job_title', 'department', 'role', 'employment_date', 'work_mode', 'work_location', 'working_hours', 'weekly_workdays'].includes(key)) ||
-                  (activeSection === 'Compensation Details' && ['base_salary', 'payment_frequency', 'account_name', 'account_number', 'bank_name', 'overtime_hours_allowance', 'housing_allowance', 'transport_allowance', 'medical_allowance', 'employee_contribution', 'company_match', 'paye_deduction', 'insurance_provider', 'leadway_insurance', 'annual_leave_days'].includes(key)) ? (
+                  (activeSection === 'Basic Information' && ['Employee_Id', 'First_Name', 'Last_Name', 'Email', 'Phone_Number', 'Date_of_Birth', 'Gender', 'Home_Address', 'Nationality'].includes(key)) ||
+                  (activeSection === 'Employment Details' && ['Job_Title', 'Department', 'Role', 'Employment_Date', 'Work_Mode', 'Work_Location', 'Working_Hours', 'Weekly_Workdays'].includes(key)) ||
+                  (activeSection === 'Compensation Details' && ['Base_Salary', 'Payment_Frequency', 'Account_Name', 'Account_Number', 'Bank_Name', 'Overtime_Hours_Allowance', 'Housing_Allowance', 'Transport_Allowance', 'Medical_Allowance', 'Employee_Contribution', 'Company_Match', 'Paye_Deduction', 'Insurance_Provider', 'LeadWay_Health_Insurance', 'Annual_Leave_Days'].includes(key)) ? (
                     <div key={key} style={{ marginBottom: "10px" }}>
                       <label className='formLabel'>
                         {key.replace(/_/g, ' ')} 
@@ -795,7 +795,7 @@ const AddEmployee = () => {
                           <option value="Female">Female</option>
                         </select>
                       )}
-                      {key === 'Country' && (
+                      {key === 'Nationality' && (
                         <select name={key} value={value} onChange={handleInputChange} className="formInput">
                           <option value="">Select Country</option>
                           <option value="USA">USA</option>
@@ -803,11 +803,22 @@ const AddEmployee = () => {
                           {/* Populate with more countries or use an API */}
                         </select>
                       )}
-                      {key === 'department' && (
+                        {key === 'LeadWay_Health_Insurance' && (
+                        <select name={key} value={value} onChange={handleInputChange} className="formInput">
+                          <option value="">Choose The Type Of Leadway Health Insurance</option>
+                          <option value="Group Life Assurance">Group Life Assurance</option>
+                          <option value="Employee Compensation Insurance">Employee Compensation Insurance</option>
+                          <option value="Health Insurance Plans">Health Insurance Plans</option>
+                          <option value="Personal Accident Insurance">Personal Accident Insurance</option>
+                          <option value="Travel Insurance">Travel Insurance</option>
+                          {/* Populate with more countries or use an API */}
+                        </select>
+                      )}
+                      {key === 'Department' && (
                         <select 
-                          name="department" 
-                          value={formData.department} 
-                          onChange={(e) => setFormData({ ...formData, department: e.target.value })} 
+                          name="Department" 
+                          value={formData.Department} 
+                          onChange={(e) => setFormData({ ...formData, Department: e.target.value })} 
                           className="formInput"
                         >
                           <option value="">Select Department</option>
@@ -836,18 +847,23 @@ const AddEmployee = () => {
                                 key === 'Date_of_Birth' ? 'Select date of birth' :
                                 key === 'Home_Address' ? 'Enter home address' :
                                 key === 'Country' ? 'Select country' :
-                                key === 'Job_title' ? 'Enter Job title' :
-                                key === 'role' ? 'Enter role' :
-                                key === 'employment_date' ? 'Select employment date' :
-                                key === 'work_mode' ? 'Enter work mode' :
-                                key === 'work_location' ? 'Enter work location' :
-                                key === 'base_salary' ? 'Enter base salary' :
-                                key === 'payment_frequency' ? 'Enter payment frequency' :
-                                key === 'account_name' ? 'Enter account name' :
-                                key === 'account_number' ? 'Enter account number' :
-                                key === 'bank_name' ? 'Enter bank name' :
-                                key === 'medical_allowance' ? 'Enter medical allowance' :
-                                key === 'annual_leave_days' ? 'Enter annual leave days' :
+                                key === 'Job_Title' ? 'Enter Job title' :
+                                key === 'Role' ? 'Enter role' :
+                                key === 'Employment_Date' ? 'Select employment date' :
+                                key === 'Work_Mode' ? 'Enter work mode' :
+                                key === 'Work_Location' ? 'Enter work location' :
+                                key === 'Base_Salary' ? 'Enter base salary' :
+                                key === 'Payment_Frequency' ? 'Enter payment frequency' :
+                                key === 'Account_Name' ? 'Enter account name' :
+                                key === 'Account_Number' ? 'Enter account number' :
+                                key === 'Bank_Name' ? 'Enter bank name' :
+                                key === 'Medical_Allowance' ? 'Enter medical allowance' :
+                                key === 'Employee_Contribution' ? 'Enter Percentage Of Employee Contribution  ' :
+                                key === 'Company_Match' ? 'Enter Percentage Of Company Match  ' :
+                                key === 'Paye_Deduction' ? 'Enter Percentage Of PAYE Deduction' :
+                                key === 'Insurance_Provider' ? 'Choose insurance provider' :
+                                key === 'LeadWay_Health_Insurance' ? 'Choose The Type Of Leadway Health Insurance  ' :
+                                key === 'Annual_Leave_Days' ? 'Enter annual leave days' :
                                 `Enter ${key.replace(/_/g, ' ')}`
                               } // ✅ Custom Placeholder for Each Field
                               className="formInput"

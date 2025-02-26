@@ -703,7 +703,7 @@
 // export default AddEmployeeDepartment;
 
 
-import React, { useState, useEffect } from 'react';
+import { React, useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import test from '../assets/test.png';
 import '../pages/AddEmployeeDepartment.css';
@@ -721,6 +721,7 @@ const AddEmployeeDepartment = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [employees, setEmployees] = useState([]);
+    const [filteredDepartments, setFilteredDepartments] = useState([]); // Define filteredDepartments
 
     // ✅ Fetch Department List and Create Mapping
     const fetchDepartments = async () => {
@@ -744,6 +745,9 @@ const AddEmployeeDepartment = () => {
             const data = await response.json();
             console.log("Department List:", data.departments);
 
+            // Store departments in state
+            setFilteredDepartments(data.departments || []);
+
             // Store department name → ID mapping
             const departmentMap = {};
             data.departments.forEach(dept => {
@@ -753,60 +757,11 @@ const AddEmployeeDepartment = () => {
             return departmentMap;
         } catch (err) {
             console.error("Error fetching departments:", err);
-            return {};
+            setError(err.message);
         }
     };
 
-    // ✅ Fetch Employees Based on Department ID
-    const fetchEmployees = async (departmentId) => {
-      try {
-          const token = JSON.parse(localStorage.getItem('authData'))?.token;
-          if (!token) throw new Error('Authentication token is missing.');
-  
-          const companyId = localStorage.getItem('company_id');
-          const page = 1;
-          const pageSize = 10;
-  
-          console.log("Fetching Employees for Department ID:", departmentId);
-  
-          const apiUrl = `https://proximahr.onrender.com/employee-management/all-employees?company_id=${companyId}&page=${page}&page_size=${pageSize}`;
-          const response = await fetch(apiUrl, {
-              method: 'GET',
-              headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${token}`,
-              },
-          });
-  
-          if (!response.ok) throw new Error('Failed to fetch employees.');
-  
-          const data = await response.json();
-          console.log('Full Employees API Response:', JSON.stringify(data, null, 2));
-  
-          // 🔥 Fetch department list so we can map department names to IDs
-          const departmentMap = await fetchDepartments();
-  
-          // ✅ Check if `employee.department` exists before calling `.toLowerCase()`
-          const filteredEmployees = data.data.filter(employee => {
-              if (!employee.department) {
-                  console.warn(`Skipping employee ${employee.name} due to missing department field.`);
-                  return false;
-              }
-  
-              const empDeptId = departmentMap[employee.department.toLowerCase()] || null;
-              console.log(`Checking Employee: ${employee.name}, Mapped Department ID: ${empDeptId}`);
-              return String(empDeptId) === String(departmentId);
-          });
-  
-          console.log("Filtered Employees:", filteredEmployees);
-          setEmployees(filteredEmployees);
-      } catch (err) {
-          setError(err.message);
-      }
-  };
-  
-
-    // ✅ Fetch Department Details and Call Employee Fetch
+    // ✅ Fetch Department Details and Employees
     const fetchDepartmentDetails = async () => {
         const companyId = localStorage.getItem('company_id');
         const departmentId = localStorage.getItem('department_id');
@@ -843,13 +798,63 @@ const AddEmployeeDepartment = () => {
             setDepartmentDetails(data?.data || {});
             setLoading(false);
 
-            // ✅ Fetch employees AFTER department details are available
+            // Fetch employees AFTER department details are available
             fetchEmployees(departmentId);
         } catch (err) {
             setError(err.message);
             setLoading(false);
         }
     };
+
+    // ✅ Fetch Employees Based on Department ID
+    const fetchEmployees = async (departmentId) => {
+        try {
+          const token = JSON.parse(localStorage.getItem('authData'))?.token;
+          if (!token) throw new Error('Authentication token is missing.');
+      
+          const companyId = localStorage.getItem('company_id');
+          const page = 1;
+          const pageSize = 10;
+      
+          console.log("Fetching Employees for Department ID:", departmentId);
+      
+          const apiUrl = `https://proximahr.onrender.com/employee-management/all-employees?company_id=${companyId}&page=${page}&page_size=${pageSize}`;
+          const response = await fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          });
+      
+          if (!response.ok) throw new Error('Failed to fetch employees.');
+      
+          const data = await response.json();
+          console.log('Full Employees API Response:', JSON.stringify(data, null, 2));
+      
+          // 🔥 Fetch department list so we can map department names to IDs
+          const departmentMap = await fetchDepartments();
+      
+          // ✅ Handle missing department field gracefully
+          const filteredEmployees = data.data.filter(employee => {
+            if (!employee.department) {
+              console.warn(`Skipping employee ${employee.name} due to missing department field.`);
+              return false; // Skip employees without a department
+            }
+      
+            const empDeptId = departmentMap[employee.department.toLowerCase()] || null;
+            console.log(`Checking Employee: ${employee.name}, Mapped Department ID: ${empDeptId}`);
+            return String(empDeptId) === String(departmentId); // Ensure matching department
+          });
+      
+          console.log("Filtered Employees:", filteredEmployees);
+          setEmployees(filteredEmployees);
+        } catch (err) {
+          setError(err.message);
+        }
+      };
+      
+    
 
     useEffect(() => {
         fetchDepartmentDetails();
@@ -863,7 +868,6 @@ const AddEmployeeDepartment = () => {
         return <div style={{ color: 'red' }}>{error}</div>;
     }
 
-    // ✅ Extract department details
     const { hod_details, department_name, description } = departmentDetails;
     const { first_name, last_name, email, phone_number, work_location } = hod_details || {};
 
@@ -886,32 +890,37 @@ const AddEmployeeDepartment = () => {
                         <h6>{new Date().toDateString()}</h6>
                     </div>
 
-              {/* Department Info */}
-                <div className="dashboard-details-1">
-                  <div className="number-of-employee">
-                    <div className="div-1">
-                      <div className="div1-1">
-                        <img src={test} alt="Department Head" className="My-profile" />
-                      </div>
-                      <div className="div1-2" style={{ marginTop: '10px' }}>
-                          <h2>{first_name} {last_name}</h2>
-                          <h3><FontAwesomeIcon icon="fa-envelope" /> {email || "No email available"}</h3>
-                          <h3><FontAwesomeIcon icon="fa-phone" /> {phone_number || "No phone available"}</h3>
-                          <h3><FontAwesomeIcon icon="fa-map-marker-alt" /> {work_location || "No location available"}</h3>
-                      </div>
+                    {/* Department Info */}
+                    <div className="dashboard-details-1">
+                        <div className="number-of-employee">
+                            <div className="div-1">
+                                <div className="div1-1">
+                                    <img src={test} alt="Department Head" className="My-profile" />
+                                </div>
+                                <div className="div1-2" style={{ marginTop: '10px' }}>
+                                    <h2>{first_name} {last_name}</h2>
+                                    <h3><FontAwesomeIcon icon="fa-envelope" /> {email || "No email available"}</h3>
+                                    <h3><FontAwesomeIcon icon="fa-phone" /> {phone_number || "No phone available"}</h3>
+                                    <h3><FontAwesomeIcon icon="fa-map-marker-alt" /> {work_location || "No location available"}</h3>
+                                </div>
+                            </div>
+                            <div className="div-2" style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap:'40px' }}>
+                                <div className="btn" style={{ width: '520px', display: 'flex', justifyContent: 'space-between' }}>
+                                    <button className="grey-btn">Deactivate Department</button>
+                                    <Link to="/department/edit-department">
+                                        <button>  
+                                            <FontAwesomeIcon icon="fa-solid fa-pen-to-square" /> Edit Profile
+                                        </button>
+                                    </Link>
+                                </div>
+
+                                <div className="employee-info-description"> 
+                                    <h1>Description</h1>
+                                    <p>{description || 'No description available'}</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div className="div-2">
-                      <div className="btn" style={{ width: '520px', display: 'flex', justifyContent: 'space-between' }}>
-                        <button className="grey-btn">Deactivate Department</button>
-                        <Link to="/department/edit-department">
-                          <button>
-                            <FontAwesomeIcon icon="fa-solid fa-pen-to-square" /> Edit Profile
-                          </button>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
                     {/* Employees in Department */}
                     <h3>Employees in Department</h3>
