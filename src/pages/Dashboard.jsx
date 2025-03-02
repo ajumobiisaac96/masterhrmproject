@@ -200,7 +200,7 @@ const Dashboard = () => {
           <hr className="horizontal" />
 
           <div className="dashboard-details">
-            <h5>Department</h5>
+            <h5>Dashboard</h5>
             <h6>{new Date().toDateString()}</h6>
           </div>
 

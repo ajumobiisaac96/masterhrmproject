@@ -298,7 +298,9 @@
   .error-message {
     color: red;
     font-size: 12px;
-    margin-top: 5px;
+    margin-top: -40px;
+    margin-bottom: 30px;
+    margin-left: -2px;
   }
   
   .error-box {
@@ -310,3 +312,54 @@
     font-size: 14px;
   }
   
+  .form-row {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+  }
+  
+  .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .formInput {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .next-btn, .prev-btn, .submit-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .prev-btn {
+    background-color: #6c757d;
+  }
+  
+  .submit-btn {
+    background-color:#007bff;
+  }
+  
+  .newest-button-div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 200px;
+    margin-left: 350px;
+  }
+
+  .newest-button-div-2{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 250px;
+    margin-left: 350px;
+  }

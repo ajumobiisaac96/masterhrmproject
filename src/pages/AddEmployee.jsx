@@ -745,7 +745,17 @@ const AddEmployee = () => {
 
           <div className="dashboard-details">
             <Link to={'/employee-managment'}>
-              <h1 className="employee-profile">
+              <h1 className="employee-profile" style={{
+                    fontFamily: "Inter",
+                    fontSize: "24px",
+                    fontWeight: "500",
+                    lineHeight: "29.05px",
+                    textAlign: "left",
+                    textUnderlinePosition: "from-font",
+                    textDecorationSkipInk: "none",
+                    color:" #2E2E2E",
+                    textDecoration: "none",
+              }}>
                 <FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow" />
                 Add New Employee
               </h1>
@@ -757,17 +767,60 @@ const AddEmployee = () => {
           {error.general && <div className="error-box"><p>{error.general}</p></div>}
 
           {success && (
-            <div className="container-3">
-              <FontAwesomeIcon icon={faCircleCheck} className="check-icon" />
-              <div className="pop-up-txt">
-                <h1>Employee Added Successfully</h1>
-                <p>The new employee profile has been created successfully and is now part of the company database.</p>
-                <Link to="/employee-managment">
-                  <h3>Employee Management</h3>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "70vh",
+                width: "100%",
+                backgroundColor: "#f8f9fa", // Light background for contrast
+              }}
+            >
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "30px",
+                  borderRadius: "12px",
+                  backgroundColor: "#fff",
+                  boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.15)", // 🔥 Improved shadow
+                  maxWidth: "400px",
+                  width: "90%",
+                  transition: "all 0.3s ease-in-out", // Smooth hover effect
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={faCircleCheck}
+                  style={{
+                    fontSize: "50px",
+                    color: "green",
+                    marginBottom: "15px",
+                    animation: "pop 0.5s ease-in-out",
+                  }}
+                />
+                <h1 style={{ fontSize: "20px", color: "#333", marginBottom: "10px" }}>
+                  Employee Added Successfully
+                </h1>
+                <p style={{ fontSize: "14px", color: "#666", marginBottom: "15px" }}>
+                  The new employee profile has been created successfully and is now part of
+                  the company database.
+                </p>
+                <Link
+                  to="/employee-managment"
+                  style={{
+                    fontSize: "16px",
+                    color: "#007bff",
+                    textDecoration: "none",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Employee Management
                 </Link>
               </div>
             </div>
           )}
+
+
 
           {!success && (
             <>
@@ -778,106 +831,310 @@ const AddEmployee = () => {
               </div>
 
               <div className="add-employee-form" style={{ padding: 20 }}>
-                {Object.entries(formData).map(([key, value]) => (
-                  (activeSection === 'Basic Information' && ['Employee_Id', 'First_Name', 'Last_Name', 'Email', 'Phone_Number', 'Date_of_Birth', 'Gender', 'Home_Address', 'Nationality'].includes(key)) ||
-                  (activeSection === 'Employment Details' && ['Job_Title', 'Department', 'Role', 'Employment_Date', 'Work_Mode', 'Work_Location', 'Working_Hours', 'Weekly_Workdays'].includes(key)) ||
-                  (activeSection === 'Compensation Details' && ['Base_Salary', 'Payment_Frequency', 'Account_Name', 'Account_Number', 'Bank_Name', 'Overtime_Hours_Allowance', 'Housing_Allowance', 'Transport_Allowance', 'Medical_Allowance', 'Employee_Contribution', 'Company_Match', 'Paye_Deduction', 'Insurance_Provider', 'LeadWay_Health_Insurance', 'Annual_Leave_Days'].includes(key)) ? (
-                    <div key={key} style={{ marginBottom: "10px" }}>
-                      <label className='formLabel'>
-                        {key.replace(/_/g, ' ')} 
-                        {requiredFields.includes(key) && <span style={{ color: 'red' }}>*</span>}
-                      </label> 
-                      <br />
-                      {key === 'Gender' && (
-                        <select name={key} value={value} onChange={handleInputChange} className="formInput">
-                          <option value="">Select Gender</option>
-                          <option value="Male">Male</option>
-                          <option value="Female">Female</option>
+
+
+                {/* 🔵 Basic Information Section */}
+                {activeSection === 'Basic Information' && (
+                  <div>
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label>First Name <span style={{ color: 'red' }}>(Required)</span></label>
+                        <input type="text" name="First_Name" value={formData.First_Name} onChange={handleInputChange} className="formInput" placeholder="Enter First Name" />
+                        {error.First_Name && <div className="error-message">{error.First_Name}</div>}
+                      </div>
+                      <div className="form-group">
+                        <label>Last Name <span style={{ color: 'red' }}>(Required)</span></label>
+                        <input type="text" name="Last_Name" value={formData.Last_Name} onChange={handleInputChange} className="formInput" placeholder="Enter Last Name" />
+                        {error.Last_Name && <div className="error-message">{error.Last_Name}</div>}
+                      </div>
+                    </div>
+
+                    <div className="form-group">
+                        <label>Email <span style={{ color: 'red' }}>(Required)</span></label>
+                        <input type="email" name="Email" value={formData.Email} onChange={handleInputChange} className="formInput" placeholder="Enter Email" />
+                        {error.Email && <div className="error-message">{error.Email}</div>}
+                    </div>
+
+                    <div className="form-row">
+                    <div className="form-group">
+                        <label>Employee ID <span style={{ color: 'red' }}>(Required)</span></label>
+                        <input type="email" name="Employee_Id" value={formData.Employee_Id} onChange={handleInputChange} className="formInput" placeholder="Enter Employee ID" />
+                        {error.Employee_Id && <div className="error-message">{error.Employee_Id}</div>}
+                      </div>
+                      <div className="form-group">
+                        <label>Phone Number <span style={{ color: 'red' }}>(Required)</span></label>
+                        <input type="text" name="Phone_Number" value={formData.Phone_Number} onChange={handleInputChange} className="formInput" placeholder="Enter Phone Number" />
+                        {error.Phone_Number && <div className="error-message">{error.Phone_Number}</div>}
+                      </div>
+                    </div>
+
+                    <div className="form-row">
+                    <div className="form-group">
+                        <label>Date of Birth <span style={{ color: 'red' }}>(Required)</span></label>
+                        <input type="Date" name="Date_of_Birth" value={formData.Date_of_Birth} onChange={handleInputChange} className="formInput" />
+                        {error.Date_of_Birth && <div className="error-message">{error.Date_of_Birth}</div>}
+                      </div>
+                      <div className="form-group">
+                      <label>Gender <span style={{ color: 'red' }}>(Required)</span></label>
+                      <select name="Gender" value={formData.Gender} onChange={handleInputChange} className="formInput">
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                      </select>
+                      {error.Gender && <div className="error-message">{error.Gender}</div>}
+                    </div>
+                    </div>
+
+                    <div className="form-row">
+                    <div className="form-group">
+                        <label>Home Address <span style={{ color: 'red' }}>(Required)</span></label>
+                        <input type="email" name="Home_Address" value={formData.Home_Address} onChange={handleInputChange} className="formInput" placeholder="Enter Home Address" />
+                        {error.Home_Address && <div className="error-message">{error.Home_Address}</div>}
+                      </div>
+                      <div className="form-group">
+                        <label>Nationality <span style={{ color: 'red' }}>(Required)</span></label>
+                        <input type="text" name="Nationality" value={formData.Nationality} onChange={handleInputChange} className="formInput" placeholder="Enter Country" />
+                        {error.Phone_Number && <div className="error-message">{error.Nationality}</div>}
+                      </div>
+                    </div>
+
+
+                    {/* Move to Next Section */}
+                    <button style={{marginLeft:"450px"}} className="next-btn" onClick={() => setActiveSection('Employment Details')}>Next</button>
+                  </div>
+                )}
+
+                {/* 🟠 Employment Details Section */}
+                {activeSection === 'Employment Details' && (
+                  <div>
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label>Job Title <span style={{ color: 'red' }}>(Required)</span></label>
+                        <input type="text" name="Job_Title" value={formData.Job_Title} onChange={handleInputChange} className="formInput" placeholder="Enter Job Title" />
+                        {error.Job_Title && <div className="error-message">{error.Job_Title}</div>}
+                      </div>
+                      <div className="form-group">
+                        <label>Department <span style={{ color: 'red' }}>(Required)</span></label>
+                        <select name="Department" value={formData.Department} onChange={handleInputChange} className="formInput">
+                          <option value="">Select Department</option>
+                          {departments.map(dept => (
+                            <option key={dept.id} value={dept.name}>{dept.name}</option>
+                          ))}
                         </select>
-                      )}
-                      {key === 'Nationality' && (
-                        <select name={key} value={value} onChange={handleInputChange} className="formInput">
-                          <option value="">Select Country</option>
-                          <option value="USA">USA</option>
-                          <option value="UK">UK</option>
-                          {/* Populate with more countries or use an API */}
+                        {error.Department && <div className="error-message">{error.Department}</div>}
+                      </div>
+                    </div>
+
+                    <div className="form-row">
+                    <div className="form-group">
+                        <label>Role <span style={{ color: 'red' }}>(Required)</span></label>
+                        <select name="Role" value={formData.Role} onChange={handleInputChange} className="formInput">
+                          <option value="">Select Role</option>
+                          <option value="employee">employee</option>
+                          <option value="Manager">Manager</option>
                         </select>
-                      )}
-                        {key === 'LeadWay_Health_Insurance' && (
-                        <select name={key} value={value} onChange={handleInputChange} className="formInput">
+                        {error.Department && <div className="error-message">{error.Department}</div>}
+                      </div>
+                      <div className="form-group">
+                        <label>Employment Date <span style={{ color: 'red' }}>(Required)</span></label>
+                        <input type="Date" name="Employment_Date" value={formData.Employment_Date} onChange={handleInputChange} className="formInput"/>
+                        {error.Employment_Date && <div className="error-message">{error.Employment_Date}</div>}
+                      </div>
+                    </div>
+
+                    <div className="form-row">
+                    <div className="form-group">
+                        <label>Work Mode <span style={{ color: 'red' }}>(Required)</span></label>
+                        <select name="Work_Mode" value={formData.Work_Mode} onChange={handleInputChange} className="formInput">
+                          <option value="">Select Work Mode</option>
+                          <option value="Onsite">Onsite</option>
+                          <option value="Remote">Remote</option>
+                        </select>
+                        {error.Work_Mode && <div className="error-message">{error.Work_Mode}</div>}
+                      </div>
+                      <div className="form-group">
+                        <label>Work Location<span style={{ color: 'red' }}>(Required)</span></label>
+                        <input type="text" name="Work_Location" value={formData.Work_Location} onChange={handleInputChange} className="formInput" placeholder="Enter Work Location"/>
+                        {error.Work_Location && <div className="error-message">{error.Work_Location}</div>}
+                      </div>
+                    </div>
+
+                    <div className="form-row">
+                    <div className="form-group">
+                        <label>Working Hours <span style={{ color: 'red' }}>(Required)</span></label>
+                        <select name="Working_Hours" value={formData.Working_Hours} onChange={handleInputChange} className="formInput">
+                          <option value="">Choose Working Hours</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                        </select>
+                        {error.Working_Hours && <div className="error-message">{error.Working_Hours}</div>}
+                      </div>
+                      <div className="form-group">
+                        <label>Vacation Days<span style={{ color: 'red' }}>(Required)</span></label>
+                        <input type="text" name="Vacation_Days" value={formData.Vacation_Days} onChange={handleInputChange} className="formInput" placeholder="Enter Amount of Vacation Days"/>
+                        {error.Vacation_Days && <div className="error-message">{error.Vacation_Days}</div>}
+                      </div>
+                    </div>
+                    <div className="form-group">
+                        <label>Weekly Workdays <span style={{ color: 'red' }}>(Required)</span></label>
+                        <select name="Weekly_Workdays" value={formData.Weekly_Workdays} onChange={handleInputChange} className="formInput">
+                          <option value="">Choose the Amount of Weekly workdays</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                        </select>
+                        {error.Weekly_Workdays && <div className="error-message">{error.Weekly_Workdays}</div>}
+                      </div>
+
+
+                    {/* Navigation Buttons */}
+                    <div className="newest-button-div" >
+                      <button className="prev-btn" onClick={() => setActiveSection('Basic Information')}>Previous</button>
+                      <button className="next-btn" onClick={() => setActiveSection('Compensation Details')}>Next</button>
+                    </div>
+                  </div>
+                )}
+
+                {/* 🟢 Compensation Details Section */}
+                {activeSection === 'Compensation Details' && (
+                  <div>
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label>Base Salary <span style={{ color: 'red' }}>*</span></label>
+                        <input type="number" name="Base_Salary" value={formData.Base_Salary} onChange={handleInputChange} className="formInput" placeholder="Enter Salary" />
+                        {error.Base_Salary && <div className="error-message">{error.Base_Salary}</div>}
+                      </div>
+                      <div className="form-group">
+                        <label>Payment Frequency <span style={{ color: 'red' }}>*</span></label>
+                        <select name="Payment_Frequency" value={formData.Payment_Frequency} onChange={handleInputChange} className="formInput">
+                          <option value="">Choose Payment Frequency</option>
+                          <option value="Monthly">Monthly</option>
+                          <option value="Weekly">Weekly</option>
+                          <option value="Bi-Weekly">Bi-Weekly</option>
+                        </select>
+                        {error.Payment_Frequency && <div className="error-message">{error.Payment_Frequency}</div>}
+                      </div>
+                    </div>
+                    <div className="form-row">
+                    <div className="form-group">
+                        <label>Overtime Hours Allowance <span style={{ color: 'red' }}>(Required)</span></label>
+                        <input type="number" name="Overtime_Hours_Allowance" value={formData.Overtime_Hours_Allowance} onChange={handleInputChange} className="formInput" placeholder="Enter Overtime Hours Allowance" />
+                        {error.Overtime_Hours_Allowance && <div className="error-message">{error.Overtime_Hours_Allowance}</div>}
+                      </div>
+                      <div className="form-group">
+                        <label>Housing Allowance <span style={{ color: 'red' }}>(Required)</span></label>
+                        <input type="text" name="Housing_Allowance" value={formData.Housing_Allowance} onChange={handleInputChange} className="formInput" placeholder="Enter Housing Allowance" />
+                        {error.Housing_Allowance && <div className="error-message">{error.Housing_Allowance}</div>}
+                      </div>
+                    </div>
+                    <div className="form-row">
+                    <div className="form-group">
+                        <label>Account Name <span style={{ color: 'red' }}>(Required)</span></label>
+                        <input type="text" name="Account_Name" value={formData.Account_Name} onChange={handleInputChange} className="formInput" placeholder="Enter Account Name" />
+                        {error.Account_Name && <div className="error-message">{error.OAccount_Name}</div>}
+                      </div>
+                      <div className="form-group">
+                        <label>Account Number <span style={{ color: 'red' }}>(Required)</span></label>
+                        <input type="text" name="Account_Number" value={formData.Account_Number} onChange={handleInputChange} className="formInput" placeholder="Enter Account Number" />
+                        {error.Account_Number && <div className="error-message">{error.Account_Number}</div>}
+                      </div>
+                    </div>
+                    <div className="form-group">
+                        <label>Bank Name<span style={{ color: 'red' }}>(Required)</span></label>
+                        <select name="Bank_Name" value={formData.Bank_Name} onChange={handleInputChange} className="formInput">
+                          <option value="">Choose Bank</option>
+                          <option value="FCMB">FCMB</option>
+                          <option value="GTB">GTB</option>
+                          <option value="FIrst Bank">First Bank</option>
+                          <option value="Zenith Bank">Zenith Bank</option>
+                          <option value="Jaiz Bank">Jaiz Bank</option>
+                          <option value="Unity Bank">Unity Bank</option>
+                          <option value="Access Bank">Access Bank</option>
+                        </select>
+                        {error.Bank_Name && <div className="error-message">{error.Bank_Name}</div>}
+                      </div>
+
+                      <div className="form-row">
+                      <div className="form-group">
+                          <label>Medical Allowance<span style={{ color: 'red' }}></span></label>
+                          <input type="text" name="Medical_Allowance" value={formData.Medical_Allowance} onChange={handleInputChange} className="formInput" placeholder="Enter Medical Allowance" />
+                          {error.Medical_Allowance && <div className="error-message">{error.Medical_Allowance}</div>}
+                        </div>
+                        <div className="form-group">
+                          <label>Transport Allowance <span style={{ color: 'red' }}></span></label>
+                          <input type="text" name="Transport_Allowance" value={formData.Transport_Allowance} onChange={handleInputChange} className="formInput" placeholder="Enter Housing Allowance" />
+                          {error.Transport_Allowance && <div className="error-message">{error.Transport_Allowance}</div>}
+                        </div>
+                    </div>
+
+                    <div className="form-row">
+                      <div className="form-group">
+                          <label>Employee Contribution<span style={{ color: 'red' }}></span></label>
+                          <input type="number" name="Employee_Contribution" value={formData.Employee_Contribution} onChange={handleInputChange} className="formInput" placeholder="Enter Employee Contribution" />
+                          {error.Employee_Contribution && <div className="error-message">{error.Employee_Contribution}</div>}
+                        </div>
+                        <div className="form-group">
+                          <label>Company Match<span style={{ color: 'red' }}></span></label>
+                          <input type="text" name="Company_Match" value={formData.Company_Match} onChange={handleInputChange} className="formInput" placeholder="Enter percentage of Company Match" />
+                          {error.Company_Match && <div className="error-message">{error.Company_Match}</div>}
+                        </div>
+                    </div>
+
+                    <div className="form-group">
+                      <label>PAYE Deductions<span style={{ color: 'red' }}>(Required)</span></label>
+                          <input type="number" name="Paye_Deduction" value={formData.Paye_Deduction} onChange={handleInputChange} className="formInput" placeholder="Enter percentage of PAYE Deduction" />
+                          {error.Paye_Deduction && <div className="error-message">{error.Paye_Deduction}</div>}
+                    </div>
+                    <div className="form-row">
+                    <div className="form-group">
+                        <label>Insurance Provider <span style={{ color: 'red' }}>*</span></label>
+                        <select name="Insurance_Provider" value={formData.Insurance_Provider} onChange={handleInputChange} className="formInput">
+                          <option value="">Choose Insurance Provider</option>
+                          <option value="Leadway Assurance">Leadway Assurance</option>
+                          <option value="AXA MansaardInsurance">AXA MansaardInsurance </option>
+                          <option value="Custodian and Allied Insurance">Custodian and Allied Insurance </option>
+                          <option value="Cornerstone Insurance">Cornerstone Insurance </option>
+                          <option value="FBN Insurance ">FBN Insurance </option>
+                          <option value="African Alliance Insurance">African Alliance Insurance </option>
+                        </select>
+                        {error.Payment_Frequency && <div className="error-message">{error.Payment_Frequency}</div>}
+                      </div>
+                      <div className="form-group">
+                        <label>Leadway Assurance <span style={{ color: 'red' }}>*</span></label>
+                        <select name="Leadway_Assurance" value={formData.Leadway_Assurance} onChange={handleInputChange} className="formInput">
                           <option value="">Choose The Type Of Leadway Health Insurance</option>
                           <option value="Group Life Assurance">Group Life Assurance</option>
                           <option value="Employee Compensation Insurance">Employee Compensation Insurance</option>
                           <option value="Health Insurance Plans">Health Insurance Plans</option>
                           <option value="Personal Accident Insurance">Personal Accident Insurance</option>
                           <option value="Travel Insurance">Travel Insurance</option>
-                          {/* Populate with more countries or use an API */}
                         </select>
-                      )}
-                      {key === 'Department' && (
-                        <select 
-                          name="Department" 
-                          value={formData.Department} 
-                          onChange={(e) => setFormData({ ...formData, Department: e.target.value })} 
-                          className="formInput"
-                        >
-                          <option value="">Select Department</option>
-                          {departments.length > 0 ? (
-                              departments.map(dept => (
-                                  <option key={dept.id} value={dept.name}>{dept.name}</option> // ✅ Storing Name
-                              ))
-                          ) : (
-                              <option disabled>Loading departments...</option>
-                          )}
-                        </select>
-                      )}
-                      {dateFields.includes(key) ? (
-                        <input type="date" name={key} value={value} onChange={handleInputChange} className="formInput" />
-                      ) : (
-                          <input 
-                              type="text" 
-                              name={key} 
-                              value={value} 
-                              onChange={handleInputChange} 
-                              placeholder={
-                                key === 'First_Name' ? 'Enter first name' :
-                                key === 'Last_Name' ? 'Enter last name' :
-                                key === 'Email' ? 'Enter a valid email' :
-                                key === 'Phone_Number' ? 'Enter phone number' :
-                                key === 'Date_of_Birth' ? 'Select date of birth' :
-                                key === 'Home_Address' ? 'Enter home address' :
-                                key === 'Country' ? 'Select country' :
-                                key === 'Job_Title' ? 'Enter Job title' :
-                                key === 'Role' ? 'Enter role' :
-                                key === 'Employment_Date' ? 'Select employment date' :
-                                key === 'Work_Mode' ? 'Enter work mode' :
-                                key === 'Work_Location' ? 'Enter work location' :
-                                key === 'Base_Salary' ? 'Enter base salary' :
-                                key === 'Payment_Frequency' ? 'Enter payment frequency' :
-                                key === 'Account_Name' ? 'Enter account name' :
-                                key === 'Account_Number' ? 'Enter account number' :
-                                key === 'Bank_Name' ? 'Enter bank name' :
-                                key === 'Medical_Allowance' ? 'Enter medical allowance' :
-                                key === 'Employee_Contribution' ? 'Enter Percentage Of Employee Contribution  ' :
-                                key === 'Company_Match' ? 'Enter Percentage Of Company Match  ' :
-                                key === 'Paye_Deduction' ? 'Enter Percentage Of PAYE Deduction' :
-                                key === 'Insurance_Provider' ? 'Choose insurance provider' :
-                                key === 'LeadWay_Health_Insurance' ? 'Choose The Type Of Leadway Health Insurance  ' :
-                                key === 'Annual_Leave_Days' ? 'Enter annual leave days' :
-                                `Enter ${key.replace(/_/g, ' ')}`
-                              } // ✅ Custom Placeholder for Each Field
-                              className="formInput"
-                            />
-                      )}
-                      {error[key] && <div className="error-message">{error[key]}</div>}
+                        {error.Payment_Frequency && <div className="error-message">{error.Payment_Frequency}</div>}
+                      </div>
                     </div>
-                  ) : null
-                ))}
+
+
+
+                    {/* Navigation Buttons & Submit */}
+                    <div className="newest-button-div-2">
+                      <div><button className="prev-btn" onClick={() => setActiveSection('Employment Details')}>Previous</button></div>
+                      <div>
+                        <button className="submit-btn" onClick={handleAddEmployee} disabled={loading}>
+                            {loading ? 'Adding...' : 'Add Employee'}
+                        </button>
+                      </div>
+                        
+                    </div>
+
+                  </div>
+                )}
               </div>
 
-             <div className='add-employee-btn'>
+             {/* <div className='add-employee-btn'>
                 <button className='btn-2' onClick={handleAddEmployee} disabled={loading}>{loading ? 'Adding...' : 'Add Employee'}</button>
-            </div>
+            </div> */}
             </>
           )}
         </div>

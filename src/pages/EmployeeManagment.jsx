@@ -6,50 +6,213 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
+import EmployerNavbar from '../components/EmployerNavbar';
 
 library.add(fas);
 
 const EmployeeCard = ({ employee, onToggleDropdown, isDropdownOpen }) => {
+
   return (
-    <div className="card">
-      <div className="div-1">
-        <img src={test} alt="Profile" className="My-profile" />
+    <div
+      style={{
+        backgroundColor: "#fff",
+        borderRadius: "12px",
+        boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.1)", // Adds shadow to the card
+        padding: "20px",
+        maxWidth: "300px",
+        margin: "10px",
+        position: "relative", // Makes sure the dropdown can be positioned correctly
+        transition: "transform 0.3s ease-in-out", // Smooth hover effect
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <img
+          src={test} // Replace with dynamic image if available
+          alt="Profile"
+          style={{
+            width: "60px",
+            height: "60px",
+            borderRadius: "50%", // Circular image
+            objectFit: "cover",
+            border: "2px solid #ddd", // Light border for the image
+          }}
+        />
         <p onClick={() => onToggleDropdown(employee.employee_id)}>
-          <FontAwesomeIcon icon="fa-solid fa-ellipsis-vertical" className="three-dots" />
+          <FontAwesomeIcon
+            icon="fa-solid fa-ellipsis-vertical"
+            style={{
+              fontSize: "20px",
+              color: "#333",
+              cursor: "pointer",
+            }}
+          />
         </p>
 
         {isDropdownOpen && (
-          <div className="suspend-menu">
+          <div
+            style={{
+              position: "absolute",
+              right: "20px",
+              top: "60px", // Adjusted the position to be under the icon
+              backgroundColor: "#fff",
+              borderRadius: "8px",
+              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.15)",
+              zIndex: "1000",
+              minWidth: "150px", // Ensures the buttons are wide enough
+              padding: "10px 0",
+            }}
+          >
             <Link to="/employee-managment/suspend-employee">
-              <button className="btn-4">Suspend</button>
+              <button
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  backgroundColor: "#fff",
+                  border: "none",
+                  color: "#2e2e2e",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  textAlign: "center", // Aligns the text in the button
+                  marginBottom: "5px", // Adds space between buttons
+                  transition: "background-color 0.3s ease", // Smooth hover effect
+                }}
+              >
+                Suspend Employee
+              </button>
             </Link>
             <Link to="/employee-managment/deactivate-employee">
-              <button className="btn-5">Deactivate</button>
+              <button
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  backgroundColor: "#fff",
+                  border: "none",
+                  color: "#2e2e2e",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  textAlign: "center", // Aligns the text in the button
+                  transition: "background-color 0.3s ease", // Smooth hover effect
+                }}
+              >
+                Deactivate Employee
+              </button>
             </Link>
           </div>
         )}
       </div>
-      <h1>{employee.name || "No Name"}</h1>
-      <h2>{employee.job_title || "Not Assigned"}</h2>
-      <hr style={{marginLeft:"-17px"}} />
-      <div className="div-2">
-        <div className="department">
-          <h1>Department</h1>
-          <h2>{employee.department || 'N/A'}</h2>
+      <h1
+        style={{
+          fontSize: "18px",
+          fontWeight: "600",
+          color: "#333",
+          marginTop: "15px",
+          marginBottom: "5px",
+        }}
+      >
+        {employee.name || "No Name"}
+      </h1>
+      <h2
+        style={{
+          fontSize: "14px",
+          fontWeight: "400",
+          color: "#777",
+          marginBottom: "10px",
+        }}
+      >
+        {employee.job_title || "Not Assigned"}
+      </h2>
+      <hr
+        style={{
+          margin: "10px 0",
+          border: "none",
+          borderTop: "1px solid #ddd",
+        }}
+      />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          fontSize: "14px",
+          color: "#555",
+        }}
+      >
+        <div>
+          <h3
+            style={{
+              fontSize: "12px",
+              fontWeight: "600",
+              marginBottom: "5px",
+            }}
+          >
+            Department
+          </h3>
+          <h4>{employee.department || 'N/A'}</h4>
         </div>
-        <div className="Id-number">
-          <h1>ID number</h1>
-          <h2>{employee.employee_id}</h2>
+        <div>
+          <h3
+            style={{
+              fontSize: "12px",
+              fontWeight: "600",
+              marginBottom: "5px",
+            }}
+          >
+            ID Number
+          </h3>
+          <h4>{employee.employee_id}</h4>
         </div>
       </div>
-      <div className="div-3">
-        <div className="status">
-          <h1>Status</h1>
-          <h2>{employee.employment_status || "Active"}</h2>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          fontSize: "14px",
+          color: "#555",
+          marginTop: "15px",
+        }}
+      >
+        <div>
+          <h3
+            style={{
+              fontSize: "12px",
+              fontWeight: "600",
+              marginBottom: "5px",
+            }}
+          >
+            Status
+          </h3>
+          <h4
+            style={{
+              fontSize: "14px",
+              fontWeight: "500",
+              color: employee.employment_status === "Active" ? "#5cb85c" : "#d9534f",
+              backgroundColor: employee.employment_status === "Active" ? "#dff0d8" : "#f2dede",
+              padding: "5px 10px",
+              borderRadius: "15px",
+            }}
+          >
+            {employee.employment_status || "Active"}
+          </h4>
         </div>
-        <div className="btn-2">
+        <div>
           <Link to={`/employee-managment/view-profile?employee_id=${employee.employee_id}`}>
-            <button className="btn-5">View Profile</button>
+            <button
+              style={{
+                padding: "8px 15px",
+                backgroundColor: "#0275d8",
+                color: "#fff",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+            >
+              View Profile
+            </button>
           </Link>
         </div>
       </div>
@@ -118,21 +281,11 @@ const EmployeeManagement = () => {
       <div className="main-dashboard">
         <Sidebar />
         <div className="dashboard">
+
           <div className="slide-one-1">
-            <div className="name">
-              <h5>Joseph Dooley</h5>
-              <h6>Good Morning</h6>
-            </div> 
-            <div className="slide-one-2-1">
-              <div className="notification">
-                <FontAwesomeIcon icon="fa-solid fa-bell" />
-                <h6>6</h6>
-              </div>
-              <div className="user-profile">
-                <img src={test} alt="My profile" className="My-profile" />
-              </div>
-            </div> 
-          </div>          
+            <EmployerNavbar />
+          </div>
+      
           <hr className="horizontal" />
           <div className="dashboard-details">
             <h5>Employee Management</h5>
@@ -204,3 +357,4 @@ const EmployeeManagement = () => {
 };
 
 export default EmployeeManagement;
+
