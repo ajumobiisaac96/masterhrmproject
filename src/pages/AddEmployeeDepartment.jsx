@@ -809,50 +809,55 @@ const AddEmployeeDepartment = () => {
     // ✅ Fetch Employees Based on Department ID
     const fetchEmployees = async (departmentId) => {
         try {
-          const token = JSON.parse(localStorage.getItem('authData'))?.token;
-          if (!token) throw new Error('Authentication token is missing.');
-      
-          const companyId = localStorage.getItem('company_id');
-          const page = 1;
-          const pageSize = 10;
-      
-          console.log("Fetching Employees for Department ID:", departmentId);
-      
-          const apiUrl = `https://proximahr.onrender.com/employee-management/all-employees?company_id=${companyId}&page=${page}&page_size=${pageSize}`;
-          const response = await fetch(apiUrl, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
-            },
-          });
-      
-          if (!response.ok) throw new Error('Failed to fetch employees.');
-      
-          const data = await response.json();
-          console.log('Full Employees API Response:', JSON.stringify(data, null, 2));
-      
-          // 🔥 Fetch department list so we can map department names to IDs
-          const departmentMap = await fetchDepartments();
-      
-          // ✅ Handle missing department field gracefully
-          const filteredEmployees = data.data.filter(employee => {
-            if (!employee.department) {
-              console.warn(`Skipping employee ${employee.name} due to missing department field.`);
-              return false; // Skip employees without a department
-            }
-      
-            const empDeptId = departmentMap[employee.department.toLowerCase()] || null;
-            console.log(`Checking Employee: ${employee.name}, Mapped Department ID: ${empDeptId}`);
-            return String(empDeptId) === String(departmentId); // Ensure matching department
-          });
-      
-          console.log("Filtered Employees:", filteredEmployees);
-          setEmployees(filteredEmployees);
+            const token = JSON.parse(localStorage.getItem('authData'))?.token;
+            if (!token) throw new Error('Authentication token is missing.');
+    
+            const companyId = localStorage.getItem('company_id');
+            const page = 1;
+            const pageSize = 10;
+    
+            console.log("Fetching Employees for Department ID:", departmentId);
+    
+            const apiUrl = `https://proximahr.onrender.com/employee-management/all-employees?company_id=${companyId}&page=${page}&page_size=${pageSize}`;
+            const response = await fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+    
+            if (!response.ok) throw new Error('Failed to fetch employees.');
+    
+            const data = await response.json();
+            console.log('Full Employees API Response:', JSON.stringify(data, null, 2));
+    
+            // 🔥 Fetch department list so we can map department names to IDs
+            const departmentMap = await fetchDepartments();
+    
+            // ✅ Handle missing department field gracefully
+            const filteredEmployees = data.data.filter(employee => {
+                if (!employee.department) {
+                    console.warn(`Skipping employee ${employee.name} due to missing department field.`);
+                    return false; // Skip employees without a department
+                }
+    
+                const empDeptId = departmentMap[employee.department.toLowerCase()] || null;
+                console.log(`Checking Employee: ${employee.name}, Mapped Department ID: ${empDeptId}`);
+                return String(empDeptId) === String(departmentId); // Ensure matching department
+            });
+    
+            console.log("Filtered Employees:", filteredEmployees);
+    
+            // ✅ Store filtered employees in localStorage
+            localStorage.setItem('filteredEmployees', JSON.stringify(filteredEmployees));
+    
+            setEmployees(filteredEmployees);
         } catch (err) {
-          setError(err.message);
+            setError(err.message);
         }
-      };
+    };
+    
       
     
 
