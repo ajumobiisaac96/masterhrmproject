@@ -500,8 +500,13 @@ const EmployeeCard = ({ employee, onToggleDropdown, isDropdownOpen, onCardClick 
             {employee.employment_status || "Active"}
           </h4>
         </div>
-        <div>
-          <Link to={`/employee-managment/view-profile?employee_id=${employee.employee_id}`}>
+        <Link
+            to={`/employee-managment/view-profile`}
+            onClick={(e) => {
+              e.stopPropagation(); // Prevents clicking the card from interfering
+              localStorage.setItem("selectedEmployee_id", employee.employee_id); // ✅ Stores selected employee ID in localStorage
+            }}
+          >
             <button
               style={{
                 padding: "8px 15px",
@@ -515,7 +520,7 @@ const EmployeeCard = ({ employee, onToggleDropdown, isDropdownOpen, onCardClick 
               View Profile
             </button>
           </Link>
-        </div>
+
       </div>
     </div>
   );
