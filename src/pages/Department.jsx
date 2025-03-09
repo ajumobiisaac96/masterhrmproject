@@ -269,20 +269,20 @@ const Department = () => {
         setLoading(true);
         const companyId = localStorage.getItem("company_id");
         if (!companyId) throw new Error("Company ID is missing. Please log in again.");
-
+  
         const storedAuthData = localStorage.getItem("authData");
         if (!storedAuthData) throw new Error("Authentication data is missing. Please log in.");
-
+  
         let authData;
         try {
           authData = JSON.parse(storedAuthData);
         } catch (error) {
           throw new Error("Invalid authentication data format. Please log in again.");
         }
-
+  
         const token = authData?.token;
         if (!token) throw new Error("Authentication token is missing. Please log in.");
-
+  
         const apiUrl = `https://proximahr.onrender.com/departments/?company_id=${companyId}`;
         const response = await fetch(apiUrl, {
           method: "GET",
@@ -291,19 +291,24 @@ const Department = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-
+  
         if (!response.ok) throw new Error("Failed to fetch department list.");
-
+  
         const data = await response.json();
+  
+        // ✅ Log the API response in the console
+        console.log("API Response:", data);
+  
         setDepartments(data.departments || []);
         setFilteredDepartments(data.departments || []);
         localStorage.setItem('total_departments', JSON.stringify(data.departments || []));
       } catch (err) {
+        console.error("Error fetching departments:", err.message);
         setError(err.message);
       } finally {
         setLoading(false);
       }
-    };
+    };  
 
     fetchDepartments();
   }, []);
@@ -361,18 +366,59 @@ const Department = () => {
     setShowDeletePopup(false);
   };
 
-  const handleCardClick = (departmentId) => {
-    const department = departments.find(dept => dept.id === departmentId);
-    if (department) {
-      // Save the department data
-      localStorage.setItem('department_data', JSON.stringify(department));
-
-      // Save staff data with detailed employee information (name, job title, etc.)
-      const staffData = department.staff || [];
-      localStorage.setItem('staff_data', JSON.stringify(staffData));  // Store staff data
+  const handleCardClick = async (departmentId) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("authData"))?.token;
+      if (!token) throw new Error("Authentication token is missing.");
+  
+      const companyId = localStorage.getItem("company_id");
+  
+      // Construct the API URL with query parameters
+      const apiUrl = `https://proximahr.onrender.com/employee-management/all-employees?company_id=${companyId}&page=1&page_size=10`;
+      const response = await fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (!response.ok) throw new Error("Failed to fetch employees.");
+  
+      const data = await response.json();
+      console.log("Employee Data:", data); // Log the full employee data response
+  
+      // Now you can inspect the structure of the employee data
+      if (data && data.data) {
+        console.log("List of Employees:", data.data); // Log the list of employees
+      }
+  
+      // Find the department by its ID to get the department name
+      const department = departments.find(dept => dept.id === departmentId);
+      if (!department) {
+        throw new Error("Department not found.");
+      }
+  
+      const departmentName = department.name; // Get the department name
+  
+      // Filter employees by department name
+      const departmentEmployees = data.data.filter(employee => employee.department === departmentName); // Filter by department name
+      console.log("Filtered Employees for Department Name:", departmentEmployees); // Log the filtered employees
+  
+      // Store department data and filtered employees in localStorage
+      localStorage.setItem("department_data", JSON.stringify(department));
+      localStorage.setItem("staff_data", JSON.stringify(departmentEmployees)); // Store filtered staff data
+  
+      navigate(`/department/first-edit-department`);
+    } catch (error) {
+      console.error("Error fetching employees:", error.message);
+      setError(error.message);
     }
-    navigate(`/department/edit-department`);
   };
+  
+  
+  
+  
 
   const handleViewDepartmentClick = (department) => {
     console.log("Department:", department);
@@ -385,6 +431,21 @@ const Department = () => {
   
     navigate(`/department/add-employee-department`);
   };
+
+
+
+  // const newHandleViewDepartmentClick = (department) => {
+  //   console.log("Department:", department);
+  //   const staffData = department.staff || []; 
+  //   localStorage.setItem('staff_data', JSON.stringify(staffData)); 
+  //   console.log("Stored staff data:", staffData);
+
+  //   localStorage.setItem('department_data', JSON.stringify(department));
+  //   localStorage.setItem('department_id', department.id);
+  
+  //   navigate(`/department/edit-department`);
+  // };
+
 
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
@@ -464,52 +525,57 @@ const Department = () => {
                 <p>No departments found</p>
               ) : (
                 filteredDepartments.map((dept, index) => (
-                  <div key={index} className="card-3">
-                    <div className="one-div">
-                      <div><h1>{dept.name}</h1></div>
-                      <div className="special-div">
-                        <FontAwesomeIcon
-                          icon="fa-solid fa-pen-to-square"
-                          onClick={() => handleCardClick(dept.id)}
-                        />
-                        <FontAwesomeIcon
-                          icon="fa-solid fa-trash-can"
-                          onClick={() => {
-                            setSelectedDepartmentId(dept.id);
-                            setShowDeletePopup(true);
-                          }} 
-                        />
-                      </div>
-                    </div>
-                    <hr className="new-hr" />
-                    <div className="two-div">
-                      <div>
-                        <img src={test} alt="Department Head" className="My-profile" />
-                      </div>
-                      <div>
-                        <p>Department Head</p>
-                        <h2>{dept.hod ? `${dept.hod.first_name} ${dept.hod.last_name}` : 'Not Assigned'}</h2>
-                      </div>
-                    </div>
-                    <div className="three-div">
-                      <div className="new-div">
-                        <div><FontAwesomeIcon icon="fa-solid fa-users" className="new-div-icon" /></div>
-                        <div>
-                          <p>Team Members</p>
-                          <h2>{dept.staff_size !== undefined ? dept.staff_size : 0}</h2>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="four-div">
-                      <div className="div-2-2">
-                        <p>Description</p>
-                        <h1>{dept.description || 'No description available'}</h1>
-                      </div>
-                    </div>
-                    <div className="five-div">
-                      <button onClick={() => handleViewDepartmentClick(dept)}>View Department</button>
+                <div key={index} className="card-3">
+                  <div className="one-div">
+                    <div><h1>{dept.name}</h1></div>
+                    <div className="special-div">
+                      {/* Edit Icon */}
+                      <FontAwesomeIcon
+                        icon="fa-solid fa-pen-to-square"
+                        onClick={() => handleCardClick(dept.id)}  // Pass department ID dynamically
+                        style={{cursor:'pointer'}}
+                      />
+                      {/* Delete Icon */}
+                      <FontAwesomeIcon
+                        icon="fa-solid fa-trash-can"
+                        onClick={() => {
+                          setSelectedDepartmentId(dept.id);
+                          setShowDeletePopup(true);
+                        }} 
+                        style={{cursor:'pointer'}}  
+                      />
                     </div>
                   </div>
+                  <hr className="new-hr" />
+                  <div className="two-div">
+                    <div>
+                      <img src={test} alt="Department Head" className="My-profile" />
+                    </div>
+                    <div>
+                      <p>Department Head</p>
+                      <h2>{dept.hod ? `${dept.hod.first_name} ${dept.hod.last_name}` : 'Not Assigned'}</h2>
+                    </div>
+                  </div>
+                  <div className="three-div">
+                    <div className="new-div">
+                      <div><FontAwesomeIcon icon="fa-solid fa-users" className="new-div-icon" /></div>
+                      <div>
+                        <p>Team Members</p>
+                        <h2>{dept.staff_size !== undefined ? dept.staff_size : 0}</h2>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="four-div">
+                    <div className="div-2-2">
+                      <p>Description</p>
+                      <h1>{dept.description || 'No description available'}</h1>
+                    </div>
+                  </div>
+                  <div className="five-div">
+                    <button onClick={() => handleViewDepartmentClick(dept)}>View Department</button>
+                  </div>
+                </div>
+
                 ))
               )}
             </div>

@@ -15,6 +15,7 @@
   import AddDepartment from './pages/AddDepartment.jsx';
   import AddEmployeeDepartment from './pages/AddEmployeeDepartment.jsx'
   import EditDepartment from './pages/EditDepartment.jsx'
+  import FirstEditDepartment from './pages/FirstEditDepartment.jsx'
   import SearchEmployee from './pages/SearchEmployee.jsx';
   import AddEmployeeToDepartment from './pages/AddEmployeeToDepartment.jsx'
   import EditProfile from './pages/EditProfile.jsx'
@@ -38,6 +39,7 @@
 
 
 
+
   function App() {
     return (
       <Router>
@@ -53,6 +55,7 @@
             <Route path="/dashboard" element={<Dashboard/>} />
             <Route path="/department" element={<Department/>} />
             <Route path="/department/edit-department" element={<EditDepartment/>} />
+            <Route path="/department/first-edit-department" element={<FirstEditDepartment/>} />
             <Route path="/department/add-new-department" element={<AddDepartment/>} />
             <Route path="/department/add-employee-department" element={<AddEmployeeDepartment/>} />
             <Route path="/employee-managment" element={<EmployeeManagment/>} />
