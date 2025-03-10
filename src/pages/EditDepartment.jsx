@@ -285,20 +285,20 @@ const EditDepartment = () => {
     fetchFilteredEmployees();
   }, []);  // Empty dependency array means this effect only runs once when the component mounts
 
+
   const handleSaveChanges = async () => {
     setIsSaving(true); // Indicate that we are saving changes
+    console.log("Save button clicked"); // Debugging line to check if the function is called
     try {
       const updatedDepartment = {
         name: departmentName || '',
-        hod: hod || '',
-        staffs: employees.map((emp) => emp.id ? emp.id.toString() : ''),
+        hod: employees.find((employee) => employee.name === hod)?.employee_id || '', 
+        staffs: employees.map((emp) => emp.id ? emp.id.toString() : null).filter(Boolean),
         description: departmentDescription || '',
       };
-  
-      // Log the departmentId and companyId
-      console.log("Department ID:", departmentId);
-      console.log("Company ID:", localStorage.getItem("company_id"));
-  
+
+      console.log("Data sent to API:", JSON.stringify(updatedDepartment, null, 2)); // Log data before sending
+
       const response = await fetch(
         `https://proximahr.onrender.com/departments/${departmentId}/edit-department?company_id=${localStorage.getItem("company_id")}`,
         {
@@ -310,13 +310,14 @@ const EditDepartment = () => {
           body: JSON.stringify(updatedDepartment),
         }
       );
-  
+
       const responseData = await response.json();
-      console.log("Save Response:", responseData);
-  
+      console.log("Save Response:", responseData); // Check the full response
+
       if (response.ok) {
         console.log('Department updated successfully');
-        navigate('/department');  // Redirect after saving
+        setDepartmentDescription(updatedDepartment.description); // Update the description in the UI
+        navigate('/department'); // Redirect after saving
       } else {
         setErrorMessage(`Failed to update department: ${responseData.detail || 'Unknown error'}`);
       }
@@ -326,20 +327,20 @@ const EditDepartment = () => {
     } finally {
       setIsSaving(false); // End saving state
     }
-  };
-  
-  
-  
-  
+};
+
+
 
   const handleRemoveEmployee = async (employeeId) => {
     try {
       console.log(`Removing employee with ID: ${employeeId}`);
-      const updatedEmployees = employees.filter(emp => emp.id !== employeeId);
-      setEmployees(updatedEmployees);  // Remove from UI immediately
+      // Remove employee from the state (UI) immediately for better user experience
+      const updatedEmployees = employees.filter((employee) => employee.id !== employeeId);
+      setEmployees(updatedEmployees);  // Update the UI immediately to reflect the removal
 
+      // Send the API request to remove the employee from the backend
       const response = await fetch(
-        `https://proximahr.onrender.com/departments/${departmentId}/edit-department?company_id=your_company_id`,
+        `https://proximahr.onrender.com/departments/${departmentId}/edit-department?company_id=${localStorage.getItem("company_id")}`,
         {
           method: 'PUT',
           headers: {
@@ -352,20 +353,20 @@ const EditDepartment = () => {
         }
       );
 
-      const responseData = await response.json();
-      console.log("Remove Employee Response:", responseData);
-
+      // Handle the response
       if (response.ok) {
         console.log('Employee removed successfully');
       } else {
-        console.error('Failed to remove employee');
+        const errorData = await response.json();
+        console.error('Error removing employee:', errorData);
         setErrorMessage('Failed to remove employee.');
       }
     } catch (error) {
       console.error('Error removing employee:', error);
-      setErrorMessage('Failed to remove employee.');
+      setErrorMessage('An error occurred while removing the employee.');
     }
   };
+
 
   return (
     <div>
@@ -380,7 +381,6 @@ const EditDepartment = () => {
               <p>{errorMessage}</p>
             </div>
           )}
-
 
           <div className="dashboard-detail-1">
             <Link to="/department">
@@ -454,9 +454,13 @@ const EditDepartment = () => {
               />
             </div>
 
-            <button className="btn-2" onClick={handleSaveChanges} disabled={isSaving}>
+            <button 
+              className="btn-2" 
+              onClick={handleSaveChanges} 
+              disabled={isSaving}>
               {isSaving ? 'Saving...' : 'Save Changes'}
             </button>
+
 
           </div>
         </div>
