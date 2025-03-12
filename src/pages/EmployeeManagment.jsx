@@ -587,9 +587,9 @@ const EmployeeManagement = () => {
       <div className="main-dashboard">
         <Sidebar />
         <div className="dashboard">
-          <div className="slide-one-1">
+
             <EmployerNavbar />
-          </div>
+
           <hr className="horizontal" />
           <div className="dashboard-details">
             <h5>Employee Management</h5>

@@ -193,9 +193,9 @@ const Dashboard = () => {
       <div className="main-dashboard">
         <Sidebar />
         <div className="dashboard">
-          <div className="slide-one-1">
-            <EmployerNavbar />
-          </div>
+
+            <EmployerNavbar style={{ width: "100%", display: "flex", justifyContent: "space-between" }} />
+
 
           <hr className="horizontal" />
 

@@ -1,7 +1,8 @@
 .slide-one-1{
-    display: flex;
-    width: 1000px;
-    margin-top: -5px;
+    display: flex !important;
+    justify-content: space-between!important;
+    width: 100% !important;
+
 }
 .slide-one-2-1{
     width: 120px !important;

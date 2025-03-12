@@ -354,6 +354,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useNavigate } from 'react-router-dom';
+import EmployerNavbar from '../components/EmployerNavbar';
 
 library.add(fas);
 
@@ -425,22 +426,7 @@ const SearchEmployee = () => {
             <div className="main-dashboard">
                 <Sidebar />
                 <div className="dashboard">
-                    <div className="slide-one-1">
-                        <div className="name">
-                            <h5>Joseph Dooley</h5>
-                            <h6>Good Morning</h6>
-                        </div>
-                        <div className="slide-one-2-1">
-                            <div className="notification">
-                                <FontAwesomeIcon icon="fa-solid fa-bell" />
-                                <h6>6</h6>
-                            </div>
-                            <div className="user-profile">
-                                <img src={test} alt="My profile" className="My-profile" />
-                            </div>
-                        </div>
-                    </div>
-
+                    <EmployerNavbar />
                     <hr className="horizontal" />
                     <div className="dashboard-details" style={{ marginBottom: "1rem" }}>
                         <Link to={"/department/add-new-department"}>
