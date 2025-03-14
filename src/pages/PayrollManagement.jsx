@@ -9,6 +9,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearSca
 import { Doughnut, Line } from 'react-chartjs-2';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import EmployerNavbar from "../components/EmployerNavbar";
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement);
 
@@ -171,23 +172,7 @@ const PayrollManagement = () => {
           <div className="main-dashboard">
             <Sidebar />
             <div className="dashboard">
-              <div className="slide-one-1">
-                <div className="slide-one-1">
-                  <div className="name">
-                    <h5>Joseph Dooley</h5>
-                    <h6>Good Morning</h6>
-                  </div> 
-                </div>
-                <div className="slide-one-2-1">
-                  <div className="notification">
-                    <FontAwesomeIcon icon="fa-solid fa-bell" />
-                    <h6>6</h6>
-                  </div>
-                  <div className="user-profile">
-                    <img src={test} alt="My profile" className="My-profile" />
-                  </div>
-                </div> 
-              </div>
+              <EmployerNavbar />
               <hr className="horizontal" />
               <div className="dashboard-details">
                 <h5>Payroll Management</h5>

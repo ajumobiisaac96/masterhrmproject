@@ -147,6 +147,7 @@ import Sidebar from '../components/Sidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './ReportAndAnalysis.css';
 import { Link } from 'react-router-dom';
+import EmployerNavbar from "../components/EmployerNavbar";
 
 const ReportAndAnalysis = () => {
   const [attendanceRate, setAttendanceRate] = useState(null);
@@ -433,6 +434,8 @@ const ReportAndAnalysis = () => {
     <div className="main-dashboard">
       <Sidebar />
       <div className="dashboard">
+        <EmployerNavbar />
+        <hr className="horizontal" />
         <div className="dashboard-details">
           <h5>Report and Analysis</h5>
           <h6>{new Date().toDateString()}</h6>

@@ -8,7 +8,7 @@ const HRregister = () => {
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
-    role: '',
+    // role: '',
     email: '',
     password: '',
     admin_code: '', // Company Verification Code
@@ -34,8 +34,8 @@ const HRregister = () => {
     e.preventDefault();
 
     // Basic validation
-    const { first_name, last_name, role, email, password, admin_code } = formData;
-    if (!first_name || !last_name || !role || !email || !password || !admin_code) {
+    const { first_name, last_name, email, password, admin_code } = formData;
+    if (!first_name || !last_name || !email || !password || !admin_code) {
       setErrorMessage('All fields are required.');
       return;
     }
@@ -67,7 +67,7 @@ const HRregister = () => {
       setFormData({
         first_name: '',
         last_name: '',
-        role: '',
+        // role: '',
         email: '',
         password: '',
         admin_code: '',
@@ -114,7 +114,7 @@ const HRregister = () => {
                 />
               </div>
             </div>
-            <div className="input-2">
+            {/* <div className="input-2">
               <label htmlFor="role">Role</label>
               <input
                 type="text"
@@ -123,7 +123,7 @@ const HRregister = () => {
                 onChange={handleInputChange}
                 placeholder="Enter Role"
               />
-            </div>
+            </div> */}
             <div className="input-2">
               <label htmlFor="email">Email</label>
               <input

@@ -610,7 +610,7 @@ const AddEmployee = () => {
                     </div>
                     <div className="form-row">
                     <div className="form-group">
-                      <label>Insurance Provider <span style={{ color: 'red' }}>(Required)</span></label>
+                      <label>Insurance Provider <span style={{ color: 'red' }}></span></label>
                       <select name="Insurance_Provider" value={formData.Insurance_Provider} onChange={handleInputChange} className="formInput">
                           <option value="">Choose Insurance Provider</option>
                           {insuranceProviders.map((provider, index) => (
@@ -621,7 +621,7 @@ const AddEmployee = () => {
                      </div>
 
                       <div className="form-group">
-                        <label>Leadway Assurance <span style={{ color: 'red' }}>*</span></label>
+                        <label>Leadway Assurance <span style={{ color: 'red' }}></span></label>
                         <select name="Leadway_Assurance" value={formData.Leadway_Assurance} onChange={handleInputChange} className="formInput">
                           <option value="">Choose The Type Of Leadway Health Insurance</option>
                           <option value="Group Life Assurance">Group Life Assurance</option>

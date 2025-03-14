@@ -682,9 +682,9 @@ const AddEmployeeDepartment = () => {
             <div className="main-dashboard">
                 <Sidebar />
                 <div className="dashboard">
-                    <div className="slide-one-1">
+
                         <EmployerNavbar />
-                    </div>
+
                     <hr className="horizontal" />
                     <div className="dashboard-details">
                         <Link to={'/department'}>
