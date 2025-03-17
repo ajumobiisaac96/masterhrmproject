@@ -136,7 +136,7 @@ import './custom.css'; // Keep your custom styles
 import hrmLogo from '../assets/hrm logo.JPG'; // Ensure logo path is correct
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import axios from 'axios';
-import SideImage from '../assets/SideImage.jpg'; // Ensure image path is correct
+import Sideimage from '../assets/Sideimage.jpg'; // Ensure image path is correct
 
 const HRlogin = () => {
   const [username, setUsername] = useState('');
@@ -271,7 +271,7 @@ const HRlogin = () => {
       </div>
 
       <div style={{ flex: 1 }}>
-        <img src={SideImage} alt="Login side image" style={{ width: '100%', height: '100vh', objectFit: 'cover' }} />
+        <img src={Sideimage} alt="Login side image" style={{ width: '100%', height: '100vh', objectFit: 'cover' }} />
       </div>
     </div>
   );
