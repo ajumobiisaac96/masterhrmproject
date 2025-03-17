@@ -132,7 +132,7 @@
 
 
 import React, { useState } from 'react';
-import '/Users/USER/Desktop/masterhrmproject/src/styles/custom.css'; // Keep your custom styles
+import './custom.css'; // Keep your custom styles
 import hrmLogo from '../assets/hrm logo.JPG'; // Ensure logo path is correct
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import axios from 'axios';

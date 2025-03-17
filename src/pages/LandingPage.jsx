@@ -37,12 +37,12 @@ const LandingPage = () => {
     <div>
       <div className="LandingPage">
 
-      <nav className="navbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px' }}>
+      <nav className="navbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 100px' }}>
       <div className="logo" style={{ display: 'flex', alignItems: 'center' }}>
         <a href="#home">
           <img src={Logo} alt="Logo" className="logo-img" style={{ width: '40px', height: '40px', marginRight: '10px' }} />
         </a>
-        <span className="logo-text" style={{ color: '#2E2E2E', fontSize: '24px', fontWeight: 'bold' }}>Proxima HR</span>
+        <span className="logo-text" style={{ color: '#2E2E2E', fontSize: '18px', fontWeight: '400' }}>Proxima HR</span>
       </div>
       
       <ul className="nav-links" style={{ display: 'flex', listStyleType: 'none', margin: 0, padding: 0 }}>
