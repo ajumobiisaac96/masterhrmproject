@@ -21,7 +21,7 @@ const dashboard = () => {
 
           <div className="employee-dashboard-info" style={{display:'flex'}}>
             <div className="dashboard-details" style={{flexDirection:'column', alignItems:'flex-start', height:'40px'}}>
-              <h5>Department</h5>
+              <h5>Dashboard</h5>
               <h6>24 Thursday October 2024</h6>
             </div>
             <div className="employee-dashboard-info" style={{display:'flex', flexDirection:'column'}}>

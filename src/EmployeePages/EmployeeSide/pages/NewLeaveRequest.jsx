@@ -314,7 +314,6 @@ import EmployeeNavbar from "../components/EmployeeNavbar.jsx";
 import "./EmployeeDashboard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import LeaveRequestCard from "../components/LeaveRequestCard.jsx";
 
 const LeaveRequestForm = () => {
   const [formData, setFormData] = useState({
@@ -328,6 +327,14 @@ const LeaveRequestForm = () => {
   const [showLeaveRequestCard, setShowLeaveRequestCard] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [submitting, setSubmitting] = useState(false); // Track submission state
+  const [availableLeaveDays, setAvailableLeaveDays] = useState(0); // Track available leave days
+
+  // Function to fetch available leave days for the employee (mock value used here)
+  const fetchAvailableLeaveDays = () => {
+    // Fetch available leave days from an API or mock it here
+    // For now, let's assume the employee has 10 leave days left
+    setAvailableLeaveDays(10); // Mock value; replace with an actual API call if available
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -342,61 +349,70 @@ const LeaveRequestForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowModal(true);
+    await handleConfirmRequest();
   };
 
   const handleConfirmRequest = async () => {
     try {
-        setShowModal(false);
-        setSubmitting(true);
+      setShowModal(false);
+      setSubmitting(true);
 
-        const companyId = localStorage.getItem("company_id");
-        const employeeId = localStorage.getItem("employee_id");
-        const storedAuthData = localStorage.getItem("authData");
+      const companyId = localStorage.getItem("company_id");
+      const employeeId = localStorage.getItem("employee_id");
+      const storedAuthData = localStorage.getItem("employeeAuthToken");
 
-        if (!companyId) throw new Error("Company ID is missing from localStorage.");
-        if (!employeeId) throw new Error("Employee ID is missing from localStorage.");
-        if (!storedAuthData) throw new Error("Authentication data is missing.");
+      if (!companyId) throw new Error("Company ID is missing from localStorage.");
+      if (!employeeId) throw new Error("Employee ID is missing from localStorage.");
+      if (!storedAuthData) throw new Error("Authentication data is missing.");
 
-        const authData = JSON.parse(storedAuthData);
-        const token = authData?.token;
+      const authData = JSON.parse(storedAuthData);
+      const token = authData?.token;
 
-        console.log("Company ID:", companyId);
-        console.log("Employee ID:", employeeId);
-        console.log("Sending Request to:", `https://proximahr.onrender.com/employee/leave/create?company_id=${companyId}`);
+      // Fetch available leave days before submitting the leave request
+      fetchAvailableLeaveDays(); // Fetch available leave days (replace with an actual API call)
 
-        const apiUrl = `https://proximahr.onrender.com/employee/leave/create?company_id=${companyId}`;
+      console.log("Sending Leave Request to Backend:", {
+        employee_id: employeeId,
+        leave_type: formData.leaveType,
+        start_date: formatDate(formData.startDate),
+        end_date: formatDate(formData.endDate),
+        additional_notes: formData.additionalNotes,
+      });
 
-        const response = await fetch(apiUrl, {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                employee_id: employeeId, 
-                leave_type: formData.leaveType,
-                start_date: formatDate(formData.startDate),
-                end_date: formatDate(formData.endDate),
-                additional_notes: formData.additionalNotes,
-            }),
-        });
+      const apiUrl = `https://proximahr.onrender.com/employee/leave/create?company_id=${companyId}`;
 
-        const result = await response.json();
-        console.log("Backend Response:", result); // ✅ Logs full response
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          employee_id: employeeId,
+          leave_type: formData.leaveType,
+          start_date: formatDate(formData.startDate),
+          end_date: formatDate(formData.endDate),
+          additional_notes: formData.additionalNotes,
+        }),
+      });
 
-        if (!response.ok) throw new Error(result.detail || "Leave request failed.");
+      const result = await response.json();
+      console.log("Backend Response:", result); // ✅ Logs full response
 
-        setShowLeaveRequestCard(true);
+      if (!response.ok) {
+        // Display error from backend if leave request fails
+        throw new Error(result.detail || "Leave request failed.");
+      }
+
+      setShowLeaveRequestCard(true);
     } catch (error) {
-        console.error("Error Submitting Leave Request:", error.message);
-        setErrorMessage(error.message);
+      console.error("Error Submitting Leave Request:", error.message);
+      // Show user-friendly error message with available leave days
+      setErrorMessage(`Error: ${error.message}. Available leave days: ${availableLeaveDays}`);
     } finally {
-        setSubmitting(false);
+      setSubmitting(false);
     }
-};
-
-
-
+  };
 
   return (
     <div className="main-dashboard">
@@ -419,10 +435,7 @@ const LeaveRequestForm = () => {
             <h1>Working Hours</h1>
             <div className="clock" style={{ display: "flex", alignItems: "center", marginTop: "-20px" }}>
               <div className="timer" style={{ width: "100px", height: "38px", padding: "8px", marginTop: "10px", borderRadius: "4px", border: "1px solid #F8F8F8", background: "#D9D9D9" }}>00:00:00</div>
-              <button style={{ width: "100px" }}>
-                <FontAwesomeIcon icon="fa-solid fa-right-from-bracket" />
-                Clock Out
-              </button>
+              <button style={{ width: "100px" }}><FontAwesomeIcon icon="fa-solid fa-right-from-bracket" /> Clock Out</button>
             </div>
           </div>
         </div>

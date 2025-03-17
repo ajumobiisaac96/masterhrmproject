@@ -36,6 +36,7 @@
   import EmployeeLeave from './EmployeePages/EmployeeSide/pages/EmployeeLeave.jsx'
   import NewLeaveRequest from './EmployeePages/EmployeeSide/pages/NewLeaveRequest.jsx'
   import ProfileDashboard from './EmployeePages/EmployeeSide/pages/ProfileDashboard.jsx'
+  import EmployeeLogin from './EmployeePages/EmployeeSide/pages/EmployeeLogin.jsx'
 
 
 
@@ -81,6 +82,7 @@
             <Route path="/EmployeeLeave" element={< EmployeeLeave/>} />
             <Route path="/EmployeeLeave/NewLeaveRequest" element={< NewLeaveRequest/>} />
             <Route path="/ProfileDashboard" element={< ProfileDashboard/>} />
+            <Route path="/EmployeeLogin" element={< EmployeeLogin/>} />
             <Route path="*" element={<div>Page Not Found</div>} />
           </Routes>
         </div>

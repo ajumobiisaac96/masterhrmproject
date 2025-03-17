@@ -359,3 +359,21 @@ body {
 }
 
 
+.demo-button{
+  background-color: #fff;
+  color: #2e2e2e;
+  padding: 10px 20px;
+  width: 200px;
+  border: none;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  margin: 5px 0;
+}
+
+.demo-button:hover{
+  background-color: #007BFF;
+  color: #FFF;
+  width: 200px;
+}

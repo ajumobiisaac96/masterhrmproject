@@ -235,6 +235,14 @@ const AddEmployee = () => {
 
         localStorage.setItem('employee_id', result.data.employee_id);
         setSuccess(true);
+
+        // Alert the password to the admin
+        const employeePassword = result.data.password;
+        if (employeePassword) {
+          alert(`Employee PASSWORD: ${employeePassword}`);
+        }
+
+
     } catch (err) {
         console.error("Error:", err.message); // ✅ Log errors
         setError({ general: err.message });

@@ -16,6 +16,7 @@ import FAQ from '../components/FAQ'
 import LastSlide from '../assets/LastSIDE.png'
 import Footer from '../components/Footer';
 import {Link} from 'react-router-dom'
+import { useState } from 'react';
 
 
 
@@ -23,24 +24,80 @@ import {Link} from 'react-router-dom'
 
 const LandingPage = () => {
 
+  // State to toggle the dropdown visibility
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  // Toggle dropdown visibility
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
+
+
   return (
     <div>
       <div className="LandingPage">
-      <nav class="navbar">
-        <div class="logo" >
-            <a href="#home"><img src={Logo} alt="Logo" class="logo-img"/></a>
-            <span class="logo-text">Proxima HR</span>
-        </div>
-        <ul class="nav-links">
-            <li><a href="#features">Features</a></li>
-            <li><a href="#how-it-works">How It Works</a></li>
-            <li><a href="#benefits">Benefits</a></li>
-            <li><a href="#faq">FAQ</a></li>
-        </ul>
-        <Link to={'/companyregister'} ><button class="demo-button" style={{textDecoration: 'none'}}>
-            Request Demo
-            <span class="arrow-icon">➔</span>
-        </button></Link>
+
+      <nav className="navbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px' }}>
+      <div className="logo" style={{ display: 'flex', alignItems: 'center' }}>
+        <a href="#home">
+          <img src={Logo} alt="Logo" className="logo-img" style={{ width: '40px', height: '40px', marginRight: '10px' }} />
+        </a>
+        <span className="logo-text" style={{ color: '#2E2E2E', fontSize: '24px', fontWeight: 'bold' }}>Proxima HR</span>
+      </div>
+      
+      <ul className="nav-links" style={{ display: 'flex', listStyleType: 'none', margin: 0, padding: 0 }}>
+        <li style={{ margin: '0 10px' }}><a href="#features" style={{ color: '#2E2E2E', textDecoration: 'none' }}>Features</a></li>
+        <li style={{ margin: '0 10px' }}><a href="#how-it-works" style={{ color: '#2E2E2E', textDecoration: 'none' }}>How It Works</a></li>
+        <li style={{ margin: '0 10px' }}><a href="#benefits" style={{ color: '#2E2E2E', textDecoration: 'none' }}>Benefits</a></li>
+        <li style={{ margin: '0 10px' }}><a href="#faq" style={{ color: '#2E2E2E', textDecoration: 'none' }}>FAQ</a></li>
+      </ul>
+
+      <div style={{ position: 'relative' }}>
+        <button
+          className="demo-button"
+          onClick={toggleDropdown}
+          style={{
+            backgroundColor: '#155EEF',
+            color: '#fff',
+            border: 'none',
+            padding: '10px 20px',
+            fontSize: '16px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            width: '200px'
+          }}
+        >
+          Request Demo
+          <span className="arrow-icon" style={{ marginLeft: '10px' }}>➔</span>
+        </button>
+        
+        {/* Dropdown menu */}
+        {dropdownVisible && (
+          <div
+            className="dropdown-menu"
+            style={{
+              position: 'absolute',
+              top: '50px', // Adjust based on your design
+              right: '0',
+              backgroundColor: '#fff',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+              borderRadius: '5px',
+              zIndex: '1000'
+            }}
+          >
+            <Link to="/companyregister" style={{ textDecoration: 'none' }}>
+              <button className="demo-button">
+                Signup as Admin
+              </button>
+            </Link>
+            <Link to="/EmployeeLogin" style={{ textDecoration: 'none' }}>
+              <button className="demo-button">
+                Login as Employee
+              </button>
+            </Link>
+          </div>
+        )}
+      </div>
     </nav>
 
     {/* hero section */}
