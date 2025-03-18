@@ -133,10 +133,10 @@
 
 import React, { useState } from 'react';
 import './custom.css'; // Keep your custom styles
-import hrmLogo from '../assets/hrm logo.JPG'; // Ensure logo path is correct
+import hrmLogo from '../assets/hrm logo.png'; // Ensure logo path is correct
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import axios from 'axios';
-import Sideimage from '../assets/Sideimage.jpg'; // Ensure image path is correct
+import Sideimage from '../assets/Sideimage.png'; // Ensure image path is correct
 
 const HRlogin = () => {
   const [username, setUsername] = useState('');
