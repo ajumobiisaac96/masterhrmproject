@@ -502,8 +502,8 @@ const AddEmployee = () => {
                       </div>
                       <div className="form-group">
                         <label>Vacation Days<span style={{ color: 'red' }}>(Required)</span></label>
-                        <input type="text" name="Vacation_Days" value={formData.Vacation_Days} onChange={handleInputChange} className="formInput" placeholder="Enter Amount of Vacation Days"/>
-                        {error.Vacation_Days && <div className="error-message">{error.Vacation_Days}</div>}
+                        <input type="text" name="Annual_Leave_Days" value={formData.Annual_Leave_Days} onChange={handleInputChange} className="formInput" placeholder="Enter Amount of Vacation Days"/>
+                        {error.Annual_Leave_Days && <div className="error-message">{error.Annual_Leave_Days}</div>}
                       </div>
                     </div>
                     <div className="form-group">
