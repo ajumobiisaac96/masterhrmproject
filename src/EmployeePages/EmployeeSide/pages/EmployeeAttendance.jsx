@@ -535,6 +535,7 @@ import { Link } from 'react-router-dom';
 import AttendanceTable from '../components/AttendanceTable.jsx';
 import Pagination from '../components/Pagination.jsx';
 
+
 const EmployeeAttendance = () => {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth() + 1;
@@ -732,3 +733,7 @@ const EmployeeAttendance = () => {
 };
 
 export default EmployeeAttendance;
+
+
+
+
