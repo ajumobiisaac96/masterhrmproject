@@ -651,6 +651,20 @@ const EmployeeDashboard = () => {
   const [clockInTime, setClockInTime] = useState(null);
   const [clockOutTime, setClockOutTime] = useState(null);
 
+  const [attendanceSummary, setAttendanceSummary] = useState({
+    attendance_percentage: 0,
+    days_worked: 0,
+    days_absent: 0,
+    undertime_hours: 0,
+    overtime_hours: 0,
+  });
+
+  const [compensationData, setCompensationData] = useState({
+    payment_status: 'Unpaid',
+    last_salary: 0,
+    next_salary_date: '',
+  });
+
   useEffect(() => {
     const authData = JSON.parse(localStorage.getItem('employeeAuthToken'));
     const token = authData?.token;
@@ -703,9 +717,47 @@ const EmployeeDashboard = () => {
       }
     };
 
+    // Fetch Attendance Summary
+    const fetchAttendanceSummary = async () => {
+      try {
+        const response = await fetch('https://proximahr.onrender.com/attendance/employee/attendance-summary', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+        console.log('Attendance Summary:', data);
+        setAttendanceSummary({
+          attendance_percentage: data.attendance_percentage || 0,
+          days_worked: data.days_worked || 0,
+          days_absent: data.absences || 0,
+          undertime_hours: data.undertime_hours || 0,
+          overtime_hours: data.total_overtime_hours || 0,
+        });
+      } catch (error) {
+        console.error('Error fetching attendance summary:', error);
+      }
+    };
+
     fetchMonthlyStats();
     fetchLeaveStats();
+    fetchAttendanceSummary();
   }, [currentMonth, currentYear]);
+
+  useEffect(() => {
+    const paymentStatus = attendanceStats.net_pay ? 'Paid' : 'Unpaid';
+    const nextSalaryDate = new Date(currentYear, currentMonth, 0).toLocaleDateString(); // Last day of the current month
+
+    setCompensationData({
+      payment_status: paymentStatus,
+      last_salary: attendanceStats.net_pay || 0,
+      next_salary_date: nextSalaryDate,
+    });
+  }, [attendanceStats]);
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(amount);
+  };
 
   const startTimer = async () => {
     const authData = JSON.parse(localStorage.getItem('employeeAuthToken'));
@@ -901,15 +953,10 @@ const EmployeeDashboard = () => {
           </div>
 
 
-
-
-
-
-
-
-
-
-{/* Clock In / Clock Out Section */}
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+      {/* First Row: Clock In/Clock Out and Leave Requests */}
+      <div style={{ width: '48%' }}>
+      {/* Clock In / Clock Out Section */}
       <div className="grid">
         <h1>Clock In / Clock Out</h1>
         <hr />
@@ -961,43 +1008,119 @@ const EmployeeDashboard = () => {
         {isBreakActive ? 'End Break' : 'Start Break'}
       </button>
     </div>
+    </div>
 
 
+    {/* Leave Requests Section */}
+    <div style={{ width: '48%' }}>
+    <div className="grid">
+      <h1>Leave Requests</h1>
+      <hr />
+      <h5>Number of pending Leave Requests</h5>
+      <h6>{leaveStats.pending_leave_requests} pending Tasks</h6>
+
+      <div className="priority">
+        <h5>Number of available remaining</h5>
+        <h6 style={{ background: 'none', border: '1px solid #D9D9D9', color: '#2E2E2E', textAlign: 'left', width: '100px' }}>
+          {leaveStats.remaining_leave_days} Days
+        </h6>
+      </div>
+
+      <div className="TaskProgress">
+        <h5>Number of approved leaves</h5>
+        <h6 style={{ background: 'none', border: '1px solid #D9D9D9', color: '#2E2E2E', textAlign: 'left', width: '200px' }}>
+          {leaveStats.approved_leave_requests} Approved Leaves
+        </h6>
+      </div>
+
+      <div className="last-div">
+        <button style={{ width: '200px', background: '#007BFF', color: '#fff' }}>
+          <FontAwesomeIcon icon="fa-solid fa-calendar" />
+          Request Leave
+        </button>
+      </div>
+    </div>
+</div>
+</div>
+
+  {/* Second Row: Attendance Summary and Compensation */}
+  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginTop: '20px' }}>
+    <div style={{ width: '48%' }}>
+    {/* Attendance Summary Card */}
+    <div className="grid">
+      <h1>Attendance Summary</h1>
+      <hr />
+      <div className="TaskProgress-3" style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div className="attendance-div">
+          <h5>Total Attendance Percentage</h5>
+          <p style={{ color: attendanceSummary.attendance_percentage >= 75 ? '#22C55E' : '#FF6464' }}>
+            {attendanceSummary.attendance_percentage}%
+          </p>
+        </div>
+        <div className="attendance-div">
+          <h5>Days Worked</h5>
+          <p>{attendanceSummary.days_worked} days</p>
+        </div>
+        <div className="attendance-div">
+          <h5>Days Absent</h5>
+          <p>{attendanceSummary.days_absent} days</p>
+        </div>
+      </div>
+
+      <div className="TaskProgress-3">
+        <h5>Undertime Hours</h5>
+        <p>{attendanceSummary.undertime_hours} hours</p>
+      </div>
+
+      <div className="TaskProgress-3">
+        <h5>Overtime Hours</h5>
+        <p>{attendanceSummary.overtime_hours} hours</p>
+      </div>
+
+      <div className="last-div">
+        <button style={{ width: '200px', background: '#007BFF', color: '#fff' }}>
+          <FontAwesomeIcon icon="fa-solid fa-clock" />
+          View Attendance
+        </button>
+      </div>
+    </div>
+
+    </div>
 
 
-
-
-
-
-
-          {/* Leave Requests Section */}
-          <div className="grid">
-            <h1>Leave Requests</h1>
+    <div style={{ width: '48%' }}>
+        {/* Compensation Card */}
+        <div className="grid">
+            <h1>Compensation</h1>
             <hr />
-            <h5>Number of pending Leave Requests</h5>
-            <h6>{leaveStats.pending_leave_requests} pending Tasks</h6>
-
-            <div className="priority">
-              <h5>Number of available remaining</h5>
-              <h6 style={{ background: 'none', border: '1px solid #D9D9D9', color: '#2E2E2E', textAlign: 'left', width: '100px' }}>
-                {leaveStats.remaining_leave_days} Days
-              </h6>
+            <div className="TaskProgress-3" style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div className="attendance-div">
+                <h5>Payment Status</h5>
+                <p style={{ color: compensationData.payment_status === 'Paid' ? '#22C55E' : '#FF6464' }}>
+                  {compensationData.payment_status}
+                </p>
+              </div>
+              <div className="attendance-div">
+                <h5>Last Salary</h5>
+                <p>{compensationData.last_salary ? formatCurrency(compensationData.last_salary) : 'Not Paid'}</p>
+              </div>
             </div>
 
-            <div className="TaskProgress">
-              <h5>Number of approved leaves</h5>
-              <h6 style={{ background: 'none', border: '1px solid #D9D9D9', color: '#2E2E2E', textAlign: 'left', width: '200px' }}>
-                {leaveStats.approved_leave_requests} Approved Leaves
-              </h6>
+            <div className="TaskProgress-3">
+              <h5>Next Salary</h5>
+              <p>Due: {compensationData.next_salary_date}</p>
             </div>
 
             <div className="last-div">
               <button style={{ width: '200px', background: '#007BFF', color: '#fff' }}>
-                <FontAwesomeIcon icon="fa-solid fa-calendar" />
-                Request Leave
+                <FontAwesomeIcon icon="fa-solid fa-dollar-sign" />
+                Compensation
               </button>
             </div>
           </div>
+          </div>
+        </div>
+
 
         </div>
       </div>

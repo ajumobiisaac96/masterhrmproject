@@ -16,19 +16,9 @@ const AddEmployeeToDepartment = () => {
           <div className="main-dashboard">
             <Sidebar />
             <div className="dashboard">
-            <div className="slide-one-1">
-            <EmployerNavbar />
-            <div className="slide-one-2-1">
-              <div className="notification">
-                <FontAwesomeIcon icon="fa-solid fa-bell" />
-                <h6>6</h6>
-              </div>
 
-              <div className="user-profile">
-                <img src={test} alt="My profile" className="My-profile" />
-              </div>
-            </div> 
-          </div>
+            <EmployerNavbar />
+
     
               <hr className="horizontal" />
     
