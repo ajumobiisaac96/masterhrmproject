@@ -59,3 +59,162 @@
   cursor: pointer;
 }
 
+.trend-icon {.dashboard-details-1 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+  gap: 20px; /* Space between cards */
+  padding: 20px;
+}
+
+
+.grid-item {
+  padding: 10px;
+  background: #f4f4f4;
+  border-radius: 8px;
+}
+
+.graph-item {
+  padding: 10px;
+  background: #f4f4f4;
+  border-radius: 8px;
+}
+
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.trend-icon span {
+  margin-left: 5px;
+  font-weight: bold;
+}
+
+
+.dashboard-details-1 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+
+.grid-item {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+h4 {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+h5 {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+p {
+  font-size: 14px;
+  color: #555;
+}
+
+
+.achiever-card {
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.achiever-card h5 {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.achiever-card p {
+  font-size: 14px;
+  color: #555;
+}
+
+.rating {
+  font-size: 16px;
+  color: #FFD700;
+}
+
+/* Flex layout for cards */
+.card-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+}
+
+.card-item {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  min-width: 220px;
+}
+
+h5 {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+p {
+  font-size: 14px;
+  color: #555;
+}
+
+.graphs-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+h4 {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+h5 {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+p {
+  font-size: 14px;
+  color: #555;
+}
+
+
+.no-data-message {
+  text-align: center;
+  color: #888;
+  font-size: 16px;
+  padding: 50px 0;
+}
+
+.no-data-message p {
+  font-size: 18px;
+  color: #888;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.graph-item {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  min-height: 300px; /* Ensuring space for the graph */
+}

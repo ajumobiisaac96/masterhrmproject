@@ -39,8 +39,6 @@
   import EmployeeLogin from './EmployeePages/EmployeeSide/pages/EmployeeLogin.jsx'
 
 
-
-
   function App() {
     return (
       <Router>
