@@ -3,15 +3,15 @@ import SignUpCard from '../assets/Signup card.jpg';
 
 const CardOne = () => {
   const cardStyle = {
-    width: '400px',
-    height: '400px',
+    width: '500px',
+    height: '520px',
     overflow: 'hidden',
     transition: 'transform 0.3s ease',
   };
 
   const imgStyle = {
-    width: '100%',
-    height: '100%',
+    width: '90%',
+    height: '90%',
     objectFit: 'cover',
   };
 

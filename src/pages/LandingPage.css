@@ -8,6 +8,7 @@ body {
 
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
   
 
@@ -169,11 +170,12 @@ body {
     align-items: center;
     gap: 2rem; /* Add space between items */
     padding: 2rem 5%;
+    width: 100%;
   }
 
   .sub-info-h1{
     font-family: Inter;
-    font-size: 32px;
+    font-size: 24px;
     font-weight: 600;
     line-height: 38.73px;
     text-align: center;
@@ -184,20 +186,23 @@ body {
     margin-top: 30px;
   }
 
+
   .sub-info .sub-info-div{
     width: 100%; /* Default to full width */
-    max-width: 300px; /* Limit width for individual divs */
+    max-width: 350px; /* Limit width for individual divs */
     margin: 1rem; /* Add margin for spacing */
   }
 
   .sub-info .sub-info-div img{
-    height: 300px;
+    height: 150px;
     border-radius: 8px;
+    margin-left: 70px;
   }
 
   .sub-info-div h1{
     font-family: Inter;
-    font-size: 24px;
+    font-size: 18px;
+    margin-left: -40px;
     font-weight: 600;
     line-height: 29.05px;
     text-align: center;
@@ -211,18 +216,19 @@ body {
     font-size: 16px;
     font-weight: 500;
     line-height: 19.2px;
+    margin-left: -40px;
     text-align: center;
     text-underline-position: from-font;
     text-decoration-skip-ink: none;
     color: #6E6E6E;
-    margin-top: 10px;
+    margin-top: 0px;
   }
 
 .sub-info-p{
   background-color: #FFF;
   font-family: Inter;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 100;
   line-height: 24px;
   text-align: center;
   text-underline-position: from-font;
@@ -233,6 +239,7 @@ body {
 
 .why-we-choose h1{
   font-family: Inter;
+  margin-bottom: 10px;
   font-size: 32px;
   font-weight: 600;
   line-height: 38.73px;
@@ -262,7 +269,7 @@ body {
 }
 
 .why-we-choose-dev img {
-  max-width: 100%; /* Ensure images scale */
+  max-width: 90%; /* Ensure images scale */
   height: auto;
 }
 
@@ -295,7 +302,7 @@ body {
   justify-content: center; /* Center content */
   align-items: center;
   gap: 2rem; /* Add spacing */
-  padding: 2rem 5%;
+  padding: 2rem 10%;
   text-align: center;
 }
 
@@ -314,9 +321,9 @@ body {
 
 .Last-side .left-col h1{
   font-family: Inter;
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 600;
-  line-height: 38.73px;
+  line-height: 30px;
   text-align: left;
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
@@ -325,17 +332,31 @@ body {
 
 .Last-side .left-col p{
   font-family: Inter;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
-  line-height: 24px;
+  line-height: 22px;
   text-align: left;
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
   color: #4E4E4E ;
 }
 
+.Last-side .right-col {
+ width: 100%;
+} 
+
+
+.Last-side .right-col img {
+  width: 1200px;
+ } 
+
+
 .Last-side .demo-button{
   margin-left: -1px;
+  background-color: #007BFF;
+  color: #FFF;
+  text-decoration: none;
+
 }
 
 .requestdemo{

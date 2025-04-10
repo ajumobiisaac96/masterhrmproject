@@ -427,16 +427,16 @@ const Department = () => {
   
         if (!companyId || !storedAuthData) throw new Error("Authentication data is missing.");
         const authData = JSON.parse(storedAuthData);
-        const token = authData?.token;
+        const token = authData?.access_token;
         if (!token) throw new Error("Authentication token is missing.");
   
-        const apiUrl = `https://proximahr.onrender.com/departments/?company_id=${companyId}`;
+        const apiUrl = `https://proximahr.onrender.com/api/v2/departments`;
         console.log("📡 API request sent to:", apiUrl);
   
         const response = await fetch(apiUrl, {
           method: "GET",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json", 
             Authorization: `Bearer ${token}`,
           },
         });

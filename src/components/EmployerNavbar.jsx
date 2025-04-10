@@ -94,8 +94,8 @@ const UserNavbar = () => {
 
       try {
         const authData = JSON.parse(localStorage.getItem('authData'));
-        if (authData && authData.token) {
-          accessToken = authData.token;
+        if (authData && authData.access_token) {
+          accessToken = authData.access_token;
         }
       } catch (err) {
         console.error('Error parsing authData from local storage', err);

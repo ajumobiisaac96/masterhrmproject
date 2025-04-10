@@ -17,8 +17,7 @@ import LastSlide from '../assets/LastSIDE.png'
 import Footer from '../components/Footer';
 import {Link} from 'react-router-dom'
 import { useState } from 'react';
-
-
+import {useNavigate} from 'react-router-dom'
 
 
 
@@ -32,6 +31,12 @@ const LandingPage = () => {
     setDropdownVisible(!dropdownVisible);
   };
 
+
+const navigate = useNavigate();
+
+const handleNavigate = () => {
+  navigate('/companyregister');
+};
 
   return (
     <div>
@@ -105,13 +110,13 @@ const LandingPage = () => {
     <div className="hero-section" id='home'>
         <h1>Stop Wasting Time on Manual HR Tasks <br />
         <span>Simplify</span> Management</h1>
-        <p>Streamline attendance, payroll, leave tracking, and reporting to save time and <br /> boost productivity</p>
+        <p style={{fontSize:'20px'}}>Streamline attendance, payroll, leave tracking, and reporting to save time and <br /> boost productivity</p>
         <Link to={'/companyregister'} ><button className='hero-btn' >Request Demo <FontAwesomeIcon icon="fa-solid fa-arrow-right" /> </button></Link>
         <img src={HeroImage} alt="" />
     </div>
 
 
-      <div className='sub-info-h1' style={{lineHeight:'70px', fontSize:'22px'}} >
+      <div className='sub-info-h1' style={{lineHeight:'70px', fontSize:'18px'}} >
         <h1>Everything You Need to Manage Your Workforce</h1>
       </div>
 
@@ -120,7 +125,7 @@ const LandingPage = () => {
       <div className="sub-info-div">
         <img src={EmployeeIcon} alt="" />
         <h1>Efficient Employee Management</h1>
-        <p>Keep all employee details in one place.</p>
+        <p>Keep all employee details in one <br /> place.</p>
       </div>
 
       <div className="sub-info-div">
@@ -132,16 +137,16 @@ const LandingPage = () => {
       <div className="sub-info-div">
         <img src={TaskIcon} alt="" />
         <h1>Simple Leave Tracking</h1>
-        <p>Track employee leave balances with no hassle.</p>
+        <p>Track employee leave balances with <br /> no hassle.</p>
       </div>
 
     </div>
 
-    <div className='sub-info-h1' style={{lineHeight:'50px', fontSize:'22px'}} >
+    <div className='sub-info-h1' style={{lineHeight:'40px', fontSize:'16px', fontWeight:'600'}} >
         <h1>Your Complete Workforce <br /> Management Solution</h1>
     </div>
 
-    <div className='sub-info-p' id="features" style={{lineHeight:'30px'}} >
+    <div className='sub-info-p' id="features" style={{lineHeight:'25px', fontSize :'8px', fontWeight:'100'}} >
         <h1>Streamline your HR processes with a platform <br /> designed to manage every aspect of your workforce</h1>
     </div>
 
@@ -151,7 +156,7 @@ const LandingPage = () => {
 
     <div className="why-we-choose" id='benefits'>
       <h1>Why Choose Our HRMS</h1>
-      <p>Manage your workforce with ease, precision, and clarity.</p>
+      <p>Manage your workforce with ease, precision, <br /> and clarity.</p>
     </div>
 
     <div className='why-we-choose-dev'>
@@ -179,19 +184,19 @@ const LandingPage = () => {
       <div className="left-col">
         <h1>Streamline Your HR Operations with Proxima Hr </h1>
         <p>Proxima Hr is a cutting-edge Human Resource Management System that revolutionizes workforce management. It empowers HR professionals to handle complex tasks effortlessly, from payroll to attendance tracking. By centralizing data , it saves time and reduces errors, allowing focus on building a productive workforce.</p>
-        <Link to={'/companyregister'} ><button class="demo-button" style={{textDecoration: 'none'}}>
+        <button class="demo-button" onClick={handleNavigate} >
             Request Demo
             <span class="arrow-icon">➔</span>
-        </button></Link>
+        </button>
       </div>
       <div className="right-col">
         <img src={LastSlide} alt="" />
       </div>
     </div>
 
-    <Link to={'/companyregister'} ><div className="requestdemo">
-      <h1>Request a Demo <FontAwesomeIcon icon="fa-solid fa-arrow-right" /></h1>
-      </div></Link>
+    <div className="requestdemo">
+      <h1 onClick={handleNavigate} >Request a Demo <FontAwesomeIcon icon="fa-solid fa-arrow-right" /></h1>
+      </div>
     </div>
 
     <div className="footer">

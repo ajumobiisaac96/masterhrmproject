@@ -234,7 +234,7 @@ const AddDepartment = () => {
                 throw new Error("Invalid authentication data format. Please log in again.");
             }
     
-            const token = authData?.token;
+            const token = authData?.access_token;
             if (!token) throw new Error("Authentication token is missing. Please log in.");
     
             // ✅ Get Company ID
@@ -257,7 +257,7 @@ const AddDepartment = () => {
             console.log("Sending Data:", departmentData);
     
             // ✅ Send API request
-            const response = await fetch(`https://proximahr.onrender.com/departments/create-department?company_id=${companyId}`, {
+            const response = await fetch(`https://proximahr.onrender.com/api/v2/departments/create-department`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

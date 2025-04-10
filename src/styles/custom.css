@@ -349,3 +349,17 @@
   margin-left: 20px; 
   margin-right: 20px;
 }
+
+.custom-toast-error {
+  font-size: 18px;
+  padding: 14px 20px;
+  font-weight: 500;
+}
+
+.custom-toast-success {
+  padding: 14px 20px;
+  font-size: 18px;
+  font-weight: 500;
+  background-color: #d1f5d3 !important;
+  color: #205c20 !important;
+}
