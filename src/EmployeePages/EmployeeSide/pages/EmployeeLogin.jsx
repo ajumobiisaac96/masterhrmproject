@@ -137,38 +137,39 @@ import hrmLogo from '../assets/hrm logo.png'; // Ensure logo path is correct
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import axios from 'axios';
 import Sideimage from '../assets/Sideimage.png'; // Ensure image path is correct
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const HRlogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isLoggingIn, setIsLoggingIn] = useState(false); // State to track button state
-  const navigate = useNavigate(); // Initialize the navigate function
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent form reload
+    e.preventDefault();
 
-    // Retrieve company_id from local storage
-    const companyId = localStorage.getItem('company_id');
-    if (!companyId) {
-      setError('Company ID not found. Please log in again.');
+    // Basic validation: Ensure both fields are filled
+    if (!username || !password) {
+      toast.error('Both username and password are required.', {
+        autoClose: 15000,
+        position: 'top-right',
+        className: 'custom-toast-error',
+      });
       return;
     }
 
-    const userType = 'employee'; // Set user type
-
     try {
-      setIsLoggingIn(true); // Set logging in state to true
+      setIsSubmitting(true);
 
-      // Create a URLSearchParams object to format the body
-      const body = new URLSearchParams();
-      body.append('username', username);
-      body.append('password', password);
-
-      // Make API request
+      // Sending login request with required parameters
       const response = await axios.post(
-        `https://proximahr.onrender.com/company/login?company_id=${companyId}&user_type=${userType}`,
-        body, 
+        'https://proximahr.onrender.com/api/v2/company/login',
+        new URLSearchParams({
+          username,
+          password,
+          grant_type: 'password',  // Grant type required for the request
+        }),
         {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -176,22 +177,39 @@ const HRlogin = () => {
         }
       );
 
-      console.log('Login successful:', response.data); // ✅ Debugging log
+      const { access_token, token_type } = response.data;
 
-      // Ensure the API response contains the correct access token
-      const token = response.data.access_token; 
-      if (token) {
-        localStorage.setItem('employeeAuthToken', JSON.stringify({ token })); // Store token as 'employeeAuthToken'
-        console.log("Stored employeeAuthToken:", localStorage.getItem("employeeAuthToken")); // ✅ Debugging log
-        navigate('/EmployeeDashboard'); // Redirect to dashboard
+      if (access_token && token_type) {
+        // Store access token in localStorage
+        localStorage.setItem('authData', JSON.stringify({ access_token, token_type }));
+
+        // Show success message and navigate to dashboard
+        toast.success('Login successful! Redirecting to your dashboard...', {
+          autoClose: 15000,
+          position: 'top-right',
+          className: 'custom-toast-success',
+        });
+
+        setTimeout(() => {
+          navigate('/EmployeeDashboard'); // Redirect after success
+        }, 2000); // Delay the redirect so the success toast can show
+
       } else {
-        setError("No token received. Please contact support.");
+        toast.error('No token received. Please contact support.', {
+          autoClose: 15000,
+          position: 'top-right',
+          className: 'custom-toast-error',
+        });
       }
     } catch (error) {
       console.error('Login error:', error.response ? error.response.data : error.message);
-      setError('Incorrect email or password. Please try again.');
+      toast.error('Incorrect username or password. Please try again.', {
+        autoClose: 15000,
+        position: 'top-right',
+        className: 'custom-toast-error',
+      });
     } finally {
-      setIsLoggingIn(false); // Reset logging in state to false
+      setIsSubmitting(false);
     }
   };
 
@@ -251,13 +269,13 @@ const HRlogin = () => {
                 borderRadius: '5px',
                 border: 'none'
               }}
-              disabled={isLoggingIn} // Disable button while logging in
+              disabled={isSubmitting} // Disable button while logging in
             >
-              {isLoggingIn ? 'Logging in...' : 'Login'} {/* Show "Logging in..." if submitting */}
+              {isSubmitting ? 'Logging in...' : 'Login'} {/* Show "Logging in..." if submitting */}
             </button>
           </form>
 
-          {error && <div className="setError" style={{ color: 'red', marginTop: '10px', textAlign: 'center' }}>{error}</div>} {/* Show error message if exists */}
+          {/* {error && <div className="setError" style={{ color: 'red', marginTop: '10px', textAlign: 'center' }}>{error}</div>} Show error message if exists */}
 
           <div className="login" style={{ textAlign: 'center', marginTop: '20px' }}>
             <h1>

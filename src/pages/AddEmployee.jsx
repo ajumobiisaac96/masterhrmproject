@@ -90,7 +90,7 @@ const AddEmployee = () => {
           try {
               const companyId = localStorage.getItem('company_id');
               const storedAuthData = localStorage.getItem('authData');
-              const token = storedAuthData ? JSON.parse(storedAuthData).token : null;
+              const token = storedAuthData ? JSON.parse(storedAuthData).access_token : null;
 
               if (!companyId || !token) return;
               
@@ -205,7 +205,7 @@ const AddEmployee = () => {
         if (!storedAuthData) throw new Error('Authentication data is missing. Please log in.');
 
         const authData = JSON.parse(storedAuthData);
-        const token = authData?.token;
+        const token = authData?.access_token;
         if (!token) throw new Error('Authentication token is missing. Please log in.');
 
         // ✅ Ensure Correct Data Formatting

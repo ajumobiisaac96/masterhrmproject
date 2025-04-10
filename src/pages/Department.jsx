@@ -480,7 +480,7 @@ const Department = () => {
   const handleDeleteDepartment = async () => {
     try {
       const companyId = localStorage.getItem("company_id");
-      const authToken = JSON.parse(localStorage.getItem("authData"))?.token;
+      const authToken = JSON.parse(localStorage.getItem("authData"))?.access_token;
 
       if (!companyId || !authToken) {
         setError('You are not authorized to delete this department.');
@@ -488,7 +488,7 @@ const Department = () => {
       }
 
       const response = await fetch(
-        `https://proximahr.onrender.com/departments/${selectedDepartmentId}/delete-department?company_id=${companyId}`,
+        `https://proximahr.onrender.com/api/v2/departments/{department_id}/delete-department`,
         {
           method: 'DELETE',
           headers: {
@@ -521,9 +521,9 @@ const Department = () => {
 
   const handleCardClick = async (departmentId) => {
     try {
-      const token = JSON.parse(localStorage.getItem("authData"))?.token;
+      const token = JSON.parse(localStorage.getItem("authData"))?.access_token;
       const companyId = localStorage.getItem("company_id");
-      const apiUrl = `https://proximahr.onrender.com/employee-management/all-employees?company_id=${companyId}&page=1&page_size=10`;
+      const apiUrl = `https://proximahr.onrender.com/api/v2/employee-management/all-employees`;
 
       const response = await fetch(apiUrl, {
         method: "GET",
@@ -576,36 +576,90 @@ const Department = () => {
         <div className="dashboard">
           <EmployerNavbar />
           <hr className="horizontal" />
-          <div className="dashboard-details">
-            <h5>Department</h5>
-            <h6>{new Date().toDateString()}</h6>
+          <div className="dashboard-details" style={{display:'flex', flexDirection:'column', alignItems:'flex-start'}} >
+            <h5 style={{marginBottom:'15px'}} >Department</h5>
+            <h6>{new Date().toLocaleDateString('en-GB', { day: '2-digit', weekday: 'long', month: 'long', year: 'numeric' })}</h6>
           </div>
 
           {error && <div className="message error">{error}</div>}
           {successMessage && <div className="message success">{successMessage}</div>}
 
-          <div className="number-of-employee">
+          <div className="number-of-employee" style={{marginTop:"20px", marginBottom:'20px'}} >
             <div className="new-div-1">
               <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" className="glass-icon" />
               <input type="text" placeholder="Search Department" value={searchTerm} onChange={handleSearch} />
             </div>
             <div className="div-2">
-              <div className="btn-1">
-                <button onClick={() => setIsOpen(!isOpen)}>
-                  <FontAwesomeIcon icon="fa-solid fa-filter" /> {selectedFilter}
-                </button>
-              </div>
-              {isOpen && (
-                <div className="dropdownstyle">
-                  <p onClick={() => handleFilter("All")}>All</p>
-                  {departments.map((dept, index) => (
-                    <p key={index} onClick={() => handleFilter(dept.name)}>{dept.name}</p>
-                  ))}
-                </div>
-              )}
+            <div className="btn-1" style={{ position: 'relative', display: 'inline-block' }}>
+  <button 
+    onClick={() => setIsOpen(!isOpen)} 
+    style={{
+      padding: '10px 20px', 
+      backgroundColor: '#007BFF', 
+      color: 'white', 
+      border: 'none', 
+      borderRadius: '5px', 
+      cursor: 'pointer',
+      display: 'flex', 
+      alignItems: 'center',
+      gap: '8px',
+      fontSize: '16px',
+    }}
+  >
+    <FontAwesomeIcon icon="fa-solid fa-filter" />
+    {selectedFilter}
+  </button>
+
+  {isOpen && (
+    <div 
+      className="dropdownstyle" 
+      style={{
+        position: 'absolute', 
+        top: '100%', // Position it directly under the button
+        left: 0,
+        backgroundColor: '#fff', 
+        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.15)', 
+        borderRadius: '5px',
+        width: '100%', // Ensure the dropdown is the same width as the button
+        zIndex: 1000, 
+        marginTop: '8px', // Space between button and dropdown
+        padding: '10px 0', 
+      }}
+    >
+      <p 
+        onClick={() => handleFilter("All")} 
+        style={{
+          padding: '8px 20px',
+          margin: 0,
+          cursor: 'pointer',
+          fontSize: '14px',
+          fontWeight: '500',
+        }}
+      >
+        All
+      </p>
+      {departments.map((dept, index) => (
+        <p 
+          key={index} 
+          onClick={() => handleFilter(dept.name)} 
+          style={{
+            padding: '8px 20px',
+            margin: 0,
+            cursor: 'pointer',
+            fontSize: '14px',
+            fontWeight: '500',
+          }}
+        >
+          {dept.name}
+        </p>
+      ))}
+    </div>
+  )}
+</div>
+
               <div className="btn">
                 <Link to={"/department/add-new-department"}>
-                  <button><FontAwesomeIcon icon="fa-solid fa-plus" />Add New Department</button>
+                  <button style={{backgroundColor:'#007BFF', color: '#ffff', border:'none'}} ><FontAwesomeIcon icon="fa-solid fa-plus"  />Add New Department</button>
                 </Link>
               </div>
             </div>
@@ -616,56 +670,144 @@ const Department = () => {
               <p>No departments found</p>
             ) : (
               filteredDepartments.map((dept, index) => (
-                <div key={index} className="card-3">
-                  <div className="one-div">
-                    <div><h1>{dept.name}</h1></div>
-                    <div className="special-div">
-                      <FontAwesomeIcon icon="fa-solid fa-pen-to-square" onClick={() => handleCardClick(dept.id)} />
-                      <FontAwesomeIcon icon="fa-solid fa-trash-can" onClick={() => {
-                        setSelectedDepartmentId(dept.id);
-                        setShowDeletePopup(true);
-                      }} />
-                    </div>
-                  </div>
-                  <hr className="new-hr" />
-                  <div className="two-div">
-                    <div><img src={test} alt="HOD" className="My-profile" /></div>
-                    <div><p>Department Head</p><h2>{dept.hod ? `${dept.hod.first_name} ${dept.hod.last_name}` : 'Not Assigned'}</h2></div>
-                  </div>
-                  <div className="three-div">
-                    <div className="new-div">
-                      <div><FontAwesomeIcon icon="fa-solid fa-users" className="new-div-icon" /></div>
-                      <div><p>Team Members</p><h2>{dept.staff_size || 0}</h2></div>
-                    </div>
-                  </div>
-                  <div className="four-div">
-                    <div className="div-2-2">
-                      <p>Description</p>
-                      <h1>{dept.description || 'No description available'}</h1>
-                    </div>
-                  </div>
-                  <div className="five-div">
-                    <button onClick={() => handleViewDepartmentClick(dept)}>View Department</button>
+              <div key={index} className="card-3" style={{ border: '1px solid #ccc', borderRadius: '8px', padding: '20px', width: '380px', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', marginBottom: '20px', marginLeft:'-20px' }}>
+                <div className="one-div" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <h1 style={{ fontSize: '20px', fontWeight: '600' }}>{dept.name}</h1>
+                  <div className="special-div" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                    <FontAwesomeIcon icon="fa-solid fa-pen-to-square" style={{ cursor: 'pointer', fontSize: '16px' }} onClick={() => handleCardClick(dept.id)} />
+                    <FontAwesomeIcon icon="fa-solid fa-trash-can" style={{ cursor: 'pointer', fontSize: '16px' }} onClick={() => {
+                      setSelectedDepartmentId(dept.id);
+                      setShowDeletePopup(true);
+                    }} />
                   </div>
                 </div>
+
+                <hr className="new-hr" style={{ border: '1px solid #ddd', margin: '10px 0', width:'380px', marginLeft: '-20px' }} />
+
+                <div className="two-div" style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+                  <div><img src={test} alt="HOD" className="My-profile" style={{ width: '40px', height: '40px', borderRadius: '50%' }} /></div>
+                  <div>
+                    <p style={{ fontSize: '14px', color: '#6C757D' }}>Department Head</p>
+                    <h2 style={{ fontSize: '16px', fontWeight: '500' }}>{dept.hod ? `${dept.hod.first_name} ${dept.hod.last_name}` : 'Not Assigned'}</h2>
+                  </div>
+                </div>
+
+                <div className="three-div" style={{ marginTop: '15px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', background: '#f8f9fa', padding: '8px 15px', borderRadius: '20px' }}>
+                    <FontAwesomeIcon icon="fa-solid fa-users" className="new-div-icon" style={{ fontSize: '16px', color: '#007BFF' }} />
+                    <p style={{ fontSize: '14px', marginLeft: '5px' }}>Team Members</p>
+                    <h2 style={{ fontSize: '16px', fontWeight: '500', marginLeft: '5px' }}>{dept.staff_size || 0}</h2>
+                  </div>
+                </div>
+
+                <div className="four-div" style={{ marginTop: '15px' }}>
+                  <div className="div-2-2">
+                    <p style={{ fontSize: '14px', color: '#6C757D' }}>Description</p>
+                    <h1 style={{ fontSize: '16px', fontWeight: '400' }}>{dept.description || 'No description available'}</h1>
+                  </div>
+                </div>
+
+                <div className="five-div" style={{ marginTop: '20px' }}>
+                  <button onClick={() => handleViewDepartmentClick(dept)} style={{ width: '100%', padding: '10px', backgroundColor: '#007BFF', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: '500' }}>
+                    View Department
+                  </button>
+                </div>
+              </div>
+
               ))
             )}
           </div>
         </div>
       </div>
 
-      {showDeletePopup && (
-        <div className="delete-popup show">
-          <div className="check-icon">
-            <FontAwesomeIcon icon="fa-solid fa-exclamation-circle" />
-          </div>
-          <h2>Are you sure you want to delete this department?</h2>
-          <div className="options">
-            <button className="btn" onClick={handleDeleteDepartment}>Yes, Delete</button>
-            <button className="cancel-btn" onClick={() => setShowDeletePopup(false)}>Cancel</button>
-          </div>
-        </div>
-      )}
+      {/* {showDeletePopup && (
+  <div 
+    className="delete-popup show" 
+    style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100vh',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Black transparent fill that covers the full page
+      zIndex: 1000, // Ensure the overlay is on top
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
+  >
+    <div 
+      className="popup-content" 
+      style={{
+        backgroundColor: 'white', 
+        padding: '20px', 
+        borderRadius: '15px', 
+        width: '90%', // Reduced size
+        maxWidth: '400px', // Smaller modal
+        textAlign: 'center', 
+        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.15)',
+      }}
+    >
+      <div 
+        className="check-icon" 
+        style={{
+          fontSize: '50px', 
+          color: '#f39c12', // Orange color
+          marginBottom: '20px',
+        }}
+      >
+        <FontAwesomeIcon icon="fa-solid fa-exclamation-circle" />
+      </div>
+      <h2 
+        style={{
+          fontSize: '24px', 
+          fontWeight: '600', 
+          color: '#333',
+          marginBottom: '10px',
+        }}
+      >
+        Are you sure you want to delete this department?
+      </h2>
+      <div className="options" style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+        <button 
+          className="btn" 
+          onClick={handleDeleteDepartment} 
+          style={{
+            backgroundColor: '#e74c3c', 
+            color: 'white', 
+            padding: '12px 25px', 
+            border: 'none', 
+            borderRadius: '5px', 
+            cursor: 'pointer',
+            fontSize: '18px',
+            fontWeight: '600',
+          }}
+        >
+          Yes, Delete
+        </button>
+        <button 
+          className="cancel-btn" 
+          onClick={() => setShowDeletePopup(false)} 
+          style={{
+            backgroundColor: '#95a5a6', 
+            color: 'white', 
+            padding: '12px 25px', 
+            border: 'none', 
+            borderRadius: '5px', 
+            cursor: 'pointer',
+            fontSize: '18px',
+            fontWeight: '600',
+          }}
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+)} */}
+
+
+
     </div>
   );
 };

@@ -544,7 +544,7 @@ const EmployeeManagement = () => {
         if (!storedAuthData) throw new Error("Authentication data is missing.");
 
         const authData = JSON.parse(storedAuthData);
-        const token = authData?.token;
+        const token = authData?.access_token;
         if (!token) throw new Error("Authentication token is missing.");
 
         const apiUrl = `https://proximahr.onrender.com/employee-management/all-employees?company_id=${companyId}&page=1&page_size=10`;

@@ -631,9 +631,9 @@ const Dashboard = () => {
 
           <hr className="horizontal" />
 
-          <div className="dashboard-details">
-            <h5>Dashboard</h5>
-            <h6>{new Date().toDateString()}</h6>
+          <div className="dashboard-details" style={{display:'flex', flexDirection:'column', alignItems:'flex-start'}} >
+            <h5 style={{marginBottom:'15px'}} >Dashboard</h5>
+            <h6>{new Date().toLocaleDateString('en-GB', { day: '2-digit', weekday: 'long', month: 'long', year: 'numeric' })}</h6>
           </div>
 
            {/* ✅ Dashboard Summary */}
@@ -671,165 +671,236 @@ const Dashboard = () => {
             </div>
             </div>
 
-          {/* ✅ 2x2 Grid Layout With Adjustable Height */}
-          <div className="dashboard-details-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
-            
-            {/* ✅ Department Overview */}
-            <div className="grid" style={{ minHeight: "420px"}}>
-              <h1>Department Overview</h1>
-              <hr />
-              <h5>Number of Departments</h5>
-              <h6>{departmentCount} Department(s)</h6>
-              <div className="priority">
-                <h5>Total Approved Leaves</h5>
-                <div>
-                  <h6>{approvedLeaveCount} Approved Leaves</h6>
-                </div>
-              </div>
-              <div className="priority">
-                <h5>Active Leaves</h5>
-                <div>
-                  <h6>{activeLeaveCount} Active Leaves</h6>
-                </div>
-              </div>
-              <div className="TaskProgress">
-                <h5>Attendance Rate</h5>
-                <div className="progress-bar">
-                  <div style={{ width: `${attendanceRate}%`, backgroundColor: "#4caf50", transition: "width 0.3s ease-in-out" }}></div>
-                </div>
-                <p>{attendanceRate}% Attendance</p>
-              </div>
+            <div className="dashboard-details-2" style={{
+                display: "grid", 
+                gridTemplateColumns: "1fr 1fr", 
+                gap: "15px", 
+                marginTop: "0px", 
+                padding: "10px"
+              }}>
 
-              <div className="last-div">
-                <div className="lastdiv-1">
-                  <FontAwesomeIcon icon={faCalendar} />
-                  <div>
-                    <h6>Average Work Hours</h6>
-                    <h5>{averageHoursWorked} Hours/Day</h5>
+                {/* ✅ Department Overview */}
+                <div className="grid" style={{
+                  minHeight: "440px", 
+                  padding: "15px", 
+                  backgroundColor: "#f9f9f9", 
+                  borderRadius: "8px", 
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"
+                }}>
+                  <h1 style={{ fontSize: "18px", marginBottom: "10px" }}>Department Overview</h1>
+                  <hr style={{ marginLeft:'-15px'}} />
+                  <h5 style={{ fontSize: "14px", marginBottom: "5px" }}>Number of Departments</h5>
+                  <h6 style={{ fontSize: "16px", fontWeight: "bold" , width:'200px'}}>{departmentCount} Department(s)</h6>
+
+                  <div className="priority" style={{ marginTop: "10px" }}>
+                    <h5 style={{ fontSize: "14px" }}>Total Approved Leaves</h5>
+                    <h6 style={{ fontSize: "14px" }}>{approvedLeaveCount} Approved Leaves</h6>
                   </div>
-                </div>
-                <Link to="/department"><button style={{ width: '170px', backgroundColor: "#007BFF", color: "#fff"}}>Manage Department</button></Link>
-              </div>
-            </div>
 
-            {/* ✅ Leave Requests */}
-            <div className="grid" style={{ minHeight: "420px"}}>
-              <h1>Leave Requests</h1>
-              <hr />
-              <h5>Pending Leaves</h5>
-              <h6>{pendingLeaves} Pending</h6>
-              <div className="priority">
-                <h5>Leave Type</h5>
-                <div>
-                  <h4>{pendingLeaves} pending</h4>
-                  <h3>{monthlyApprovedLeaves} Approved</h3>
-                </div>
-              </div>
-              <div className="TaskProgress">
-                <h5>Approval Status</h5>
-                <div className="progress-bar">
-                  <div style={{ width: `${leaveApprovalRate}%`, backgroundColor: "#2196F3", transition: "width 0.3s ease-in-out" }}></div>
-                </div>
-                <p>{leaveApprovalRate}% Approved</p>
-              </div>
-
-              <div className="last-div" style={{ marginTop: "65px"}}>
-                <div className="lastdiv-1">
-                  <FontAwesomeIcon icon={faCalendar} />
-                  <div>
-                    <h6>Monthly Approved Leaves</h6>
-                    <h5>{monthlyApprovedLeaves}</h5>
+                  <div className="priority" style={{ marginTop: "10px" }}>
+                    <h5 style={{ fontSize: "14px" }}>Active Leaves</h5>
+                    <h6 style={{ fontSize: "14px" }}>{activeLeaveCount} Active Leaves</h6>
                   </div>
-                </div>
-                <Link to={'/LeaveManagment'} ><button style={{ width: '170px', backgroundColor: "#007BFF", color: "#fff"}}>Manage Leaves</button></Link>
-              </div>
-            </div>
 
-            <div className="grid" style={{ minHeight: "420px", marginBottom: "110px"}}>
-                  <h1>Payroll Status</h1>
-                  <hr />
-                  <h5>Total Payroll Cost</h5>
-                  <h6>${totalPayrollCost.toFixed(2)}</h6>
-
-                  <div className="TaskProgress-3">
-                    <h5>Employees Paid</h5>
-                    <div
-                      style={{
-                        width: "100%",
-                        height: "10px",
-                        backgroundColor: "#e0e0e0",
-                        borderRadius: "5px",
-                        overflow: "hidden",
-                        padding: "0 5px",
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: `${paidPercentage}%`,
-                          height: "100%",
-                          backgroundColor: "#4caf50",
-                          transition: "width 0.3s ease-in-out",
-                        }}
-                      ></div>
+                  <div className="TaskProgress" style={{ marginTop: "15px" }}>
+                    <h5 style={{ fontSize: "14px" }}>Attendance Rate</h5>
+                    <div className="progress-bar" style={{ height: "6px", backgroundColor: "#e0e0e0" }}>
+                      <div style={{
+                        width: `${attendanceRate}%`, 
+                        backgroundColor: "#4caf50", 
+                        transition: "width 0.3s ease-in-out"
+                      }}></div>
                     </div>
-                    <p>{paidPercentage}% completed</p>
+                    <p style={{ fontSize: "14px", marginTop: "5px" }}>{attendanceRate}% Attendance</p>
                   </div>
 
-                  <div className="last-div-3">
-                    <div className="lastdiv-1-3">
-                      <div><FontAwesomeIcon icon={faCalendar} /></div>
-                      <div >
-                        <h6>Next Payroll Date</h6>
-                        <h5>{nextPayrollDate}</h5>
+                  <div className="last-div" style={{ marginTop: "15px", display: "flex", justifyContent: "space-between" }}>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <FontAwesomeIcon icon={faCalendar} />
+                      <div>
+                        <h6 style={{ fontSize: "14px" , border:"none", width:'200px', marginBottom:'10px'}}>Average Work Hours</h6>
+                        <h5 style={{ fontSize: "14px", marginLeft:'15px' }}>{averageHoursWorked} Hours/Day</h5>
                       </div>
                     </div>
-                    <Link to={'/PayrollManagement'} ><button style={{ width: '170px', backgroundColor: "#007BFF", color: "#fff"}} >Manage Payroll</button></Link>
-                  </div>
-                </div>  
-
-            <div className="grid" style={{ minHeight: "420px" , marginBottom: "110px"}}>
-              <h1>Birthdays & Anniversaries</h1>
-              <hr />
-              <h5>Total Upcoming Events</h5>
-              <h6>{totalEventCount} events</h6>
-
-              <div className="priority">
-                <h5>Upcoming Birthdays</h5>
-                {birthdays.length > 0 ? (
-                  birthdays.map((birthday, index) => (
-                    <h6 key={index}>
-                      {birthday.first_name} {birthday.last_name} - {birthday.this_year_birthday}
-                    </h6>
-                  ))
-                ) : (
-                  <h6 style={{width: "300px"}} >No upcoming birthdays</h6>
-                )}
-              </div>
-
-              <div className="priority">
-                <h5>Upcoming Anniversaries</h5>
-                {anniversaries.length > 0 ? (
-                  anniversaries.map((anniversary, index) => (
-                    <h6 key={index}>
-                      {anniversary.first_name} {anniversary.last_name} - {anniversary.this_year_anniversary}
-                    </h6>
-                  ))
-                ) : (
-                  <h6 style={{width: "300px"}}>No upcoming anniversaries</h6>
-                )}
-              </div>
-
-              <div className="last-div">
-                <div className="lastdiv-1">
-                  <FontAwesomeIcon icon={faCalendar} />
-                  <div>
-                    <h6>Manage Events</h6>
+                    <Link to="/department">
+                      <button style={{
+                        width: '130px', 
+                        backgroundColor: "#007BFF", 
+                        color: "#fff", 
+                        padding: "6px", 
+                        borderRadius: "5px", 
+                        fontSize: "14px"
+                      }}><FontAwesomeIcon icon={faBuilding} className="dashboard-icon" style={{color:'#ffff'}} />Manage</button>
+                    </Link>
                   </div>
                 </div>
-                {/* <button style={{ width: '170px' }}>Manage Events</button> */}
+
+                {/* ✅ Leave Requests */}
+                <div className="grid" style={{
+                  minHeight: "440px", 
+                  padding: "15px", 
+                  backgroundColor: "#f9f9f9", 
+                  borderRadius: "8px", 
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"
+                }}>
+                  <h1 style={{ fontSize: "18px", marginBottom: "10px" }}>Leave Requests</h1>
+                  <hr style={{ marginLeft:'-15px'}}  />
+                  <h5 style={{ fontSize: "14px", marginBottom: "5px" }}>Pending Leaves</h5>
+                  <h6 style={{ fontSize: "16px", fontWeight: "bold" }}>{pendingLeaves} Pending</h6>
+
+                  <div className="priority" style={{ marginTop: "10px" }}>
+                    <h5 style={{ fontSize: "14px" }}>Leave Type</h5>
+                    <h4 style={{ fontSize: "14px" }}>{pendingLeaves} pending</h4>
+                    <h3 style={{ fontSize: "16px", fontWeight: "bold" }}>{monthlyApprovedLeaves} Approved</h3>
+                  </div>
+
+                  <div className="TaskProgress" style={{ marginTop: "15px" }}>
+                    <h5 style={{ fontSize: "14px" }}>Approval Status</h5>
+                    <div className="progress-bar" style={{ height: "6px", backgroundColor: "#e0e0e0" }}>
+                      <div style={{
+                        width: `${leaveApprovalRate}%`, 
+                        backgroundColor: "#2196F3", 
+                        transition: "width 0.3s ease-in-out"
+                      }}></div>
+                    </div>
+                    <p style={{ fontSize: "14px", marginTop: "5px" }}>{leaveApprovalRate}% Approved</p>
+                  </div>
+
+                  <div className="last-div" style={{ marginTop: "50px" }}>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <FontAwesomeIcon icon={faCalendar} />
+                      <div>
+                        <h6 style={{ fontSize: "14px" , border:"none", width:'200px', marginBottom:'10px'}}>Monthly Approved Leaves</h6>
+                        <h5 style={{ fontSize: "14px", marginLeft:'15px' }}>{monthlyApprovedLeaves}</h5>
+                      </div>
+                    </div>
+                    <Link to="/LeaveManagment">
+                      <button style={{
+                        width: '130px', 
+                        backgroundColor: "#007BFF", 
+                        color: "#fff", 
+                        padding: "6px", 
+                        borderRadius: "5px", 
+                        fontSize: "14px"
+                      }}> <FontAwesomeIcon icon={faCalendar} className="dashboard-icon" style={{color:'#fff'}} />Manage</button>
+                    </Link>
+                  </div>
+                </div>
+
+                {/* ✅ Payroll Status */}
+                <div className="grid" style={{
+                  minHeight: "380px", 
+                  padding: "15px", 
+                  backgroundColor: "#f9f9f9", 
+                  borderRadius: "8px", 
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"
+                }}>
+                  <h1 style={{ fontSize: "18px", marginBottom: "10px" }}>Payroll Status</h1>
+                  <hr style={{ marginLeft:'-15px'}} />
+                  <h5 style={{ fontSize: "14px", marginBottom: "5px" }}>Total Payroll Cost</h5>
+                  <h6 style={{ fontSize: "16px", fontWeight: "bold" }}>N{totalPayrollCost.toFixed(2)}</h6>
+
+                  <div className="TaskProgress-3" style={{ marginTop: "15px" }}>
+                    <h5 style={{ fontSize: "14px" }}>Employees Paid</h5>
+                    <div style={{
+                      width: "100%", 
+                      height: "6px", 
+                      backgroundColor: "#e0e0e0", 
+                      borderRadius: "5px", 
+                      overflow: "hidden"
+                    }}>
+                      <div style={{
+                        width: `${paidPercentage}%`, 
+                        height: "100%", 
+                        backgroundColor: "#4caf50", 
+                        transition: "width 0.3s ease-in-out"
+                      }}></div>
+                    </div>
+                    <p style={{ fontSize: "14px", marginTop: "5px" }}>{paidPercentage}% completed</p>
+                  </div>
+
+                  <div className="last-div-3" style={{ marginTop: "100px", display: "flex", justifyContent: "space-between" }}>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <FontAwesomeIcon icon={faCalendar} />
+                      <div>
+                        <h6 style={{ fontSize: "14px" , border:"none", width:'200px', marginBottom:'10px'}}>Next Payroll Date</h6>
+                        <h5 style={{ fontSize: "14px", marginLeft:'15px' }}>{nextPayrollDate}</h5>
+                      </div>
+                    </div>
+                    <Link to="/PayrollManagement">
+                      <button style={{
+                        width: '130px', 
+                        backgroundColor: "#007BFF", 
+                        color: "#fff", 
+                        padding: "6px", 
+                        borderRadius: "5px", 
+                        fontSize: "14px"
+                      }}>Manage</button>
+                    </Link>
+                  </div>
+                </div>
+
+                {/* ✅ Birthdays & Anniversaries */}
+                <div className="grid" style={{
+                  minHeight: "380px", 
+                  padding: "15px", 
+                  backgroundColor: "#f9f9f9", 
+                  borderRadius: "8px", 
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"
+                }}>
+                  <h1 style={{ fontSize: "18px", marginBottom: "10px" }}>Birthdays & Anniversaries</h1>
+                  <hr style={{ marginLeft:'-15px'}} />
+                  <h5 style={{ fontSize: "14px", marginBottom: "5px" }}>Total Upcoming Events</h5>
+                  <h6 style={{ fontSize: "16px", fontWeight: "bold" }}>{totalEventCount} events</h6>
+
+                  <div className="priority" style={{ marginTop: "15px" }}>
+                    <h5 style={{ fontSize: "14px" }}>Upcoming Birthdays</h5>
+                    {birthdays.length > 0 ? (
+                      birthdays.map((birthday, index) => (
+                        <h6 key={index} style={{ fontSize: "14px", marginBottom: "5px" }}>
+                          {birthday.first_name} {birthday.last_name} - {birthday.this_year_birthday}
+                        </h6>
+                      ))
+                    ) : (
+                      <h6 style={{ fontSize: "14px", color: "#888" }}>No upcoming birthdays</h6>
+                    )}
+                  </div>
+
+                  <div className="priority" style={{ marginTop: "15px" }}>
+                    <h5 style={{ fontSize: "14px", }}>Upcoming Anniversaries</h5>
+                    {anniversaries.length > 0 ? (
+                      anniversaries.map((anniversary, index) => (
+                        <h6 key={index} style={{ fontSize: "14px", marginBottom: "5px"  }}>
+                          {anniversary.first_name} {anniversary.last_name} - {anniversary.this_year_anniversary}
+                        </h6>
+                      ))
+                    ) : (
+                      <h6 style={{ fontSize: "14px", color: "#888", width:'300px', textAlign:'left' }}>No upcoming anniversaries</h6>
+                    )}
+                  </div>
+
+                  <div className="last-div" style={{ marginTop: "20px", display: "flex", justifyContent: "space-between" }}>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <FontAwesomeIcon icon={faCalendar} />
+                      <div>
+                        <h6 style={{ fontSize: "14px", marginLeft:'15px', border:'none'}}>Manage Events</h6>
+                      </div>
+                    </div>
+                    {/* <button style={{
+                      width: '130px', 
+                      backgroundColor: "#007BFF", 
+                      color: "#fff", 
+                      padding: "6px", 
+                      borderRadius: "5px", 
+                      fontSize: "14px"
+                    }}>
+                      Manage Events
+                    </button> */}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+
+
         </div>
       </div>
     </div>
