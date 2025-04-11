@@ -23,8 +23,8 @@ const Profile = () => {
   let accessToken = null;
   try {
     const authData = JSON.parse(localStorage.getItem('authData'));
-    if (authData && authData.token) {
-      accessToken = authData.token;
+    if (authData && authData.access_token) {
+      accessToken = authData.access_token;
     }
   } catch (err) {
     console.error('Error parsing authData from local storage', err);
@@ -41,7 +41,7 @@ const Profile = () => {
 
       try {
         const response = await axios.get(
-          `https://proximahr.onrender.com/employee-management/${selectedEmployeeId}/employee`,
+          `https://proximahr.onrender.com/api/v2/employee-management/${selectedEmployeeId}/employee`,
           {
             params: { company_id: companyId },
             headers: { Authorization: `Bearer ${accessToken}` },

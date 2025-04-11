@@ -58,8 +58,8 @@ const AdminProfile = () => {
 
   try {
     const authData = JSON.parse(localStorage.getItem("authData"));
-    if (authData && authData.token) {
-      accessToken = authData.token;
+    if (authData && authData.access_token) {
+      accessToken = authData.access_token;
     }
   } catch (err) {
     console.error("Error parsing authData from local storage", err);
@@ -83,7 +83,7 @@ const AdminProfile = () => {
     }
 
     try {
-      const response = await axios.get(`https://proximahr.onrender.com/admin/profile`, {
+      const response = await axios.get(`https://proximahr.onrender.com/api/v2/admin/profile`, {
         params: { company_id: companyId },
         headers: { Authorization: `Bearer ${accessToken}` },
       });
@@ -92,7 +92,7 @@ const AdminProfile = () => {
       setAdminData(response.data);
 
       // Fetch Company Overview Stats
-      const apiUrl = `https://proximahr.onrender.com/dashboard/company-overview?company_id=${companyId}`;
+      const apiUrl = `https://proximahr.onrender.com/api/v2/dashboard/company-overview?company_id=${companyId}`;
       const companyResponse = await axios.get(apiUrl, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
@@ -177,7 +177,7 @@ const AdminProfile = () => {
 
     try {
       const response = await axios.post(
-        "https://proximahr.onrender.com/admin/profile-image-upload",
+        "https://proximahr.onrender.com/api/v2/admin/profile-image-upload",
         formData,
         {
           headers: {
@@ -218,7 +218,7 @@ const AdminProfile = () => {
 
     const companyId = localStorage.getItem("company_id");
     const storedAuthData = localStorage.getItem("authData");
-    const token = storedAuthData ? JSON.parse(storedAuthData).token : null;
+    const token = storedAuthData ? JSON.parse(storedAuthData).access_token : null;
 
     if (!companyId || !token) {
       console.error("❌ Missing company ID or authorization token.");
@@ -229,7 +229,7 @@ const AdminProfile = () => {
 
     try {
       const response = await axios.put(
-        "https://proximahr.onrender.com/admin/update-admin",
+        "https://proximahr.onrender.com/api/v2/admin/update-admin",
         {
           date_of_birth: formData.date_of_birth,
           gender: formData.gender,

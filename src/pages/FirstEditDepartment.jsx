@@ -7,6 +7,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useNavigate } from 'react-router-dom';
 import EmployerNavbar from '../components/EmployerNavbar';
+import { toast } from 'react-toastify';
 
 library.add(fas);
 
@@ -18,11 +19,9 @@ const EditDepartment = () => {
   const [hod, setHod] = useState('');  // Department Head (HOD) ID
   const [isSaving, setIsSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState(''); // User-friendly error messages
-  const [errorDetails, setErrorDetails] = useState(''); // Detailed error message
 
   const departmentId = localStorage.getItem('department_id');
-  console.log("Department ID:", departmentId);
-  const oauthToken = JSON.parse(localStorage.getItem('authData'))?.token;
+  const oauthToken = JSON.parse(localStorage.getItem('authData'))?.access_token;
 
   // Fetch department details and employees when component mounts
   useEffect(() => {
@@ -67,23 +66,19 @@ const EditDepartment = () => {
 
   const handleSaveChanges = async () => {
     setIsSaving(true);
-  
+
     const companyId = localStorage.getItem('company_id');
     const updatedDepartment = {
       id: departmentId,  // Add the department ID here
       name: departmentName || null,
-      hod: hod || null,
+      hod: hod || null,  // Ensure that the HOD ID is passed
       description: departmentDescription || null,
       staffs: employees.map((emp) => emp.employee_id),
       remove_staffs: []  // If you’re removing anyone, push them here
     };
-  
+
     const apiUrl = `https://proximahr.onrender.com/departments/${departmentId}/edit-department?company_id=${companyId}`;
-  
-    // Log the data being sent to the backend
-    console.log("🛠 Data being sent to backend:", updatedDepartment);
-    console.log("➡️ API Endpoint:", apiUrl);
-  
+
     try {
       const response = await fetch(apiUrl, {
         method: 'PUT',
@@ -93,15 +88,13 @@ const EditDepartment = () => {
         },
         body: JSON.stringify(updatedDepartment),
       });
-  
+
       const responseData = await response.json();
-      console.log("📥 Response from backend:", responseData);
-  
+
       if (response.ok) {
-        console.log('✅ Department updated successfully');
+        toast.success('Department updated successfully!');
         setIsSaving(false);
-  
-        // Wait for a moment before navigating
+
         setTimeout(() => {
           navigate('/department', {
             state: { refetch: true },
@@ -109,19 +102,15 @@ const EditDepartment = () => {
           });
         }, 2000);  // 2-second delay to allow backend to update
       } else {
+        toast.error(`Failed to update department: ${responseData.detail || 'Unknown error.'}`);
         setIsSaving(false);
-        setErrorMessage(`Failed to update department: ${responseData.detail || 'Unknown error.'}`);
       }
     } catch (error) {
+      toast.error('An error occurred while saving changes.');
       setIsSaving(false);
-      setErrorMessage('An error occurred while saving changes.');
       console.error('Error saving department:', error);
     }
   };
-  
-  
-  
-  
 
   const handleRemoveEmployee = async (employeeId) => {
     try {
@@ -146,15 +135,15 @@ const EditDepartment = () => {
       });
 
       if (response.ok) {
-        console.log('✅ Employee removed successfully');
+        toast.success('Employee removed successfully');
       } else {
         const errorData = await response.json();
         console.error('❌ Error removing employee:', errorData);
-        setErrorMessage('Failed to remove employee.');
+        toast.error('Failed to remove employee.');
       }
     } catch (error) {
       console.error('🚨 Error removing employee:', error);
-      setErrorMessage('An error occurred while removing the employee.');
+      toast.error('An error occurred while removing the employee.');
     }
   };
 
@@ -169,14 +158,13 @@ const EditDepartment = () => {
           {errorMessage && (
             <div className="error-message" style={{ padding: '10px', color: 'white', backgroundColor: 'red' }}>
               <p>{errorMessage}</p>
-              {errorDetails && <p>{errorDetails}</p>}  {/* Display detailed error */}
             </div>
           )}
 
           <div className="dashboard-detail-1">
             <Link to="/department">
-              <h1 className="employee-profile">
-                <FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow" />
+              <h1 className="employee-profile" style={{ marginTop: '20px', fontSize:'28px' }}>
+                <FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow"  style={{marginRight:'20px'}}/>
                 Edit Department
               </h1>
             </Link>
@@ -190,7 +178,7 @@ const EditDepartment = () => {
                   type="text" 
                   value={departmentName} 
                   onChange={(e) => setDepartmentName(e.target.value)} 
-                /> {/* Editable input field */}
+                />
               </div>
               <div className="div-2">
                 <label>Department Head</label>
@@ -200,7 +188,7 @@ const EditDepartment = () => {
                       const fullName = `${employee.first_name} ${employee.last_name}`;
                       return (
                         <option key={employee.employee_id} value={employee.employee_id}>
-                          {fullName} {/* Display full name */}
+                          {fullName}
                         </option>
                       );
                     })
@@ -231,7 +219,7 @@ const EditDepartment = () => {
                     </div>
                     <p>{employee.job_title}</p>
                     <p>{employee.employee_id}</p>
-                    <p className="grey-btn" onClick={() => handleRemoveEmployee(employee.employee_id)}>
+                    <p className="grey-btn" onClick={() => handleRemoveEmployee(employee.employee_id)} style={{ cursor: 'pointer', height:'25px', marginTop:'-4px'}}>
                       Remove Employee
                     </p>
                   </div>
@@ -240,8 +228,11 @@ const EditDepartment = () => {
                 <p>No employees found</p>
               )}
             </div>
-
-            <Link to={'/add-employee-to-department'}><button>Add Employee</button></Link>
+            
+            <div style={{ marginLeft: '800px', }}>
+               <Link to={'/add-employee-to-department'}><button style={{backgroundColor:'#007BFF', height:'30px', width:'150px', borderRadius:'5px', marginTop:'20px', border:'none',color:'white', padding:'5px',  }} >Add Employee</button></Link>
+            </div>
+            
 
             <div className="department-description">
               <label htmlFor="departmentDescription">Department Description</label>
@@ -256,7 +247,7 @@ const EditDepartment = () => {
             <button 
               className="btn-2" 
               onClick={handleSaveChanges} 
-              disabled={isSaving}>
+              disabled={isSaving} style={{marginBottom:"20px"}}  >
               {isSaving ? 'Saving...' : 'Save Changes'}
             </button>
           </div>

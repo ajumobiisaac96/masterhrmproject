@@ -294,11 +294,11 @@ const AddDepartment = () => {
                 <div className="dashboard">
                 <EmployerNavbar />
                     <hr className="horizontal" />
-                    <div className="dashboard-details">
+                    <div className="dashboard-details" style={{display:'flex', flexDirection:'column', alignItems:'flex-start'}}>
                         <Link to={'/department'}>
-                            <h5 style={{textDecoration: "none"}} ><FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow" /> Add New Department</h5>
+                            <h5 style={{textDecoration: "none", marginBottom:'15px'}} ><FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow"  /> Add New Department</h5>
                         </Link>
-                        <h6>{new Date().toDateString()}</h6>
+                        <h6>{new Date().toLocaleDateString('en-GB', { day: '2-digit', weekday: 'long', month: 'long', year: 'numeric' })}</h6>
                     </div>
                     {error && <p style={{ color: "red" }}>{error}</p>}
                     <div className="add-department">

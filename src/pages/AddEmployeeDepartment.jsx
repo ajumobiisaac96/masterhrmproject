@@ -547,11 +547,11 @@ const AddEmployeeDepartment = () => {
     // Fetch Departments (to populate department filter)
     const fetchDepartments = async () => {
         try {
-            const token = JSON.parse(localStorage.getItem('authData'))?.token;
+            const token = JSON.parse(localStorage.getItem('authData'))?.access_token;
             if (!token) throw new Error('Authentication token is missing.');
 
             const companyId = localStorage.getItem('company_id');
-            const apiUrl = `https://proximahr.onrender.com/departments/?company_id=${companyId}`;
+            const apiUrl = `https://proximahr.onrender.com/api/v2/departments/`;
             const response = await fetch(apiUrl, {
                 method: 'GET',
                 headers: {
@@ -574,7 +574,7 @@ const AddEmployeeDepartment = () => {
     // Fetch Department Details and Employees Based on the Filtered Department
     const fetchEmployees = async (departmentId, departmentName) => {
         try {
-            const token = JSON.parse(localStorage.getItem('authData'))?.token;
+            const token = JSON.parse(localStorage.getItem('authData'))?.access_token;
             if (!token) throw new Error('Authentication token is missing.');
 
             const companyId = localStorage.getItem('company_id');
@@ -585,7 +585,7 @@ const AddEmployeeDepartment = () => {
                 q = `q=${departmentName}`;
             }
 
-            const apiUrl = `https://proximahr.onrender.com/departments/${departmentId}/department-details?company_id=${companyId}&${q}`;
+            const apiUrl = `https://proximahr.onrender.com/api/v2/departments/${departmentId}/department-details?${q}`;
 
             const response = await fetch(apiUrl, {
                 method: 'GET',
@@ -683,7 +683,7 @@ const AddEmployeeDepartment = () => {
                                 <div className="btn" style={{ width: '520px', display: 'flex', justifyContent: 'space-between' }}>
                                     <button className="grey-btn">Deactivate Department</button>
                                     <Link to="/department/edit-department">
-                                        <button disabled={!departmentId}> {/* Disable if no department selected */}
+                                        <button disabled={!departmentId} style={{border:'none', backgroundColor:'#007BFF', cursor:'pointer', color:'white'}}> {/* Disable if no department selected */}
                                             <FontAwesomeIcon icon="fa-solid fa-pen-to-square" /> Edit Profile
                                         </button>
                                     </Link>
@@ -691,7 +691,7 @@ const AddEmployeeDepartment = () => {
 
                                 <div className="employee-info-description">
                                     <h1>Description</h1>
-                                    <p>{description || 'No description available'}</p>
+                                    <h5 style={{fontSize:'18px', fontWeight:'400'}}>{description || 'No description available'}</h5>
                                 </div>
                             </div>
                         </div>
