@@ -373,8 +373,8 @@ const SearchEmployee = () => {
             setLoading(true);
             setError('');
             try {
-                const companyId = localStorage.getItem("company_id");
-                if (!companyId) throw new Error("Company ID is missing.");
+                // const companyId = localStorage.getItem("company_id");
+                // if (!companyId) throw new Error("Company ID is missing.");
 
                 const storedAuthData = localStorage.getItem("authData");
                 if (!storedAuthData) throw new Error("Authentication data is missing.");

@@ -577,8 +577,8 @@ const AddEmployeeDepartment = () => {
             const token = JSON.parse(localStorage.getItem('authData'))?.access_token;
             if (!token) throw new Error('Authentication token is missing.');
 
-            const companyId = localStorage.getItem('company_id');
-            if (!companyId) throw new Error('Company ID is missing or invalid.');
+            // const companyId = localStorage.getItem('company_id');
+            // if (!companyId) throw new Error('Company ID is missing or invalid.');
 
             let q = '';
             if (departmentName) {

@@ -145,7 +145,6 @@ const SuspendEmployee = () => {
       return;
     }
 
-    const companyId = localStorage.getItem("company_id");
     const authData = JSON.parse(localStorage.getItem("authData"));
     const token = authData?.access_token;
 
@@ -159,7 +158,7 @@ const SuspendEmployee = () => {
     setSuccess("");
 
     try {
-      const response = await fetch(`https://proximahr.onrender.com/api/v2/employee-management/${employee.employee_id}/suspend-employee?company_id=${companyId}`, {
+      const response = await fetch(`https://proximahr.onrender.com/api/v2/employee-management/${employee.employee_id}/suspend-employee}`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${token}`,

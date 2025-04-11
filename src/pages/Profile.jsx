@@ -18,7 +18,7 @@ const Profile = () => {
   const [error, setError] = useState(null);
 
   const selectedEmployeeId = localStorage.getItem('selectedEmployee_id');
-  const companyId = localStorage.getItem('company_id');
+  // const companyId = localStorage.getItem('company_id');
 
   let accessToken = null;
   try {
@@ -32,8 +32,8 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchEmployeeData = async () => {
-      if (!selectedEmployeeId || !companyId || !accessToken) {
-        console.error('Missing required authentication details:', { selectedEmployeeId, companyId, accessToken });
+      if (!selectedEmployeeId || !accessToken) {
+        console.error('Missing required authentication details:', { selectedEmployeeId, accessToken });
         setError('Missing required authentication details');
         setLoading(false);
         return;
@@ -43,7 +43,7 @@ const Profile = () => {
         const response = await axios.get(
           `https://proximahr.onrender.com/api/v2/employee-management/${selectedEmployeeId}/employee`,
           {
-            params: { company_id: companyId },
+            // params: { company_id: companyId },
             headers: { Authorization: `Bearer ${accessToken}` },
           }
         );
@@ -58,7 +58,7 @@ const Profile = () => {
     };
 
     fetchEmployeeData();
-  }, [selectedEmployeeId, companyId, accessToken]);
+  }, [selectedEmployeeId,  accessToken]);
 
   return (
     <div>

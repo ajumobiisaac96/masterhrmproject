@@ -53,7 +53,7 @@ const AdminProfile = () => {
     address: "",
   });
 
-  const companyId = localStorage.getItem("company_id");
+  // const companyId = localStorage.getItem("company_id");
   let accessToken = null;
 
   try {
@@ -75,8 +75,8 @@ const AdminProfile = () => {
 
   // Fetch admin data from API
   const fetchAdminData = async () => {
-    if (!companyId || !accessToken) {
-      console.error("❌ Missing required authentication details:", { companyId, accessToken });
+    if (!accessToken) {
+      console.error("❌ Missing required authentication details:", { accessToken });
       setError("Missing required authentication details");
       setLoading(false);
       return;
@@ -84,7 +84,7 @@ const AdminProfile = () => {
 
     try {
       const response = await axios.get(`https://proximahr.onrender.com/api/v2/admin/profile`, {
-        params: { company_id: companyId },
+        // params: { company_id: companyId },
         headers: { Authorization: `Bearer ${accessToken}` },
       });
 
@@ -92,7 +92,7 @@ const AdminProfile = () => {
       setAdminData(response.data);
 
       // Fetch Company Overview Stats
-      const apiUrl = `https://proximahr.onrender.com/api/v2/dashboard/company-overview?company_id=${companyId}`;
+      const apiUrl = `https://proximahr.onrender.com/api/v2/dashboard/company-overview`;
       const companyResponse = await axios.get(apiUrl, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
@@ -116,7 +116,7 @@ const AdminProfile = () => {
 
   useEffect(() => {
     fetchAdminData(); // Call fetchAdminData on component mount
-  }, [companyId, accessToken]);
+  }, [accessToken]);
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);  // Toggle the edit mode
@@ -184,7 +184,7 @@ const AdminProfile = () => {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${accessToken}`,
           },
-          params: { company_id: companyId },
+          // params: { company_id: companyId },
         }
       );
 
@@ -216,11 +216,11 @@ const AdminProfile = () => {
       return;
     }
 
-    const companyId = localStorage.getItem("company_id");
+    // const companyId = localStorage.getItem("company_id");
     const storedAuthData = localStorage.getItem("authData");
     const token = storedAuthData ? JSON.parse(storedAuthData).access_token : null;
 
-    if (!companyId || !token) {
+    if (!token) {
       console.error("❌ Missing company ID or authorization token.");
       return;
     }
@@ -237,7 +237,7 @@ const AdminProfile = () => {
           address: formData.address,
         },
         {
-          params: { company_id: companyId },  // Pass company_id as a query parameter
+          // params: { company_id: companyId },  // Pass company_id as a query parameter
           headers: { Authorization: `Bearer ${token}` },  // Use the auth token in headers
         }
       );

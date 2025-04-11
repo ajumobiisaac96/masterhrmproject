@@ -238,8 +238,8 @@ const AddDepartment = () => {
             if (!token) throw new Error("Authentication token is missing. Please log in.");
     
             // ✅ Get Company ID
-            const companyId = localStorage.getItem("company_id");
-            if (!companyId) throw new Error("Company ID is missing. Please log in again.");
+            // const companyId = localStorage.getItem("company_id");
+            // if (!companyId) throw new Error("Company ID is missing. Please log in again.");
     
             // ✅ Fix: Ensure `staffs` contains valid strings
             const validStaffs = Array.isArray(staffs) 

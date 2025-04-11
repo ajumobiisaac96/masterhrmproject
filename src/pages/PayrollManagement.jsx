@@ -38,28 +38,28 @@ const PayrollManagement = () => {
       setLoading(true);
       setError("");
       try {
-        const companyId = localStorage.getItem("company_id");
-        if (!companyId) throw new Error("Company ID is missing.");
+        // const companyId = localStorage.getItem("company_id");
+        // if (!companyId) throw new Error("Company ID is missing.");
 
         const storedAuthData = localStorage.getItem("authData");
         if (!storedAuthData) throw new Error("Authentication data is missing.");
 
         const authData = JSON.parse(storedAuthData);
-        const token = authData?.token;
+        const token = authData?.access_token;
         if (!token) throw new Error("Authentication token is missing.");
 
         const [summaryRes, trendRes, distributionRes, employeesRes] = await Promise.all([
-          fetch(`https://proximahr.onrender.com/payroll-management/summary?company_id=${companyId}`, {
+          fetch(`https://proximahr.onrender.com/api/v2/payroll-management/summary`, {
             headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
           }),
-          fetch(`https://proximahr.onrender.com/payroll-management/cost-trend?company_id=${companyId}&year=${selectedYearTrend}`, {
+          fetch(`https://proximahr.onrender.com/api/v2/payroll-management/cost-trend?year=${selectedYearTrend}`, {
             headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
           }),
 
-          fetch(`https://proximahr.onrender.com/payroll-management/cost-distribution?company_id=${companyId}&year=${selectedYearDistribution}`, {
+          fetch(`https://proximahr.onrender.com/api/v2/payroll-management/cost-distribution?year=${selectedYearDistribution}`, {
             headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
           }),
-          fetch(`https://proximahr.onrender.com/payroll-management/employees?company_id=${companyId}&year=${selectedYearTable}`, {
+          fetch(`https://proximahr.onrender.com/api/v2/payroll-management/employees?year=${selectedYearTable}`, {
             headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
           }),
         ]);

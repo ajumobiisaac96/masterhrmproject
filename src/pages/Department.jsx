@@ -791,7 +791,7 @@ const Department = () => {
         const companyId = localStorage.getItem("company_id");
         const storedAuthData = localStorage.getItem("authData");
 
-        if (!companyId || !storedAuthData) throw new Error("Authentication data is missing.");
+        if (!storedAuthData) throw new Error("Authentication data is missing.");
         const authData = JSON.parse(storedAuthData);
         const token = authData?.access_token;
         if (!token) throw new Error("Authentication token is missing.");
@@ -845,11 +845,11 @@ const Department = () => {
       const companyId = localStorage.getItem("company_id");
       const authToken = JSON.parse(localStorage.getItem("authData"))?.access_token;
 
-      if (!companyId || !authToken) {
-        setError('You are not authorized to delete this department.');
-        toast.error('You are not authorized to delete this department.');  // Show error message using Toastify
-        return;
-      }
+      // if (!companyId || !authToken) {
+      //   setError('You are not authorized to delete this department.');
+      //   toast.error('You are not authorized to delete this department.');  // Show error message using Toastify
+      //   return;
+      // }
 
       const response = await fetch(
         `https://proximahr.onrender.com/api/v2/departments/${selectedDepartmentId}/delete-department`,

@@ -211,13 +211,13 @@ const UserNavbar = () => {
         console.error('Error parsing authData from local storage', err);
       }
 
-      if (!companyId || !accessToken) {
-        console.error('❌ Missing authentication details:', { companyId, accessToken });
-        return;
-      }
+      // if (!companyId || !accessToken) {
+      //   console.error('❌ Missing authentication details:', { companyId, accessToken });
+      //   return;
+      // }
 
       try {
-        const response = await axios.get(`https://proximahr.onrender.com/admin/profile`, {
+        const response = await axios.get(`https://proximahr.onrender.com/api/v2/admin/profile`, {
           params: { company_id: companyId },
           headers: { Authorization: `Bearer ${accessToken}` },
         });

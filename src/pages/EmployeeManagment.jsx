@@ -843,8 +843,7 @@ const EmployeeManagement = () => {
     const fetchEmployeesAndDepartments = async () => {
       setLoading(true);
       try {
-        const companyId = localStorage.getItem("company_id");
-        if (!companyId) throw new Error("Company ID is missing.");
+
 
         const storedAuthData = localStorage.getItem("authData");
         if (!storedAuthData) throw new Error("Authentication data is missing.");
@@ -853,7 +852,7 @@ const EmployeeManagement = () => {
         const token = authData?.access_token;
         if (!token) throw new Error("Authentication token is missing.");
 
-        const apiUrlEmployees = `https://proximahr.onrender.com/employee-management/all-employees?company_id=${companyId}&page=1&page_size=10`;
+        const apiUrlEmployees = `https://proximahr.onrender.com/api/v2/employee-management/all-employees`;
         const apiUrlDepartments = `https://proximahr.onrender.com/api/v2/departments`;
 
         const responseEmployees = await fetch(apiUrlEmployees, {

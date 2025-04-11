@@ -88,13 +88,13 @@ const AddEmployee = () => {
   useEffect(() => {
       const fetchDepartments = async () => {
           try {
-              const companyId = localStorage.getItem('company_id');
+              // const companyId = localStorage.getItem('company_id');
               const storedAuthData = localStorage.getItem('authData');
               const token = storedAuthData ? JSON.parse(storedAuthData).access_token : null;
 
-              if (!companyId || !token) return;
+              if (!token) return;
               
-              const response = await fetch(`https://proximahr.onrender.com/departments?company_id=${companyId}`, {
+              const response = await fetch(`https://proximahr.onrender.com/departments`, {
                   headers: { Authorization: `Bearer ${token}` }
               });
 
@@ -198,8 +198,8 @@ const AddEmployee = () => {
 
         console.log("Form Data Before Submission:", formData); // ✅ Log form data
 
-        const companyId = localStorage.getItem('company_id');
-        if (!companyId) throw new Error('Company ID is missing. Please log in again.');
+        // const companyId = localStorage.getItem('company_id');
+        // if (!companyId) throw new Error('Company ID is missing. Please log in again.');
 
         const storedAuthData = localStorage.getItem('authData');
         if (!storedAuthData) throw new Error('Authentication data is missing. Please log in.');
@@ -247,7 +247,7 @@ const AddEmployee = () => {
         console.log("Formatted Payload:", payload); // ✅ Log formatted payload before sending API request
 
         // ✅ Send API request
-        const response = await fetch(`https://proximahr.onrender.com/employee-management/create-employee-profile?company_id=${companyId}`, {
+        const response = await fetch(`https://proximahr.onrender.com/api/v2/employee-management/create-employee-profile`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -292,24 +292,14 @@ const AddEmployee = () => {
 
           <hr className="horizontal" />
 
-          <div className="dashboard-details">
+          <div className="dashboard-details" style={{display:'flex', flexDirection:'column', alignItems:'flex-start'}}>
             <Link to={'/employee-managment'}>
-              <h1 className="employee-profile" style={{
-                    fontFamily: "Inter",
-                    fontSize: "24px",
-                    fontWeight: "500",
-                    lineHeight: "29.05px",
-                    textAlign: "left",
-                    textUnderlinePosition: "from-font",
-                    textDecorationSkipInk: "none",
-                    color:" #2E2E2E",
-                    textDecoration: "none",
-              }}>
+              <h1 className="employee-profile" style={{textDecoration: "none", marginBottom:'15px'}} >
                 <FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow" />
                 Add New Employee
               </h1>
             </Link>
-            <h6>{new Date().toDateString()}</h6>
+            <h6 >{new Date().toLocaleDateString('en-GB', { day: '2-digit', weekday: 'long', month: 'long', year: 'numeric' })}</h6>
           </div>
 
           {/* Display general errors */}

@@ -499,18 +499,18 @@ const Dashboard = () => {
         }
   
         // Retrieve company ID from localStorage
-        const companyId = localStorage.getItem("company_id"); // Make sure this is saved on login
-        if (!companyId) {
-          throw new Error("Company ID is missing. Please log in again.");
-        }
-        console.log("Company ID:", companyId); // Make sure it's retrieved properly
+        // const companyId = localStorage.getItem("company_id"); // Make sure this is saved on login
+        // if (!companyId) {
+        //   throw new Error("Company ID is missing. Please log in again.");
+        // }
+        // console.log("Company ID:", companyId); // Make sure it's retrieved properly
   
         // API URLs with companyId passed as query parameter
-        const apiUrl = `https://proximahr.onrender.com/api/v2/dashboard/company-overview?company_id=${companyId}`;
-        const departmentApiUrl = `https://proximahr.onrender.com/api/v2/dashboard/department-overview?company_id=${companyId}`;
-        const leaveApiUrl = `https://proximahr.onrender.com/api/v2/dashboard/leave-overview?company_id=${companyId}`;
-        const payrollApiUrl = `https://proximahr.onrender.com/api/v2/dashboard/payroll-overview?company_id=${companyId}`;
-        const eventsApiUrl = `https://proximahr.onrender.com/api/v2/dashboard/events?company_id=${companyId}`;
+        const apiUrl = `https://proximahr.onrender.com/api/v2/dashboard/company-overview`;
+        const departmentApiUrl = `https://proximahr.onrender.com/api/v2/dashboard/department-overview`;
+        const leaveApiUrl = `https://proximahr.onrender.com/api/v2/dashboard/leave-overview?`;
+        const payrollApiUrl = `https://proximahr.onrender.com/api/v2/dashboard/payroll-overview?`;
+        const eventsApiUrl = `https://proximahr.onrender.com/api/v2/dashboard/events`;
   
         // ✅ Fetch company data
         const response = await fetch(apiUrl, {

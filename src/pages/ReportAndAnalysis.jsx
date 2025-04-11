@@ -491,7 +491,7 @@ const ReportAndAnalysis = () => {
 
   useEffect(() => {
     const authData = JSON.parse(localStorage.getItem('authData'));
-    const token = authData?.token;
+    const token = authData?.access_token;
     if (token) {
       setToken(token);
     } else {
