@@ -22,18 +22,17 @@ const AllowanceAndContribution = () => {
       setLoading(true);
       setError("");
       try {
-        const companyId = localStorage.getItem("company_id");
-        if (!companyId) throw new Error("Company ID is missing.");
+        // const companyId = localStorage.getItem("company_id");
+        // if (!companyId) throw new Error("Company ID is missing.");
 
         const storedAuthData = localStorage.getItem("authData");
         if (!storedAuthData) throw new Error("Authentication data is missing.");
 
         const authData = JSON.parse(storedAuthData);
-        const token = authData?.token;
+        const token = authData?.access_token;
         if (!token) throw new Error("Authentication token is missing.");
 
         const queryParams = new URLSearchParams({
-          company_id: companyId,
           page: page,
           page_size: pageSize,
           year: selectedYear,

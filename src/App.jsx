@@ -167,6 +167,7 @@ import LandingPage from './pages/LandingPage.jsx';
 
 function App() {
   const isAuthenticated = localStorage.getItem('authData'); // Check if the user is authenticated (token in localStorage)
+  const isEmployeeAuthenticated = localStorage.getItem('employeeAuthToken');
 
   return (
     <Router>
@@ -204,12 +205,13 @@ function App() {
           <Route path="/ReportAndAnalysis/OvertimeHours" element={isAuthenticated ? <OvertimeHoursTable /> : <Navigate to="/login" />} />
           <Route path="/ReportAndAnalysis/AttendancePerformanceTable" element={isAuthenticated ? <AttendancePerformanceTable /> : <Navigate to="/login" />} />
 
+
           {/* Employee Routes */}
-          <Route path="/EmployeeDashboard" element={isAuthenticated ? <EmployeeDashboard /> : <Navigate to="/login" />} />
-          <Route path="/EmployeeAttendance" element={isAuthenticated ? <EmployeeAttendance /> : <Navigate to="/login" />} />
-          <Route path="/EmployeeLeave" element={isAuthenticated ? <EmployeeLeave /> : <Navigate to="/login" />} />
-          <Route path="/EmployeeLeave/NewLeaveRequest" element={isAuthenticated ? <NewLeaveRequest /> : <Navigate to="/login" />} />
-          <Route path="/ProfileDashboard" element={isAuthenticated ? <ProfileDashboard /> : <Navigate to="/login" />} />
+          <Route path="/EmployeeDashboard" element={ <EmployeeDashboard /> } />
+          <Route path="/EmployeeAttendance" element={<EmployeeAttendance />} />
+          <Route path="/EmployeeLeave" element={ <EmployeeLeave /> } />
+          <Route path="/EmployeeLeave/NewLeaveRequest" element={<NewLeaveRequest /> } />
+          <Route path="/ProfileDashboard" element={ <ProfileDashboard />} />
           
           {/* Landing Page */}
           <Route path="/LandingPage" element={<LandingPage />} />

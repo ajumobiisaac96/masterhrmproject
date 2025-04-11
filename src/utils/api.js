@@ -8,7 +8,7 @@ const API_URL = 'https://proximahr.onrender.com/analytics';
 // Function to retrieve the token from localStorage and parse it
 const getTokenFromLocalStorage = () => {
   const authData = JSON.parse(localStorage.getItem('authData'));  // Parse the stored object
-  return authData?.token;  // Extract and return the token
+  return authData?.access_token;  // Extract and return the token
 };
 
 // Function to get Overtime by Department

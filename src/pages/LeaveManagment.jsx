@@ -436,6 +436,7 @@ import test from '../assets/test.png';
 import HorizontalBarChart from '../components/HorizontalBarChart';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import EmployerNavbar from "../components/EmployerNavbar";
 
 const LeaveManagment = () => {
   const [isDepartmentOpen, setIsDepartmentOpen] = useState(false);
@@ -455,17 +456,17 @@ const LeaveManagment = () => {
       setLoading(true);
       setError('');
       try {
-        const companyId = localStorage.getItem("company_id");
-        if (!companyId) throw new Error("Company ID is missing.");
+        // const companyId = localStorage.getItem("company_id");
+        // if (!companyId) throw new Error("Company ID is missing.");
 
         const storedAuthData = localStorage.getItem("authData");
         if (!storedAuthData) throw new Error("Authentication data is missing.");
 
         const authData = JSON.parse(storedAuthData);
-        const token = authData?.token;
+        const token = authData?.access_token;
         if (!token) throw new Error("Authentication token is missing.");
 
-        const apiUrl = `https://proximahr.onrender.com/leave-management/?company_id=${companyId}&status=${filter}&limit=10&skip=0`;
+        const apiUrl = `https://proximahr.onrender.com/api/v2/leave-management/?status=${filter}&limit=10&skip=0`;
         const response = await fetch(apiUrl, {
           method: "GET",
           headers: {
@@ -501,22 +502,9 @@ const LeaveManagment = () => {
       <div className="main-dashboard">
         <Sidebar />
         <div className="dashboard">
-          <div className="slide-one-1">
-            <div className="name">
-              <h5>Joseph Dooley</h5>
-              <h6>Good Morning</h6>
-            </div>
-            <div className="slide-one-2-1">
-              <div className="notification">
-                <FontAwesomeIcon icon={fas.faBell} />
-                <h6>6</h6>
-              </div>
-              <div className="user-profile">
-                <img src={test} alt="My profile" className="My-profile" />
-              </div>
-            </div>
-          </div>
-          <hr className="horizontal" />
+        <EmployerNavbar />
+              <hr className="horizontal" />
+            
           <div className="dashboard-details">
             <h5>Leave Management</h5>
             <h6>{new Date().toDateString()}</h6>
