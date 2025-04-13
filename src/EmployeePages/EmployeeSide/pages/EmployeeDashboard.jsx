@@ -667,7 +667,7 @@ const EmployeeDashboard = () => {
 
   useEffect(() => {
     const authData = JSON.parse(localStorage.getItem('employeeAuthToken'));
-    const token = authData?.token;
+    const token = authData?.access_token;
     if (!token) {
       console.error('No token found. Redirecting to login.');
       window.location.href = '/login'; 
@@ -677,7 +677,7 @@ const EmployeeDashboard = () => {
     // Fetch Monthly Stats (Attendance, Leave Balance, etc.)
     const fetchMonthlyStats = async () => {
       try {
-        const response = await fetch(`https://proximahr.onrender.com/attendance/employee/monthly-stats?month=${currentMonth}&year=${currentYear}`, {
+        const response = await fetch(`https://proximahr.onrender.com/api/v2/attendance/employee/monthly-stats?month=${currentMonth}&year=${currentYear}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -700,7 +700,7 @@ const EmployeeDashboard = () => {
     // Fetch Leave Statistics (Pending, Remaining, Approved Leave Requests)
     const fetchLeaveStats = async () => {
       try {
-        const response = await fetch('https://proximahr.onrender.com/employee/leave-statistics', {
+        const response = await fetch('https://proximahr.onrender.com/api/v2/employee/leave-statistics', {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -720,7 +720,7 @@ const EmployeeDashboard = () => {
     // Fetch Attendance Summary
     const fetchAttendanceSummary = async () => {
       try {
-        const response = await fetch('https://proximahr.onrender.com/attendance/employee/attendance-summary', {
+        const response = await fetch('https://proximahr.onrender.com/api/v2/attendance/employee/attendance-summary', {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -761,13 +761,13 @@ const EmployeeDashboard = () => {
 
   const startTimer = async () => {
     const authData = JSON.parse(localStorage.getItem('employeeAuthToken'));
-    const token = authData?.token;
+    const token = authData?.access_token;
     if (!token) {
       console.error('No token found.');
       return;
     }
 
-    const response = await fetch('https://proximahr.onrender.com/attendance/employee/timer/start', {
+    const response = await fetch('https://proximahr.onrender.com/ai/v2/attendance/employee/timer/start', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -784,13 +784,13 @@ const EmployeeDashboard = () => {
 
   const pauseTimer = async () => {
     const authData = JSON.parse(localStorage.getItem('employeeAuthToken'));
-    const token = authData?.token;
+    const token = authData?.access_token;
     if (!token) {
       console.error('No token found.');
       return;
     }
 
-    const response = await fetch('https://proximahr.onrender.com/attendance/employee/timer/pause', {
+    const response = await fetch('https://proximahr.onrender.com/api/v2/attendance/employee/timer/pause', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -806,13 +806,13 @@ const EmployeeDashboard = () => {
 
   const resumeTimer = async () => {
     const authData = JSON.parse(localStorage.getItem('employeeAuthToken'));
-    const token = authData?.token;
+    const token = authData?.access_token;
     if (!token) {
       console.error('No token found.');
       return;
     }
 
-    const response = await fetch('https://proximahr.onrender.com/attendance/employee/timer/resume', {
+    const response = await fetch('https://proximahr.onrender.com/api/v2/attendance/employee/timer/resume', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -828,13 +828,13 @@ const EmployeeDashboard = () => {
 
   const stopTimer = async () => {
     const authData = JSON.parse(localStorage.getItem('employeeAuthToken'));
-    const token = authData?.token;
+    const token = authData?.access_token;
     if (!token) {
       console.error('No token found.');
       return;
     }
 
-    const response = await fetch('https://proximahr.onrender.com/attendance/employee/timer/stop', {
+    const response = await fetch('https://proximahr.onrender.com/api/v2/attendance/employee/timer/stop', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -848,7 +848,7 @@ const EmployeeDashboard = () => {
       setClockOutTime(new Date());
 
       // Trigger the Daily Attendance endpoint
-      await fetch('https://proximahr.onrender.com/attendance/employee/daily-attendance', {
+      await fetch('https://proximahr.onrender.com/api/v2/attendance/employee/daily-attendance', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,

@@ -207,11 +207,11 @@ function App() {
 
 
           {/* Employee Routes */}
-          <Route path="/EmployeeDashboard" element={ <EmployeeDashboard /> } />
-          <Route path="/EmployeeAttendance" element={<EmployeeAttendance />} />
-          <Route path="/EmployeeLeave" element={ <EmployeeLeave /> } />
-          <Route path="/EmployeeLeave/NewLeaveRequest" element={<NewLeaveRequest /> } />
-          <Route path="/ProfileDashboard" element={ <ProfileDashboard />} />
+          <Route path="/EmployeeDashboard" element={isEmployeeAuthenticated ? <EmployeeDashboard /> : <Navigate to="/EmployeeLogin" />} />
+          <Route path="/EmployeeAttendance" element={isEmployeeAuthenticated ? <EmployeeAttendance /> : <Navigate to="/EmployeeLogin" />} />
+          <Route path="/EmployeeLeave" element={isEmployeeAuthenticated ? <EmployeeLeave /> : <Navigate to="/EmployeeLogin" />} />
+          <Route path="/EmployeeLeave/NewLeaveRequest" element={isEmployeeAuthenticated ? <NewLeaveRequest /> : <Navigate to="/EmployeeLogin" />} />
+          <Route path="/ProfileDashboard" element={isEmployeeAuthenticated ? <ProfileDashboard /> : <Navigate to="/EmployeeLogin" />} />
           
           {/* Landing Page */}
           <Route path="/LandingPage" element={<LandingPage />} />

@@ -323,7 +323,7 @@ import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for 
 import axios from 'axios';
 import Sideimage from '../assets/Sideimage.png'; // Ensure image path is correct
 import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css'; // Ensure the toast CSS is imported
 
 const HRlogin = () => {
   const [username, setUsername] = useState('');
@@ -361,8 +361,6 @@ const HRlogin = () => {
           },
         }
       );
-
-
   
       const { access_token, token_type } = response.data;
   
@@ -399,7 +397,6 @@ const HRlogin = () => {
       setIsSubmitting(false);
     }
   };
-  
 
   return (
     <div style={{ display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}>
@@ -447,7 +444,7 @@ const HRlogin = () => {
               </div>
             </div>
             <button
-              className='btn-general'
+              className="btn-general"
               type="submit"
               style={{
                 width: '90%',
@@ -455,11 +452,11 @@ const HRlogin = () => {
                 backgroundColor: '#007bff',
                 color: '#fff',
                 borderRadius: '5px',
-                border: 'none'
+                border: 'none',
               }}
-              disabled={isSubmitting} // Disable button while logging in
+              disabled={isSubmitting}
             >
-              {isSubmitting ? 'Logging in...' : 'Login'} {/* Show "Logging in..." if submitting */}
+              {isSubmitting ? 'Logging in...' : 'Login'}
             </button>
           </form>
 
@@ -477,6 +474,8 @@ const HRlogin = () => {
       <div style={{ flex: 1 }}>
         <img src={Sideimage} alt="Login side image" style={{ width: '100%', height: '100vh', objectFit: 'cover' }} />
       </div>
+
+      <ToastContainer /> {/* ToastContainer added to the component tree */}
     </div>
   );
 };
