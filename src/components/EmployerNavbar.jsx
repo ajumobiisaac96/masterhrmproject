@@ -199,7 +199,7 @@ const UserNavbar = () => {
 
   useEffect(() => {
     const fetchAdminData = async () => {
-      const companyId = localStorage.getItem('company_id');
+      // const companyId = localStorage.getItem('company_id');
       let accessToken = null;
 
       try {
@@ -218,7 +218,7 @@ const UserNavbar = () => {
 
       try {
         const response = await axios.get(`https://proximahr.onrender.com/api/v2/admin/profile`, {
-          params: { company_id: companyId },
+          // params: { company_id: companyId },
           headers: { Authorization: `Bearer ${accessToken}` },
         });
 

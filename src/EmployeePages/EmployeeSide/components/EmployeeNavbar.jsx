@@ -267,6 +267,7 @@ const UserNavbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [employeeData, setEmployeeData] = useState(null); // To store employee data
   const [greeting, setGreeting] = useState(""); // For greeting message based on time
+  const [unreadCount, setUnreadCount] = useState(0);  // State to hold unread notification count
 
   useEffect(() => {
     // Fetch employee profile data when the component mounts
@@ -277,13 +278,13 @@ const UserNavbar = () => {
         return;
       }
 
-      const token = JSON.parse(storedToken).token;
+      const token = JSON.parse(storedToken).access_token;
       if (!token) {
         return;
       }
 
       try {
-        const response = await fetch('https://proximahr.onrender.com/employee/profile', {
+        const response = await fetch('https://proximahr.onrender.com/api/v2/employee/profile', {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -353,11 +354,11 @@ const UserNavbar = () => {
               fontWeight: 'bold'
             }}
           >
-            6
+            {unreadCount}
           </span>
           {showDropdown && (
             <div style={{ position: 'absolute', top: '100%', right: 0, zIndex: 1000 }}>
-              <NotificationDropdown />
+              <NotificationDropdown setUnreadCount={setUnreadCount} /> {/* Pass setUnreadCount */}
             </div>
           )}
         </div>

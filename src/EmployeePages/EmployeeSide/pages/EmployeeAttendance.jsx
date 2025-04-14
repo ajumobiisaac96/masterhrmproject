@@ -535,7 +535,6 @@ import { Link } from 'react-router-dom';
 import AttendanceTable from '../components/AttendanceTable.jsx';
 import Pagination from '../components/Pagination.jsx';
 
-
 const EmployeeAttendance = () => {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth() + 1;
@@ -550,7 +549,7 @@ const EmployeeAttendance = () => {
     undertimeHours: 0,
   });
 
-  const [attendanceData, setAttendanceData] = useState([]);
+  const [attendanceData, setAttendanceData] = useState([]); // Ensure it's initialized as an array
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all'); // 'all', 'present', 'absent', etc.
@@ -559,7 +558,7 @@ const EmployeeAttendance = () => {
   // Fetch token on mount
   useEffect(() => {
     const authData = JSON.parse(localStorage.getItem('employeeAuthToken'));
-    const fetchedToken = authData?.token;
+    const fetchedToken = authData?.access_token;
     setToken(fetchedToken);
   }, []);
 
@@ -570,7 +569,7 @@ const EmployeeAttendance = () => {
         try {
           // Fetch the attendance summary
           const response = await fetch(
-            `https://proximahr.onrender.com/attendance/employee/attendance-totals?year=${selectedYear}&month=${selectedMonth}`,
+            `https://proximahr.onrender.com/api/v2/attendance/employee/attendance-totals?year=${selectedYear}&month=${selectedMonth}`,
             {
               headers: {
                 'Authorization': `Bearer ${token}`,
@@ -588,7 +587,7 @@ const EmployeeAttendance = () => {
 
           // Fetch the daily attendance records
           const dailyResponse = await fetch(
-            `https://proximahr.onrender.com/attendance/employee/attendance-tracking?year=${selectedYear}&month=${selectedMonth}`,
+            `https://proximahr.onrender.com/api/v2/attendance/employee/attendance-tracking?year=${selectedYear}&month=${selectedMonth}`,
             {
               headers: {
                 'Authorization': `Bearer ${token}`,
@@ -597,7 +596,13 @@ const EmployeeAttendance = () => {
           );
           const dailyData = await dailyResponse.json();
           console.log('Daily Attendance API Response:', dailyData); // Log the API response for daily attendance
-          setAttendanceData(dailyData);
+
+          // Ensure dailyData is an array before setting it
+          if (Array.isArray(dailyData)) {
+            setAttendanceData(dailyData);
+          } else {
+            setAttendanceData([]); // Default to an empty array if the response is not an array
+          }
 
           setLoading(false);
         } catch (error) {
@@ -733,7 +738,3 @@ const EmployeeAttendance = () => {
 };
 
 export default EmployeeAttendance;
-
-
-
-

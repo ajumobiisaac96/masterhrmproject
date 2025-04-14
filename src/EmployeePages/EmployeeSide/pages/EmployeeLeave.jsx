@@ -236,16 +236,16 @@ const EmployeeLeave = () => {
     // Fetch leave summary data
     useEffect(() => {
         const authData = JSON.parse(localStorage.getItem('employeeAuthToken'));
-        const token = authData?.token;
+        const token = authData?.access_token;
         console.log('JWT Token for leave summary:', token);  // Log the token to check its value
     
-        if (!token) {
-            console.error('No token found. Redirecting to login.');
-            window.location.href = '/login'; // Redirect to login page if no token
-            return;
-        }
+        // if (!token) {
+        //     console.error('No token found. Redirecting to login.');
+        //     window.location.href = '/login'; // Redirect to login page if no token
+        //     return;
+        // }
     
-        fetch('https://proximahr.onrender.com/employee/leave-summary', {
+        fetch('https://proximahr.onrender.com/api/v2/employee/leave-summary', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -262,7 +262,7 @@ const EmployeeLeave = () => {
     // Fetch leave history data
     useEffect(() => {
         const authData = JSON.parse(localStorage.getItem('employeeAuthToken'));
-        const token = authData?.token;
+        const token = authData?.access_token;
         console.log('JWT Token for leave history:', token);  // Log the token to check its value
 
         if (!token) {
@@ -271,7 +271,7 @@ const EmployeeLeave = () => {
             return;
         }
 
-        fetch('https://proximahr.onrender.com/employee/leaves', {
+        fetch('https://proximahr.onrender.com/api/v2/employee/leaves', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}` // Pass the token in the Authorization header

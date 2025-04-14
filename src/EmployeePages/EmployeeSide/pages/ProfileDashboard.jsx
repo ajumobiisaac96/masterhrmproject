@@ -1408,7 +1408,7 @@ const ProfileDashboard = () => {
         return;
       }
 
-      const token = JSON.parse(storedToken).token; // Parse the stored token object to get the actual token
+      const token = JSON.parse(storedToken).access_token; // Parse the stored token object to get the actual token
       if (!token) {
         setError('Token not found');
         setLoading(false);
@@ -1416,7 +1416,7 @@ const ProfileDashboard = () => {
       }
 
       try {
-        const response = await fetch('https://proximahr.onrender.com/employee/profile', {
+        const response = await fetch('https://proximahr.onrender.com/api/v2/employee/profile', {
           headers: {
             'Authorization': `Bearer ${token}`, // Send token in the Authorization header
           },
@@ -1479,20 +1479,20 @@ const ProfileDashboard = () => {
       
         try {
           const storedToken = localStorage.getItem('employeeAuthToken');
-          const token = JSON.parse(storedToken).token;
-          const companyId = localStorage.getItem('company_id'); // Get company ID from localStorage or context
+          const token = JSON.parse(storedToken).access_token;
+          // const companyId = localStorage.getItem('company_id'); // Get company ID from localStorage or context
           
           if (!token) {
             setError('Token not found');
             return;
           }
       
-          if (!companyId) {
-            setError('Company ID not found');
-            return;
-          }
+          // if (!companyId) {
+          //   setError('Company ID not found');
+          //   return;
+          // }
       
-          const response = await axios.post(`https://proximahr.onrender.com/employee/profile-image-upload?company_id=${companyId}`, formData, {
+          const response = await axios.post(`https://proximahr.onrender.com/api/v2/employee/profile-image-upload`, formData, {
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'multipart/form-data',
@@ -1563,21 +1563,21 @@ const ProfileDashboard = () => {
       
         try {
           const storedToken = localStorage.getItem('employeeAuthToken');
-          const token = JSON.parse(storedToken).token;
-          const companyId = localStorage.getItem('company_id'); // Get company ID from localStorage or context
+          const token = JSON.parse(storedToken).access_token;
+          // const companyId = localStorage.getItem('company_id'); // Get company ID from localStorage or context
       
           if (!token) {
             setError('Token not found');
             return;
           }
       
-          if (!companyId) {
-            setError('Company ID not found');
-            return;
-          }
+          // if (!companyId) {
+          //   setError('Company ID not found');
+          //   return;
+          // }
       
           // Send the request to update the employee profile
-          const response = await axios.put(`https://proximahr.onrender.com/employee/update-profile?company_id=${companyId}`, updatedData, {
+          const response = await axios.put(`https://proximahr.onrender.com/api/v2/employee/update-profile}`, updatedData, {
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json',

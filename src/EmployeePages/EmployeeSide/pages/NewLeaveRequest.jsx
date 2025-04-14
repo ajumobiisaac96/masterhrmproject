@@ -226,18 +226,18 @@ const LeaveRequestForm = () => {
   const handleConfirmRequest = async () => {
     try {
       setSubmitting(true);
-      const companyId = localStorage.getItem("company_id");
-      const employeeId = localStorage.getItem("employee_id");
+      // const companyId = localStorage.getItem("company_id");
+      // const employeeId = localStorage.getItem("employee_id");
       const storedAuthData = localStorage.getItem("employeeAuthToken");
 
-      if (!companyId || !employeeId || !storedAuthData) {
+      if (!storedAuthData) {
         throw new Error("Missing authentication data.");
       }
 
       const authData = JSON.parse(storedAuthData);
-      const token = authData?.token;
+      const token = authData?.access_token;
 
-      const apiUrl = `https://proximahr.onrender.com/employee/leave/create?company_id=${companyId}`;
+      const apiUrl = `https://proximahr.onrender.com/api/v2/employee/leave/create`;
 
       const response = await fetch(apiUrl, {
         method: "POST",
@@ -246,7 +246,7 @@ const LeaveRequestForm = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          employee_id: employeeId,
+          // employee_id: employeeId,
           leave_type: formData.leaveType,
           start_date: formData.startDate,
           end_date: formData.endDate,
