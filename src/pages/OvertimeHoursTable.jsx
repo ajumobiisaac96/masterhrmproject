@@ -850,7 +850,7 @@ const OvertimeHoursTable = ({ onBack }) => {
         const parsed = JSON.parse(rawData); // Parse the raw data
         console.log('Parsed auth data:', parsed);
 
-        const token = parsed?.token; // Extract the token
+        const token = parsed?.access_token; // Extract the token
         console.log('Actual Token:', token); // Log the token for debugging
 
         if (token) {
@@ -875,11 +875,11 @@ const OvertimeHoursTable = ({ onBack }) => {
       const year = selectedYear || new Date().getFullYear(); // Use selected year or current year
   
       // Log the URL and parameters
-      console.log(`Making API request to: https://proximahr.onrender.com/analytics/attendance/department-summary?month=${month}&year=${year}`);
+      console.log(`Making API request to: https://proximahr.onrender.comapi/v2/analytics/attendance/department-summary?month=${month}&year=${year}`);
   
       // Make API call to fetch overtime data
       const response = await fetch(
-        `https://proximahr.onrender.com/analytics/attendance/department-summary?month=${month}&year=${year}`,
+        `https://proximahr.onrender.com/api/v2/analytics/attendance/department-summary?month=${month}&year=${year}`,
         {
           method: 'GET',
           headers: {

@@ -597,6 +597,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import EmployeeNavbar from '../components/EmployeeNavbar.jsx';
+import { useTimer } from '../../../context/TimerContext.jsx'; // Importing the useTimer hook from TimerContext
 import './EmployeeDashboard.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
@@ -618,24 +619,6 @@ const EmployeeDashboard = () => {
     approved_leave_requests: 0,
   });
 
-  // const [workingHours, setWorkingHours] = useState(0);
-  // const [breakTime, setBreakTime] = useState(0);
-  // const [isTimerRunning, setIsTimerRunning] = useState(false);
-  // const [isBreakActive, setIsBreakActive] = useState(false);
-  // const [loading, setLoading] = useState(true);
-  // const [clockInTime, setClockInTime] = useState(null);
-  // const [clockOutTime, setClockOutTime] = useState(null);
-
-
-
-  const [workingHours, setWorkingHours] = useState(0);
-  const [breakTime, setBreakTime] = useState(0);
-  const [isTimerRunning, setIsTimerRunning] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [isBreakActive, setIsBreakActive] = useState(false);
-  const [clockInTime, setClockInTime] = useState(null);
-  const [clockOutTime, setClockOutTime] = useState(null);
-
   const [attendanceSummary, setAttendanceSummary] = useState({
     attendance_percentage: 0,
     days_worked: 0,
@@ -648,7 +631,24 @@ const EmployeeDashboard = () => {
     payment_status: 'Unpaid',
     last_salary: 0,
     next_salary_date: '',
-  });
+  }); // Define the compensationData state
+
+  const [loading, setLoading] = useState(true);  // Define loading state to track data loading
+
+  // Accessing the global timer context
+  const {
+    workingHours,
+    breakTime,
+    isTimerRunning,
+    isBreakActive,
+    clockInTime,
+    clockOutTime,
+    startTimer,
+    stopTimer,
+    startBreak,
+    endBreak,
+    formatTime,
+  } = useTimer(); // Using the global timer state and functions
 
   useEffect(() => {
     const authData = JSON.parse(localStorage.getItem('employeeAuthToken'));
@@ -676,10 +676,10 @@ const EmployeeDashboard = () => {
           net_pay: data.net_pay || 0,
           total_overtime_hours: data.total_overtime_hours || 0,
         });
-        setLoading(false);
+        setLoading(false);  // Set loading to false once data is fetched
       } catch (error) {
         console.error('Error fetching employee stats:', error);
-        setLoading(false);
+        setLoading(false);  // Set loading to false even if an error occurs
       }
     };
 
@@ -725,9 +725,30 @@ const EmployeeDashboard = () => {
       }
     };
 
+    // Fetch Compensation Data
+    const fetchCompensationData = async () => {
+      try {
+        const response = await fetch('https://proximahr.onrender.com/api/v2/employee/compensation', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+        console.log('Compensation Data:', data);
+        setCompensationData({
+          payment_status: data.payment_status || 'Unpaid',
+          last_salary: data.last_salary || 0,
+          next_salary_date: data.next_salary_date || '',
+        });
+      } catch (error) {
+        console.error('Error fetching compensation data:', error);
+      }
+    };
+
     fetchMonthlyStats();
     fetchLeaveStats();
     fetchAttendanceSummary();
+    fetchCompensationData();  // Fetch compensation data as well
   }, [currentMonth, currentYear]);
 
   useEffect(() => {
@@ -744,201 +765,6 @@ const EmployeeDashboard = () => {
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(amount);
   };
-
-  const startTimer = async () => {
-
-    const authData = JSON.parse(localStorage.getItem('employeeAuthToken'));
-    const token = authData?.access_token;
-    if (!token) {
-      console.error('No token found.');
-      return;
-    }
-
-    const response = await fetch('https://proximahr.onrender.com/api/v2/attendance/employee/timer/start', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log('Timer started:', data);
-      setIsTimerRunning(true);
-       setClockInTime(new Date()); // Set the clock-in time when the user starts working
-    }
-  };
-
-  useEffect(() => {
-    const storedState = JSON.parse(localStorage.getItem('employeeTimerState'));
-    if (storedState) {
-      setWorkingHours(storedState.workingHours);
-      setBreakTime(storedState.breakTime);
-      setClockInTime(storedState.clockInTime);
-      setClockOutTime(storedState.clockOutTime);
-      setIsTimerRunning(storedState.isTimerRunning);
-      setIsBreakActive(storedState.isBreakActive);
-    }
-
-  // Automatically start the timer if the user was clocked in before the page refresh
-  if (storedState.isTimerRunning) {
-    setIsTimerRunning(true); // Continue the working timer
-  }
-  if (storedState.isBreakActive) {
-    setIsBreakActive(true); // Continue the break timer if it was active
-  }
-
-  }, []);
-
-  // Working Hours Timer
-  useEffect(() => {
-    if (isTimerRunning) {
-      const timer = setInterval(() => {
-        setWorkingHours((prev) => prev + 1000); // Increase by 1 second for working hours
-      }, 1000);
-      return () => clearInterval(timer);
-    }
-  }, [isTimerRunning]);
-
-  // Break Timer
-  useEffect(() => {
-    if (isBreakActive) {
-      const breakTimer = setInterval(() => {
-        setBreakTime((prev) => prev + 1000); // Increase by 1 second for break time
-      }, 1000);
-      return () => clearInterval(breakTimer);
-    }
-  }, [isBreakActive]);
-
-  // Store the state to localStorage to persist timers across page reloads or navigation
-  useEffect(() => {
-    const timerState = {
-      workingHours,
-      breakTime,
-      clockInTime,
-      clockOutTime,
-      isTimerRunning,
-      isBreakActive,
-    };
-    localStorage.setItem('employeeTimerState', JSON.stringify(timerState));
-  }, [workingHours, breakTime, clockInTime, clockOutTime, isTimerRunning, isBreakActive]);
-
-
-  const pauseTimer = async () => {
-    const authData = JSON.parse(localStorage.getItem('employeeAuthToken'));
-    const token = authData?.access_token;
-    if (!token) {
-      console.error('No token found.');
-      return;
-    }
-
-    const response = await fetch('https://proximahr.onrender.com/api/v2/attendance/employee/timer/pause', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log('Timer paused:', data);
-      setIsBreakActive(true);
-    }
-  };
-
-  const resumeTimer = async () => {
-    const authData = JSON.parse(localStorage.getItem('employeeAuthToken'));
-    const token = authData?.access_token;
-    if (!token) {
-      console.error('No token found.');
-      return;
-    }
-
-    const response = await fetch('https://proximahr.onrender.com/api/v2/attendance/employee/timer/resume', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log('Timer resumed:', data);
-      setIsBreakActive(false);
-    }
-  };
-
-  const stopTimer = async () => {
-    const authData = JSON.parse(localStorage.getItem('employeeAuthToken'));
-    const token = authData?.access_token;
-    if (!token) {
-      console.error('No token found.');
-      return;
-    }
-
-    const response = await fetch('https://proximahr.onrender.com/api/v2/attendance/employee/timer/stop', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log('Timer stopped:', data);
-      setIsTimerRunning(false);
-      setClockOutTime(new Date());
-      setIsBreakActive(false);
-      setClockOutTime(new Date());
-      calculateTime();
-
-      // Trigger the Daily Attendance endpoint
-      await fetch('https://proximahr.onrender.com/api/v2/attendance/employee/daily-attendance', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => console.log('Daily Attendance Summary:', data));
-    }
-  };
-
-  const calculateTime = () => {
-    const totalWorkedTime = workingHours + breakTime;
-    console.log('Total worked time (including breaks):', formatTime(totalWorkedTime));
-  };
-
-  const formatTime = (timeInMillis) => {
-    const hours = Math.floor(timeInMillis / 3600000);
-    const minutes = Math.floor((timeInMillis % 3600000) / 60000);
-    const seconds = Math.floor((timeInMillis % 60000) / 1000);
-    return `${hours}:${minutes}:${seconds}`;
-  };
-
-  useEffect(() => {
-    let timer;
-    if (isTimerRunning) {
-      timer = setInterval(() => {
-        setWorkingHours((prev) => prev + 1000); // increase by 1 second
-      }, 1000);
-    } else if (!isTimerRunning && clockInTime && clockOutTime) {
-      setWorkingHours(0); // Reset when timer stops
-    }
-    return () => clearInterval(timer);
-  }, [isTimerRunning, clockInTime, clockOutTime]);
-
-  useEffect(() => {
-    let breakTimer;
-    if (isBreakActive) {
-      breakTimer = setInterval(() => {
-        setBreakTime((prev) => prev + 1000); // Increase by 1 second for break time
-      }, 1000);
-    } else if (!isBreakActive) {
-      setBreakTime(0); // Reset break timer
-    }
-    return () => clearInterval(breakTimer);
-  }, [isBreakActive]);
 
   return (
     <div>
@@ -959,7 +785,7 @@ const EmployeeDashboard = () => {
               <h1>Working Hours</h1>
               <div className="clock" style={{ display: 'flex', alignItems: 'center', marginTop: '-20px' }}>
                 <div className="timer" style={{ width: '100px', height: '38px', padding: '8px', marginTop: '10px', borderRadius: '4px', border: '1px solid #F8F8F8', background: '#D9D9D9' }}>
-                  {formatTime(workingHours)}
+                  {formatTime(workingHours)} {/* Displaying formatted working hours */}
                 </div>
                 <button style={{ width: '100px' }} onClick={isTimerRunning ? stopTimer : startTimer}>
                   <FontAwesomeIcon icon="fa-solid fa-right-from-bracket" /> {isTimerRunning ? 'Clock Out' : 'Clock In'}
@@ -1002,65 +828,57 @@ const EmployeeDashboard = () => {
             </div>
           </div>
 
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+          {/* First Row: Clock In/Clock Out and Leave Requests */}
+          <div style={{ width: '48%' }}>
+                {/* Clock In / Clock Out Section */}
+                <div className="grid">
+                  <h1>Clock In / Clock Out</h1>
+                  <hr />
+                  <div className="firstCol" style={{ display: 'flex', alignItems: 'center' }}>
+                    <div className="left-side">
+                      <h5>Clock In</h5>
+                      <h6>{clockInTime ? clockInTime.toLocaleTimeString() : 'Not yet clocked in'}</h6>
+                    </div>
+                    <div className="right-side-col">
+                      <h5>Clock Out</h5>
+                      <h6>{clockOutTime ? clockOutTime.toLocaleTimeString() : 'Not yet clocked out'}</h6>
+                    </div>
+                  </div>
 
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-      {/* First Row: Clock In/Clock Out and Leave Requests */}
-      <div style={{ width: '48%' }}>
-      {/* Clock In / Clock Out Section */}
-      <div className="grid">
-        <h1>Clock In / Clock Out</h1>
-        <hr />
-        <div className="firstCol" style={{ display: 'flex', alignItems: 'center' }}>
-          <div className="left-side">
-            <h5>Clock In</h5>
-            <h6>{clockInTime ? clockInTime.toLocaleTimeString() : 'Not yet clocked in'}</h6>
-          </div>
-          <div className="right-side-col">
-            <h5>Clock Out</h5>
-            <h6>{clockOutTime ? clockOutTime.toLocaleTimeString() : 'Not yet clocked out'}</h6>
-          </div>
-        </div>
+                  <div className="priority">
+                    <h5>Lunch Break</h5>
+                    <div>
+                      <h6 style={{ background: 'none', color: '#4E4E4E' }}>
+                        {isBreakActive ? 'Break Active' : 'No Break'}
+                      </h6>
+                    </div>
+                  </div>
 
-        <div className="priority">
-          <h5>Lunch Break</h5>
-          <div>
-            <h6 style={{ background: 'none', color: '#4E4E4E' }}>
-              {isBreakActive ? 'Break Active' : 'No Break'}
-            </h6>
-          </div>
-        </div>
+                  <div className="TaskProgress">
+                    <div className="firstCol" style={{ display: 'flex', alignItems: 'center' }}>
+                      <div className="left-side">
+                        <h5>Working Hours</h5>
+                        <h6>{formatTime(workingHours)}</h6>
+                      </div>
+                      <div className="right-side-col">
+                        <h5>Break Time</h5>
+                        <h6>{formatTime(breakTime)}</h6>
+                      </div>
+                    </div>
+                  </div>
 
-        <div className="TaskProgress">
-          <div className="firstCol" style={{ display: 'flex', alignItems: 'center' }}>
-            <div className="left-side">
-              <h5>Working Hours</h5>
-              <h6>{formatTime(workingHours)}</h6>
-            </div>
-            <div className="right-side-col">
-              <h5>Break Time</h5>
-              <h6>{formatTime(breakTime)}</h6>
-            </div>
-          </div>
-        </div>
+                  <button style={{ background: '#007BFF', color: '#fff', width: '200px' }} onClick={isTimerRunning ? stopTimer : startTimer}>
+                    <FontAwesomeIcon icon="fa-solid fa-right-from-bracket" />
+                    {isTimerRunning ? 'Clock Out' : 'Clock In'}
+                  </button>
 
-        <button
-          style={{ background: '#007BFF', color: '#fff', width: '200px' }}
-          onClick={isTimerRunning ? stopTimer : startTimer}
-        >
-          <FontAwesomeIcon icon="fa-solid fa-right-from-bracket" />
-          {isTimerRunning ? 'Clock Out' : 'Clock In'}
-        </button>
-
-        <button
-          style={{ color: '#2E2E2E', border: '1px solid #2E2E2E', width: '200px' }}
-          onClick={isBreakActive ? resumeTimer : pauseTimer}
-        >
-          <FontAwesomeIcon icon="fa-solid fa-mug-hot" />
-          {isBreakActive ? 'End Break' : 'Start Break'}
-        </button>
-      </div>
-    </div>
-
+                  <button style={{ color: '#2E2E2E', border: '1px solid #2E2E2E', width: '200px' }} onClick={isBreakActive ? endBreak : startBreak}>
+                    <FontAwesomeIcon icon="fa-solid fa-mug-hot" />
+                    {isBreakActive ? 'End Break' : 'Start Break'}
+                  </button>
+                </div>
+              </div>
 
     {/* Leave Requests Section */}
     <div style={{ width: '48%' }}>
@@ -1181,5 +999,3 @@ const EmployeeDashboard = () => {
 };
 
 export default EmployeeDashboard;
-
-
