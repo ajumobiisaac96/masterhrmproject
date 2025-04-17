@@ -129,6 +129,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Sidebar from '../components/Sidebar';
 import test from '../assets/test.png';
 import { Link } from 'react-router-dom';
+import EmployerNavbar from "../components/EmployerNavbar";
 
 const AttendancePerformanceTable = ({ onBack }) => {
   const [isMonthOpen, setIsMonthOpen] = useState(false);
@@ -163,7 +164,7 @@ const AttendancePerformanceTable = ({ onBack }) => {
     const fetchOvertimeData = async () => {
       try {
         const authData = JSON.parse(localStorage.getItem('authData'));
-        const token = authData?.token;
+        const token = authData?.access_token;
 
         if (!token) {
           setError('Unauthorized: No token found');
@@ -171,7 +172,7 @@ const AttendancePerformanceTable = ({ onBack }) => {
         }
 
         const response = await fetch(
-          `https://proximahr.onrender.com/analytics/overtime/by-department?month=${selectedMonth}&year=2024`,
+          `https://proximahr.onrender.com/api/v2/analytics/overtime/by-department?month=${selectedMonth}&year=2024`,
           {
             method: 'GET',
             headers: {
@@ -202,31 +203,16 @@ const AttendancePerformanceTable = ({ onBack }) => {
       <div className="main-dashboard">
         <Sidebar />
         <div className="dashboard">
-          <div className="slide-one-1">
-            <div className="name">
-              <h5>Joseph Dooley</h5>
-              <h6>Good Morning</h6>
-            </div>
-            <div className="slide-one-2-1">
-              <div className="notification">
-                <FontAwesomeIcon icon="fa-solid fa-bell" />
-                <h6>6</h6>
-              </div>
+            <EmployerNavbar style={{ width: "100%", display: "flex", justifyContent: "space-between" }} />
 
-              <div className="user-profile">
-                <img src={test} alt="My profile" className="My-profile" />
-              </div>
-            </div>
-          </div>
           <hr className="horizontal" />
-          <div className="dashboard-details">
-            <Link to="/ReportAndAnalysis" onClick={onBack} className="back-link">
-              <FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow" />
-              <h5>Report and Analysis</h5>
-            </Link>
-            <h6>24 Thursday October 2024</h6>
+
+          <div className="dashboard-details" style={{display:'flex', flexDirection:'column', alignItems:'flex-start'}} >
+            <h5 style={{marginBottom:'15px'}} >Report and Analysis</h5>
+            <h6>{new Date().toLocaleDateString('en-GB', { day: '2-digit', weekday: 'long', month: 'long', year: 'numeric' })}</h6>
           </div>
-          <div className="number-of-employee">
+
+          <div className="number-of-employee" style={{marginBottom:'30px'}}>
             <div className="new-div-1">
               <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" className="glass-icon" />
               <input type="text" placeholder="Search" />
