@@ -227,10 +227,10 @@ function App() {
 
             {/* Department Routes */}
             <Route path="/department" element={isAuthenticated ? <Department /> : <Navigate to="/login" />} />
-            <Route path="/department/edit-department" element={isAuthenticated ? <EditDepartment /> : <Navigate to="/login" />} />
+            <Route path="/department/edit-department/:departmentId" element={isAuthenticated ? <EditDepartment /> : <Navigate to="/login" />} />
             <Route path="/department/first-edit-department" element={isAuthenticated ? <FirstEditDepartment /> : <Navigate to="/login" />} />
             <Route path="/department/add-new-department" element={isAuthenticated ? <AddDepartment /> : <Navigate to="/login" />} />
-            <Route path="/department/add-employee-department" element={isAuthenticated ? <AddEmployeeDepartment /> : <Navigate to="/login" />} />
+            <Route path="/department/add-employee-department/:departmentId" element={isAuthenticated ? <AddEmployeeDepartment /> : <Navigate to="/login" />} />
 
             {/* Catch-all Route */}
             <Route path="*" element={<HRlogin />} />
