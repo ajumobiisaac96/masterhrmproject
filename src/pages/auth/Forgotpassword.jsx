@@ -197,7 +197,7 @@ const Forgotpassword = () => {
       <ToastContainer />
       <div className="left-side" style={{ flex: 1, padding: '20px' }}>
         <div className="logo" style={{ marginBottom: '5px', textAlign: 'left', marginLeft: '-190px' }}>
-          <img src={hrmLogo} alt="HRM Logo" style={{ width: '25px', height: 'auto' }} />
+        <Link to={'/LandingPage'}><img src={hrmLogo} alt="HRM Logo" style={{ width: '25px', height: 'auto' }} /></Link>
           <h1>Proxima HR</h1>
         </div>
 

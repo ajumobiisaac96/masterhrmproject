@@ -191,9 +191,9 @@ function App() {
             <Route path="/EmployeeLogin" element={<EmployeeLogin />} />
 
             {/* Auth Routes */}
-            <Route path="/forgotpassword" element={isAuthenticated ? <Forgotpassword /> : <Navigate to="/login" />} />
-            <Route path="/verifyemail" element={isAuthenticated ? <Verifyemail /> : <Navigate to="/login" />} />
-            <Route path="/confirmPassword" element={isAuthenticated ? <ConfirmPassword /> : <Navigate to="/login" />} />
+            <Route path="/forgotpassword" element={<Forgotpassword />} />
+            <Route path="/verifyemail" element={<Verifyemail /> } />
+            <Route path="/confirmPassword" element={<ConfirmPassword />} />
 
             {/* Dashboard Routes */}
             <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
