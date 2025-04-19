@@ -142,6 +142,7 @@ import hrmLogo from '../../assets/hrm logo.JPG';
 import Sideimage from '../../assets/SideImage2.png'; // Image for right-side layout
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom';
 
 const ResetPassword = () => {
   const location = useLocation();

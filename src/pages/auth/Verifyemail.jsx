@@ -120,6 +120,8 @@ import hrmLogo from '../../assets/hrm logo.JPG';
 import { toast, ToastContainer } from 'react-toastify';
 import Sideimage from '../../assets/SideImage2.png'; // Image for right-side layout
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom';
+
 
 const Verifyemail = () => {
   const navigate = useNavigate();
