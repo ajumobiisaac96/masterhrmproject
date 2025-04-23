@@ -1,9 +1,10 @@
+
 // import React, { useState } from 'react';
 // import '../../styles/custom.css';
 // import hrmLogo from '../../assets/hrm logo.JPG';
 // import { Link, useNavigate } from 'react-router-dom';
 // import axios from 'axios';
-// import Sideimage from '../../assets/SideImage2.png'; // Image for right-side layout
+// import Sideimage from '../../assets/SideImage2.png';
 // import { toast, ToastContainer } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 
@@ -16,7 +17,6 @@
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
 
-//     // Basic validation: Ensure both fields are filled
 //     if (!username || !password) {
 //       toast.error('Both username and password are required.', {
 //         autoClose: 15000,
@@ -35,7 +35,7 @@
 //         new URLSearchParams({
 //           username,
 //           password,
-//           grant_type: 'password',  // Grant type required for the request
+//           grant_type: 'password',
 //         }),
 //         {
 //           headers: {
@@ -57,10 +57,10 @@
 //           className: 'custom-toast-success',
 //         });
 
+//         // Delay for toast to show before redirecting
 //         setTimeout(() => {
-//           navigate('/dashboard'); // Redirect after success
-//         }, 2000); // Delay the redirect so the success toast can show
-
+//           navigate('/dashboard'); // Redirect to dashboard after success
+//         }, 2000); // 2-second delay to allow backend to update
 //       } else {
 //         toast.error('No token received. Please contact support.', {
 //           autoClose: 15000,
@@ -85,7 +85,7 @@
 //       <ToastContainer />
 //       <div className="left-side" style={{ flex: 1, padding: '20px' }}>
 //         <div className="logo" style={{ marginBottom: '5px', textAlign: 'left', marginLeft: '-190px' }}>
-//           <img src={hrmLogo} alt="HRM Logo" style={{ width: '25px', height: 'auto' }} />
+//         <Link to={'/LandingPage'}><img src={hrmLogo} alt="HRM Logo" style={{ width: '25px', height: 'auto' }} /></Link>
 //           <h1>Proxima HR</h1>
 //         </div>
 
@@ -122,7 +122,7 @@
 //                 />
 //               </div>
 //             </div>
-//             <button className='btn-general' type="submit" disabled={isSubmitting}>
+//             <button className="btn-general" type="submit" disabled={isSubmitting}>
 //               {isSubmitting ? 'Logging in...' : 'Login'}
 //             </button>
 //           </form>
@@ -161,7 +161,6 @@
 
 
 
-
 import React, { useState } from 'react';
 import '../../styles/custom.css';
 import hrmLogo from '../../assets/hrm logo.JPG';
@@ -170,11 +169,14 @@ import axios from 'axios';
 import Sideimage from '../../assets/SideImage2.png';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesome
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'; // Eye icons
 
 const HRlogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false); // State to toggle password visibility
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -248,7 +250,7 @@ const HRlogin = () => {
       <ToastContainer />
       <div className="left-side" style={{ flex: 1, padding: '20px' }}>
         <div className="logo" style={{ marginBottom: '5px', textAlign: 'left', marginLeft: '-190px' }}>
-        <Link to={'/LandingPage'}><img src={hrmLogo} alt="HRM Logo" style={{ width: '25px', height: 'auto' }} /></Link>
+          <Link to={'/LandingPage'}><img src={hrmLogo} alt="HRM Logo" style={{ width: '25px', height: 'auto' }} /></Link>
           <h1>Proxima HR</h1>
         </div>
 
@@ -275,14 +277,22 @@ const HRlogin = () => {
                     <p>Forgot Password?</p>
                   </Link>
                 </div>
-                <input
-                  type="password"
-                  id="password"
-                  placeholder="Enter Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <input
+                    type={passwordVisible ? 'text' : 'password'} // Toggle between text and password input
+                    id="password"
+                    placeholder="Enter Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    style={{width: '100%'}} 
+                  />
+                  <FontAwesomeIcon
+                    icon={passwordVisible ? faEyeSlash : faEye} // Switch between eye and eye-slash icon
+                    onClick={() => setPasswordVisible(!passwordVisible)} // Toggle password visibility
+                    style={{ cursor: 'pointer', marginLeft: '10px' }}
+                  />
+                </div>
               </div>
             </div>
             <button className="btn-general" type="submit" disabled={isSubmitting}>

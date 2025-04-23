@@ -136,6 +136,12 @@ import Forgotpassword from './pages/auth/Forgotpassword.jsx';
 import Verifyemail from './pages/auth/Verifyemail.jsx';
 import ConfirmPassword from './pages/auth/ConfirmPassword.jsx';
 
+//EmployeeAuth pages
+import EmployeeLogin from './EmployeePages/EmployeeSide/pages/EmployeeLogin.jsx';
+import EmployeeVerifyemail from './EmployeePages/EmployeeSide/pages/EmployeeVerifyemail.jsx';
+import EmployeeForgotpassword from './EmployeePages/EmployeeSide/pages/EmployeeForgotpassword.jsx';
+import EmployeeConfirmPassword from './EmployeePages/EmployeeSide/pages/EmployeeConfirmPassword.jsx';
+
 // Dashboard Pages
 import Dashboard from './pages/Dashboard.jsx';
 import EmployeeManagment from './pages/EmployeeManagment.jsx';
@@ -167,7 +173,7 @@ import EmployeeAttendance from './EmployeePages/EmployeeSide/pages/EmployeeAtten
 import EmployeeLeave from './EmployeePages/EmployeeSide/pages/EmployeeLeave.jsx';
 import NewLeaveRequest from './EmployeePages/EmployeeSide/pages/NewLeaveRequest.jsx';
 import ProfileDashboard from './EmployeePages/EmployeeSide/pages/ProfileDashboard.jsx';
-import EmployeeLogin from './EmployeePages/EmployeeSide/pages/EmployeeLogin.jsx';
+
 
 
 // Import TimerProvider
@@ -194,6 +200,12 @@ function App() {
             <Route path="/forgotpassword" element={<Forgotpassword />} />
             <Route path="/verifyemail" element={<Verifyemail /> } />
             <Route path="/confirmPassword" element={<ConfirmPassword />} />
+
+
+            {/* EmployeeAuth Routes */}
+            <Route path="/EmployeeForgotpassword" element={<EmployeeForgotpassword />} />
+            <Route path="/EmployeeVerifyemail" element={<EmployeeVerifyemail />} />
+            <Route path="/EmployeeConfirmPassword" element={<EmployeeConfirmPassword />} />
 
             {/* Dashboard Routes */}
             <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />

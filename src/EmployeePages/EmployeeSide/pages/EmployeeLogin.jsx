@@ -110,7 +110,7 @@ const HRlogin = () => {
               <div className="input-2" style={{ marginBottom: '20px' }}>
                 <div className="forgotpassword" style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <label htmlFor="password">Password</label>
-                  <Link to="/forgotpassword" style={{ fontSize: '14px', color: '#007bff' }}>
+                  <Link to="/EmployeeForgotpassword" style={{ fontSize: '14px', color: '#007bff' }}>
                     <p>Forgot Password?</p>
                   </Link>
                 </div>

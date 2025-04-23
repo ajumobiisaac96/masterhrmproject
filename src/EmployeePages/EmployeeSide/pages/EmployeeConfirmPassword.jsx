@@ -171,9 +171,9 @@
 
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import '../../styles/custom.css';
-import hrmLogo from '../../assets/hrm logo.JPG';
-import Sideimage from '../../assets/SideImage2.png'; // Image for right-side layout
+import '../../../styles/custom.css';
+import hrmLogo from '../../../assets/hrm logo.JPG';
+import Sideimage from '../../../assets/SideImage2.png'; // Image for right-side layout
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
@@ -254,7 +254,7 @@ const ResetPassword = () => {
           position: 'top-right',
           className: 'custom-toast-success',
         });
-        setTimeout(() => navigate('/login'), 2000); // Redirect after a short delay
+        setTimeout(() => navigate('/EmployeeLogin'), 2000); // Redirect after a short delay
       } else {
         toast.error(data.message || 'Failed to reset password. Please try again.', {
           autoClose: 15000,
