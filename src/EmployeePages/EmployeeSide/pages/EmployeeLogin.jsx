@@ -141,7 +141,7 @@ const HRlogin = () => {
               {isSubmitting ? 'Logging in...' : 'Login'}
             </button>
           </form>
-
+{/* 
           <div className="login" style={{ textAlign: 'center', marginTop: '20px' }}>
             <h1>
               Don't have an account?
@@ -149,7 +149,7 @@ const HRlogin = () => {
                 <span> Signup</span>
               </Link>
             </h1>
-          </div>
+          </div> */}
         </div>
       </div>
 

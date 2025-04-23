@@ -294,10 +294,10 @@ const AddEmployee = () => {
 
           <div className="dashboard-details" style={{display:'flex', flexDirection:'column', alignItems:'flex-start'}}>
             <Link to={'/employee-managment'}>
-              <h1 className="employee-profile" style={{textDecoration: "none", marginBottom:'15px'}} >
+              <h5 className="employee-profile" style={{textDecoration: "none", marginBottom:'15px'}} >
                 <FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow" />
                 Add New Employee
-              </h1>
+              </h5>
             </Link>
             <h6 >{new Date().toLocaleDateString('en-GB', { day: '2-digit', weekday: 'long', month: 'long', year: 'numeric' })}</h6>
           </div>

@@ -169,19 +169,6 @@ const Sidebar = () => {
               justifyContent: 'space-between',
             }}>
               <button 
-                onClick={handleLogoutConfirm} 
-                style={{
-                  padding: '10px 20px',
-                  backgroundColor: '#007bff',
-                  border: 'none',
-                  color: 'white',
-                  cursor: 'pointer',
-                  borderRadius: '5px',
-                }}
-              >
-                Yes
-              </button>
-              <button 
                 onClick={handleLogoutCancel} 
                 style={{
                   padding: '10px 20px',
@@ -193,6 +180,19 @@ const Sidebar = () => {
                 }}
               >
                 No
+              </button>
+              <button 
+                onClick={handleLogoutConfirm} 
+                style={{
+                  padding: '10px 20px',
+                  backgroundColor: '#007bff',
+                  border: 'none',
+                  color: 'white',
+                  cursor: 'pointer',
+                  borderRadius: '5px',
+                }}
+              >
+                Yes
               </button>
             </div>
           </div>
