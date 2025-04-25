@@ -166,6 +166,7 @@ import AdminProfile from './pages/AdminProfile.jsx';
 import OvertimeHoursTable from './pages/OvertimeHoursTable.jsx';
 import Notification from './pages/Notification.jsx';
 import AttendancePerformanceTable from './pages/AttendancePerformanceTable.jsx';
+import EditEmployeeForm from './pages/EditEmployeeForm.jsx';
 
 // Employee Pages
 import EmployeeDashboard from './EmployeePages/EmployeeSide/pages/EmployeeDashboard.jsx';
@@ -226,6 +227,7 @@ function App() {
             <Route path="/Profile" element={isAuthenticated ? <AdminProfile /> : <Navigate to="/login" />} />
             <Route path="/ReportAndAnalysis/OvertimeHours" element={isAuthenticated ? <OvertimeHoursTable /> : <Navigate to="/login" />} />
             <Route path="/ReportAndAnalysis/AttendancePerformanceTable" element={isAuthenticated ? <AttendancePerformanceTable /> : <Navigate to="/login" />} />
+            <Route path="/edit-employee" element={isAuthenticated ? <EditEmployeeForm/> : <Navigate to="/login" />} />
 
             {/* Employee Routes */}
             <Route path="/EmployeeDashboard" element={isEmployeeAuthenticated ? <EmployeeDashboard /> : <Navigate to="/EmployeeLogin" />} />

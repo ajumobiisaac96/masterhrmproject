@@ -283,3 +283,11 @@
   color: #007BFF;
   border: 1px solid #007BFF
 }
+
+
+.viewprofile-btn:hover{
+    background: transparent !important;
+    color: #007BFF !important;
+    border: 1px solid #007BFF !important;
+    transition: 0.3s ease !important;
+}

@@ -1130,7 +1130,7 @@ const EmployeeCard = ({ employee, onToggleDropdown, isDropdownOpen, onCardClick 
             localStorage.setItem("selectedEmployee_id", employee.employee_id);
           }}
         >
-          <button style={{
+          <button className='viewprofile-btn' style={{
             padding: "8px 15px",
             backgroundColor: "#0275d8",
             color: "#fff",

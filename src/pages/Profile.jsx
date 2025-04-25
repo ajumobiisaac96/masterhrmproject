@@ -96,10 +96,12 @@ const Profile = () => {
                       <button style={{ border: '1px solid', width: '150px', textAlign: 'center' }}>{employeeData?.employment_status}</button>
                     </div>
                   </div>
+
                   <div>
+                  <Link to={`/edit-employee`}>
                     <button className='btn-2' style={{ font: 'Inter', fontWeight: '500', fontSize: '14px', padding: '2px', marginLeft: '450px', width: '100px', height: '30px' }}>
                       <FontAwesomeIcon icon="fa-solid fa-plus" style={{ marginRight: '2px' }} />Edit
-                    </button>
+                    </button></Link>
                   </div>
                 </div>
               </div>
@@ -128,8 +130,8 @@ const Profile = () => {
                     transition: 'background-color 0.3s, color 0.3s, border 0.3s',
                   }}
                   onMouseEnter={(e) => {
-                    e.target.style.backgroundColor = '#0275d8'; // Hover background color
-                    e.target.style.color = '#fff'; // Change text color to white on hover
+                    e.target.style.backgroundColor = '#E0ECFE'; // Hover background color
+                    e.target.style.color = '#0275d8'; // Change text color to white on hover
                   }}  // Hover effect
                   onMouseLeave={(e) => {
                     e.target.style.backgroundColor = activeSection === 'personalInfo' ? '#0275d8' : '#f8f9fa';  // Reset background color
@@ -152,8 +154,8 @@ const Profile = () => {
                     transition: 'background-color 0.3s, color 0.3s, border 0.3s',
                   }}
                   onMouseEnter={(e) => {
-                    e.target.style.backgroundColor = '#0275d8'; // Hover background color
-                    e.target.style.color = '#fff'; // Change text color to white on hover
+                    e.target.style.backgroundColor = '#E0ECFE'; // Hover background color
+                    e.target.style.color = '#0275d8'; // Change text color to white on hover
                   }}  // Hover effect
                   onMouseLeave={(e) => {
                     e.target.style.backgroundColor = activeSection === 'compensation' ? '#0275d8' : '#f8f9fa'; // Reset background color
@@ -176,8 +178,8 @@ const Profile = () => {
                     transition: 'background-color 0.3s, color 0.3s, border 0.3s',
                   }}
                   onMouseEnter={(e) => {
-                    e.target.style.backgroundColor = '#0275d8'; // Hover background color
-                    e.target.style.color = '#fff'; // Change text color to white on hover
+                    e.target.style.backgroundColor = '#E0ECFE'; // Hover background color
+                    e.target.style.color = '#0275d8'; // Change text color to white on hover
                   }}  // Hover effect
                   onMouseLeave={(e) => {
                     e.target.style.backgroundColor = activeSection === 'employeeDetails' ? '#0275d8' : '#f8f9fa'; // Reset background color
@@ -200,8 +202,8 @@ const Profile = () => {
                     transition: 'background-color 0.3s, color 0.3s, border 0.3s',
                   }}
                   onMouseEnter={(e) => {
-                    e.target.style.backgroundColor = '#0275d8'; // Hover background color
-                    e.target.style.color = '#fff'; // Change text color to white on hover
+                    e.target.style.backgroundColor = '#E0ECFE'; // Hover background color
+                    e.target.style.color = '#0275d8'; // Change text color to white on hover
                   }}  // Hover effect
                   onMouseLeave={(e) => {
                     e.target.style.backgroundColor = activeSection === 'performanceMetrics' ? '#0275d8' : '#f8f9fa'; // Reset background color
@@ -224,8 +226,8 @@ const Profile = () => {
                     transition: 'background-color 0.3s, color 0.3s, border 0.3s',
                   }}
                   onMouseEnter={(e) => {
-                    e.target.style.backgroundColor = '#0275d8'; // Hover background color
-                    e.target.style.color = '#fff'; // Change text color to white on hover
+                    e.target.style.backgroundColor = '#E0ECFE'; // Hover background color
+                    e.target.style.color = '#0275d8'; // Change text color to white on hover
                   }}  // Hover effect
                   onMouseLeave={(e) => {
                     e.target.style.backgroundColor = activeSection === 'attendanceLeave' ? '#0275d8' : '#f8f9fa'; // Reset background color
