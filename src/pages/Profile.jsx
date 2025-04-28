@@ -82,8 +82,8 @@ const Profile = () => {
             <p className="error-message">{error}</p>
           ) : (
             <>
-              <div className="number-of-employee" style={{ marginTop: '40px', width: '1000px' }}>
-                <div className="div-one" style={{ width: '2000px' }}>
+              <div className="number-of-employee" style={{ marginTop: '40px', width: '1000px'}}>
+                <div className="div-one" style={{ width: '2000px', display:'flex', justifyContent:'space-between'  }}>
                   <div className="div1-1">
                     <img src={employeeData?.profile_image || test} alt="Profile" className="My-profile" />
                   </div>
@@ -93,7 +93,7 @@ const Profile = () => {
                   </div>
                   <div className="div1-3">
                     <div className="btn-4">
-                      <button style={{ border: '1px solid', width: '150px', textAlign: 'center' }}>{employeeData?.employment_status}</button>
+                      <button style={{ border: '1px solid', width: '50px', fontSize:'12px', textAlign: 'center' }}>{employeeData?.employment_status}</button>
                     </div>
                   </div>
 
