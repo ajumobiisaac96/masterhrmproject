@@ -77,3 +77,22 @@
     display: flex;
     justify-content: space-between;
 }
+
+.switch{
+    font:Inter;
+    font-weight: 600;
+    font-size: 14px;
+    line-height:100%;
+    padding: 10px 20px;
+    background-color: #F8F8F8;
+    border: 1px solid #E0E0E0;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.switch:hover{
+    background-color: #007BFF !important;
+    color: white !important;
+    transition: 0.2s;
+
+}

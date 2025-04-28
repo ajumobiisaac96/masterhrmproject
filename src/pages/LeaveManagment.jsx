@@ -505,30 +505,41 @@ const LeaveManagment = () => {
         <EmployerNavbar />
               <hr className="horizontal" />
             
-          <div className="dashboard-details">
-            <h5>Leave Management</h5>
-            <h6>{new Date().toDateString()}</h6>
-          </div>
+            <div className="dashboard-details" style={{display:'flex', flexDirection:'column', alignItems:'flex-start'}} >
+              <h5 style={{marginBottom:'15px'}} >Leave Management</h5>
+              <h6>{new Date().toLocaleDateString('en-GB', { day: '2-digit', weekday: 'long', month: 'long', year: 'numeric' })}</h6>
+            </div>
+
           <div className="dashboard-details-1">
             <div className="first-grid">
               <FontAwesomeIcon icon={fas.faCheckCircle} className="dashboard-icon-1" style={{ color: '#22C55E' }} />
+              <div style={{display:'flex', flexDirection:'column'}}>
               <h6>Total Request</h6>
               <h5>{leaveStats.total}</h5>
+              </div>
+
             </div>
             <div className="first-grid">
               <FontAwesomeIcon icon={fas.faCalendar} className="dashboard-icon-2" style={{ color: '#007BFF' }} />
+              <div style={{display:'flex', flexDirection:'column'}}>
               <h6>Pending</h6>
               <h5>{leaveStats.pending}</h5>
+              </div>
+
             </div>
             <div className="first-grid">
               <FontAwesomeIcon icon={fas.faClock} className="dashboard-icon-3" style={{ color: '#6F42C1' }} />
+              <div style={{display:'flex', flexDirection:'column'}}>
               <h6>Approved</h6>
               <h5>{leaveStats.approved}</h5>
+              </div>
             </div>
             <div className="first-grid">
               <FontAwesomeIcon icon={fas.faExclamationTriangle} className="dashboard-icon-4" style={{ color: '#FF6464' }} />
+              <div style={{display:'flex', flexDirection:'column'}}>
               <h6>Rejected</h6>
               <h5>{leaveStats.rejected}</h5>
+              </div>
             </div>
           </div>
           <div className="leave-managment-charts">

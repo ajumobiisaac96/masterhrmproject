@@ -580,12 +580,14 @@ import {
   faRightFromBracket, faPlus, faEdit, faChartBar, faCamera
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import './AdminProfile.css'; // Import 
 import EmployerNavbar from "../components/EmployerNavbar";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { toast } from "react-toastify";  // Add this import at the top of your component
 import "react-toastify/dist/ReactToastify.css";  // Add this to import Toastify styles
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';  // Add this import
+import { logout } from '../utils/Switch'; // Import the logout function
 
 
 
@@ -655,6 +657,10 @@ const AdminProfile = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
+  // const location = useLocation(); // Get the current path
+  const [showLogoutModal, setShowLogoutModal] = useState(false); // Add this state to track logout modal visibility
+
+
 
   
 
@@ -794,24 +800,37 @@ const AdminProfile = () => {
     setIsModalOpen(false); // Close modal after saving
   };
 
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      setFile(selectedFile);
+
+// Handle file selection (for click-to-upload)
+const handleFileChange = (e) => {
+  const selectedFile = e.target.files[0]; // For file selection (clicking the "browse" button)
+  if (selectedFile) {
+    // Check if the file is an image
+    if (selectedFile.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImage(reader.result); // Set the image preview
+      };
+      reader.readAsDataURL(selectedFile); // Convert to DataURL for preview
+      setFile(selectedFile); // Store the file for later upload
+    } else {
+      toast.error("Please upload a valid image file.");
     }
-  };
+  }
+};
+  
 
   const handleSaveImage = async () => {
     if (!file) {
       console.error("❌ No file selected");
       return;
     }
-
+  
     const formData = new FormData();
     formData.append("image_file", file);  // Ensure 'image_file' matches the backend expectation
-
+  
     setIsSaving(true);  // Indicate saving in progress
-
+  
     try {
       const response = await axios.post(
         "https://proximahr.onrender.com/api/v2/admin/profile-image-upload",
@@ -821,23 +840,22 @@ const AdminProfile = () => {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${accessToken}`,
           },
-          // params: { company_id: companyId },
         }
       );
-
+  
       console.log("✅ Image uploaded successfully:", response.data);
-
-      // ✅ Update the adminData state
+  
+      // Update the adminData state
       setAdminData((prevData) => ({
         ...prevData,
         profile_image: response.data.profile_image,
       }));
-
-      setImageUploadStatus("File uploaded successfully"); // Set status message
+  
+      setImageUploadStatus("File uploaded successfully");
       setIsSaving(false);
       closeModal();
-
-      // ✅ Reload the page to reflect the changes
+  
+      // Reload the page to reflect the changes
       window.location.reload();
     } catch (err) {
       console.error("❌ Error uploading image:", err.response ? err.response.data : err.message);
@@ -846,7 +864,7 @@ const AdminProfile = () => {
       setImageUploadStatus("Failed to upload file");
     }
   };
-
+  
   const handleSaveChanges = async () => {
     if (!validateForm()) {
       console.log("❌ Form validation failed. Please check the errors above.");
@@ -969,6 +987,43 @@ const handlePasswordChange = async (e) => {
   }
 };
 
+// Add this to trigger modal visibility
+const handleLogoutClick = () => {
+  setShowLogoutModal(true); // Open the logout confirmation modal
+};
+
+// Handle the logout confirmation
+const handleLogoutConfirm = () => {
+  logout(navigate); // Log the user out
+  setShowLogoutModal(false); // Close the modal
+};
+
+// Handle logout cancellation
+const handleLogoutCancel = () => {
+  setShowLogoutModal(false); // Close the modal without logging out
+};
+
+// Handle the drop of an image file (from drag-and-drop)
+const handleDrop = (e) => {
+  e.preventDefault(); // Prevent the default behavior (e.g., opening the file)
+  
+  const file = e.dataTransfer.files[0]; // Get the first dropped file
+  
+  if (file) {
+    // Check if the file is an image
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImage(reader.result); // Set the image preview
+      };
+      reader.readAsDataURL(file); // Convert to DataURL for preview
+      setFile(file); // Store the file for later upload
+    } else {
+      toast.error("Please drop a valid image file.");
+    }
+  }
+};
+
 
   return (
     <div>
@@ -985,10 +1040,11 @@ const handlePasswordChange = async (e) => {
             <p style={{ color: "red", textAlign: "center" }}>{error}</p>
           ) : (
             <>
-{/* 🔹 Profile Section */}
-<div
+            {/* 🔹 Profile Section */}
+            <div
                 style={{
                   display: "flex",
+                  justifyContent: "space-between",
                   alignItems: "center",
                   gap: "15px",
                   padding: "20px",
@@ -997,6 +1053,17 @@ const handlePasswordChange = async (e) => {
                   boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)",
                 }}
               >
+                <div 
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  gap: "15px",
+                  padding: "20px",
+                  background: "#fff",
+                  borderRadius: "10px",
+                  // boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)",
+                  }}>
                 <div style={{ position: "relative" }}>
                   <img
                     src={adminData?.profile_image || profileImage || test}
@@ -1024,104 +1091,131 @@ const handlePasswordChange = async (e) => {
                   </h3>
                   <p style={{ margin: "5px 0", color: "#6C757D" }}>{adminData?.email}</p>
                 </div>
+                </div>
+
+                <button className='switch'  style={{
+                  font:'Inter',
+                  fontWeight: 600,
+                  fontSize: '14px',
+                  lineHeight:'100%',
+                  padding: '10px 20px',
+                  backgroundColor: '#F8F8F8',
+                  border: '1px solid #E0E0E0',
+                  cursor: 'pointer',
+                }}
+                onClick={handleLogoutClick} // Add this onClick handler
+                >Switch to Employee Portal <FontAwesomeIcon icon="fa-solid fa-repeat" style={{marginLeft:'10px'}} /></button>
               </div>
 
               {/* Modal for Profile Image */}
-              {isModalOpen && (
-                <div
-                  style={{
-                    position: "fixed",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    backgroundColor: "rgba(0, 0, 0, 0.6)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    zIndex: 1000,
-                  }}
-                >
-                  <div
-                    style={{
-                      backgroundColor: "#fff",
-                      padding: "30px",
-                      borderRadius: "10px",
-                      textAlign: "center",
-                      width: "400px",
-                      boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)",
-                    }}
-                  >
-                    <h3>Change Profile Photo</h3>
-                    <div
-                      style={{
-                        border: "2px dashed #D0D0D0",
-                        borderRadius: "10px",
-                        padding: "30px",
-                        marginBottom: "20px",
-                        color: "#6C757D",
-                      }}
-                    >
-                      <input
-                        type="file"
-                        onChange={handleFileChange}
-                        style={{ display: "none" }}
-                        id="profileImageInput"
-                      />
-                      <label
-                        htmlFor="profileImageInput"
-                        style={{
-                          cursor: "pointer",
-                          color: "#007BFF",
-                          fontSize: "16px",
-                        }}
-                      >
-                        Drag and drop or browse files
-                      </label>
-                      <p style={{ fontSize: "12px", color: "#6C757D" }}>
-                        Max 5MB, JPEG, PNG
-                      </p>
-                    </div>
-                    <div>
-                      <button
-                        onClick={handleCloseModal}
-                        style={{
-                          backgroundColor: "gray",
-                          color: "#fff",
-                          padding: "10px 20px",
-                          borderRadius: "5px",
-                          marginRight: "10px",
-                        }}
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        onClick={handleSaveImage}
-                        style={{
-                          backgroundColor: "#007BFF",
-                          color: "#fff",
-                          padding: "10px 20px",
-                          borderRadius: "5px",
-                        }}
-                        disabled={isSaving} // Disable button while saving
-                      >
-                        {isSaving ? "Saving..." : "Save Photo"} {/* Show 'Saving...' while uploading */}
-                      </button>
-                    </div>
-                    {imageUploadStatus && (
-                      <p
-                        style={{
-                          color: imageUploadStatus.includes("Failed")
-                            ? "red"
-                            : "green",
-                        }}
-                      >
-                        {imageUploadStatus}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              )}
+{/* Modal for Profile Image */}
+{isModalOpen && (
+  <div
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: "rgba(0, 0, 0, 0.6)", // Dark overlay
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      zIndex: 1000, // Ensure it's on top
+    }}
+  >
+    <div
+      style={{
+        backgroundColor: "#fff", // White background for the modal
+        padding: "30px",
+        borderRadius: "10px",
+        textAlign: "center",
+        width: "400px",
+        boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)", // Shadow for the modal
+      }}
+    >
+      <h3>Change Profile Photo</h3>
+
+      {/* Drag-and-Drop Zone */}
+      <div
+        onDragOver={(e) => e.preventDefault()} // Allow dragging over the area
+        onDrop={handleDrop} // Handle drop event
+        style={{
+          border: "2px dashed #D0D0D0", // Dashed border for the drop area
+          borderRadius: "10px",
+          padding: "30px",
+          marginBottom: "20px",
+          color: "#6C757D",
+          cursor: "pointer", // Show pointer cursor to indicate it's clickable
+        }}
+        onClick={() => document.getElementById("profileImageInput").click()} // Trigger input click
+      >
+        <p>Drag and drop your file here, or click to browse</p>
+        
+        {/* Display preview if an image is selected or dropped */}
+        {profileImage ? (
+          <img
+            src={profileImage} // Show the image preview
+            alt="Profile Preview"
+            style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+          />
+        ) : (
+          <p style={{ fontSize: "12px", color: "#6C757D" }}>Max 5MB, JPEG, PNG</p>
+        )}
+
+        {/* Hidden file input to handle file selection */}
+        <input
+          type="file"
+          id="profileImageInput" // The input field for file selection
+          onChange={handleFileChange}
+          style={{ display: "none" }} // Hide the default input field
+        />
+      </div>
+
+      {/* Save and Cancel Buttons */}
+      <div>
+        <button
+          onClick={handleCloseModal}
+          style={{
+            backgroundColor: "gray",
+            color: "#fff",
+            padding: "10px 20px",
+            borderRadius: "5px",
+            marginRight: "10px",
+          }}
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleSaveImage}
+          style={{
+            backgroundColor: "#007BFF",
+            color: "#fff",
+            padding: "10px 20px",
+            borderRadius: "5px",
+          }}
+          disabled={isSaving} // Disable while saving
+        >
+          {isSaving ? "Saving..." : "Save Photo"} {/* Show 'Saving...' while uploading */}
+        </button>
+      </div>
+
+      {/* Image upload status */}
+      {imageUploadStatus && (
+        <p
+          style={{
+            color: imageUploadStatus.includes("Failed")
+              ? "red"
+              : "green",
+          }}
+        >
+          {imageUploadStatus}
+        </p>
+      )}
+    </div>
+  </div>
+)}
+
 
               {/* Email Modal */}
                 {isEmailModalOpen && (
@@ -1353,6 +1447,61 @@ const handlePasswordChange = async (e) => {
         </div>
       </div>
 
+      {showLogoutModal && (
+  <div style={{
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    background: 'rgba(0, 0, 0, 0.5)', /* Transparent black background */
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000, /* Ensure the modal is on top */
+  }}>
+    <div style={{
+      background: '#fff',
+      padding: '20px',
+      borderRadius: '8px',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+      textAlign: 'center',
+      width: '300px',
+    }}>
+      <h3 style={{ marginBottom: '20px', fontSize: '18px' }}>
+        Are you sure you want to Switch to Employee Portal?
+      </h3>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <button 
+          onClick={handleLogoutCancel} 
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#dc3545',
+            border: 'none',
+            color: 'white',
+            cursor: 'pointer',
+            borderRadius: '5px',
+          }}
+        >
+          No
+        </button>
+        <button 
+          onClick={handleLogoutConfirm} 
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#007bff',
+            border: 'none',
+            color: 'white',
+            cursor: 'pointer',
+            borderRadius: '5px',
+          }}
+        >
+          Yes
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
 
       
