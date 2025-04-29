@@ -1231,13 +1231,16 @@ const handleDrop = (e) => {
                           required
                           style={{ marginBottom: "10px", padding: "10px", width: "100%" }}
                         />
-                        <div>
+                        <div style={{ display: "flex", justifyContent: "space-between" }}>
+
+                        <button type="button" onClick={closeEmailModal} style={{ ...modalButtonStyle, ...cancelButtonStyle }}>
+                            Cancel
+                          </button>
+                          
                           <button type="submit" style={{ ...modalButtonStyle, ...submitButtonStyle }}>
                             Save Email
                           </button>
-                          <button type="button" onClick={closeEmailModal} style={{ ...modalButtonStyle, ...cancelButtonStyle }}>
-                            Cancel
-                          </button>
+
                         </div>
                       </form>
                     </div>
@@ -1296,12 +1299,12 @@ const handleDrop = (e) => {
                         style={{ marginBottom: "10px", padding: "10px", width: "100%" }}
                       />
 
-                        <div>
-                          <button type="submit" style={{ ...modalButtonStyle, ...submitButtonStyle }}>
-                            Change Password
-                          </button>
+                        <div style={{ display: "flex", justifyContent: "space-between" }}>
                           <button type="button" onClick={closePasswordModal} style={{ ...modalButtonStyle, ...cancelButtonStyle }}>
                             Cancel
+                          </button>
+                          <button type="submit" style={{ ...modalButtonStyle, ...submitButtonStyle }}>
+                            Change Password
                           </button>
                         </div>
                       </form>
@@ -1349,27 +1352,36 @@ const handleDrop = (e) => {
                 </div>
 
               {/* Personal Details */}
-              <div style={{ background: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)" }}>
+              <div style={{ background: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)"}}>
                 <h5>Personal Details</h5>
                 {isEditing ? (
-                  <>
-                    <input
+
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" , marginTop: "10px" }}>
+                <>
+                <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+                <input
                       type="date"
                       name="date_of_birth"
                       value={formData.date_of_birth}
                       onChange={handleInputChange}
-                      style={{ marginBottom: "10px" }}
+                      style={{ marginBottom: "10px" , font:"Inter" }}
                     />
-                    {formErrors.date_of_birth && <p style={{ color: "red" }}>{formErrors.date_of_birth}</p>}
+                    {formErrors.date_of_birth && <p style={{ color: "red"  }}>{formErrors.date_of_birth}</p>}
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
                     <input
                       type="text"
                       name="gender"
                       value={formData.gender}
                       onChange={handleInputChange}
                       placeholder="Gender"
-                      style={{ marginBottom: "10px" }}
-                    />
+                      style={{ marginBottom: "10px", font:"Inter"  }}
+                    /> 
                     {formErrors.gender && <p style={{ color: "red" }}>{formErrors.gender}</p>}
+                  </div>
+
+                  <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
                     <input
                       type="text"
                       name="phone_number"
@@ -1379,6 +1391,9 @@ const handleDrop = (e) => {
                       style={{ marginBottom: "10px" }}
                     />
                     {formErrors.phone_number && <p style={{ color: "red" }}>{formErrors.phone_number}</p>}
+                    </div>
+
+                    <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
                     <input
                       type="text"
                       name="address"
@@ -1388,17 +1403,23 @@ const handleDrop = (e) => {
                       style={{ marginBottom: "10px" }}
                     />
                     {formErrors.address && <p style={{ color: "red" }}>{formErrors.address}</p>}
-                    <button onClick={handleSaveChanges}>
+                    </div>
+                    
+                    <button onClick={handleSaveChanges} style={{color:'#007BFF' , fontSize:'16px', border:'none', background:'none', cursor:'pointer'}}>
                       {isSaving ? "Saving..." : "Save Changes"}
                     </button>
                   </>
+                  </div>
+
                 ) : (
                   <>
-                    <p>Date of Birth: <strong>{adminData?.date_of_birth || "N/A"}</strong></p>
-                    <p>Gender: <strong>{adminData?.gender || "N/A"}</strong></p>
-                    <p>Phone: <strong>{adminData?.phone_number || "N/A"}</strong></p>
-                    <p>Address: <strong>{adminData?.address || "N/A"}</strong></p>
-                    <button onClick={handleEditToggle}>Edit</button>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "10px" }}>
+                    <p>Date of Birth: <br /> <strong>{adminData?.date_of_birth || "N/A"}</strong></p>
+                    <p>Gender: <br /> <strong>{adminData?.gender || "N/A"}</strong></p>
+                    <p>Phone: <br /> <strong>{adminData?.phone_number || "N/A"}</strong></p>
+                    <p>Address: <br /> <strong>{adminData?.address || "N/A"}</strong></p>
+                    <button onClick={handleEditToggle} style={{color:'#007BFF' , fontSize:'16px', border:'none', background:'none', cursor:'pointer'}} >Edit</button>
+                  </div>
                   </>
                 )}
               </div>
@@ -1407,15 +1428,15 @@ const handleDrop = (e) => {
               {successMessage && <div className="success-box">{successMessage}</div>}
 
               {/* Account Details */}
-              <div style={{ background: "#fff", padding: "20px", borderRadius: "10px", marginTop: "20px", boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)" }}>
+              <div style={{ background: "#fff", padding: "20px", borderRadius: "10px", marginTop: "20px", boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)", fontStyle:'Inter' }}>
                 <h5>Account Details</h5>
-                <div>
-                  <p>Email: <strong>{adminData?.email}</strong></p>
-                  <button onClick={openEmailModal}>Edit Email</button>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "10px" }}>
+                  <p style={{fontFamily:'Inter', fontSize:'16px', }} >Email:  <br /> <strong>{adminData?.email}</strong></p>
+                  <button onClick={openEmailModal} style={{color:'#007BFF' , fontSize:'16px', border:'none', background:'none', cursor:'pointer'}} >Edit Email</button>
                 </div>
-                <div>
-                  <p>Password: <strong>**********</strong></p>
-                  <button onClick={openPasswordModal}>Edit Password</button>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "30px" }}>
+                  <p style={{fontFamily:'Inter', fontSize:'16px', }}>Password: <br /> <strong>**********</strong></p>
+                  <button onClick={openPasswordModal} style={{color:'#007BFF' , fontSize:'16px', border:'none', background:'none', cursor:'pointer'}} >Edit Password</button>
                 </div>
               </div>
 
