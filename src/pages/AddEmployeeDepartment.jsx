@@ -314,6 +314,10 @@ const AddEmployeeDepartment = () => {
 
     // Log the department name in the render method to check if it's available
     console.log('Department Name:', departmentDetails?.department_name);  // Updated to use department_name
+    console.log('Department Details:', departmentDetails); // Log
+    console.log('Employees:', employees); // Log
+    console.log('Visible Employees:', visibleEmployees); // Log
+    console.log(`Employee: ${employees[0].first_name} ${employees[0].last_name}`);
 
     return (
         <div>
@@ -387,7 +391,7 @@ const AddEmployeeDepartment = () => {
                                 <div className="row-two" key={index}>
                                     <div>
                                         <img src={test} alt="Employee" className="My-profile" />
-                                        <p>{employee.name}</p>
+                                        <p>{employee.first_name} {employee.last_name}</p>
                                     </div>
                                     <p>{employee.job_title}</p>
                                     <p>{employee.employee_id}</p>

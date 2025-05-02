@@ -178,10 +178,12 @@ const HRlogin = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false); // State to toggle password visibility
   const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Add this line
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
+    // Basic validation for empty fields
     if (!username || !password) {
       toast.error('Both username and password are required.', {
         autoClose: 15000,
@@ -190,10 +192,10 @@ const HRlogin = () => {
       });
       return;
     }
-
+  
     try {
       setIsSubmitting(true);
-
+  
       // Sending login request with required parameters
       const response = await axios.post(
         'https://proximahr.onrender.com/api/v2/company/login',
@@ -208,25 +210,32 @@ const HRlogin = () => {
           },
         }
       );
-
+  
+      console.log(response.data); // Log the response for debugging
+  
       const { access_token, token_type } = response.data;
-
+  
       if (access_token && token_type) {
-        // Store access token in localStorage
+        // Store the token in localStorage
         localStorage.setItem('authData', JSON.stringify({ access_token, token_type }));
-
-        // Show success message and navigate to dashboard
+  
+        // Set state to logged in
+        setIsAuthenticated(true);
+  
+        // Show success message and redirect to dashboard
         toast.success('Login successful! Redirecting to your dashboard...', {
           autoClose: 15000,
           position: 'top-right',
           className: 'custom-toast-success',
         });
-
+  
         // Delay for toast to show before redirecting
         setTimeout(() => {
+          console.log("Navigating to dashboard..."); // Log message before redirect
           navigate('/dashboard'); // Redirect to dashboard after success
         }, 2000); // 2-second delay to allow backend to update
       } else {
+        // If no token is received, show an error
         toast.error('No token received. Please contact support.', {
           autoClose: 15000,
           position: 'top-right',
@@ -244,6 +253,10 @@ const HRlogin = () => {
       setIsSubmitting(false);
     }
   };
+  
+  
+  
+  
 
   return (
     <div style={{ display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}>

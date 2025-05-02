@@ -4,6 +4,7 @@ import Sidebar from '../components/Sidebar';
 import test from '../assets/test.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './AllowanceAndContribution.css';
+import EmployerNavbar from "../components/EmployerNavbar";
 
 const AllowanceAndContribution = () => {
   const [allowanceData, setAllowanceData] = useState([]);
@@ -89,27 +90,13 @@ const AllowanceAndContribution = () => {
     <div className="main-dashboard">
       <Sidebar />
       <div className="dashboard centered-content">
-        <div className="slide-one-1">
-          <div className="name">
-            <h5>Joseph Dooley</h5>
-            <h6>Good Morning</h6>
-          </div>
-          <div className="slide-one-2-1">
-            <div className="notification">
-              <FontAwesomeIcon icon="fa-solid fa-bell" />
-              <h6>6</h6>
-            </div>
-            <div className="user-profile">
-              <img src={test} alt="My profile" className="My-profile" />
-            </div>
-          </div>
-        </div>
+        <EmployerNavbar />
         <hr className="horizontal" />
-        <div className="dashboard-details">
+        <div className="dashboard-details" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
           <Link to="/payrollManagement" className="back-link">
-            <FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow" /><h5>Payroll Management</h5>
+            <FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow" /><h5 style={{ marginBottom: '15px' }}>Payroll Management</h5>
           </Link>
-          <h6>{new Date().toDateString()}</h6>
+          <h6 style={{ marginBottom: '15px' }}>{new Date().toDateString()}</h6>
         </div>
 
         {/* 🔍 Filters */}
@@ -170,10 +157,10 @@ const AllowanceAndContribution = () => {
                   <tr key={index}>
                     <td>{payroll.name}</td>
                     <td>{payroll.department}</td>
-                    <td>₦{payroll.overtime_allowance?.toLocaleString()}</td>
+                    <td>₦{payroll.overtime_hours_allowance?.toLocaleString()}</td>
                     <td>₦{payroll.housing_allowance?.toLocaleString()}</td>
                     <td>₦{payroll.medical_allowance?.toLocaleString()}</td>
-                    <td>₦{payroll.transportation_allowance?.toLocaleString()}</td>
+                    <td>₦{payroll.transport_allowance?.toLocaleString()}</td>
                     <td>₦{payroll.company_match?.toLocaleString()}</td>
                     <td>₦{payroll.employee_contributions?.toLocaleString()}</td>
                   </tr>

@@ -781,6 +781,7 @@ const AddEmployee = () => {
   const [departments, setDepartments] = useState([]); // ✅ Store fetched departments
   // const [countries, setCountries] = useState([]);
   const [banks, setBanks] = useState([]);
+  const [employeePassword, setEmployeePassword] = useState('');
   const [insuranceProviders, setInsuranceProviders] = useState([]);
   const countries = [
     "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", 
@@ -1009,9 +1010,9 @@ const AddEmployee = () => {
         setSuccess(true);
 
         // Alert the password to the admin
-        const employeePassword = result.data.password;
-        if (employeePassword) {
-          alert(`Employee PASSWORD: ${employeePassword}`);
+        const password = result.data.password;
+        if (password) {
+          setEmployeePassword(password);
         }
 
 
@@ -1034,7 +1035,7 @@ const AddEmployee = () => {
           <hr className="horizontal" />
 
           <div className="dashboard-details" style={{display:'flex', flexDirection:'column', alignItems:'flex-start'}}>
-            <Link to={'/employee-managment'}>
+            <Link to={'/employee-managment'} style={{textDecoration: "none"}}>
               <h5 className="employee-profile" style={{textDecoration: "none", marginBottom:'15px'}} >
                 <FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow" />
                 Add New Employee
@@ -1085,6 +1086,14 @@ const AddEmployee = () => {
                   The new employee profile has been created successfully and is now part of
                   the company database.
                 </p>
+                {employeePassword && (
+                  <p>
+                    Your Password is: <br /> <br />
+                    <span style={{ fontFamily: 'Inter', fontSize: '16px', color:'black', fontWeight: '500', marginTop: '10px', marginBottom: '20px' }}>
+                      {employeePassword}
+                    </span>
+                  </p>
+                )}
                 <Link
                   to="/employee-managment"
                   style={{
@@ -1100,7 +1109,7 @@ const AddEmployee = () => {
             </div>
           )}
 
-
+          
 
           {!success && (
             <>

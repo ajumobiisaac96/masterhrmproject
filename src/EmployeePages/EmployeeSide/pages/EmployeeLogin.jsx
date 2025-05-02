@@ -169,17 +169,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 import React, { useState } from 'react';
 import './custom.css'; // Keep your custom styles
 import hrmLogo from '../assets/hrm logo.png'; // Ensure logo path is correct
@@ -195,7 +184,8 @@ const HRlogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [passwordVisible, setPasswordVisible] = useState(false); // State to toggle password visibility
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [isEmployeeAuthenticated, setIsEmployeeAuthenticated] = useState(false); // Add this line // State to toggle password visibility
   const [error, setError] = useState({}); // Error state to hold any validation errors
   const navigate = useNavigate();
 
@@ -235,6 +225,9 @@ const HRlogin = () => {
       if (access_token && token_type) {
         // Store access token in localStorage for employee
         localStorage.setItem('employeeAuthToken', JSON.stringify({ access_token, token_type }));
+
+        // Set state to logged in
+        setIsEmployeeAuthenticated(true);
 
         // Show success message
         toast.success('Login successful! Redirecting to your dashboard...', {

@@ -6,6 +6,10 @@ import Select from 'react-select';
 import '../pages/AddEmployee.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 
 
 const countries = [
@@ -51,6 +55,8 @@ const EditEmployee = () => {
   const [banks, setBanks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [activeSection, setActiveSection] = useState('Basic Information')
+  const [success, setSuccess] = useState(false); // State to control modal visibility
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('authData'))?.access_token;
@@ -156,85 +162,15 @@ const EditEmployee = () => {
     setFormData(prev => ({ ...prev, [field]: selectedOption ? selectedOption.value : '' }));
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  
-  //   // Create the formatted data object matching the API documentation
-  //   const formattedData = {
-  //     first_name: formData.First_Name || null, // First Name (string or null)
-  //     last_name: formData.Last_Name || null, // Last Name (string or null)
-  //     email: formData.Email || null, // Email (string or null)
-  //     phone_number: formData.Phone_Number || null, // Phone Number (string or null)
-  //     date_of_birth: formData.Date_of_Birth || null, // Date of Birth (string or null)
-  //     gender: formData.Gender || null, // Gender (string or null)
-  //     home_address: formData.Home_Address || null, // Home Address (string or null)
-  //     country: formData.Nationality || null, // Country (string or null)
-  //     job_title: formData.Job_Title || null, // Job Title (string or null)
-  //     role: formData.Role || null, // Role (string or null)
-  //     employment_date: formData.Employment_Date || null, // Employment Date (string or null)
-  //     work_mode: formData.Work_Mode || null, // Work Mode (string or null)
-  //     work_location: formData.Work_Location || null, // Work Location (string or null)
-  //     working_hours: formData.Working_Hours ? parseInt(formData.Working_Hours) : null, // Working Hours (integer or null)
-  //     weekly_workdays: formData.Weekly_Workdays ? parseInt(formData.Weekly_Workdays) : null, // Weekly Workdays (integer or null)
-  //     base_salary: formData.Base_Salary ? parseInt(formData.Base_Salary) : null, // Base Salary (integer or null)
-  //     payment_frequency: formData.Payment_Frequency || null, // Payment Frequency (string or null)
-  //     account_name: formData.Account_Name || null, // Account Name (string or null)
-  //     account_number: formData.Account_Number || null, // Account Number (string or null)
-  //     bank_name: formData.Bank_Name || null, // Bank Name (string or null)
-  //     overtime_hours_allowance: formData.Overtime_Hours_Allowance ? parseInt(formData.Overtime_Hours_Allowance) : null, // Overtime Hours Allowance (integer or null)
-  //     housing_allowance: formData.Housing_Allowance ? parseInt(formData.Housing_Allowance) : null, // Housing Allowance (integer or null)
-  //     transport_allowance: formData.Transport_Allowance ? parseInt(formData.Transport_Allowance) : null, // Transport Allowance (integer or null)
-  //     medical_allowance: formData.Medical_Allowance ? parseInt(formData.Medical_Allowance) : null, // Medical Allowance (integer or null)
-  //     employee_contribution: formData.Employee_Contribution ? parseInt(formData.Employee_Contribution) : null, // Employee Contribution (number or null)
-  //     company_match: formData.Company_Match ? parseInt(formData.Company_Match) : null, // Company Match (number or null)
-  //     paye_deduction: formData.Paye_Deduction ? parseInt(formData.Paye_Deduction) : null, // PAYE Deduction (number or null)
-  //     insurance_provider: formData.Insurance_Provider || null, // Insurance Provider (string or null)
-  //     leadway_insurance: formData.LeadWay_Health_Insurance || null, // Leadway Health Insurance (string or null)
-  //     annual_leave_days: formData.Annual_Leave_Days ? parseInt(formData.Annual_Leave_Days) : null, // Annual Leave Days (integer or null)
-  //   };
-  
-  //   // Log the formatted data before sending it to the API
-  //   console.log("Sending to API:", formattedData);
-  
-  //   const token = JSON.parse(localStorage.getItem('authData'))?.access_token;
-  //   try {
-  //     const response = await fetch(`https://proximahr.onrender.com/api/v2/employee-management/${selectedEmployeeId}/edit-employee`, {
-  //       method: 'PUT',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       body: JSON.stringify(formattedData), // Send the formatted data to the backend
-  //     });
-  
-  //     console.log('API Response:', response);
-
-  //     // Validation check before sending data
-  //       if (!formData.First_Name || !formData.Last_Name || !formData.Email || !formData.Phone_Number) {
-  //         toast.error("Please fill in all required fields.");
-  //         return; // Stop the submission if validation fails
-  //       }
-
-  
-  //     if (!response.ok) throw new Error('Update failed');
-  //     toast.success("Employee updated successfully!"); // Show success message
-  //     navigate('/employee-managment/view-profile');
-  //   } catch (err) {
-  //     toast.error("Failed to update employee. Please try again."); // Show error message
-  //   }
-  // };
-  
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validation check before sending data
     if (!formData.First_Name || !formData.Last_Name || !formData.Email || !formData.Phone_Number) {
-      toast.error("Please fill in all required fields.");  // Display error if required fields are missing
+      toast.error("Please fill in all required fields."); // Display error if required fields are missing
       return; // Stop the submission if validation fails
     }
-  
+
     // Create the formatted data object matching the API documentation
     const formattedData = {
       first_name: formData.First_Name || null,
@@ -268,10 +204,7 @@ const EditEmployee = () => {
       leadway_insurance: formData.LeadWay_Health_Insurance || null,
       annual_leave_days: formData.Annual_Leave_Days ? parseInt(formData.Annual_Leave_Days) : null,
     };
-  
-    // Log the formatted data before sending it to the API
-    console.log("Sending to API:", formattedData);
-  
+
     const token = JSON.parse(localStorage.getItem('authData'))?.access_token;
     try {
       const response = await fetch(`https://proximahr.onrender.com/api/v2/employee-management/${selectedEmployeeId}/edit-employee`, {
@@ -280,22 +213,22 @@ const EditEmployee = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formattedData), // Send the formatted data to the backend
+        body: JSON.stringify(formattedData),
       });
-  
+
       if (!response.ok) throw new Error('Update failed');
-      
-      // Show success message if the update was successful
+
+      // Show success message
       toast.success("Employee updated successfully!");
-  
-      // Redirect to the profile view after a successful update
-      navigate('/employee-managment/view-profile');
+
+      // Delay navigation to allow the toast to display
+      setTimeout(() => {
+        navigate('/employee-managment/view-profile');
+      }, 2000); // 2-second delay
     } catch (err) {
-      // Show error message if the update failed
       toast.error("Failed to update employee. Please try again.");
     }
   };
-  
 
 
   if (loading) return <div>Loading...</div>;
@@ -309,89 +242,337 @@ const EditEmployee = () => {
         <EmployerNavbar />
         <hr className="horizontal" />
         <div className="dashboard-details">
-          <h5>Edit Employee</h5>
+        <Link to={'/employee-managment/view-profile'} style={{textDecoration: "none"}}>
+            <h5 className="employee-profile" style={{textDecoration: "none", marginBottom:'15px'}} >
+              <FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow" />
+              Edit Employee
+            </h5>
+          </Link>
         </div>
 
-     
-        <form className="add-employee-form" onSubmit={handleSubmit}>
-          <h3>Basic Information</h3>
-          <input name="First_Name" placeholder="First Name" value={formData.First_Name || ''} onChange={handleChange} />
-          <input name="Last_Name" placeholder="Last Name" value={formData.Last_Name || ''} onChange={handleChange} />
-          <input name="Email" placeholder="Email" value={formData.Email || ''} onChange={handleChange} />
-          <input name="Phone_Number" placeholder="Phone Number" value={formData.Phone_Number || ''} onChange={handleChange} />
-          <input name="Date_of_Birth" type="date" value={formData.Date_of_Birth || ''} onChange={handleChange} />
-          <select name="Gender" value={formData.Gender || ''} onChange={handleChange}>
+        <div className="dashboard-details-1">
+          <p
+            className={activeSection === 'Basic Information' ? 'active' : ''}
+            onClick={() => setActiveSection('Basic Information')}
+          >
+            Basic Information
+          </p>
+          <p
+            className={activeSection === 'Employment Details' ? 'active' : ''}
+            onClick={() => setActiveSection('Employment Details')}
+          >
+            Employment Details
+          </p>
+          <p
+            className={activeSection === 'Compensation Details' ? 'active' : ''}
+            onClick={() => setActiveSection('Compensation Details')}
+          >
+            Compensation Details
+          </p>
+        </div>
+
+
+        <form className="add-employee-form" onSubmit={handleSubmit} style ={{width: '100%', marginTop: '20px', padding: '20px'}}>
+        <div style={{ display: activeSection === 'Basic Information' ? 'block' : 'none' }}>
+        <div className="form-row">
+            <div className="form-group">
+            <label htmlFor="" style={{fontFamily:'Inter'}}>First Name</label> 
+            <input name="First_Name" placeholder="First Name" value={formData.First_Name || ''} onChange={handleChange} className="formInput" />
+            </div>
+
+            <div className="form-group">
+            <label htmlFor="" style={{fontFamily:'Inter'}}>Last Name</label> 
+            <input name="Last_Name" placeholder="Last Name" value={formData.Last_Name || ''} onChange={handleChange} className="formInput"/>
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+            <label htmlFor="" style={{fontFamily:'Inter'}}>Email</label> 
+            <input name="Email" placeholder="Email" value={formData.Email || ''} onChange={handleChange} className="formInput" />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+            <label htmlFor="" style={{fontFamily:'Inter'}}>Phone Number</label> 
+          <input name="Phone_Number" placeholder="Phone Number" value={formData.Phone_Number || ''} onChange={handleChange} className="formInput" />
+          </div>
+          <div className="form-group">
+          <label htmlFor="" style={{fontFamily:'Inter'}}>Date of Birth</label> 
+          <input name="Date_of_Birth" type="date" value={formData.Date_of_Birth || ''} onChange={handleChange} className="formInput"/>
+          </div>
+          </div>
+
+          <div className="form-row">
+          <div className="form-group">
+          <label htmlFor="" style={{fontFamily:'Inter'}}>Gender</label> 
+          <select name="Gender" value={formData.Gender || ''} onChange={handleChange} className="formInput">
             <option value="">Select Gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
-          <input name="Home_Address" placeholder="Home Address" value={formData.Home_Address || ''} onChange={handleChange} />
-          <select name="Nationality" value={formData.Nationality || ''} onChange={handleChange}>
-            <option value="">Select Nationality</option>
-            {countries.map((c, i) => <option key={i} value={c}>{c}</option>)}
-          </select>
+          </div>
+          <div className="form-group">
+        <label htmlFor="" style={{fontFamily:'Inter'}}>Address</label> 
+          <input name="Home_Address" placeholder="Home Address" value={formData.Home_Address || ''} onChange={handleChange} className="formInput" />
+          </div>
+          </div>
 
-          <h3>Employment Details</h3>
-          <input name="Job_Title" placeholder="Job Title" value={formData.Job_Title || ''} onChange={handleChange} />
-          <select name="Department" value={formData.Department || ''} onChange={handleChange}>
-            <option value="">Select Department</option>
-            {departments.map(d => <option key={d.id} value={d.name}>{d.name}</option>)}
-          </select>
-          <select name="Role" value={formData.Role || ''} onChange={handleChange}>
-            <option value="">Select Role</option>
-            <option value="Employee">Employee</option>
-            <option value="Manager">Manager</option>
-          </select>
-          <input name="Employment_Date" type="date" value={formData.Employment_Date || ''} onChange={handleChange} />
-          <select name="Work_Mode" value={formData.Work_Mode || ''} onChange={handleChange}>
-            <option value="">Select Work Mode</option>
-            <option value="Onsite">Onsite</option>
-            <option value="Remote">Remote</option>
-          </select>
-          <input name="Work_Location" placeholder="Work Location" value={formData.Work_Location || ''} onChange={handleChange} />
-          <input name="Working_Hours" placeholder="Working Hours" value={formData.Working_Hours || ''} onChange={handleChange} />
-          <input name="Weekly_Workdays" placeholder="Weekly Workdays" value={formData.Weekly_Workdays || ''} onChange={handleChange} />
+          <div className="form-row">
+            <div className='form-group' >
+            <label htmlFor="" style={{fontFamily:'Inter'}}>Country</label> 
+                <select name="Nationality" value={formData.Nationality || ''} onChange={handleChange} className="formInput">
+                  <option value="">Select Nationality</option>
+                  {countries.map((c, i) => <option key={i} value={c}>{c}</option>)}
+                </select>
+            </div>
+          </div>
+          <button style={{marginLeft:"450px"}} className="next-btn" type="button" onClick={() => setActiveSection('Employment Details')}>
+            Next
+          </button>
+        </div>
 
-          <h3>Compensation Details</h3>
-          <input name="Base_Salary" placeholder="Base Salary" type="number" value={formData.Base_Salary || ''} onChange={handleChange} />
-          <select name="Payment_Frequency" value={formData.Payment_Frequency || ''} onChange={handleChange}>
-            <option value="">Select Payment Frequency</option>
-            <option value="Monthly">Monthly</option>
-            <option value="Weekly">Weekly</option>
-            <option value="Bi-Weekly">Bi-Weekly</option>
-          </select>
-          <Select
-            placeholder="Select Bank"
-            options={banks}
-            value={banks.find(b => b.value === formData.Bank_Name) || null}
-            onChange={(opt) => handleSelectChange('Bank_Name', opt)}
-          />
-          <input name="Account_Name" placeholder="Account Name" value={formData.Account_Name || ''} onChange={handleChange} />
-          <input name="Account_Number" placeholder="Account Number" value={formData.Account_Number || ''} onChange={handleChange} />
-          <input name="Overtime_Hours_Allowance" placeholder="Overtime Hours Allowance" type="number" value={formData.Overtime_Hours_Allowance || ''} onChange={handleChange} />
-          <input name="Housing_Allowance" placeholder="Housing Allowance" type="number" value={formData.Housing_Allowance || ''} onChange={handleChange} />
-          <input name="Transport_Allowance" placeholder="Transport Allowance" type="number" value={formData.Transport_Allowance || ''} onChange={handleChange} />
-          <input name="Medical_Allowance" placeholder="Medical Allowance" type="number" value={formData.Medical_Allowance || ''} onChange={handleChange} />
-          <input name="Employee_Contribution" placeholder="Employee Contribution %" type="number" value={formData.Employee_Contribution || ''} onChange={handleChange} />
-          <input name="Company_Match" placeholder="Company Match %" type="number" value={formData.Company_Match || ''} onChange={handleChange} />
-          <input name="Paye_Deduction" placeholder="PAYE Deduction %" type="number" value={formData.Paye_Deduction || ''} onChange={handleChange} />
-          <select name="Insurance_Provider" value={formData.Insurance_Provider || ''} onChange={handleChange}>
-            <option value="">Select Insurance Provider</option>
-            {insuranceProviders.map((p, i) => <option key={i} value={p}>{p}</option>)}
-          </select>
-          <select name="LeadWay_Health_Insurance" value={formData.LeadWay_Health_Insurance || ''} onChange={handleChange}>
-            <option value="">Select LeadWay Health Insurance</option>
-            <option value="Group Life Assurance">Group Life Assurance</option>
-            <option value="Employee Compensation Insurance">Employee Compensation Insurance</option>
-            <option value="Health Insurance Plans">Health Insurance Plans</option>
-            <option value="Personal Accident Insurance">Personal Accident Insurance</option>
-            <option value="Travel Insurance">Travel Insurance</option>
-          </select>
-          <input name="Annual_Leave_Days" placeholder="Annual Leave Days" type="number" value={formData.Annual_Leave_Days || ''} onChange={handleChange} />
+        <div style={{ display: activeSection === 'Employment Details' ? 'block' : 'none' }}>
+          <div className="form-row">
+            <div className="form-group" >
+              <label htmlFor="" style={{fontFamily:'Inter'}}>Job Title</label>
+            <input name="Job_Title" placeholder="Job Title" value={formData.Job_Title || ''} onChange={handleChange} className="formInput" />
+            </div>
+            
 
-          <button type="submit" className="submit-btn">Update Employee</button>
+            <div className="form-group"  >
+              <label htmlFor="" style={{fontFamily:'Inter'}}> Department</label>
+            <select name="Department" value={formData.Department || ''} onChange={handleChange} className="formInput"> 
+              <option value="">Select Department</option>
+              {departments.map(d => <option key={d.id} value={d.name}>{d.name}</option>)}
+            </select>
+            </div>
+            </div>
+
+          <div className="form-row" >
+            <div className="form-group" >
+              <label htmlFor="" style={{ fontFamily: 'Inter' }}>Role</label>
+            <select name="Role" value={formData.Role || ''} onChange={handleChange} className="formInput">
+              <option value="">Select Role</option>
+              <option value="Employee">Employee</option>
+              <option value="Manager">Manager</option>
+            </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="" style={{ fontFamily: 'Inter' }}>Employment Date</label>
+              <input name="Employment_Date" type="date" value={formData.Employment_Date || ''} onChange={handleChange} className="formInput" />
+            </div>
+            </div>
+
+              <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="" style={{ fontFamily: 'Inter' }}>Work Mode</label>
+                <select name="Work_Mode" value={formData.Work_Mode || ''} onChange={handleChange} className="formInput">
+                <option value="">Select Work Mode</option>
+                <option value="Onsite">Onsite</option>
+                <option value="Remote">Remote</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="" style={{ fontFamily: 'Inter' }}>Work Location</label>
+                <input name="Work_Location" placeholder="Work Location" value={formData.Work_Location || ''} onChange={handleChange} className="formInput" />
+              </div>
+              </div>
+
+              <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="" style={{ fontFamily: 'Inter' }}>Working Hours</label>
+                <input name="Working_Hours" placeholder="Working Hours" type="number" value={formData.Working_Hours || ''} onChange={handleChange} className="formInput" />
+              </div>
+              <div className="form-group">
+                <label htmlFor="" style={{ fontFamily: 'Inter' }}>Weekly Workdays</label>
+                <input name="Weekly_Workdays" placeholder="Weekly Workdays" type="number" value={formData.Weekly_Workdays || ''} onChange={handleChange} className="formInput" />
+              </div>
+              </div>
+              <div className="newest-button-div" >
+                
+              <button className="prev-btn"  type="button" onClick={() => setActiveSection('Basic Information')}>
+                  Previous
+                </button>
+                <button className="next-btn" type="button" onClick={() => setActiveSection('Compensation Details')}>
+                  Next
+                </button>
+
+              </div>
+
+        </div>
+
+        <div style={{ display: activeSection === 'Compensation Details' ? 'block' : 'none' }}>
+          <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="" style={{ fontFamily: 'Inter' }}>Base Salary</label>
+                  <input name="Base_Salary" placeholder="Base Salary" type="number" value={formData.Base_Salary || ''} onChange={handleChange} className="formInput" />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="" style={{ fontFamily: 'Inter' }}>Payment Frequency</label>
+                  <select name="Payment_Frequency" value={formData.Payment_Frequency || ''} onChange={handleChange} className="formInput">
+                    <option value="">Select Payment Frequency</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Bi-Weekly">Bi-Weekly</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="" style={{ fontFamily: 'Inter' }}>Bank Name</label>
+                  <Select
+                    placeholder="Select Bank"
+                    options={banks}
+                    value={banks.find(b => b.value === formData.Bank_Name) || null}
+                    onChange={(opt) => handleSelectChange('Bank_Name', opt)}
+                    className="formInput"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="" style={{ fontFamily: 'Inter' }}>Account Name</label>
+                  <input name="Account_Name" placeholder="Account Name" value={formData.Account_Name || ''} onChange={handleChange} className="formInput" />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="" style={{ fontFamily: 'Inter' }}>Account Number</label>
+                  <input name="Account_Number" placeholder="Account Number" value={formData.Account_Number || ''} onChange={handleChange} className="formInput" />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="" style={{ fontFamily: 'Inter' }}>Overtime Hours Allowance</label>
+                  <input name="Overtime_Hours_Allowance" placeholder="Overtime Hours Allowance" type="number" value={formData.Overtime_Hours_Allowance || ''} onChange={handleChange} className="formInput" />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="" style={{ fontFamily: 'Inter' }}>Housing Allowance</label>
+                  <input name="Housing_Allowance" placeholder="Housing Allowance" type="number" value={formData.Housing_Allowance || ''} onChange={handleChange} className="formInput" />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="" style={{ fontFamily: 'Inter' }}>Transport Allowance</label>
+                  <input name="Transport_Allowance" placeholder="Transport Allowance" type="number" value={formData.Transport_Allowance || ''} onChange={handleChange} className="formInput" />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="" style={{ fontFamily: 'Inter' }}>Medical Allowance</label>
+                  <input name="Medical_Allowance" placeholder="Medical Allowance" type="number" value={formData.Medical_Allowance || ''} onChange={handleChange} className="formInput" />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="" style={{ fontFamily: 'Inter' }}>Employee Contribution (%)</label>
+                  <input name="Employee_Contribution" placeholder="Employee Contribution %" type="number" value={formData.Employee_Contribution || ''} onChange={handleChange} className="formInput" />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="" style={{ fontFamily: 'Inter' }}>Company Match (%)</label>
+                  <input name="Company_Match" placeholder="Company Match %" type="number" value={formData.Company_Match || ''} onChange={handleChange} className="formInput" />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="" style={{ fontFamily: 'Inter' }}>PAYE Deduction (%)</label>
+                  <input name="Paye_Deduction" placeholder="PAYE Deduction %" type="number" value={formData.Paye_Deduction || ''} onChange={handleChange} className="formInput" />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="" style={{ fontFamily: 'Inter' }}>Insurance Provider</label>
+                  <select name="Insurance_Provider" value={formData.Insurance_Provider || ''} onChange={handleChange} className="formInput">
+                    <option value="">Select Insurance Provider</option>
+                    {insuranceProviders.map((p, i) => <option key={i} value={p}>{p}</option>)}
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="" style={{ fontFamily: 'Inter' }}>LeadWay Health Insurance</label>
+                  <select name="LeadWay_Health_Insurance" value={formData.LeadWay_Health_Insurance || ''} onChange={handleChange} className="formInput">
+                    <option value="">Select LeadWay Health Insurance</option>
+                    <option value="Group Life Assurance">Group Life Assurance</option>
+                    <option value="Employee Compensation Insurance">Employee Compensation Insurance</option>
+                    <option value="Health Insurance Plans">Health Insurance Plans</option>
+                    <option value="Personal Accident Insurance">Personal Accident Insurance</option>
+                    <option value="Travel Insurance">Travel Insurance</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="" style={{ fontFamily: 'Inter' }}>Annual Leave Days</label>
+                  <input name="Annual_Leave_Days" placeholder="Annual Leave Days" type="number" value={formData.Annual_Leave_Days || ''} onChange={handleChange} className="formInput" />
+                </div>
+              </div>
+
+              <div className="newest-button-div-2">
+                <button type="button" className="prev-btn" onClick={() => setActiveSection('Employment Details')}>
+                  Previous
+                </button>
+                <button type="submit" className="submit-btn">Update Employee</button>
+            </div>
+            </div>
         </form>
+
+        {/* {success && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "70vh",
+            width: "100%",
+            backgroundColor: "#f8f9fa",
+          }}
+        >
+          <div
+            style={{
+              textAlign: "center",
+              padding: "30px",
+              borderRadius: "12px",
+              backgroundColor: "#fff",
+              boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.15)",
+              maxWidth: "400px",
+              width: "90%",
+              transition: "all 0.3s ease-in-out",
+            }}
+          >
+            <FontAwesomeIcon
+              icon={faCircleCheck}
+              style={{
+                fontSize: "50px",
+                color: "green",
+                marginBottom: "15px",
+                animation: "pop 0.5s ease-in-out",
+              }}
+            />
+            <h1 style={{ fontSize: "20px", color: "#333", marginBottom: "10px" }}>
+              Employee Updated Successfully
+            </h1>
+            <p style={{ fontSize: "14px", color: "#666", marginBottom: "15px" }}>
+              The employee profile has been updated successfully and is now part of
+              the company database.
+            </p>
+            <Link
+              to="/employee-managment"
+              style={{
+                fontSize: "16px",
+                color: "#007bff",
+                textDecoration: "none",
+                fontWeight: "bold",
+              }}
+            >
+              Employee Management
+            </Link>
+          </div>
+        </div>
+      )} */}
       </div>
+
 
       <ToastContainer />
 
@@ -404,4 +585,12 @@ const EditEmployee = () => {
 
 
 export default EditEmployee;
+
+
+
+
+
+
+
+
 

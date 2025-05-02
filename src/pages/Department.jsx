@@ -619,6 +619,7 @@
                       }}
                     >
                       <p 
+                      className='dropdown-item'
                         onClick={() => handleFilter("All")} 
                         style={{
                           padding: '8px 20px',
@@ -632,6 +633,7 @@
                       </p>
                       {departments.map((dept, index) => (
                         <p 
+                        className='dropdown-item'
                           key={index} 
                           onClick={() => handleFilter(dept.name)} 
                           style={{

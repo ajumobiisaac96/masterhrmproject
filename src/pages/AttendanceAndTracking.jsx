@@ -840,11 +840,423 @@
 
 
 
+// import React, { useState, useEffect } from 'react';
+// import Sidebar from '../components/Sidebar';
+// import EmployerNavbar from "../components/EmployerNavbar";
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faSearch, faCalendar, faCheckCircle, faClock } from '@fortawesome/free-solid-svg-icons';
+
+// const AttendanceAndTracking = () => {
+//   const [attendanceMetrics, setAttendanceMetrics] = useState(null);
+//   const [departmentMetrics, setDepartmentMetrics] = useState([]);
+//   const [employeeData, setEmployeeData] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState("");
+//   const [selectedDepartment, setSelectedDepartment] = useState('All Department');
+//   const [selectedMonth, setSelectedMonth] = useState('All Months');
+//   const [searchTerm, setSearchTerm] = useState('');
+//   const [showEmployeeTable, setShowEmployeeTable] = useState(false);
+//   const [departments, setDepartments] = useState([]);
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const [entriesPerPage] = useState(10);
+  
+
+//   // Fetch data for department metrics and attendance metrics
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const storedAuthData = localStorage.getItem("authData");
+//         const token = storedAuthData ? JSON.parse(storedAuthData).access_token : null;
+
+//         if (!token) {
+//           console.error("❌ Error: Authentication token is missing.");
+//           throw new Error("Authentication token is missing.");
+//         }
+
+//         const response = await fetch("https://proximahr.onrender.com/api/v2/attendance-management/company-overview", {
+//           headers: {
+//             "Authorization": `Bearer ${token}`,
+//             "Content-Type": "application/json",
+//           },
+//         });
+
+//         if (!response.ok) {
+//           throw new Error(`Failed to fetch company metrics: ${response.status} ${response.statusText}`);
+//         }
+
+//         const data = await response.json();
+//         setAttendanceMetrics(data.company_metrics);
+
+//         const departmentResponse = await fetch("https://proximahr.onrender.com/api/v2/attendance-management/departments-overview", {
+//           headers: {
+//             "Authorization": `Bearer ${token}`,
+//             "Content-Type": "application/json",
+//           },
+//         });
+
+//         if (!departmentResponse.ok) {
+//           throw new Error("Failed to fetch department metrics");
+//         }
+
+//         const departmentData = await departmentResponse.json();
+//         const departments = Object.entries(departmentData.department_metrics).map(([departmentName, metrics]) => ({
+//           department: departmentName,
+//           ...metrics,
+//         }));
+
+//         setDepartmentMetrics(departments);
+        
+//         const deptResponse = await fetch("https://proximahr.onrender.com/api/v2/departments", {
+//           headers: {
+//             "Authorization": `Bearer ${token}`,
+//             "Content-Type": "application/json",
+//           },
+//         });
+
+//         if (!deptResponse.ok) {
+//           throw new Error("Failed to fetch departments");
+//         }
+
+//         const deptData = await deptResponse.json();
+//         setDepartments(deptData.departments);
+
+//         setLoading(false);
+//       } catch (err) {
+//         setError(err.message);
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchData();
+//   }, []);
+
+//   const totalPages = Math.ceil(departmentMetrics.length / entriesPerPage);
+
+//   const currentEntries = departmentMetrics.slice(
+//     (currentPage - 1) * entriesPerPage,
+//     currentPage * entriesPerPage
+//   );
+
+//   const months = [
+//     "All Months", "January", "February", "March", "April", "May", "June",
+//     "July", "August", "September", "October", "November", "December"
+//   ];
+
+//   // Filter departments based on selected department and month
+//   const filteredDepartments = currentEntries.filter(department =>
+//     (selectedDepartment === 'All Department' || department.department === selectedDepartment) &&
+//     (selectedMonth === 'All Months' || department.month === selectedMonth) &&
+//     department.department.toLowerCase().includes(searchTerm.toLowerCase())
+//   );
+
+//   const handlePageChange = (page) => {
+//     if (page > 0 && page <= totalPages) {
+//       setCurrentPage(page);
+//     }
+//   };
+
+//   const handleSearch = (e) => {
+//     setSearchTerm(e.target.value);
+//     setCurrentPage(1); // Reset to page 1 when search term changes
+//   };
+
+//   const handleMonthChange = (month) => {
+//     setSelectedMonth(month);
+//     setCurrentPage(1); // Reset to page 1 when month changes
+//   };
+
+//   const handleViewClick = async (departmentName) => {
+//     setSelectedDepartment(departmentName);
+//     setShowEmployeeTable(true);
+
+//     const storedAuthData = localStorage.getItem("authData");
+//     const token = storedAuthData ? JSON.parse(storedAuthData).access_token : null;
+
+//     if (!token) {
+//       setError("Authentication token is missing.");
+//       return;
+//     }
+
+//     try {
+//       const url = `https://proximahr.onrender.com/api/v2/attendance-management/employees-attendance?department=${departmentName}`;
+//       const response = await fetch(url, {
+//         headers: {
+//           "Authorization": `Bearer ${token}`,
+//           "Content-Type": "application/json",
+//         },
+//       });
+
+//       if (!response.ok) {
+//         setError("Unauthorized: Please check your login credentials.");
+//         return;
+//       }
+
+//       const data = await response.json();
+//       setEmployeeData(data.employee_attendance);
+//       console.log(data.employee_attendance); // Log the employee data for debugging
+//     } catch (err) {
+//       setError("Failed to fetch employee data");
+//     }
+//   };
+
+//   const handleBackClick = () => {
+//     setShowEmployeeTable(false); // Hide employee table and go back
+//     setError(""); // Reset error message
+//   };
+
+//   return (
+//     <div>
+//       <div className="main-dashboard">
+//         <Sidebar />
+//         <div className="dashboard">
+//           <EmployerNavbar />
+//           <hr className="horizontal" />
+
+//           <div className="dashboard-details" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+//             <h5 style={{ marginBottom: '15px' }}>Attendance and Tracking</h5>
+//             <h6>{new Date().toLocaleDateString('en-GB', { day: '2-digit', weekday: 'long', month: 'long', year: 'numeric' })}</h6>
+//           </div>
+
+//           <div className="number-of-employee" style={{ marginTop: '20px', marginBottom: '40px' }}>
+//             <div className="new-div-1" style={{ width: '700px', padding: '10px' }}>
+//               <FontAwesomeIcon icon={faSearch} className="glass-icon" />
+//               <input
+//                 type="text"
+//                 placeholder="Search Department and Employee"
+//                 value={searchTerm}
+//                 onChange={handleSearch}
+//                 style={{ padding: '10px' }}
+//               />
+//             </div>
+
+//             {/* Department Filter */}
+//             <div className="filter-section" style={{ display: 'flex', alignItems: 'center', marginLeft: '20px' }}>
+//               <div className="dropdown" style={{ display: "inline-block" }}>
+//                 <select
+//                   value={selectedDepartment}
+//                   onChange={(e) => setSelectedDepartment(e.target.value)}
+//                   style={{ height:'40px', width:'165px', padding:'10px', marginRight:'20px', borderRadius:'5px', }}
+//                 >
+//                   <option value="All Department">All Departments</option>
+//                   {departments.map((dept, index) => (
+//                     <option key={index} value={dept.name}>{dept.name}</option>
+//                   ))}
+//                 </select>
+//               </div>
+
+//               {/* Month Filter */}
+//               <div className="dropdown" style={{ display: "inline-block" }}>
+//                 <select
+//                   value={selectedMonth}
+//                   onChange={(e) => handleMonthChange(e.target.value)}
+//                   style={{height:'40px', width:'120px', padding:'10px', marginRight:'20px', borderRadius:'5px', }}
+//                 >
+//                   {months.map((month, index) => (
+//                     <option key={index} value={month}>{month}</option>
+//                   ))}
+//                 </select>
+//               </div>
+//             </div>
+//           </div>
+
+//           {/* Display Department and Employee Data */}
+//           <div className="table-div">
+//             <table className="attendance-table">
+//               <thead>
+//                 <tr>
+//                   <th>Department</th>
+//                   <th>Attendance %</th>
+//                   <th>Overtime Hours</th>
+//                   <th>Undertime Hours</th>
+//                   <th>Absences</th>
+//                   <th>Total Logged Hours</th>
+//                   <th>Action</th>
+//                 </tr>
+//               </thead>
+//               <tbody>
+//                 {filteredDepartments.length > 0 ? (
+//                   filteredDepartments.map((department, index) => (
+//                     <tr key={index}>
+//                       <td>{department.department || 'Unknown Department'}</td>
+//                       <td>{department.attendance_rate}%</td>
+//                       <td>{department.overtime_hours}</td>
+//                       <td>{department.undertime_hours}</td>
+//                       <td>{department.absent_days}</td>
+//                       <td>{department.total_hours_logged}</td>
+//                       <td>
+//                         <button onClick={() => handleViewClick(department.department)}>View</button>
+//                       </td>
+//                     </tr>
+//                   ))
+//                 ) : (
+//                   <tr><td colSpan="7">No data found</td></tr>
+//                 )}
+//               </tbody>
+//             </table>
+//           </div>
+
+//           {!showEmployeeTable ? (
+//         // Department List (Previous Table)
+//         <div>
+//           <button onClick={() => handleViewClick("Sales")}>View Sales Employees</button>
+//           <button onClick={() => handleViewClick("Engineering")}>View Engineering Employees</button>
+//           {/* Add more buttons for other departments */}
+//         </div>
+//       ) : (
+//         // Employee Table View
+//         <div>
+//           <button onClick={handleBackClick} style={{ fontSize: "20px", marginBottom: "15px" }}>
+//             <span style={{ marginRight: "10px" }}>←</span> Back to Department List
+//           </button>
+//           <h3>Employee Attendance for {selectedDepartment}</h3>
+//           {error && <p style={{ color: "red" }}>{error}</p>}
+//           {employeeData.length > 0 ? (
+//             <table>
+//               <thead>
+//                 <tr>
+//                   <th>Employee Name</th>
+//                   <th>Job Title</th>
+//                   <th>Employee ID</th>
+//                   <th>Status</th>
+//                   <th>Work Mode</th>
+//                   <th>Position</th>
+//                 </tr>
+//               </thead>
+//               <tbody>
+//                 {employeeData.map((employee, index) => (
+//                   <tr key={index}>
+//                     <td>{employee.first_name} {employee.last_name}</td>
+//                     <td>{employee.job_title}</td>
+//                     <td>{employee.employee_id}</td>
+//                     <td>{employee.employment_status}</td>
+//                     <td>{employee.work_mode}</td>
+//                     <td>{employee.position}</td>
+//                   </tr>
+//                 ))}
+//               </tbody>
+//             </table>
+//           ) : (
+//             <p>No employees found for this department.</p>
+//           )}
+//         </div>
+//       )}
+
+//           {/* Pagination */}
+//           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop:'140px'}}>
+//             {/* Entries Count */}
+//             <div>
+//               <p>Showing {currentPage * entriesPerPage - entriesPerPage + 1} to {Math.min(currentPage * entriesPerPage, departmentMetrics.length)} of {departmentMetrics.length} entries</p>
+//             </div>
+
+//             {/* Pagination */}
+//             <div>
+//               <button
+//                 onClick={() => handlePageChange(1)}
+//                 disabled={currentPage === 1}
+//                 style={{ padding: '8px 16px', cursor: currentPage === 1 ? 'not-allowed' : 'pointer' }}
+//               >
+//                 First
+//               </button>
+//               <button
+//                 onClick={() => handlePageChange(currentPage - 1)}
+//                 disabled={currentPage === 1}
+//                 style={{ padding: '8px 16px', cursor: currentPage === 1 ? 'not-allowed' : 'pointer' }}
+//               >
+//                 Prev
+//               </button>
+
+//               {[...Array(totalPages)].map((_, index) => (
+//                 <button
+//                   key={index}
+//                   onClick={() => handlePageChange(index + 1)}
+//                   className={currentPage === index + 1 ? 'active' : ''}
+//                   style={{
+//                     padding: '8px 16px',
+//                     cursor: currentPage === index + 1 ? 'pointer' : 'not-allowed',
+//                     fontWeight: currentPage === index + 1 ? 'bold' : 'normal',
+//                     width:'50px',
+//                     border:'1px solid #007BFF',
+//                   }}
+//                 >
+//                   {index + 1}
+//                 </button>
+//               ))}
+
+//               <button
+//                 onClick={() => handlePageChange(currentPage + 1)}
+//                 disabled={currentPage === totalPages}
+//                 style={{ padding: '8px 16px', cursor: currentPage === totalPages ? 'not-allowed' : 'pointer' }}
+//               >
+//                 Next
+//               </button>
+//               <button
+//                 onClick={() => handlePageChange(totalPages)}
+//                 disabled={currentPage === totalPages}
+//                 style={{ padding: '8px 16px', cursor: currentPage === totalPages ? 'not-allowed' : 'pointer' }}
+//               >
+//                 Last
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default AttendanceAndTracking;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import EmployerNavbar from "../components/EmployerNavbar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faCalendar, faCheckCircle, faClock } from '@fortawesome/free-solid-svg-icons';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const AttendanceAndTracking = () => {
   const [attendanceMetrics, setAttendanceMetrics] = useState(null);
@@ -857,10 +1269,21 @@ const AttendanceAndTracking = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showEmployeeTable, setShowEmployeeTable] = useState(false);
   const [departments, setDepartments] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [entriesPerPage] = useState(10);
+  const [employees, setEmployees] = useState([]);
+const [currentPage, setCurrentPage] = useState(1);
+const employeesPerPage = 10; // You can change this
 
-  // Fetch data for department metrics and attendance metrics
+// Get current page employees
+const indexOfLast = currentPage * employeesPerPage;
+const indexOfFirst = indexOfLast - employeesPerPage;
+const currentEmployees = employees.slice(indexOfFirst, indexOfLast);
+
+// Total page numbers
+const totalPages = Math.ceil(employees.length / employeesPerPage);
+  
+
+  // Fetch data for department metrics, attendance metrics, and company overview
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -872,6 +1295,7 @@ const AttendanceAndTracking = () => {
           throw new Error("Authentication token is missing.");
         }
 
+        // Fetch company metrics (Attendance Rate, Total Hours Logged, etc.)
         const response = await fetch("https://proximahr.onrender.com/api/v2/attendance-management/company-overview", {
           headers: {
             "Authorization": `Bearer ${token}`,
@@ -886,6 +1310,7 @@ const AttendanceAndTracking = () => {
         const data = await response.json();
         setAttendanceMetrics(data.company_metrics);
 
+        // Fetch department metrics
         const departmentResponse = await fetch("https://proximahr.onrender.com/api/v2/attendance-management/departments-overview", {
           headers: {
             "Authorization": `Bearer ${token}`,
@@ -904,7 +1329,8 @@ const AttendanceAndTracking = () => {
         }));
 
         setDepartmentMetrics(departments);
-        
+
+        // Fetch departments list
         const deptResponse = await fetch("https://proximahr.onrender.com/api/v2/departments", {
           headers: {
             "Authorization": `Bearer ${token}`,
@@ -929,7 +1355,7 @@ const AttendanceAndTracking = () => {
     fetchData();
   }, []);
 
-  const totalPages = Math.ceil(departmentMetrics.length / entriesPerPage);
+  // const totalPages = Math.ceil(departmentMetrics.length / entriesPerPage);
 
   const currentEntries = departmentMetrics.slice(
     (currentPage - 1) * entriesPerPage,
@@ -964,18 +1390,23 @@ const AttendanceAndTracking = () => {
     setCurrentPage(1); // Reset to page 1 when month changes
   };
 
+  const handlePageClick = (number) => {
+    setCurrentPage(number);
+  };
+  
+
   const handleViewClick = async (departmentName) => {
     setSelectedDepartment(departmentName);
     setShowEmployeeTable(true);
-
+  
     const storedAuthData = localStorage.getItem("authData");
     const token = storedAuthData ? JSON.parse(storedAuthData).access_token : null;
-
+  
     if (!token) {
       setError("Authentication token is missing.");
       return;
     }
-
+  
     try {
       const url = `https://proximahr.onrender.com/api/v2/attendance-management/employees-attendance?department=${departmentName}`;
       const response = await fetch(url, {
@@ -984,21 +1415,31 @@ const AttendanceAndTracking = () => {
           "Content-Type": "application/json",
         },
       });
-
+  
       if (!response.ok) {
         setError("Unauthorized: Please check your login credentials.");
         return;
       }
-
+  
       const data = await response.json();
       setEmployeeData(data.employee_attendance);
+  
+      // Log the employee data (attendance information) in the console
+      console.log("Employee Attendance Data:", data.employee_attendance);
+  
+      // Show success message using Toastify
+      toast.success("Employee data fetched successfully!");
+  
     } catch (err) {
       setError("Failed to fetch employee data");
+      toast.error("Failed to fetch employee data");
     }
   };
+  
 
   const handleBackClick = () => {
-    setShowEmployeeTable(false);
+    setShowEmployeeTable(false); // Hide employee table and go back
+    setError(""); // Reset error message
   };
 
   return (
@@ -1009,11 +1450,47 @@ const AttendanceAndTracking = () => {
           <EmployerNavbar />
           <hr className="horizontal" />
 
+          {/* Company Overview Section */}
           <div className="dashboard-details" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
             <h5 style={{ marginBottom: '15px' }}>Attendance and Tracking</h5>
             <h6>{new Date().toLocaleDateString('en-GB', { day: '2-digit', weekday: 'long', month: 'long', year: 'numeric' })}</h6>
           </div>
 
+          <div className="dashboard-details-1">
+            <div className="first-grid">
+              <FontAwesomeIcon icon={faCheckCircle} className="dashboard-icon-1" style={{ color: '#22C55E' }} />
+              <div>
+                <h6>Attendance Rate</h6>
+                <h5>{attendanceMetrics ? `${attendanceMetrics.average_attendance_rate}%` : 'Loading...'}</h5>
+              </div>
+            </div>
+
+            <div className="first-grid">
+              <FontAwesomeIcon icon={faCalendar} className="dashboard-icon-2" style={{ color: '#007BFF' }} />
+              <div>
+                <h6>Hours Logged</h6>
+                <h5>{attendanceMetrics ? attendanceMetrics.total_hours_logged : 'Loading...'}</h5>
+              </div>
+            </div>
+
+            <div className="first-grid">
+              <FontAwesomeIcon icon={faClock} className="dashboard-icon-3" style={{ color: '#6F42C1' }} />
+              <div>
+                <h6>Overtime Hours</h6>
+                <h5>{attendanceMetrics ? attendanceMetrics.total_overtime_hours : 'Loading...'}</h5>
+              </div>
+            </div>
+
+            <div className="first-grid">
+              <FontAwesomeIcon icon="fa-solid fa-triangle-exclamation" className="dashboard-icon-4" style={{ color: '#FF6464' }} />
+              <div>
+                <h6>Undertime Hours</h6>
+                <h5>{attendanceMetrics ? attendanceMetrics.total_undertime_hours : 'Loading...'}</h5>
+              </div>
+            </div>
+          </div>
+
+          {/* Search and Filter Section */}
           <div className="number-of-employee" style={{ marginTop: '20px', marginBottom: '40px' }}>
             <div className="new-div-1" style={{ width: '700px', padding: '10px' }}>
               <FontAwesomeIcon icon={faSearch} className="glass-icon" />
@@ -1032,7 +1509,7 @@ const AttendanceAndTracking = () => {
                 <select
                   value={selectedDepartment}
                   onChange={(e) => setSelectedDepartment(e.target.value)}
-                  style={{ height:'40px', width:'165px', padding:'10px', marginRight:'20px', borderRadius:'5px', }}
+                  style={{ height: '40px', width: '165px', padding: '10px', marginRight: '20px', borderRadius: '5px' }}
                 >
                   <option value="All Department">All Departments</option>
                   {departments.map((dept, index) => (
@@ -1046,7 +1523,7 @@ const AttendanceAndTracking = () => {
                 <select
                   value={selectedMonth}
                   onChange={(e) => handleMonthChange(e.target.value)}
-                  style={{height:'40px', width:'120px', padding:'10px', marginRight:'20px', borderRadius:'5px', }}
+                  style={{ height: '40px', width: '120px', padding: '10px', marginRight: '20px', borderRadius: '5px' }}
                 >
                   {months.map((month, index) => (
                     <option key={index} value={month}>{month}</option>
@@ -1057,146 +1534,106 @@ const AttendanceAndTracking = () => {
           </div>
 
           {/* Display Department and Employee Data */}
-          <div className="table-div">
-            <table className="attendance-table">
-              <thead>
-                <tr>
-                  <th>Department</th>
-                  <th>Attendance %</th>
-                  <th>Overtime Hours</th>
-                  <th>Undertime Hours</th>
-                  <th>Absences</th>
-                  <th>Total Logged Hours</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredDepartments.length > 0 ? (
-                  filteredDepartments.map((department, index) => (
-                    <tr key={index}>
-                      <td>{department.department || 'Unknown Department'}</td>
-                      <td>{department.attendance_rate}%</td>
-                      <td>{department.overtime_hours}</td>
-                      <td>{department.undertime_hours}</td>
-                      <td>{department.absent_days}</td>
-                      <td>{department.total_hours_logged}</td>
-                      <td>
-                        <button onClick={() => handleViewClick(department.department)}>View</button>
-                      </td>
+          {!showEmployeeTable ? (
+            <div className="table-div">
+              <table className="attendance-table">
+                <thead>
+                  <tr>
+                    <th>Department</th>
+                    <th>Attendance %</th>
+                    <th>Overtime Hours</th>
+                    <th>Undertime Hours</th>
+                    <th>Absences</th>
+                    <th>Total Logged Hours</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredDepartments.length > 0 ? (
+                    filteredDepartments.map((department, index) => (
+                      <tr key={index}>
+                        <td>{department.department || 'Unknown Department'}</td>
+                        <td>{department.attendance_rate}%</td>
+                        <td>{department.overtime_hours}</td>
+                        <td>{department.undertime_hours}</td>
+                        <td>{department.absent_days}</td>
+                        <td>{department.total_hours_logged}</td>
+                        <td>
+                          <button onClick={() => handleViewClick(department.department)}>View</button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr><td colSpan="7">No data found</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="table-div">
+              <button onClick={handleBackClick} style={{ fontSize: "20px", marginBottom: "15px" , border:'none', background:'none', cursor:'pointer'}}>
+                <span style={{ marginRight: "10px" }}>←</span> Back to Department List
+              </button>
+              <h3 style={{marginBottom:'20px'}}>Employee Attendance for {selectedDepartment}</h3>
+              {error && <p style={{ color: "red" }}>{error}</p>}
+              {employeeData.length > 0 ? (
+                <table>
+                  <thead>
+                    <tr>
+                    <th>Name</th>
+                    <th>Attendance %</th>
+                    <th>Absences</th>
+                    <th>Overtime</th>
+                    <th>Undertime</th>
+                    <th>Total Hours</th>
                     </tr>
-                  ))
-                ) : (
-                  <tr><td colSpan="7">No data found</td></tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                  </thead>
+                  <tbody>
+                  {employeeData.map((emp, index) => (
+                      <tr key={index}>
+                        <td>{emp.first_name} {emp.last_name}</td>
+                        <td>{emp.attendance_percentage}%</td>
+                        <td>{emp.absences}</td>
+                        <td>{emp.overtime_hours}</td>
+                        <td>{emp.undertime_hours}</td>
+                        <td>{emp.total_hours_logged}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                <p>No employees found for this department.</p>
+              )}
+            </div>
+          )}
 
           {/* Pagination */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop:'140px'}}>
-            {/* Entries Count */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '140px' }}>
             <div>
               <p>Showing {currentPage * entriesPerPage - entriesPerPage + 1} to {Math.min(currentPage * entriesPerPage, departmentMetrics.length)} of {departmentMetrics.length} entries</p>
             </div>
 
-            {/* Pagination */}
-            <div>
-              <button
-                onClick={() => handlePageChange(1)}
-                disabled={currentPage === 1}
-                style={{ padding: '8px 16px', cursor: currentPage === 1 ? 'not-allowed' : 'pointer' }}
-              >
-                First
-              </button>
-              <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                style={{ padding: '8px 16px', cursor: currentPage === 1 ? 'not-allowed' : 'pointer' }}
-              >
-                Prev
-              </button>
-
-              {[...Array(totalPages)].map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => handlePageChange(index + 1)}
-                  className={currentPage === index + 1 ? 'active' : ''}
-                  style={{
-                    padding: '8px 16px',
-                    cursor: currentPage === index + 1 ? 'pointer' : 'not-allowed',
-                    fontWeight: currentPage === index + 1 ? 'bold' : 'normal',
-                    width:'50px',
-                    border:'1px solid #007BFF',
-                  }}
-                >
-                  {index + 1}
-                </button>
-              ))}
-
-              <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                style={{ padding: '8px 16px', cursor: currentPage === totalPages ? 'not-allowed' : 'pointer' }}
-              >
-                Next
-              </button>
-              <button
-                onClick={() => handlePageChange(totalPages)}
-                disabled={currentPage === totalPages}
-                style={{ padding: '8px 16px', cursor: currentPage === totalPages ? 'not-allowed' : 'pointer' }}
-              >
-                Last
-              </button>
-            </div>
-          </div>
+              {/* Numbered Pagination */}
+              <div className="flex space-x-2 mt-4">
+                {Array.from({ length: totalPages }, (_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handlePageClick(i + 1)}
+                    className={`px-3 py-1 rounded ${
+                      currentPage === i + 1 ? 'bg-black text-white' : 'bg-gray-200'
+                    }`}
+                  >
+                    {String(i + 1).padStart(2, '0')}
+                  </button>
+                ))}
+              </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
+  </div>
+
   );
 };
 
 export default AttendanceAndTracking;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

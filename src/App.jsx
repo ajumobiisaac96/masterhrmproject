@@ -121,8 +121,7 @@
 
 
 
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles/custom.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
@@ -181,8 +180,45 @@ import ProfileDashboard from './EmployeePages/EmployeeSide/pages/ProfileDashboar
 import { TimerProvider } from './context/TimerContext';
 
 function App() {
-  const isAuthenticated = localStorage.getItem('authData'); // Check if the user is authenticated (token in localStorage)
-  const isEmployeeAuthenticated = localStorage.getItem('employeeAuthToken');
+
+  const [isEmployeeAuthenticated, setIsEmployeeAuthenticated] = useState(null); // Track employee auth status
+
+  const [isAuthenticated, setIsAuthenticated] = useState(null); // Initialize with null
+  const [loading, setLoading] = useState(true);  // Track if the app is still loading
+  
+  useEffect(() => {
+    // Check if the user is already authenticated (token exists in localStorage)
+    const storedAuthData = localStorage.getItem('authData');
+    if (storedAuthData) {
+      setIsAuthenticated(true);  // User is logged in
+    } else {
+      setIsAuthenticated(false);  // User is not logged in
+    }
+
+    setLoading(false);  // Done checking token
+  }, []);  // Empty dependency array ensures this runs only once when the app loads
+
+
+  useEffect(() => {
+    // Check if the user is already authenticated (token exists in localStorage)
+    const storedEmployeeAuthData = localStorage.getItem('employeeAuthToken');
+    if (storedEmployeeAuthData) {
+      setIsEmployeeAuthenticated(true);  // User is logged in
+    } else {
+      setIsEmployeeAuthenticated(false);  // User is not logged in
+    }
+
+    setLoading(false);  // Done checking token
+  }, []); 
+
+
+  // Don't render the app until we've checked the login status
+  if (loading) {
+    return <div>Loading...</div>; // Or show a loading spinner
+  }
+
+
+  
 
   return (
     // Wrap the entire app with TimerProvider

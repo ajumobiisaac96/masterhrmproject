@@ -212,13 +212,13 @@ const AttendanceLeaveOverview = () => {
                       style={{
                         backgroundColor:
                           item.attendance_status === 'present'
-                            ? 'green'
+                            ? '#A2FAC3'
                             : item.attendance_status === 'absent'
-                            ? 'red'
+                            ? '#FD9292'
                             : item.attendance_status === 'leave'
-                            ? 'blue'
+                            ? '#FAFC8B'
                             : item.attendance_status === 'undertime'
-                            ? 'yellow'
+                            ? '#7EB1FF'
                             : '#ccc',
                         color: 'white',
                         padding: '10px',

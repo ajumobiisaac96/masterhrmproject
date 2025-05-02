@@ -1093,10 +1093,10 @@ const EmployeeCard = ({ employee, onToggleDropdown, isDropdownOpen, onCardClick 
             padding: "10px 0"
           }}>
             <Link to="/employee-managment/suspend-employee">
-              <button style={{ width: "100%", padding: "10px", border: "none", color: "#2e2e2e", borderRadius: "5px", cursor: "pointer" }}>Suspend Employee</button>
+              <button className='employee-btn' style={{ width: "100%", padding: "10px", border: "none", color: "#2e2e2e", borderRadius: "5px", cursor: "pointer" }}>Suspend Employee</button>
             </Link>
             <Link to="/employee-managment/deactivate-employee">
-              <button style={{ width: "100%", padding: "10px", border: "none", color: "#2e2e2e", borderRadius: "5px", cursor: "pointer" }}>Deactivate Employee</button>
+              <button className='employee-btn' style={{ width: "100%", padding: "10px", border: "none", color: "#2e2e2e", borderRadius: "5px", cursor: "pointer" }}>Deactivate Employee</button>
             </Link>
           </div>
         )}
@@ -1258,7 +1258,7 @@ const EmployeeManagement = () => {
               <div className="btn">
                 <Link to="/employee-managment/add-employee">
                   <button style={{ border: 'none', backgroundColor: '#0275d8', color: '#fff', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer' }}>
-                    <FontAwesomeIcon icon="fa-solid fa-plus" /> Add New Employee
+                    <FontAwesomeIcon icon="fa-solid fa-plus" style={{fontSize:'18px', marginRight:'10px', marginBottom:'-2px'}} /> Add New Employee
                   </button>
                 </Link>
               </div>

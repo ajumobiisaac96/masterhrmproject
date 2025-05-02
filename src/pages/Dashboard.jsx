@@ -144,6 +144,8 @@ const Dashboard = () => {
         const payrollData = await payrollResponse.json();
         const eventsData = await eventsResponse.json();
   
+console.log("leaveData:", leaveData);
+        
         // ✅ Update company data State
         setTotalEmployees(data.total_employees);
         setnewDepartmentCount(data.department_count);
@@ -166,7 +168,9 @@ const Dashboard = () => {
         setTotalPayrollCost(payrollData.total_payroll_cost || 0);
         setPaidPercentage(payrollData.paid_percentage || 0);
         setPaidEmployees(payrollData.paid_employees || 0);
-        setNextPayrollDate(payrollData.next_payroll_date || "N/A");
+        const nextPayrollDateRaw = payrollData.next_payroll_date || "N/A";
+        const nextPayrollDateFormatted = new Date(nextPayrollDateRaw).toLocaleDateString('en-GB');
+        setNextPayrollDate(nextPayrollDateFormatted);
   
         // ✅ Update Events Overview State
         setBirthdayCount(eventsData.birthday_count || 0);
@@ -325,27 +329,29 @@ const Dashboard = () => {
 
                   <div className="priority" style={{ marginTop: "10px" }}>
                     <h5 style={{ fontSize: "14px" }}>Leave Type</h5>
-                    <h4 style={{ fontSize: "14px" }}>{pendingLeaves} pending</h4>
-                    <h3 style={{ fontSize: "16px", fontWeight: "bold" }}>{monthlyApprovedLeaves} Approved</h3>
+                    <div display="flex" style={{ gap: "10px" }}>
+                    <h4 style={{ fontSize: "14px", border:'1px solid ' }}>{pendingLeaves} pending</h4>
+                    <h3 style={{ fontSize: "16px", fontWeight: "bold", border:'1px solid ' }}>{monthlyApprovedLeaves} Approved</h3>
+                    </div>
                   </div>
 
                   <div className="TaskProgress" style={{ marginTop: "15px" }}>
                     <h5 style={{ fontSize: "14px" }}>Approval Status</h5>
-                    <div className="progress-bar" style={{ height: "6px", backgroundColor: "#e0e0e0" }}>
-                      <div style={{
-                        width: `${leaveApprovalRate}%`, 
-                        backgroundColor: "#2196F3", 
-                        transition: "width 0.3s ease-in-out"
-                      }}></div>
-                    </div>
+                      <div
+                      ><div className="progress-bar" style={{ height: "6px",
+                        width: `${leaveApprovalRate}%`,  // Adjust the width based on leaveApprovalRate
+                        backgroundColor: leaveApprovalRate <= 40 ? "red" : leaveApprovalRate <= 69 ? "yellow" : "#22C55E",  // Color coding
+                        transition: "width 0.3s ease-in-out",  // Smooth transition for width change
+                       }}></div></div>
                     <p style={{ fontSize: "14px", marginTop: "5px" }}>{leaveApprovalRate}% Approved</p>
                   </div>
+
 
                   <div className="last-div" style={{ marginTop: "50px" }}>
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <FontAwesomeIcon icon={faCalendar} />
                       <div>
-                        <h6 style={{ fontSize: "14px" , border:"none", width:'200px', marginBottom:'10px'}}>Monthly Approved Leaves</h6>
+                        <h6 style={{ fontSize: "14px" , border:"none", width:'200px', marginBottom:'10px'}}>Upcoming Leave Dates</h6>
                         <h5 style={{ fontSize: "14px", marginLeft:'15px' }}>{monthlyApprovedLeaves}</h5>
                       </div>
                     </div>
@@ -373,7 +379,14 @@ const Dashboard = () => {
                   <h1 style={{ fontSize: "18px", marginBottom: "10px" }}>Payroll Status</h1>
                   <hr style={{ marginLeft:'-15px'}} />
                   <h5 style={{ fontSize: "14px", marginBottom: "5px" }}>Total Payroll Cost</h5>
-                  <h6 style={{ fontSize: "16px", fontWeight: "bold" }}>N{totalPayrollCost.toFixed(2)}</h6>
+                  <h6 style={{ fontSize: "16px", fontWeight: "bold" }}>
+                  {new Intl.NumberFormat('en-NG', { 
+                        style: 'currency', 
+                        currency: 'NGN', 
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2 
+                      }).format(totalPayrollCost)}
+                  </h6>
 
                   <div className="TaskProgress-3" style={{ marginTop: "15px" }}>
                     <h5 style={{ fontSize: "14px" }}>Employees Paid</h5>
@@ -432,8 +445,8 @@ const Dashboard = () => {
                     <h5 style={{ fontSize: "14px" }}>Upcoming Birthdays</h5>
                     {birthdays.length > 0 ? (
                       birthdays.map((birthday, index) => (
-                        <h6 key={index} style={{ fontSize: "14px", marginBottom: "5px" }}>
-                          {birthday.first_name} {birthday.last_name} - {birthday.this_year_birthday}
+                        <h6 key={index} style={{ fontSize: "14px", marginBottom: "5px", width:'300px', textAlign:'left' }}>
+                          <p>{`${birthday.first_name} ${birthday.last_name} - ${new Date(birthday.this_year_birthday).toLocaleDateString('en-GB')}`}</p>
                         </h6>
                       ))
                     ) : (

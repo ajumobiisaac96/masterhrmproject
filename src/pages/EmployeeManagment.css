@@ -291,3 +291,20 @@
     border: 1px solid #007BFF !important;
     transition: 0.3s ease !important;
 }
+
+.employee-btn{
+width: "100%";
+padding: "10px"; 
+border: "none";
+color: "#2e2e2e"; 
+border-radius: "5px"; 
+cursor: "pointer";
+border: none;
+}
+
+.employee-btn:hover{
+    background: #007BFF !important;
+    color: #fff !important;
+    transition: 0.3s ease !important;
+}
+

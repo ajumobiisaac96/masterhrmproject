@@ -48,3 +48,13 @@
     margin-bottom: 20px
     }
 
+.filter-drop{
+  padding: '10px' !important; ;
+  cursor: 'pointer' !important;
+}
+
+.filter-drop:hover{
+  background-color: #007BFF !important;
+  color: #fff !important;
+  transition: all 0.3s ease-in-out !important;
+}

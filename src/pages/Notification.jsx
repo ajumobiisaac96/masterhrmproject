@@ -5,6 +5,7 @@ import '../pages/Department.css'
 import ToggleButton from '../components/ToggleButton'
 import '../pages/Notification.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import EmployerNavbar from "../components/EmployerNavbar";
 
 const Notification = () => {
   const [editField, setEditField] = useState(null);  // Track which field (email or phone) is being edited
@@ -19,25 +20,8 @@ const Notification = () => {
         <Sidebar />
       
         <div className="dashboard">
-          <div className="slide-one-1">
-            <div className="slide-one-1">
-              <div className="name">
-                <h5>Joseph Dooley</h5>
-                <h6>Good Morning</h6>
-              </div> 
-            </div>
-            <div className="slide-one-2-1">
-              <div className="notification">
-                <FontAwesomeIcon icon="fa-solid fa-bell" />
-                <h6>6</h6>
-              </div>
-
-              <div className="user-profile">
-                <img src={test} alt="My profile" className="My-profile" />
-              </div>
-            </div> 
-          </div>
-
+          
+        <EmployerNavbar />
           <hr className="horizontal" />
 
           <div className="dashboard-details" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>

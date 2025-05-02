@@ -1,0 +1,13 @@
+.filter-btn{
+    width: '100%' !important; 
+    border:'1px solid #ddd' !important; 
+    height:'40px' !important; 
+    cursor:'pointer' !important;
+}
+
+.filter-btn:hover{
+    background-color: #007BFF !important; 
+    color: #fff !important;
+    border:'1px solid #ccc' !important; 
+    transition: 'background-color 0.3s ease' !important;
+}

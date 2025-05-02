@@ -578,5 +578,16 @@
 }
 
 
+.dropdown-item{
+    padding: '8px 20px';
+    margin: 0;
+    cursor: 'pointer';
+    font-size: '14px';
+    font-weight: '500';
+}
 
+.dropdown-item:hover{
+    background-color: #007BFF !important; 
+    color: #FFFFFF !important;
+}
 

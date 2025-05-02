@@ -174,8 +174,8 @@ const PayrollManagement = () => {
             <div className="dashboard">
               <EmployerNavbar />
               <hr className="horizontal" />
-              <div className="dashboard-details">
-                <h5>Payroll Management</h5>
+              <div className="dashboard-details" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                <h5 style={{ marginBottom: '15px' }}>Payroll Management</h5>
                 <h6>{new Date().toDateString()}</h6>
               </div>
     
@@ -211,119 +211,117 @@ const PayrollManagement = () => {
                 </div>
               </div>
     
-              <div className="payroll-management-charts">
-                      {/* Payroll Cost Trend Chart */}
-                      <div className="chart-container trend-chart" 
-                        style={{ 
-                          display: 'flex', 
-                          flexDirection: 'column', 
-                          alignItems: 'center', 
-                          justifyContent: 'center', 
-                          height: '400px', 
-                          padding: '20px', 
-                          boxSizing: 'border-box', 
-                          overflow: 'hidden'
-                        }}
-                      >
-                        <h3 style={{ fontSize: '18px', marginBottom: '10px' }}>Payroll Cost Trend</h3>
+              <div className="payroll-management-charts" ref={chartsRef}>
+  {/* Payroll Cost Trend Chart */}
+  <div className="chart-container trend-chart" 
+    style={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      height: '400px', 
+      padding: '20px', 
+      boxSizing: 'border-box', 
+      overflow: 'hidden'
+    }}
+  >
+    <h3 style={{ fontSize: '18px', marginBottom: '10px' }}>Payroll Cost Trend</h3>
 
-                        <select 
-                          className="filter-select" 
-                          value={selectedYearTrend} 
-                          onChange={(e) => setSelectedYearTrend(e.target.value)}
-                          style={{ marginBottom: '10px', padding: '5px', fontSize: '14px' }}
-                        >
-                          {[...Array(10).keys()].map((i) => (
-                            <option key={i} value={new Date().getFullYear() - i}>
-                              {new Date().getFullYear() - i}
-                            </option>
-                          ))}
-                        </select>
+    <select 
+      className="filter-select" 
+      value={selectedYearTrend} 
+      onChange={(e) => setSelectedYearTrend(e.target.value)}
+      style={{ marginBottom: '10px', padding: '5px', fontSize: '14px' }}
+    >
+      {[...Array(10).keys()].map((i) => (
+        <option key={i} value={new Date().getFullYear() - i}>
+          {new Date().getFullYear() - i}
+        </option>
+      ))}
+    </select>
 
-                        {/* Ensure Chart Expands Inside the Box */}
-                        <div style={{ width: '100%', height: '320px', display: 'flex', justifyContent: 'center' }}>
-                          {payrollTrend.payrollCosts.length > 0 && payrollTrend.payrollCosts.some(value => value !== 0) ? (
-                            <Line
-                              data={{
-                                labels: payrollTrend.months,
-                                datasets: [{
-                                  label: 'Payroll Cost Trend',
-                                  data: payrollTrend.payrollCosts,
-                                  borderColor: '#36A2EB',
-                                  fill: false
-                                }]
-                              }}
-                              options={{
-                                responsive: true,
-                                maintainAspectRatio: false, // Allows chart to stretch inside container
-                                plugins: {
-                                  legend: { display: true, position: "bottom" }
-                                }
-                              }}
-                            />
-                          ) : (
-                            <p style={{ textAlign: 'center', fontSize: '16px', color: 'red', marginTop: '50px' }}>
-                              No records found for {selectedYearTrend}.
-                            </p>
-                          )}
-                        </div>
-                      </div>
+    <div style={{ width: '100%', height: '320px', display: 'flex', justifyContent: 'center' }}>
+      {payrollTrend.payrollCosts.length > 0 && payrollTrend.payrollCosts.some(value => value !== 0) ? (
+        <Line
+          data={{
+            labels: payrollTrend.months,
+            datasets: [{
+              label: 'Payroll Cost Trend',
+              data: payrollTrend.payrollCosts,
+              borderColor: '#36A2EB',
+              fill: false
+            }]
+          }}
+          options={{
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: true, position: "bottom" }
+            }
+          }}
+        />
+      ) : (
+        <p style={{ textAlign: 'center', fontSize: '16px', color: 'red', marginTop: '50px' }}>
+          No records found for {selectedYearTrend}.
+        </p>
+      )}
+    </div>
+  </div>
 
-                      {/* Payroll Cost Distribution Chart */}
-                      <div className="chart-container distribution-chart" 
-                        style={{ 
-                          display: 'flex', 
-                          flexDirection: 'column', 
-                          alignItems: 'center', 
-                          justifyContent: 'center', 
-                          height: '400px', 
-                          padding: '20px', 
-                          boxSizing: 'border-box', 
-                          overflow: 'hidden'
-                        }}
-                      >
-                        <h3 style={{ fontSize: '18px', marginBottom: '10px' }}>Payroll Cost Distribution</h3>
+  {/* Payroll Cost Distribution Chart */}
+  <div className="chart-container distribution-chart" 
+    style={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      height: '400px', 
+      padding: '20px', 
+      boxSizing: 'border-box', 
+      overflow: 'hidden'
+    }}
+  >
+    <h3 style={{ fontSize: '18px', marginBottom: '10px' }}>Payroll Cost Distribution</h3>
 
-                        <select 
-                          className="filter-select" 
-                          value={selectedYearDistribution} 
-                          onChange={(e) => setSelectedYearDistribution(e.target.value)}
-                          style={{ marginBottom: '10px', padding: '5px', fontSize: '14px' }}
-                        >
-                          {[...Array(10).keys()].map((i) => (
-                            <option key={i} value={new Date().getFullYear() - i}>
-                              {new Date().getFullYear() - i}
-                            </option>
-                          ))}
-                        </select>
+    <select 
+      className="filter-select" 
+      value={selectedYearDistribution} 
+      onChange={(e) => setSelectedYearDistribution(e.target.value)}
+      style={{ marginBottom: '10px', padding: '5px', fontSize: '14px' }}
+    >
+      {[...Array(10).keys()].map((i) => (
+        <option key={i} value={new Date().getFullYear() - i}>
+          {new Date().getFullYear() - i}
+        </option>
+      ))}
+    </select>
 
-                        {/* Ensure Chart Expands Inside the Box */}
-                        <div style={{ width: '100%', height: '320px', display: 'flex', justifyContent: 'center' }}>
-                          {payrollDistribution.data.some(value => value !== 0) && payrollDistribution.labels.length > 0 ? (
-                            <Doughnut
-                              data={{
-                                labels: payrollDistribution.labels,
-                                datasets: [{
-                                  data: payrollDistribution.data,
-                                  backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
-                                }]
-                              }}
-                              options={{
-                                responsive: true,
-                                maintainAspectRatio: false, // Allows chart to stretch inside container
-                                plugins: {
-                                  legend: { display: true, position: "bottom" }
-                                }
-                              }}
-                            />
-                          ) : (
-                            <p style={{ textAlign: 'center', fontSize: '16px', color: 'red', marginTop: '50px' }}>
-                              No records found for {selectedYearDistribution}.
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
+    <div style={{ width: '100%', height: '320px', display: 'flex', justifyContent: 'center' }}>
+      {payrollDistribution.data.some(value => value !== 0) && payrollDistribution.labels.length > 0 ? (
+        <Doughnut
+          data={{
+            labels: payrollDistribution.labels,
+            datasets: [{
+              data: payrollDistribution.data,
+              backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
+            }]
+          }}
+          options={{
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: true, position: "bottom" }
+            }
+          }}
+        />
+      ) : (
+        <p style={{ textAlign: 'center', fontSize: '16px', color: 'red', marginTop: '50px' }}>
+          No records found for {selectedYearDistribution}.
+        </p>
+      )}
+    </div>
+  </div>
+</div>
 
  
 
@@ -360,9 +358,9 @@ const PayrollManagement = () => {
                               <option key={index} value={status}>{status}</option>
                             ))}
                           </select>
-                          <button className="btn">
+                          {/* <button className="btn">
                             <FontAwesomeIcon icon={faFilter} /> Filter
-                          </button>
+                          </button> */}
                         </div>
                       </div>
               <div className="filtered-results">

@@ -246,7 +246,13 @@ const Profile = () => {
 
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', marginTop: '20px' }}>
                     <p>Full Name <br /> <span style={{ fontWeight: 'bold' }}>{employeeData?.first_name} {employeeData?.last_name}</span></p>
-                    <p>Date of Birth <br /> <span style={{ fontWeight: 'bold' }}>{employeeData?.date_of_birth}</span></p>
+                    <p>
+                      Date of Birth: <br />
+                      <span style={{ fontWeight: 'bold' }}>
+                        {employeeData?.date_of_birth ? new Date(employeeData.date_of_birth).toLocaleDateString('en-GB') : 'N/A'}
+                      </span>
+                    </p>
+
                     <p>Gender <br /> <span style={{ fontWeight: 'bold' }}>{employeeData?.gender}</span></p>
                     <p>Phone <br /> <span style={{ fontWeight: 'bold' }}>{employeeData?.phone_number}</span></p>
                   </div>
@@ -297,7 +303,7 @@ const Profile = () => {
                       {/* Pension Plan Contribution */}
                       <div>
                         <p style={{ fontWeight: 'bold' }}>Pension Plan Contribution</p>
-                        <p style={{ fontWeight: 'bold' }}>{employeeData?.pension_plan_contribution}</p>
+                        <p style={{ fontWeight: 'bold' }}>{employeeData?.employee_contribution}</p>
                       </div>
                       {/* Net Pay */}
                       <div>
@@ -327,7 +333,8 @@ const Profile = () => {
                       {/* Employment Date */}
                       <div>
                         <p>Employment Date</p>
-                        <p style={{ fontWeight: 'bold' }}>{employeeData?.employment_date}</p>
+                        <p style={{ fontWeight: 'bold' }}>{employeeData?.employment_date ? new Date(employeeData.employment_date).toLocaleDateString('en-GB') : 'N/A'}</p>
+                        
                       </div>
                     </div>
 
