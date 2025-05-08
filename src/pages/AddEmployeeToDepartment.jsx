@@ -247,6 +247,7 @@ const AddEmployeeToDepartment = () => {
       });
 
       const data = await response.json();
+      console.log(data.data);
       setEmployees(data.data);
     } catch (err) {
       setError('Failed to fetch employees.');
@@ -299,7 +300,7 @@ const AddEmployeeToDepartment = () => {
                   <option value="">Select Department Head</option>
                   {employees.map(emp => (
                     <option key={emp.employee_id} value={emp.employee_id}>
-                      {emp.first_name} {emp.last_name}
+                      {emp.name}
                     </option>
                   ))}
                 </select>
@@ -318,7 +319,7 @@ const AddEmployeeToDepartment = () => {
                 <div key={employee.employee_id} className="row-two">
                   <div>
                     <img src={test} alt="My profile" className="My-profile" />
-                    <p>{employee.first_name} {employee.last_name}</p>
+                    <p>{employee.name}</p>
                   </div>
                   <p>{employee.job_title}</p>
                   <p>{employee.employee_id}</p>

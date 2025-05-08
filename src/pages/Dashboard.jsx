@@ -41,6 +41,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [newNotification, setNewNotification] = useState(null);
+  const [leaveData, setLeaveData] = useState({});
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -74,8 +75,8 @@ const Dashboard = () => {
         // API URLs with companyId passed as query parameter
         const apiUrl = `https://proximahr.onrender.com/api/v2/dashboard/company-overview`;
         const departmentApiUrl = `https://proximahr.onrender.com/api/v2/dashboard/department-overview`;
-        const leaveApiUrl = `https://proximahr.onrender.com/api/v2/dashboard/leave-overview?`;
-        const payrollApiUrl = `https://proximahr.onrender.com/api/v2/dashboard/payroll-overview?`;
+        const leaveApiUrl = `https://proximahr.onrender.com/api/v2/dashboard/leave-overview`;
+        const payrollApiUrl = `https://proximahr.onrender.com/api/v2/dashboard/payroll-overview`;
         const eventsApiUrl = `https://proximahr.onrender.com/api/v2/dashboard/events`;
   
         // ✅ Fetch company data
@@ -163,6 +164,8 @@ console.log("leaveData:", leaveData);
         setPendingLeaves(leaveData.pending_leaves || 0);
         setMonthlyApprovedLeaves(leaveData.monthly_approved_leaves || 0);
         setLeaveApprovalRate(leaveData.leave_approval_rate || 0);
+
+        console.log("Upcoming Leave Dates:", leaveData.first_upcoming_leave);
   
         // ✅ Update Payroll Overview State
         setTotalPayrollCost(payrollData.total_payroll_cost || 0);
@@ -341,34 +344,42 @@ console.log("leaveData:", leaveData);
                       ><div className="progress-bar" style={{ height: "6px",
                         width: `${leaveApprovalRate}%`,  // Adjust the width based on leaveApprovalRate
                         backgroundColor: leaveApprovalRate <= 40 ? "red" : leaveApprovalRate <= 69 ? "yellow" : "#22C55E",  // Color coding
-                        transition: "width 0.3s ease-in-out",  // Smooth transition for width change
-                       }}></div></div>
-                    <p style={{ fontSize: "14px", marginTop: "5px" }}>{leaveApprovalRate}% Approved</p>
-                  </div>
+                        // Smooth transition for width change
+                                             }}></div></div>
+                                          <p style={{ fontSize: "14px", marginTop: "5px" }}>{leaveApprovalRate}% Approved</p>
+                                        </div>
 
+                                        <div className="last-div" style={{ marginTop: "50px" }}>
+                                          <div style={{ display: "flex", alignItems: "center" }}>
+                                            <FontAwesomeIcon icon={faCalendar} />
+                                            <div>
+                                              <h6 style={{ fontSize: "14px", border: "none", width: "200px", marginBottom: "10px" }}>
+                                                Upcoming Leave Dates
+                                              </h6>
+                                              <h5 style={{ fontSize: "14px", marginLeft: "15px" }}>
+                                                {leaveData?.first_upcoming_leave || "No upcoming leave dates"}
+                                              </h5>
+                                            </div>
+                                          </div>
+                                          <Link to="/LeaveManagment">
+                                            <button
+                                              style={{
+                                                width: "130px",
+                                                backgroundColor: "#007BFF",
+                                                color: "#fff",
+                                                padding: "6px",
+                                                borderRadius: "5px",
+                                                fontSize: "14px",
+                                              }}
+                                            >
+                                              <FontAwesomeIcon icon={faCalendar} className="dashboard-icon" style={{ color: "#fff" }} />
+                                              Manage
+                                            </button>
+                                          </Link>
+                                        </div>
+                                      </div>
 
-                  <div className="last-div" style={{ marginTop: "50px" }}>
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <FontAwesomeIcon icon={faCalendar} />
-                      <div>
-                        <h6 style={{ fontSize: "14px" , border:"none", width:'200px', marginBottom:'10px'}}>Upcoming Leave Dates</h6>
-                        <h5 style={{ fontSize: "14px", marginLeft:'15px' }}>{monthlyApprovedLeaves}</h5>
-                      </div>
-                    </div>
-                    <Link to="/LeaveManagment">
-                      <button style={{
-                        width: '130px', 
-                        backgroundColor: "#007BFF", 
-                        color: "#fff", 
-                        padding: "6px", 
-                        borderRadius: "5px", 
-                        fontSize: "14px"
-                      }}> <FontAwesomeIcon icon={faCalendar} className="dashboard-icon" style={{color:'#fff'}} />Manage</button>
-                    </Link>
-                  </div>
-                </div>
-
-                {/* ✅ Payroll Status */}
+                                      {/* ✅ Payroll Status */}
                 <div className="grid" style={{
                   minHeight: "380px", 
                   padding: "15px", 

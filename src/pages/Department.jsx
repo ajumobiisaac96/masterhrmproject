@@ -579,6 +579,7 @@
               <div className="div-2">
                 <div className="btn-1" style={{ position: 'relative', display: 'inline-block' }}>
                   <button 
+                  // className='dept-btn'
                     onClick={() => setIsOpen(!isOpen)} 
                     style={{
                       padding: '10px 20px', 
@@ -602,7 +603,7 @@
 
                   {isOpen && (
                     <div 
-                      className="dropdownstyle" 
+                      className="dropdownstyle " 
                       style={{
                         position: 'absolute', 
                         top: '100%', // Position it directly under the button
@@ -619,7 +620,7 @@
                       }}
                     >
                       <p 
-                      className='dropdown-item'
+                      className='dropdown-item '
                         onClick={() => handleFilter("All")} 
                         style={{
                           padding: '8px 20px',
@@ -653,7 +654,7 @@
 
                 <div className="btn">
                   <Link to={"/department/add-new-department"}>
-                    <button style={{backgroundColor:'#007BFF', color: '#ffff', border:'none'}} ><FontAwesomeIcon icon="fa-solid fa-plus"  />Add New Department</button>
+                    <button className='dept-btn' style={{backgroundColor:'#007BFF', color: '#ffff', border:'none'}} ><FontAwesomeIcon icon="fa-solid fa-plus"  />Add New Department</button>
                   </Link>
                 </div>
               </div>
@@ -702,7 +703,7 @@
                     </div>
 
                     <div className="five-div" style={{ marginTop: '20px' }}>
-                      <button onClick={() => handleViewDepartmentClick(dept)} style={{ width: '100%', padding: '10px', backgroundColor: '#007BFF', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: '500' }}>
+                      <button className='dept-btn' onClick={() => handleViewDepartmentClick(dept)} style={{ width: '100%', padding: '10px', backgroundColor: '#007BFF', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: '500' }}>
                         View Department
                       </button>
                     </div>

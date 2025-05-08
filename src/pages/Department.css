@@ -432,3 +432,22 @@ color: #4E4E4E;
     text-decoration: none;
     margin-top: 10px;
 }
+
+
+.dept-btn{
+    width: 100% !important; 
+    padding: 10px !important; 
+    background-color: #007BFF !important; 
+    color: #fff !important; 
+    border: none !important; 
+    border-radius: 4px !important; 
+    cursor: pointer !important;
+    font-weight: 500 !important;
+}
+
+.dept-btn:hover{
+    background-color: #fff !important; 
+    color: #007BFF  !important;
+    border: 1px solid !important;
+    transition: 0.3s !important;
+}

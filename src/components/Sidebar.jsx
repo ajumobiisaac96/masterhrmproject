@@ -117,6 +117,47 @@ const Sidebar = () => {
     setShowLogoutModal(false); // Close the modal
   };
 
+
+  const backdropStyle = {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.7)", // Transparent black background
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1000, // Ensure it's above other content
+  };
+  
+  const modalContentStyle = {
+    backgroundColor: "#fff", // White background for the modal
+    padding: "30px",
+    borderRadius: "10px",
+    textAlign: "center",
+    width: "400px",
+    boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)", // Shadow for the modal
+  };
+  
+  const modalButtonStyle = {
+    padding: "10px 20px",
+    borderRadius: "5px",
+    marginTop: "10px",
+  };
+  
+  const cancelButtonStyle = {
+    backgroundColor: "gray",
+    color: "#fff",
+  };
+  
+  const submitButtonStyle = {
+    backgroundColor: "#007BFF",
+    color: "#fff",
+    marginLeft: "10px",
+  };
+  
+
   return (
     <div>
       <div className="sidebar">
@@ -143,60 +184,40 @@ const Sidebar = () => {
 
       {/* Logout Confirmation Modal */}
       {showLogoutModal && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: 'rgba(0, 0, 0, 0.5)', /* Transparent black background */
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 1000, /* Ensure the modal is on top */
-        }}>
-          <div style={{
-            background: '#fff',
-            padding: '20px',
-            borderRadius: '8px',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-            textAlign: 'center',
-            width: '300px',
-          }}>
-            <h3 style={{ marginBottom: '20px', fontSize: '18px' }}>Are you sure you want to log out?</h3>
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}>
-              <button 
-                onClick={handleLogoutCancel} 
-                style={{
-                  padding: '10px 20px',
-                  backgroundColor: '#dc3545',
-                  border: 'none',
-                  color: 'white',
-                  cursor: 'pointer',
-                  borderRadius: '5px',
-                }}
-              >
-                No
-              </button>
-              <button 
-                onClick={handleLogoutConfirm} 
-                style={{
-                  padding: '10px 20px',
-                  backgroundColor: '#007bff',
-                  border: 'none',
-                  color: 'white',
-                  cursor: 'pointer',
-                  borderRadius: '5px',
-                }}
-              >
-                Yes
-              </button>
-            </div>
-          </div>
-        </div>
+  <div style={backdropStyle}>
+  <div style={modalContentStyle}>
+    <h3 style={{ marginBottom: "20px" }}>Are you sure you want to log out?</h3>
+    <p style={{font:'Inter', weight:'400', fontSize:'14px', textAlign:'center'}}>You’ll be signed out from Proxima. Save all changes before logging out.</p>
+    <div style={{ display: "flex", justifyContent: "space-between", marginTop: "30px",}}>
+      <button
+        onClick={handleLogoutCancel}
+        style={{
+          padding: "10px 20px",
+          backgroundColor: "#D9D9D9",
+          border: "1px solid #D9D9D9",
+          color: "#2E2E2E",
+          cursor: "pointer",
+          borderRadius: "5px",
+        }}
+      >
+        No
+      </button>
+      <button
+        onClick={handleLogoutConfirm}
+        style={{
+          padding: "10px 20px",
+          backgroundColor: "red",
+          border: "1px solid",
+          color: "white",
+          cursor: "pointer",
+          borderRadius: "5px",
+        }}
+      >
+        Yes
+      </button>
+    </div>
+  </div>
+</div>
       )}
     </div>
   );

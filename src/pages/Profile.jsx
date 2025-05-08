@@ -15,6 +15,7 @@ library.add(fas);
 const Profile = () => {
   const [activeSection, setActiveSection] = useState('personalInfo');
   const [employeeData, setEmployeeData] = useState(null);
+  const [hodData, setHodData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -48,6 +49,7 @@ const Profile = () => {
         );
         console.log('API Response:', response.data);
         setEmployeeData(response.data.data);
+        setHodData(response.data.hod_details);
         setLoading(false);
       } catch (err) {
         console.error('API request failed:', err.response ? err.response.data : err.message);
@@ -347,7 +349,7 @@ const Profile = () => {
                       {/* H.O.D */}
                       <div>
                         <p>H.O.D</p>
-                        <p style={{ fontWeight: 'bold' }}>{employeeData?.hod}</p>
+                        <p style={{ fontWeight: 'bold' }}>{hodData?.first_name} {hodData?.last_name}</p>
                       </div>
                       {/* Work Mode */}
                       <div>

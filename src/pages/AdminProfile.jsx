@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { toast } from "react-toastify";  // Add this import at the top of your component
 import "react-toastify/dist/ReactToastify.css";  // Add this to import Toastify styles
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';  // Add this import
-import { logout } from '../utils/Switch'; // Import the logout function
+import { logout } from '../utils/Logout'; // Import the logout function
 
 
 
@@ -87,9 +87,11 @@ const AdminProfile = () => {
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
   // const location = useLocation(); // Get the current path
   const [showLogoutModal, setShowLogoutModal] = useState(false); // Add this state to track logout modal visibility
+  const [isPersonalDetailsModalOpen, setIsPersonalDetailsModalOpen] = useState(false); // For managing personal details modal visibility
+  const [showSwitchModal, setShowSwitchModal] = useState(false); // For the "Switch to Employee Portal" modal
 
 
-
+console.log('recentActivities:', recentActivities); // Log the recent activities
   
 
   // Open and close the modal
@@ -101,6 +103,18 @@ const AdminProfile = () => {
 
   const openPasswordModal = () => setIsPasswordModalOpen(true);
   const closePasswordModal = () => setIsPasswordModalOpen(false);
+
+const openPersonalDetailsModal = () => {
+  if (adminData) {
+    setFormData({
+      date_of_birth: adminData.date_of_birth || "",
+      gender: adminData.gender || "",
+      phone_number: adminData.phone_number || "",
+      address: adminData.address || "",
+    });
+  }
+  setIsPersonalDetailsModalOpen(true);
+};
 
 
   const [isEditing, setIsEditing] = useState(false);  // Track if editing is enabled
@@ -175,7 +189,8 @@ const AdminProfile = () => {
       setNewDepartmentCount(data.department_count);
       setPendingLeaveCount(data.pending_leave_count);
       setAttendancePercentage(data.attendance_percentage);
-      setRecentActivities(data.recent_activities || []);
+      // Remove or comment out this line if it is overwriting the state
+      // setRecentActivities(data.recent_activities || []);
 
       setLoading(false);
     } catch (err) {
@@ -198,8 +213,11 @@ const fetchRecentActivities = async () => {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
 
-    console.log("✅ Recent Activities API Response:", response.data);
-    setRecentActivities(response.data.activities || []); // Update state with fetched activities
+    console.log("✅ Recent Activities API Response:", response.data); // Log the response
+    const activities = response.data.admin_activities || [];
+    console.log("Activities to be set in state:", activities); // Log the activities before setting state
+    setRecentActivities(activities); // Update state with the correct field
+    console.log("Updated Recent Activities State:", activities); // Log the updated state
   } catch (err) {
     console.error("❌ Failed to fetch recent activities:", err.response ? err.response.data : err.message);
     setError("Failed to fetch recent activities");
@@ -210,6 +228,16 @@ const fetchRecentActivities = async () => {
     fetchAdminData(); // Call fetchAdminData on component mount
     fetchRecentActivities(); // Fetch recent activities
   }, [accessToken]);
+
+useEffect(() => {
+  if (accessToken) {
+    fetchRecentActivities(); // Fetch recent activities only if accessToken is available
+  }
+}, [accessToken]);
+
+useEffect(() => {
+  console.log("Recent Activities State Updated:", recentActivities);
+}, [recentActivities]);
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);  // Toggle the edit mode
@@ -381,7 +409,6 @@ const handlePasswordChange = async (e) => {
 
   // Validation: Check if the passwords match
   if (newPassword !== confirmPassword) {
-    setError("New passwords do not match.");
     toast.error("New passwords do not match.", { autoClose: 3000 });
     return;
   }
@@ -389,20 +416,18 @@ const handlePasswordChange = async (e) => {
   // Validation: Check if the passwords meet the required strength
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,100}$/;
   if (!passwordRegex.test(newPassword)) {
-    setError("Password must be at least 8 characters long and contain one lowercase letter, one uppercase letter, and one number.");
-    toast.error("Password does not meet the required strength.", { autoClose: 3000 });
+    toast.error(
+      "Password must be at least 8 characters long and contain one lowercase letter, one uppercase letter, and one number.",
+      { autoClose: 3000 }
+    );
     return;
   }
 
   // Check if current password is entered
   if (!currentPassword) {
-    setError("Current password is required.");
     toast.error("Current password is required.", { autoClose: 3000 });
     return;
   }
-
-  // Clear any existing errors
-  setError(null);
 
   try {
     const response = await axios.post(
@@ -414,10 +439,8 @@ const handlePasswordChange = async (e) => {
       },
       { headers: { Authorization: `Bearer ${accessToken}` } }
     );
+
     // Success: Password change successful
-    setSuccessMessage("Password changed successfully!");
-    
-    // Show success Toastify message
     toast.success("Password changed successfully!", {
       position: "top-right",
       autoClose: 5000,
@@ -430,27 +453,30 @@ const handlePasswordChange = async (e) => {
 
     closePasswordModal(); // Close modal after success
     fetchAdminData(); // Refresh data
-
   } catch (err) {
-    setError(err.response?.data?.detail || "Failed to change password.");
-    toast.error("Password change failed.", { autoClose: 3000 });
+    // Error: Display error message
+    toast.error(err.response?.data?.detail || "Failed to change password.", {
+      autoClose: 3000,
+    });
   }
 };
 
-// Add this to trigger modal visibility
-const handleLogoutClick = () => {
-  setShowLogoutModal(true); // Open the logout confirmation modal
+// Open and close the "Switch to Employee Portal" modal
+const handleSwitchClick = () => setShowSwitchModal(true);
+const handleSwitchCancel = () => setShowSwitchModal(false);
+const handleSwitchConfirm = () => {
+  logout(); // Call the logout function to clear the token
+  navigate('/EmployeeLogin'); // Redirect to the Employee Login page
+  setShowSwitchModal(false); // Close the modal
 };
 
-// Handle the logout confirmation
+// Open and close the "Logout" modal
+const handleLogoutClick = () => setShowLogoutModal(true);
+const handleLogoutCancel = () => setShowLogoutModal(false);
 const handleLogoutConfirm = () => {
-  logout(navigate); // Log the user out
+  logout(); // Call the logout function to clear the token
+  navigate('/login'); // Redirect to the Login page
   setShowLogoutModal(false); // Close the modal
-};
-
-// Handle logout cancellation
-const handleLogoutCancel = () => {
-  setShowLogoutModal(false); // Close the modal without logging out
 };
 
 // Handle the drop of an image file (from drag-and-drop)
@@ -472,6 +498,10 @@ const handleDrop = (e) => {
       toast.error("Please drop a valid image file.");
     }
   }
+};
+
+const closePersonalDetailsModal = () => {
+  setIsPersonalDetailsModalOpen(false); // Close the modal
 };
 
 
@@ -553,7 +583,7 @@ const handleDrop = (e) => {
                   border: '1px solid #E0E0E0',
                   cursor: 'pointer',
                 }}
-                onClick={handleLogoutClick} // Add this onClick handler
+                onClick={handleSwitchClick} // Add this onClick handler
                 >Switch to Employee Portal <FontAwesomeIcon icon="fa-solid fa-repeat" style={{marginLeft:'10px'}} /></button>
               </div>
 
@@ -698,69 +728,100 @@ const handleDrop = (e) => {
                 )}
 
                 {/* Password Modal */}
-                {isPasswordModalOpen && (
-                  <div style={backdropStyle}>
-                    <div style={modalContentStyle}>
-                      <h4>Change Password</h4>
-                      <form onSubmit={handlePasswordChange}>
-                      <FontAwesomeIcon
-                          icon={isPasswordVisible ? faEyeSlash : faEye}  // Toggle between eye and eye-slash
-                          style={{ cursor: "pointer", position: "absolute", right: "10px", top: "10px" }}
-                          onClick={() => setIsPasswordVisible(!isPasswordVisible)}  // Toggle visibility
-                        />
-                      <input
-                        type={isPasswordVisible ? "text" : "password"}  // Toggle password visibility
-                        value={currentPassword}
-                        onChange={(e) => setCurrentPassword(e.target.value)}
-                        placeholder="Enter current password"
-                        required
-                        style={{ marginBottom: "10px", padding: "10px", width: "100%" }}
-                      />
+{isPasswordModalOpen && (
+  <div style={backdropStyle}>
+    <div style={modalContentStyle}>
+      <h4>Change Password</h4>
+      <form onSubmit={handlePasswordChange}>
+        {/* Current Password */}
+        <div style={{ position: "relative", marginBottom: "10px" }}>
+          <input
+            type={isPasswordVisible ? "text" : "password"} // Toggle password visibility
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            placeholder="Enter current password"
+            required
+            style={{ padding: "10px", width: "100%" }}
+          />
+          <FontAwesomeIcon
+            icon={isPasswordVisible ? faEyeSlash : faEye} // Toggle between eye and eye-slash
+            style={{
+              cursor: "pointer",
+              position: "absolute",
+              right: "10px",
+              top: "50%",
+              transform: "translateY(-50%)",
+            }}
+            onClick={() => setIsPasswordVisible(!isPasswordVisible)} // Toggle visibility
+          />
+        </div>
 
-                          <FontAwesomeIcon
-                            icon={isPasswordVisible ? faEyeSlash : faEye}  // Toggle between eye and eye-slash
-                            style={{ cursor: "pointer", position: "absolute", right: "10px", top: "10px" }}
-                            onClick={() => setIsPasswordVisible(!isPasswordVisible)}  // Toggle visibility
-                          />
+        {/* New Password */}
+        <div style={{ position: "relative", marginBottom: "10px" }}>
+          <input
+            type={isNewPasswordVisible ? "text" : "password"} // Toggle password visibility
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            placeholder="Enter new password"
+            required
+            style={{ padding: "10px", width: "100%" }}
+          />
+          <FontAwesomeIcon
+            icon={isNewPasswordVisible ? faEyeSlash : faEye} // Toggle between eye and eye-slash
+            style={{
+              cursor: "pointer",
+              position: "absolute",
+              right: "10px",
+              top: "50%",
+              transform: "translateY(-50%)",
+            }}
+            onClick={() => setIsNewPasswordVisible(!isNewPasswordVisible)} // Toggle visibility
+          />
+        </div>
 
+        {/* Confirm Password */}
+        <div style={{ position: "relative", marginBottom: "10px" }}>
+          <input
+            type={isConfirmPasswordVisible ? "text" : "password"} // Toggle password visibility
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Confirm new password"
+            required
+            style={{ padding: "10px", width: "100%" }}
+          />
+          <FontAwesomeIcon
+            icon={isConfirmPasswordVisible ? faEyeSlash : faEye} // Toggle between eye and eye-slash
+            style={{
+              cursor: "pointer",
+              position: "absolute",
+              right: "10px",
+              top: "50%",
+              transform: "translateY(-50%)",
+            }}
+            onClick={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)} // Toggle visibility
+          />
+        </div>
 
-                      <input
-                        type={isNewPasswordVisible ? "text" : "password"}  // Toggle password visibility
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        placeholder="Enter new password"
-                        required
-                        style={{ marginBottom: "10px", padding: "10px", width: "100%" }}
-                      />
-
-                    <FontAwesomeIcon
-                      icon={isPasswordVisible ? faEyeSlash : faEye}  // Toggle between eye and eye-slash
-                      style={{ cursor: "pointer", position: "absolute", right: "10px", top: "10px" }}
-                      onClick={() => setIsPasswordVisible(!isPasswordVisible)}  // Toggle visibility
-                    />
-
-
-                      <input
-                        type={isConfirmPasswordVisible ? "text" : "password"}  // Toggle password visibility
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        placeholder="Confirm new password"
-                        required
-                        style={{ marginBottom: "10px", padding: "10px", width: "100%" }}
-                      />
-
-                        <div style={{ display: "flex", justifyContent: "space-between" }}>
-                          <button type="button" onClick={closePasswordModal} style={{ ...modalButtonStyle, ...cancelButtonStyle }}>
-                            Cancel
-                          </button>
-                          <button type="submit" style={{ ...modalButtonStyle, ...submitButtonStyle }}>
-                            Change Password
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                )}
+        {/* Buttons */}
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <button
+            type="button"
+            onClick={closePasswordModal}
+            style={{ ...modalButtonStyle, ...cancelButtonStyle }}
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            style={{ ...modalButtonStyle, ...submitButtonStyle }}
+          >
+            Change Password
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
 
 
 
@@ -801,78 +862,70 @@ const handleDrop = (e) => {
                   ))}
                 </div>
 
-              {/* Personal Details */}
-              <div style={{ background: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)"}}>
-                <h5>Personal Details</h5>
-                {isEditing ? (
-
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" , marginTop: "10px" }}>
-                <>
-                <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-                <input
-                      type="date"
-                      name="date_of_birth"
-                      value={formData.date_of_birth}
-                      onChange={handleInputChange}
-                      style={{ marginBottom: "10px" , font:"Inter" }}
-                    />
-                    {formErrors.date_of_birth && <p style={{ color: "red"  }}>{formErrors.date_of_birth}</p>}
-                </div>
-
-                <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-                    <input
-                      type="text"
-                      name="gender"
-                      value={formData.gender}
-                      onChange={handleInputChange}
-                      placeholder="Gender"
-                      style={{ marginBottom: "10px", font:"Inter"  }}
-                    /> 
-                    {formErrors.gender && <p style={{ color: "red" }}>{formErrors.gender}</p>}
-                  </div>
-
-                  <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-                    <input
-                      type="text"
-                      name="phone_number"
-                      value={formData.phone_number}
-                      onChange={handleInputChange}
-                      placeholder="Phone Number"
-                      style={{ marginBottom: "10px" }}
-                    />
-                    {formErrors.phone_number && <p style={{ color: "red" }}>{formErrors.phone_number}</p>}
+              {/* Personal Details Section */}
+                  <div style={{ background: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)" }}>
+                    <h5>Personal Details</h5>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "10px" }}>
+                      <p>Date of Birth: <br /> <strong>{new Date(adminData?.date_of_birth).toLocaleDateString() || "N/A"}</strong></p>
+                      <p>Gender: <br /> <strong>{adminData?.gender || "N/A"}</strong></p>
+                      <p>Phone: <br /> <strong>{adminData?.phone_number || "N/A"}</strong></p>
+                      <p>Address: <br /> <strong>{adminData?.address || "N/A"}</strong></p>
+                      <button onClick={openPersonalDetailsModal} style={{ color: '#007BFF', fontSize: '16px', border: 'none', background: 'none', cursor: 'pointer' }}>
+                        Edit
+                      </button>
                     </div>
+                  </div>
 
-                    <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-                    <input
-                      type="text"
-                      name="address"
-                      value={formData.address}
-                      onChange={handleInputChange}
-                      placeholder="Address"
-                      style={{ marginBottom: "10px" }}
-                    />
-                    {formErrors.address && <p style={{ color: "red" }}>{formErrors.address}</p>}
+                  {/* Modal for Editing Personal Details */}
+                  {isPersonalDetailsModalOpen && (
+                    <div style={backdropStyle}>
+                      <div style={modalContentStyle}>
+                        <h4>Edit Personal Details</h4>
+                        <form onSubmit={handleSaveChanges}>
+                          <input
+                            type="date"
+                            name="date_of_birth"
+                            value={formData.date_of_birth}
+                            onChange={handleInputChange}
+                            placeholder="Date of Birth"
+                            style={{ marginBottom: "10px", padding: "10px", width: "100%" }}
+                          />
+                          <input
+                            type="text"
+                            name="gender"
+                            value={formData.gender}
+                            onChange={handleInputChange}
+                            placeholder="Gender"
+                            style={{ marginBottom: "10px", padding: "10px", width: "100%" }}
+                          />
+                          <input
+                            type="text"
+                            name="phone_number"
+                            value={formData.phone_number}
+                            onChange={handleInputChange}
+                            placeholder="Phone Number"
+                            style={{ marginBottom: "10px", padding: "10px", width: "100%" }}
+                          />
+                          <input
+                            type="text"
+                            name="address"
+                            value={formData.address}
+                            onChange={handleInputChange}
+                            placeholder="Address"
+                            style={{ marginBottom: "10px", padding: "10px", width: "100%" }}
+                          />
+                          <div style={{ display: "flex", justifyContent: "space-between" }}>
+                            <button type="button" onClick={closePersonalDetailsModal} style={{ ...modalButtonStyle, ...cancelButtonStyle }}>
+                              Cancel
+                            </button>
+                            <button type="submit" style={{ ...modalButtonStyle, ...submitButtonStyle }}>
+                              Save Changes
+                            </button>
+                          </div>
+                        </form>
+                      </div>
                     </div>
-                    
-                    <button onClick={handleSaveChanges} style={{color:'#007BFF' , fontSize:'16px', border:'none', background:'none', cursor:'pointer'}}>
-                      {isSaving ? "Saving..." : "Save Changes"}
-                    </button>
-                  </>
-                  </div>
-
-                ) : (
-                  <>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "10px" }}>
-                    <p>Date of Birth: <br /> <strong>{adminData?.date_of_birth || "N/A"}</strong></p>
-                    <p>Gender: <br /> <strong>{adminData?.gender || "N/A"}</strong></p>
-                    <p>Phone: <br /> <strong>{adminData?.phone_number || "N/A"}</strong></p>
-                    <p>Address: <br /> <strong>{adminData?.address || "N/A"}</strong></p>
-                    <button onClick={handleEditToggle} style={{color:'#007BFF' , fontSize:'16px', border:'none', background:'none', cursor:'pointer'}} >Edit</button>
-                  </div>
-                  </>
-                )}
-              </div>
+                  )}
 
               {error && <div className="error-box">{error}</div>}
               {successMessage && <div className="success-box">{successMessage}</div>}
@@ -890,81 +943,202 @@ const handleDrop = (e) => {
                 </div>
               </div>
 
-
               {/* 🔹 Recent System Activity */}
-              <div style={{ background: "#fff", padding: "20px", borderRadius: "10px", marginTop: "20px", boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)" }}>
-                <h5>Recent System Activity</h5>
-                <ul>
-                  {recentActivities.length > 0 ? (
-                    recentActivities.map((activity, index) => (
-                      <li key={index}>{activity}</li>
-                    ))
+                <div style={{ background: "#fff", padding: "20px", borderRadius: "10px", marginTop: "20px", boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)" }}>
+                  <h5 style={{ marginBottom: "20px", fontSize: "18px", fontWeight: "bold" }}>Recent System Activity</h5>
+                  {recentActivities && recentActivities.length > 0 ? (
+                    <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                      <thead>
+                        <tr>
+                          <th style={{ textAlign: "left", padding: "10px", borderBottom: "1px solid #ddd", fontWeight: "bold", fontSize: "16px" }}>Action</th>
+                          <th style={{ textAlign: "left", padding: "10px", borderBottom: "1px solid #ddd", fontWeight: "bold", fontSize: "16px" }}>Timestamp</th>
+                          <th style={{ textAlign: "left", padding: "10px", borderBottom: "1px solid #ddd", fontWeight: "bold", fontSize: "16px" }}>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {recentActivities.map((activity) => (
+                          <tr key={activity._id}>
+                            <td style={{ padding: "10px", borderBottom: "1px solid #ddd", fontSize: "14px", color: "#333" }}>{activity.action}</td>
+                            <td style={{ padding: "10px", borderBottom: "1px solid #ddd", fontSize: "14px", color: "#333" }}>
+                              {new Date(activity.timestamp).toLocaleString()}
+                            </td>
+                            <td
+                              style={{
+                                padding: "10px",
+                                borderBottom: "1px solid #ddd",
+                                fontSize: "14px",
+                                fontWeight: "bold",
+                                color: activity.status === "success" ? "#22C55E" : "#FF6464",
+                              }}
+                            >
+                              {activity.status.charAt(0).toUpperCase() + activity.status.slice(1)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   ) : (
-                    <li>No recent activity</li>
+                    <p style={{ textAlign: "center", color: "#6C757D", fontSize: "14px" }}>No recent activity</p>
                   )}
-                </ul>
+                </div>
+
+              <div style={{ display: "flex", justifyContent:'flex-end', marginTop: "20px" }}>
+                {/* Logout Button */}
+                <button
+                  style={{
+                    background: "red",
+                    color: "#fff",
+                    padding: "10px 20px",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                  }}
+                  onClick={handleLogoutClick}
+                >
+                  Logout
+                </button>
               </div>
 
-              {/* 🔹 Logout Section */}
-              <div style={{ textAlign: "right", marginTop: "20px" }}>
-                <Link to={'/login'}>
-                  <button style={{ background: "red", color: "#fff", padding: "10px 20px", border: "none", borderRadius: "5px", cursor: "pointer" }}>
-                    <FontAwesomeIcon icon={faRightFromBracket} /> Logout
-                  </button>
-                </Link>
-              </div>
             </>
           )}
         </div>
       </div>
 
       {showLogoutModal && (
-  <div style={{
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    background: 'rgba(0, 0, 0, 0.5)', /* Transparent black background */
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1000, /* Ensure the modal is on top */
-  }}>
-    <div style={{
-      background: '#fff',
-      padding: '20px',
-      borderRadius: '8px',
-      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-      textAlign: 'center',
-      width: '300px',
-    }}>
-      <h3 style={{ marginBottom: '20px', fontSize: '18px' }}>
-        Are you sure you want to Switch to Employee Portal?
-      </h3>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <button 
-          onClick={handleLogoutCancel} 
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'rgba(0, 0, 0, 0.5)', /* Transparent black background */
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1000, /* Ensure the modal is on top */
+        }}>
+          <div style={{
+            background: '#fff',
+            padding: '20px',
+            borderRadius: '8px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            textAlign: 'center',
+            width: '300px',
+          }}>
+            <h3 style={{ marginBottom: '20px', fontSize: '18px' }}>
+              Are you sure you want to Switch to Employee Portal?
+            </h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '40px' }}>
+              <button 
+                onClick={handleLogoutCancel} 
+                style={{
+                  padding: '10px 20px',
+                  backgroundColor: '#D9D9D9',
+                  border: '1px solid #D9D9D9 ',
+                  color: '#2E2E2E',
+                  cursor: 'pointer',
+                  borderRadius: '5px',
+                }}
+              >
+                No
+              </button>
+              <button 
+                onClick={handleLogoutConfirm} 
+                style={{
+                  padding: '10px 20px',
+                  backgroundColor: '#FF6464',
+                  border: '1px solid',
+                  color: 'white',
+                  cursor: 'pointer',
+                  borderRadius: '5px',
+                }}
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal for Editing Personal Details */}
+      {isPersonalDetailsModalOpen && (
+        <div style={backdropStyle}>
+          <div style={modalContentStyle}>
+            <h4>Edit Personal Details</h4>
+            <form onSubmit={handleSaveChanges}>
+              <input
+                type="date"
+                name="date_of_birth"
+                value={formData.date_of_birth}
+                onChange={handleInputChange}
+                placeholder="Date of Birth"
+                style={{ marginBottom: "10px", padding: "10px", width: "100%" }}
+              />
+              <input
+                type="text"
+                name="gender"
+                value={formData.gender}
+                onChange={handleInputChange}
+                placeholder="Gender"
+                style={{ marginBottom: "10px", padding: "10px", width: "100%" }}
+              />
+              <input
+                type="text"
+                name="phone_number"
+                value={formData.phone_number}
+                onChange={handleInputChange}
+                placeholder="Phone Number"
+                style={{ marginBottom: "10px", padding: "10px", width: "100%" }}
+              />
+              <input
+                type="text"
+                name="address"
+                value={formData.address}
+                onChange={handleInputChange}
+                placeholder="Address"
+                style={{ marginBottom: "10px", padding: "10px", width: "100%" }}
+              />
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <button type="button" onClick={closePersonalDetailsModal} style={{ ...modalButtonStyle, ...cancelButtonStyle }}>
+                  Cancel
+                </button>
+                <button type="submit" style={{ ...modalButtonStyle, ...submitButtonStyle }}>
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Switch to Employee Portal Modal */}
+{showSwitchModal && (
+  <div style={backdropStyle}>
+    <div style={modalContentStyle}>
+      <h3 style={{ marginBottom: "20px" }}>Do you want to switch to the Employee Portal?</h3>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <button
+          onClick={handleSwitchCancel}
           style={{
-            padding: '10px 20px',
-            backgroundColor: '#dc3545',
-            border: 'none',
-            color: 'white',
-            cursor: 'pointer',
-            borderRadius: '5px',
+            padding: "10px 20px",
+            backgroundColor: "#D9D9D9",
+            border: "1px solid #D9D9D9",
+            color: "#2E2E2E",
+            cursor: "pointer",
+            borderRadius: "5px",
           }}
         >
           No
         </button>
-        <button 
-          onClick={handleLogoutConfirm} 
+        <button
+          onClick={handleSwitchConfirm}
           style={{
-            padding: '10px 20px',
-            backgroundColor: '#007bff',
-            border: 'none',
-            color: 'white',
-            cursor: 'pointer',
-            borderRadius: '5px',
+            padding: "10px 20px",
+            backgroundColor: "#007BFF",
+            border: "1px solid",
+            color: "white",
+            cursor: "pointer",
+            borderRadius: "5px",
           }}
         >
           Yes
@@ -974,7 +1148,45 @@ const handleDrop = (e) => {
   </div>
 )}
 
-
+{/* Logout Modal */}
+{showLogoutModal && (
+  <div style={backdropStyle}>
+    <div style={modalContentStyle}>
+      <h3 style={{ marginBottom: "20px" }}>Are you sure you want to log out?</h3>
+      <p style={{ font: 'Inter', weight: '400', fontSize: '14px', textAlign: 'center' }}>
+        You’ll be signed out from Proxima. Save all changes before logging out.
+      </p>
+      <div style={{ display: "flex", justifyContent: "space-between", marginTop: "30px" }}>
+        <button
+          onClick={handleLogoutCancel}
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "#D9D9D9",
+            border: "1px solid #D9D9D9",
+            color: "#2E2E2E",
+            cursor: "pointer",
+            borderRadius: "5px",
+          }}
+        >
+          No
+        </button>
+        <button
+          onClick={handleLogoutConfirm}
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "red",
+            border: "1px solid",
+            color: "white",
+            cursor: "pointer",
+            borderRadius: "5px",
+          }}
+        >
+          Yes
+        </button>
+      </div>
+    </div>
+  </div>
+)}
       
     </div>
   );

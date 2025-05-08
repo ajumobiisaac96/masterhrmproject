@@ -47,6 +47,7 @@ const LeaveManagment = () => {
         }
 
         const result = await response.json();
+        console.log(result);
         setLeaveStats({
           total: result.leave_count || 0,
           pending: result.pending_leave_count || 0,

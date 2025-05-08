@@ -449,7 +449,7 @@ const SearchEmployee = () => {
                         </div>
                         <div className="btn">
 
-                                <button onClick={handleAddToDepartment} disabled={selectedEmployees.length === 0}><FontAwesomeIcon icon="fa-solid fa-plus" /> Add To Department</button>
+                            <button onClick={handleAddToDepartment} disabled={selectedEmployees.length === 0}><FontAwesomeIcon icon="fa-solid fa-plus" /> Add To Department</button>
 
                         </div>
                     </div>
