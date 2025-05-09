@@ -58,6 +58,7 @@ const handleNavigate = () => {
       </ul>
 
       <div style={{ position: 'relative' }}>
+        <Link to="/companyregister" style={{ textDecoration: 'none' }}>
         <button
           className="demo-button"
           onClick={toggleDropdown}
@@ -75,9 +76,11 @@ const handleNavigate = () => {
           Request Demo
           <span className="arrow-icon" style={{ marginLeft: '10px' }}>➔</span>
         </button>
+        </Link>
         
-        {/* Dropdown menu */}
+        {/* Dropdown menu
         {dropdownVisible && (
+
           <div
             className="dropdown-menu"
             style={{
@@ -101,7 +104,7 @@ const handleNavigate = () => {
               </button>
             </Link>
           </div>
-        )}
+        )} */}
       </div>
     </nav>
 

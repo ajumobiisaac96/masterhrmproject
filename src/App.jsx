@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './styles/custom.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 import LandingPage from './pages/LandingPage.jsx';
 
@@ -89,6 +90,10 @@ function App() {
     setLoading(false);  // Done checking token
   }, []); 
 
+  useEffect(() => {
+    toast.success("Toastify is working globally!", { autoClose: 3000 });
+  }, []);
+
 
   // Don't render the app until we've checked the login status
   if (loading) {
@@ -129,7 +134,7 @@ function App() {
             <Route path="/employee-managment/view-profile" element={isAuthenticated ? <Profile /> : <Navigate to="/login" />} />
             <Route path="/employee-managment/add-employee" element={isAuthenticated ? <AddEmployee /> : <Navigate to="/login" />} />
             <Route path="/search-employee" element={isAuthenticated ? <SearchEmployee /> : <Navigate to="/login" />} />
-            <Route path="/add-employee-to-department" element={isAuthenticated ? <AddEmployeeToDepartment /> : <Navigate to="/login" />} />
+            <Route path="/add-employee-to-department/:departmentId" element={isAuthenticated ? <AddEmployeeToDepartment /> : <Navigate to="/login" />} />
             <Route path="/edit-profile" element={isAuthenticated ? <EditProfile /> : <Navigate to="/login" />} />
             <Route path="/employee-managment/suspend-employee" element={isAuthenticated ? <SuspendEmployee /> : <Navigate to="/login" />} />
             <Route path="/employee-managment/Deactivate-employee" element={isAuthenticated ? <DeactivateEmployee /> : <Navigate to="/login" />} />

@@ -437,8 +437,8 @@ const EditDepartment = () => {
                     )}
 
                     <div className="dashboard-detail-1">
-                        <Link to="/department">
-                            <h1 className="employee-profile" style={{ marginTop: '20px', fontSize: '28px' }}>
+                        <Link to={`/department/${departmentId}`}>
+                            <h1 className="employee-profile" disabled={!departmentId} style={{ marginTop: '20px', fontSize: '28px' }}>
                                 <FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow" style={{ marginRight: '20px' }} />
                                 Edit Department
                             </h1>
@@ -504,7 +504,7 @@ const EditDepartment = () => {
                         </div>
 
                         <div style={{ marginLeft: '800px' }}>
-                            <Link to={'/add-employee-to-department'}>
+                        <Link to={`/add-employee-to-department/${departmentId}`}>
                                 <button style={{ backgroundColor: '#007BFF', height: '30px', width: '150px', borderRadius: '5px', marginTop: '20px', border: 'none', color: 'white', padding: '5px' }}>Add Employee</button>
                             </Link>
                         </div>

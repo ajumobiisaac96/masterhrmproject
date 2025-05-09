@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../components/Sidebar';
+import Sidebar from '../components/Sidebar';          
 import test from '../assets/test.png';
 import '../pages/EditDepartment.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -230,7 +230,7 @@ const EditDepartment = () => {
             </div>
             
             <div style={{ marginLeft: '800px', }}>
-               <Link to={'/add-employee-to-department'}><button style={{backgroundColor:'#007BFF', height:'30px', width:'150px', borderRadius:'5px', marginTop:'20px', border:'none',color:'white', padding:'5px',  }} >Add Employee</button></Link>
+               <Link to={`/add-employee-to-department/${departmentId}`}><button style={{backgroundColor:'#007BFF', height:'30px', width:'150px', borderRadius:'5px', marginTop:'20px', border:'none',color:'white', padding:'5px',  }} >Add Employee</button></Link>
             </div>
             
 

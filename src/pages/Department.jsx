@@ -513,7 +513,7 @@
     const handleCardClick = async (departmentId) => {
       try {
         const token = JSON.parse(localStorage.getItem("authData"))?.access_token;
-        const companyId = localStorage.getItem("company_id");
+        // const companyId = localStorage.getItem("company_id");
         const apiUrl = `https://proximahr.onrender.com/api/v2/employee-management/all-employees`;
 
         const response = await fetch(apiUrl, {

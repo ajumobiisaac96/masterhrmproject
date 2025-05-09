@@ -1,190 +1,3 @@
-// import React from 'react';
-// import Sidebar from '../components/Sidebar';
-// import test from '../assets/test.png';
-// import '../pages/AddEmployeeToDepartment.css';
-// import { library } from '@fortawesome/fontawesome-svg-core';
-// import { fas } from '@fortawesome/free-solid-svg-icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import {Link} from 'react-router-dom'
-// import EmployerNavbar from '../components/EmployerNavbar';
-
-// library.add(fas);
-
-// const AddEmployeeToDepartment = () => {
-//     return (
-//         <div>
-//           <div className="main-dashboard">
-//             <Sidebar />
-//             <div className="dashboard">
-
-//             <EmployerNavbar />
-
-    
-//               <hr className="horizontal" />
-    
-//               <div className="dashboard-detail-1">
-//                 <Link to = "/department/edit-department" ><h1 className="employee-profile"><FontAwesomeIcon icon="fa-solid fa-arrow-left" className = "left-arrow"></FontAwesomeIcon>Add Employees</h1></Link>
-//                 <h6>24 Thursday October 2024</h6>
-//               </div>
-    
-
-//               <div className="Department-info">
-//                 <div className="department-info-1">
-//                   <div className="div-1">
-//                     <label htmlFor="">Department Name</label>
-//                     <input type="text" placeholder='Engineering Department' />
-//                   </div>
-//                 </div>
-                
-
-//                 <h3>Add Employee</h3>
-  
-//               <div className="employee-department-section">
-  
-//                   <div className="row-one">
-//                       <p>Full Name</p>
-//                       <p>Job Title</p>
-//                       <p>Employee ID</p>
-//                       <p>Edit</p>
-//                   </div>
-  
-//   <hr />
-  
-//                   <div className="row-two">
-//                       <div>
-//                           <img src={test} alt="My profile" className="My-profile" /> 
-//                           <p>Sarah Johnson</p>
-//                       </div>
-//                       <p>Software - Engineer</p>
-//                       <p>0876</p>
-//                       <p className = "grey-btn">Remove Employee</p>
-//                   </div>
-  
-//                   <hr />
-//                   <div className="row-two">
-//                       <div>
-//                           <img src={test} alt="My profile" className="My-profile" /> 
-//                           <p>Sarah Johnson</p>
-//                       </div>
-//                       <p>Software - Engineer</p>
-//                       <p>0876</p>
-//                       <p className = "grey-btn">Remove Employee</p>
-//                   </div>
-  
-//                   <hr />
-//                   <div className="row-two">
-//                       <div>
-//                           <img src={test} alt="My profile" className="My-profile" /> 
-//                           <p>Sarah Johnson</p>
-//                       </div>
-//                       <p>Software - Engineer</p>
-//                       <p>0876</p>
-//                       <p className = "grey-btn">Remove Employee</p>
-//                   </div>
-  
-//                   <hr />
-//                   <div className="row-two">
-//                       <div>
-//                           <img src={test} alt="My profile" className="My-profile" /> 
-//                           <p>Sarah Johnson</p>
-//                       </div>
-//                       <p>Software - Engineer</p>
-//                       <p>0876</p>
-//                       <p className = "grey-btn">Remove Employee</p>
-//                   </div>
-  
-//                   <hr />
-  
-//                   <div className="row-two">
-//                       <div>
-//                           <img src={test} alt="My profile" className="My-profile" /> 
-//                           <p>Sarah Johnson</p>
-//                       </div>
-//                       <p>Software - Engineer</p>
-//                       <p>0876</p>
-//                       <p className = "grey-btn">Remove Employee</p>
-//                   </div>
-  
-//                   <hr />
-  
-//                   <div className="row-two">
-//                       <div>
-//                           <img src={test} alt="My profile" className="My-profile" /> 
-//                           <p>Sarah Johnson</p>
-//                       </div>
-//                       <p>Software - Engineer</p>
-//                       <p>0876</p>
-//                       <p className = "grey-btn">Remove Employee</p>
-//                   </div>
-  
-//                   <hr />
-  
-//                   <div className="row-two">
-//                       <div>
-//                           <img src={test} alt="My profile" className="My-profile" /> 
-//                           <p>Sarah Johnson</p>
-//                       </div>
-//                       <p>Software - Engineer</p>
-//                       <p>0876</p>
-//                       <p className = "grey-btn">Remove Employee</p>
-
-//                   </div>
-  
-//               </div>
-              
-//               <button className='btn-2'>Approve</button>
-
-
-//             <div className="department-Head">
-//                 <label htmlFor="">Department Head</label>
-//                 <select name="" id="">
-//                     <option value="" className='select-option'>Select Department Head</option>
-//                     <option value="" className='select-option'>option 1</option>
-//                     <option value="" className='select-option'>option 1</option>
-//                     <option value="" className='select-option'>option 1</option>
-//                 </select>
-//             </div>
-            
-//               <div className="department-description">
-//                 <label htmlFor="">Department Description</label>
-//                 <textarea name="" id="" placeholder='Develops and maintains technical systems and software'></textarea>
-
-//               </div>
-
-//               </div>
-
-//               <div className="department-buttons">
-//                 <button className='grey-btn'>cancel</button>
-//                 <button>Save changes</button>
-//               </div>
-
-
-  
-                
-//             </div>
-//           </div>
-//         </div>
-//       );
-      
-// }
-
-// export default AddEmployeeToDepartment
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import test from '../assets/test.png';
@@ -194,12 +7,13 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useNavigate } from 'react-router-dom';
 import EmployerNavbar from '../components/EmployerNavbar';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 library.add(fas);
 
 const AddEmployeeToDepartment = () => {
   const navigate = useNavigate();
-  const departmentId = localStorage.getItem('department_id');
   const oauthToken = JSON.parse(localStorage.getItem('authData'))?.access_token;
   const [departmentName, setDepartmentName] = useState('');
   const [hod, setHod] = useState('');
@@ -207,6 +21,9 @@ const AddEmployeeToDepartment = () => {
   const [selectedEmployees, setSelectedEmployees] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState('');
+  const [showModal, setShowModal] = useState(false); // Modal state
+
+  const { departmentId } = useParams();
 
   // Fetch department details
   useEffect(() => {
@@ -247,7 +64,6 @@ const AddEmployeeToDepartment = () => {
       });
 
       const data = await response.json();
-      console.log(data.data);
       setEmployees(data.data);
     } catch (err) {
       setError('Failed to fetch employees.');
@@ -268,10 +84,48 @@ const AddEmployeeToDepartment = () => {
   };
 
   // Handle approval of employees
-  const handleApprove = () => {
-    const selectedEmployeeDetails = employees.filter(emp => selectedEmployees.includes(emp.employee_id));
-    localStorage.setItem('selected_employees', JSON.stringify(selectedEmployeeDetails));
-    navigate('/department/edit-department');
+  const handleApprove = async () => {
+    if (selectedEmployees.length === 0) {
+      toast.error("Please select at least one employee to approve.", {
+        autoClose: 3000,
+      });
+      return;
+    }
+  
+    try {
+      const apiUrl = `https://proximahr.onrender.com/api/v2/departments/${departmentId}/edit-department`;
+  
+      const requestBody = {
+        name: departmentName,
+        hod: hod || null,
+        staffs: selectedEmployees,
+        description: "Updated department details",
+      };
+  
+      const response = await fetch(apiUrl, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${oauthToken}`,
+        },
+        body: JSON.stringify(requestBody),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        setSelectedEmployees([]); // Clear the selected employees
+        setShowModal(true); // Show the success modal
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.detail || "Failed to update the department.", {
+          autoClose: 3000,
+        });
+      }
+    } catch (err) {
+      toast.error("An error occurred while updating the department.", {
+        autoClose: 3000,
+      });
+    }
   };
 
   return (
@@ -281,13 +135,17 @@ const AddEmployeeToDepartment = () => {
         <div className="dashboard">
           <EmployerNavbar />
           <hr className="horizontal" />
-        
 
-          <div className="dashboard-details" style={{display:'flex', flexDirection:'column', alignItems:'flex-start'}} >
-          <Link to="/department/edit-department"> <h5 style={{marginBottom:'15px'}} > <FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow"  style={{marginRight:'20px'}}/>Edit Department</h5> </Link>
+          <div className="dashboard-details" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+            <Link to="/department/first-edit-department">
+              <h5 style={{ marginBottom: '15px' }}>
+                <FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow" style={{ marginRight: '20px' }} />
+                Edit Department
+              </h5>
+            </Link>
             <h6>{new Date().toLocaleDateString('en-GB', { day: '2-digit', weekday: 'long', month: 'long', year: 'numeric' })}</h6>
           </div>
-          
+
           <div className="Department-info">
             <div className="department-info-1">
               <div className="div-1">
@@ -335,6 +193,47 @@ const AddEmployeeToDepartment = () => {
           </div>
         </div>
       </div>
+
+      {/* Success Modal */}
+      {showModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1000,
+        }}>
+          <div style={{
+            backgroundColor: '#fff',
+            padding: '20px',
+            borderRadius: '8px',
+            textAlign: 'center',
+            width: '300px',
+          }}>
+            <h3>Success!</h3>
+            <p>Employees have been successfully added to the department.</p>
+            <button
+              onClick={() => navigate('/department')}
+              style={{
+                marginTop: '20px',
+                padding: '10px 20px',
+                backgroundColor: '#007BFF',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '5px',
+                cursor: 'pointer',
+              }}
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
