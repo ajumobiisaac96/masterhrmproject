@@ -317,7 +317,7 @@ const AddEmployeeDepartment = () => {
     console.log('Department Details:', departmentDetails); // Log
     console.log('Employees:', employees); // Log
     console.log('Visible Employees:', visibleEmployees); // Log
-    console.log(`Employee: ${employees[0].first_name} ${employees[0].last_name}`);
+    // console.log(`Employee: ${employees[0].first_name} ${employees[0].last_name}`);
 
     return (
         <div>
