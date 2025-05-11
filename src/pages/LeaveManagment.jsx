@@ -90,9 +90,14 @@ const LeaveManagment = () => {
       }
 
       toast.success("Leave request approved successfully!");
-      setFilter('pending'); // Refresh the table
+      setTimeout(() => {
+        window.location.reload(); // Reload the page after a short delay
+      }, 2000); // 2-second delay
     } catch (err) {
       toast.error(err.message);
+      setTimeout(() => {
+        window.location.reload(); // Reload the page after a short delay
+      }, 2000); // 2-second delay
     }
   };
 
@@ -119,9 +124,14 @@ const LeaveManagment = () => {
       }
 
       toast.success("Leave request rejected successfully!");
-      setFilter('pending'); // Refresh the table
+      setTimeout(() => {
+        window.location.reload(); // Reload the page after a short delay
+      }, 2000); // 2-second delay
     } catch (err) {
       toast.error(err.message);
+      setTimeout(() => {
+        window.location.reload(); // Reload the page after a short delay
+      }, 2000); // 2-second delay
     }
   };
 
@@ -300,7 +310,7 @@ const LeaveManagment = () => {
                         <td>{leave.employee_details?.name || 'N/A'}</td>
                         <td>{leave.employee_details?.department || 'N/A'}</td>
                         <td>{leave.leave_type || 'N/A'}</td>
-                        <td>{leave.duration || 'N/A'}</td>
+                        <td>{leave.duration || 'N/A'} days</td>
                         <td>{new Date(leave.start_date).toLocaleDateString() || 'N/A'}</td>
                         <td>{new Date(leave.end_date).toLocaleDateString() || 'N/A'}</td>
                         <td

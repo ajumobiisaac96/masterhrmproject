@@ -51,7 +51,7 @@ const HRlogin = () => {
 
       if (access_token && token_type) {
         // Store access token in localStorage for employee
-        localStorage.setItem('employeeAuthToken', JSON.stringify({ access_token, token_type }));
+        localStorage.setItem('authData', JSON.stringify({access_token, token_type }));
 
         // Show success message
         toast.success('Login successful! Redirecting to your dashboard...', {
@@ -62,7 +62,7 @@ const HRlogin = () => {
 
         // Redirect after success
         setTimeout(() => {
-          navigate('/EmployeeDashboard'); // Ensure the correct path for the dashboard
+          navigate('/dashboard'); // Ensure the correct path for the dashboard
         }, 2000); // Delay for toast to show
       } else {
         toast.error('No token received. Please contact support.', {

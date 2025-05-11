@@ -28,7 +28,7 @@ const CompanyRegister = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!companyData.registration_number || !companyData.name || !companyData.email) {
+    if (!companyData.registration_number || !companyData.name || !companyData.email || !companyData.industry || !companyData.country || !companyData.state || !companyData.town) {
       toast.error('Please fill in all required fields.', {
         autoClose: 3000,
         position: 'top-right',
@@ -41,15 +41,33 @@ const CompanyRegister = () => {
     axios.post('https://proximahr.onrender.com/api/v2/company/register_company', companyData, {
       headers: { 'Content-Type': 'application/json' },
     })
-      .then(() => {
+      .then((response) => {
+        // Extract the company ID from the response
+        const companyId = response.data?.data?.registration_number || companyData.registration_number;
+
+        // Log the company ID in the console
+        console.log('Company ID:', companyId);
+
+        // Store the company ID in localStorage
+        localStorage.setItem('company_id', companyId);
+
         toast.success('Company registered successfully!', {
           autoClose: 3000,
           position: 'top-right',
         });
-        navigate('/register'); // Navigate to HR Registration (Step 2)
+
+        // Navigate to HR Registration (Step 2)
+        navigate('/register');
       })
-      .catch(() => {
-        toast.error('Registration failed. Please try again.', {
+      .catch((error) => {
+        // Extract the error message from the backend response
+        const backendMessage = error.response?.data?.message || 'Registration failed. Please try again.';
+
+        // Log the error message in the console for debugging
+        console.error('Error response:', error.response?.data || error.message);
+
+        // Display the backend error message in the toast
+        toast.error(backendMessage, {
           autoClose: 3000,
           position: 'top-right',
         });
@@ -202,13 +220,12 @@ const CompanyRegister = () => {
             <button type="submit" className="btn-general" disabled={isSubmitting}>
               {isSubmitting ? 'Registering...' : 'Register Company'}
             </button>
-
+            
             <div className="login">
               <h1>
                 Already have an account? <Link to="/login"><span>Log in</span></Link>
               </h1>
             </div>
-            
           </form>
         </div>
       </div>

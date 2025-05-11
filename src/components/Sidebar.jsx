@@ -1,76 +1,3 @@
-// import React from 'react';
-// import hrmLogo from '../assets/hrm logo.JPG';
-// import '../components/sidebar.css';
-// import { library } from '@fortawesome/fontawesome-svg-core';
-// import { fas } from '@fortawesome/free-solid-svg-icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { Link, useLocation } from 'react-router-dom';
-// import {Logout} from '../utils/Logout'
-
-
-// library.add(fas);
-
-// const Sidebar = () => {
-//   const location = useLocation(); // Get the current path
-
-//   const menuItems = [
-//     { name: "Dashboard", icon: "fa-house", to: "/Dashboard" },
-//     { name: "Department", icon: "fa-building", to: "/Department" },
-//     { name: "Employee Management", icon: "fa-users", to: "/employee-managment" },
-//     { name: "Attendance & Tracking", icon: "fa-clipboard-user", to: "/attendance-and-tracking" },
-//     { name: "Leave Management", icon: "fa-calendar", to: "/LeaveManagment" },
-//     { name: "Payroll Management", icon: "fa-money-bill-1", to: "/PayrollManagement" },
-//     { name: "Report & Analysis", icon: "fa-chart-line", to: "/ReportAndAnalysis" },
-//     // { name: "Task Management", icon: "fa-list-check", to: "/TaskManagement" },
-//     { name: "Notification", icon: "fa-bell", to: "/Notification" },
-//     { name: "Profile", icon: "fa-user", to: "/Profile" },
-//     { name: "Logout", icon: "fa-right-from-bracket", to: "/login", className :"logout"},
-//   ];
-
-//   return (
-//     <div>
-//       <div className="sidebar">
-//         <div className="side-logo">
-//           <img src={hrmLogo} alt="HRM Logo" />
-//           <h1>Proxima HR</h1>
-//         </div>
-//         <hr />
-//         <div className="sidebar-icons">
-//           {menuItems.map((item) => (
-//             <Link
-//               to={item.to}
-//               key={item.name}
-//               className={`side-bar ${item.className || ""} ${
-//                 location.pathname.startsWith(item.to) ? "active" : ""
-//               }`}
-//             >
-//               <FontAwesomeIcon icon={item.icon} className="icon" /> {item.name}
-//             </Link>
-//           ))}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Sidebar;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useState } from 'react';
 import hrmLogo from '../assets/hrm logo.JPG';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -160,7 +87,7 @@ const Sidebar = () => {
 
   return (
     <div>
-      <div className="sidebar">
+      <div className="sidebar" >
         <div className="side-logo">
           <img src={hrmLogo} alt="HRM Logo" />
           <h1>Proxima HR</h1>
@@ -169,14 +96,44 @@ const Sidebar = () => {
         <div className="sidebar-icons">
           {menuItems.map((item) => (
             <Link
-              to={item.to === "#" ? "#" : item.to}  // Prevent navigation for logout
+              to={item.to === "#" ? "#" : item.to} // Prevent navigation for logout
               key={item.name}
               className={`side-bar ${item.className || ""} ${
                 location.pathname.startsWith(item.to) ? "active" : ""
               }`}
-              onClick={item.name === "Logout" ? handleLogoutClick : null}  // Show modal on logout click
+              onClick={item.name === "Logout" ? handleLogoutClick : null} // Show modal on logout click
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "7px 15px",
+                marginBottom: "10px",
+                borderRadius: "5px",
+                textDecoration: "none",
+                fontSize: "16px", // Adjust font size for better user experience
+                fontWeight: "500",
+                color: location.pathname.startsWith(item.to) ? "#007BFF" : "#2E2E2E", // Active text color
+                backgroundColor: location.pathname.startsWith(item.to) ? "#E0ECFE" : "transparent", // Active background color
+                transition: "all 0.3s ease", // Smooth transition for hover
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = location.pathname.startsWith(item.to)
+                  ? "#D6E4FC" // Slightly lighter for active hover
+                  : "#f0f0f0"; // Lighter background for hover
+                e.target.style.color = location.pathname.startsWith(item.to)
+                  ? "#007BFF" // Keep blue for active hover
+                  : "#007BFF"; // Lighter text color for hover
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = location.pathname.startsWith(item.to)
+                  ? "#E0ECFE" // Reset to active background
+                  : "transparent"; // Reset to default background
+                e.target.style.color = location.pathname.startsWith(item.to)
+                  ? "#007BFF" // Reset to active text color
+                  : "#2E2E2E"; // Reset to default text color
+              }}
             >
-              <FontAwesomeIcon icon={item.icon} className="icon" /> {item.name}
+              <FontAwesomeIcon icon={item.icon} className="icon" style={{ marginRight: "10px" }} />
+              {item.name}
             </Link>
           ))}
         </div>

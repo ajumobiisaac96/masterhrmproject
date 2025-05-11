@@ -90,9 +90,9 @@ function App() {
     setLoading(false);  // Done checking token
   }, []); 
 
-  useEffect(() => {
-    toast.success("Toastify is working globally!", { autoClose: 3000 });
-  }, []);
+  // useEffect(() => {
+  //   toast.success("Toastify is working globally!", { autoClose: 3000 });
+  // }, []);
 
 
   // Don't render the app until we've checked the login status

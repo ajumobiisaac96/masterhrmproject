@@ -1343,6 +1343,7 @@ const totalPages = Math.ceil(employees.length / employeesPerPage);
         }
 
         const deptData = await deptResponse.json();
+        console.log(deptData);
         setDepartments(deptData.departments);
 
         setLoading(false);
