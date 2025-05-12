@@ -6,6 +6,25 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Sideimage from '../../assets/Sideimage.png';
+import { motion } from 'framer-motion';
+
+const fadeInLeft = {
+  initial: { opacity: 0, x: -100 },
+  animate: { opacity: 1, x: 0 },
+  transition: { duration: 0.8, ease: "easeOut" }
+};
+
+const fadeInRight = {
+  initial: { opacity: 0, x: 100 },
+  animate: { opacity: 1, x: 0 },
+  transition: { duration: 0.8, ease: "easeOut" }
+};
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 60 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.8, ease: "easeOut" }
+};
 
 const CompanyRegister = () => {
   const navigate = useNavigate();
@@ -78,8 +97,14 @@ const CompanyRegister = () => {
   };
 
   return (
-    <div style={{ display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}>
-      <div className="left-side" style={{ flex: 1, padding: '20px' }}>
+    <motion.div
+      style={{ display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
+      {/* Left Side */}
+      <motion.div className="left-side" style={{ flex: 1, padding: '20px' }} {...fadeInLeft}>
         <ToastContainer />
         <div className="logo" style={{textAlign: 'left', marginLeft: '-190px', marginBottom:'20px' }}>
           <Link to={'/LandingPage'}>
@@ -136,7 +161,7 @@ const CompanyRegister = () => {
           </div>
         </div>
 
-        <div className="container" style={{ width: '100%', maxWidth: '400px', margin: 'auto' }}>
+        <motion.div className="container" {...fadeInUp}>
           <div className="text">Register Company</div>
           <form onSubmit={handleSubmit}>
             <div className="inputs">
@@ -217,9 +242,15 @@ const CompanyRegister = () => {
                 />
               </div>
             </div>
-            <button type="submit" className="btn-general" disabled={isSubmitting}>
+            <motion.button
+              type="submit"
+              className="btn-general"
+              disabled={isSubmitting}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
               {isSubmitting ? 'Registering...' : 'Register Company'}
-            </button>
+            </motion.button>
             
             <div className="login">
               <h1>
@@ -227,13 +258,14 @@ const CompanyRegister = () => {
               </h1>
             </div>
           </form>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      <div className="right-side" style={{ flex: 1 }}>
+      {/* Right Side */}
+      <motion.div className="right-side" style={{ flex: 1 }} {...fadeInRight}>
         <img src={Sideimage} alt="Login side image" style={{ width: '100%', height: '100vh', objectFit: 'cover' }} />
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

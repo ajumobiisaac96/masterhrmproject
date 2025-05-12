@@ -6,8 +6,27 @@ import axios from 'axios';
 import Sideimage from '../../assets/SideImage2.png';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesome
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'; // Eye icons
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { motion } from 'framer-motion';
+
+const fadeInLeft = {
+  initial: { opacity: 0, x: -100 },
+  animate: { opacity: 1, x: 0 },
+  transition: { duration: 0.8, ease: "easeOut" }
+};
+
+const fadeInRight = {
+  initial: { opacity: 0, x: 100 },
+  animate: { opacity: 1, x: 0 },
+  transition: { duration: 0.8, ease: "easeOut" }
+};
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 60 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.8, ease: "easeOut" }
+};
 
 const HRlogin = () => {
   const [username, setUsername] = useState('');
@@ -19,7 +38,6 @@ const HRlogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation: Ensure both fields are filled
     if (!username || !password) {
       toast.error('Both username and password are required.', {
         autoClose: 15000,
@@ -32,13 +50,12 @@ const HRlogin = () => {
     try {
       setIsSubmitting(true);
 
-      // Sending login request with required parameters
       const response = await axios.post(
-        'https://proximahr.onrender.com/api/v2/company/login', // Ensure this is the correct endpoint for login
+        'https://proximahr.onrender.com/api/v2/company/login',
         new URLSearchParams({
           username,
           password,
-          grant_type: 'password', // Ensure the API is expecting this
+          grant_type: 'password',
         }),
         {
           headers: {
@@ -50,20 +67,17 @@ const HRlogin = () => {
       const { access_token, token_type } = response.data;
 
       if (access_token && token_type) {
-        // Store access token in localStorage for employee
-        localStorage.setItem('authData', JSON.stringify({access_token, token_type }));
+        localStorage.setItem('authData', JSON.stringify({ access_token, token_type }));
 
-        // Show success message
         toast.success('Login successful! Redirecting to your dashboard...', {
           autoClose: 15000,
           position: 'top-right',
           className: 'custom-toast-success',
         });
 
-        // Redirect after success
         setTimeout(() => {
-          navigate('/dashboard'); // Ensure the correct path for the dashboard
-        }, 2000); // Delay for toast to show
+          navigate('/dashboard');
+        }, 2000);
       } else {
         toast.error('No token received. Please contact support.', {
           autoClose: 15000,
@@ -84,8 +98,14 @@ const HRlogin = () => {
   };
 
   return (
-    <div style={{ display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}>
-      <div style={{ flex: 1, padding: '20px' }}>
+    <motion.div
+      style={{ display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
+      <ToastContainer />
+      <motion.div style={{ flex: 1, padding: '20px' }} {...fadeInLeft}>
         <div className="logo" style={{ marginBottom: '20px', textAlign: 'left', marginLeft: '-190px' }}>
           <Link to={'/LandingPage'}>
             <img src={hrmLogo} alt="HRM Logo" style={{ width: '25px', height: 'auto' }} />
@@ -93,7 +113,6 @@ const HRlogin = () => {
           <h1>Proxima HR</h1>
         </div>
 
-        {/* Toggle Buttons */}
         <div style={{
           display: 'flex',
           justifyContent: 'center',
@@ -136,7 +155,7 @@ const HRlogin = () => {
           </Link>
         </div>
 
-        <div className="container" style={{ width: '100%', maxWidth: '400px', margin: 'auto' }}>
+        <motion.div className="container" style={{ width: '100%', maxWidth: '400px', margin: 'auto' }} {...fadeInUp}>
           <div className="text" style={{ marginBottom: '20px', fontSize: '24px', textAlign: 'left' }}>
             Login to Your Dashboard
           </div>
@@ -164,7 +183,7 @@ const HRlogin = () => {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <input
-                    type={passwordVisible ? 'text' : 'password'} // Toggle between text and password input
+                    type={passwordVisible ? 'text' : 'password'}
                     id="password"
                     placeholder="Enter Password"
                     value={password}
@@ -173,14 +192,14 @@ const HRlogin = () => {
                     style={{ width: '100%', border: '1px solid #ccc' }}
                   />
                   <FontAwesomeIcon
-                    icon={passwordVisible ? faEyeSlash : faEye} // Switch between eye and eye-slash icon
-                    onClick={() => setPasswordVisible(!passwordVisible)} // Toggle password visibility
+                    icon={passwordVisible ? faEyeSlash : faEye}
+                    onClick={() => setPasswordVisible(!passwordVisible)}
                     style={{ cursor: 'pointer', marginLeft: '10px' }}
                   />
                 </div>
               </div>
             </div>
-            <button
+            <motion.button
               className="btn-general"
               type="submit"
               style={{
@@ -192,19 +211,19 @@ const HRlogin = () => {
                 border: 'none',
               }}
               disabled={isSubmitting}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               {isSubmitting ? 'Logging in...' : 'Login'}
-            </button>
+            </motion.button>
           </form>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      <div style={{ flex: 1 }}>
+      <motion.div style={{ flex: 1 }} {...fadeInRight}>
         <img src={Sideimage} alt="Login side image" style={{ width: '100%', height: '100vh', objectFit: 'cover' }} />
-      </div>
-
-      <ToastContainer /> {/* ToastContainer added to the component tree */}
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

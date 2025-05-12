@@ -6,8 +6,27 @@ import { Link, useNavigate } from 'react-router-dom';
 import Sideimage from '../../assets/Sideimage.png';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesome
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'; // Eye icons
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { motion } from 'framer-motion';
+
+const fadeInLeft = {
+  initial: { opacity: 0, x: -100 },
+  animate: { opacity: 1, x: 0 },
+  transition: { duration: 0.8, ease: "easeOut" }
+};
+
+const fadeInRight = {
+  initial: { opacity: 0, x: 100 },
+  animate: { opacity: 1, x: 0 },
+  transition: { duration: 0.8, ease: "easeOut" }
+};
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 60 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.8, ease: "easeOut" }
+};
 
 const HRregister = () => {
   const [formData, setFormData] = useState({
@@ -19,7 +38,7 @@ const HRregister = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [passwordVisible, setPasswordVisible] = useState(false); // State to toggle password visibility
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -55,13 +74,6 @@ const HRregister = () => {
 
     try {
       setIsSubmitting(true);
-
-      // Log the data being sent to the backend
-      console.log('Request URL:', `https://proximahr.onrender.com/admin/create-admin?company_id=${company_id}`);
-      console.log('Data being sent to the backend:', {
-        company_id,
-        formData,
-      });
 
       const response = await axios.post(
         `https://proximahr.onrender.com/admin/create-admin?company_id=${company_id}`,
@@ -100,25 +112,30 @@ const HRregister = () => {
   };
 
   return (
-    <div style={{ display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}>
+    <motion.div
+      style={{ display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
       <ToastContainer />
-      <div className="left-side" style={{ flex: 1, padding: '20px' }}>
+      <motion.div className="left-side" style={{ flex: 1, padding: '20px' }} {...fadeInLeft}>
         <div className="logo" style={{ marginBottom: '5px', textAlign: 'left', marginLeft: '-190px' }}>
           <Link to={'/LandingPage'}><img src={hrmLogo} alt="HRM Logo" style={{ width: '25px', height: 'auto' }} /></Link>
           <h1>Proxima HR</h1>
         </div>
 
-        <div className="container" style={{ width: '100%', maxWidth: '400px', margin: 'auto' }}>
+        <motion.div className="container" style={{ width: '100%', maxWidth: '400px', margin: 'auto' }} {...fadeInUp}>
           <div className="text" >Build Your Team with Ease</div>
           {/* Progress Bar */}
-          <div  style={{ display: 'flex', alignItems: 'center', marginBottom: '40px', marginTop:'20px', width: '100%', maxWidth: '400px', margin: '0 auto' }}>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '40px', marginTop: '20px', width: '100%', maxWidth: '400px', margin: '0 auto' }}>
             {/* Step 1 */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <div style={{
                 width: '30px',
                 height: '30px',
                 borderRadius: '50%',
-                backgroundColor: '#007BFF', // Blue for completed step
+                backgroundColor: '#007BFF',
                 color: 'white',
                 display: 'flex',
                 justifyContent: 'center',
@@ -127,25 +144,22 @@ const HRregister = () => {
               }}>
                 1
               </div>
-              {/* <p style={{ fontSize: '12px', marginTop: '5px', color: '#007BFF' }}>Step 1</p> */}
             </div>
-
             {/* Line */}
             <div style={{
               flex: 1,
               height: '5px',
-              backgroundColor: '#007BFF', // Blue for completed step
+              backgroundColor: '#007BFF',
               margin: '0 10px',
               borderRadius: '5px',
             }}></div>
-
             {/* Step 2 */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <div style={{
                 width: '30px',
                 height: '30px',
                 borderRadius: '50%',
-                backgroundColor: '#007BFF', // Blue for active step
+                backgroundColor: '#007BFF',
                 color: 'white',
                 display: 'flex',
                 justifyContent: 'center',
@@ -154,7 +168,6 @@ const HRregister = () => {
               }}>
                 2
               </div>
-              {/* <p style={{ fontSize: '12px', marginTop: '5px', color: '#007BFF' }}>Step 2</p> */}
             </div>
           </div>
           <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '400px', marginTop: '20px' }}>
@@ -196,16 +209,16 @@ const HRregister = () => {
                 <label htmlFor="password">Password</label>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <input
-                    type={passwordVisible ? 'text' : 'password'} // Toggle between text and password input
+                    type={passwordVisible ? 'text' : 'password'}
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}
                     placeholder="Enter Password"
-                    style={{width:' 100%'}} 
+                    style={{ width: '100%' }}
                   />
                   <FontAwesomeIcon
-                    icon={passwordVisible ? faEyeSlash : faEye} // Switch between eye and eye-slash icon
-                    onClick={() => setPasswordVisible(!passwordVisible)} // Toggle password visibility
+                    icon={passwordVisible ? faEyeSlash : faEye}
+                    onClick={() => setPasswordVisible(!passwordVisible)}
                     style={{ cursor: 'pointer', marginLeft: '10px' }}
                   />
                 </div>
@@ -221,9 +234,16 @@ const HRregister = () => {
                 />
               </div>
             </div>
-            <button className='btn-general' type="submit" disabled={isSubmitting}>
+            <motion.button
+              className='btn-general'
+              type="submit"
+              disabled={isSubmitting}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              style={{ width: '100%', marginTop: '20px' }}
+            >
               {isSubmitting ? 'Creating an account...' : 'Create an Account'}
-            </button>
+            </motion.button>
           </form>
 
           <div className="login">
@@ -231,13 +251,13 @@ const HRregister = () => {
               Already have an account? <Link to="/login"><span>Log in</span></Link>
             </h1>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      <div className='right-side' style={{ flex: 1 }}>
+      <motion.div className='right-side' style={{ flex: 1 }} {...fadeInRight}>
         <img src={Sideimage} alt="Login side image" style={{ width: '100%', height: '100vh', objectFit: 'cover' }} />
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
