@@ -89,7 +89,13 @@ const PayrollManagement = () => {
 
         setPayrollTrend({
           months: trend?.payroll_cost_trend?.length
-            ? trend.payroll_cost_trend.map(item => `Month ${item.month}`)
+            ? trend.payroll_cost_trend.map(item => {
+                const monthNames = [
+                  "January", "February", "March", "April", "May", "June",
+                  "July", "August", "September", "October", "November", "December"
+                ];
+                return monthNames[item.month - 1]; // Map numeric month to name
+              })
             : ["No Data"],
           payrollCosts: trend?.payroll_cost_trend?.length
             ? trend.payroll_cost_trend.map(item => item.payroll_cost)

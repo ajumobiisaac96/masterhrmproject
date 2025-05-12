@@ -177,29 +177,54 @@ const LeaveManagment = () => {
 
           {/* Charts Section */}
           <div className="leave-managment-charts" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', boxShadow:'none' }}>
-            <div style={{ width: '48%', padding: '10px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: '#fff' }}>
+            <div style={{ width: '48%', padding: '10px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: '#fff', height: '390px' }}>
               <h3 style={{ textAlign: 'center', marginBottom: '10px' }}>Monthly Leave Distribution</h3>
+              <p style={{ textAlign: 'center', color: '#6c757d', fontSize: '14px', marginBottom: '20px' }}>Last 6 months</p>
               {circularChartData.length > 0 ? (
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart>
-                    <Pie
-                      data={circularChartData}
-                      dataKey="value"
-                      nameKey="name"
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={100}
-                      fill="#8884d8"
-                      label
-                    >
-                      {circularChartData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                    <Legend />
-                  </PieChart>
-                </ResponsiveContainer>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  {/* Doughnut Chart */}
+                  <ResponsiveContainer width="50%" height={250}>
+                    <PieChart>
+                      <Pie
+                        data={circularChartData}
+                        dataKey="value"
+                        nameKey="name"
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={80}
+                        outerRadius={100}
+                        fill="#8884d8"
+                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      >
+                        {circularChartData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                    </PieChart>
+                  </ResponsiveContainer>
+
+                  {/* Legends */}
+                  <div style={{ width: '45%' }}>
+                    {circularChartData.map((entry, index) => (
+                      <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                        <div
+                          style={{
+                            width: '12px',
+                            height: '12px',
+                            backgroundColor: COLORS[index % COLORS.length],
+                            borderRadius: '50%',
+                            marginRight: '10px',
+                          }}
+                        ></div>
+                        <span style={{ fontSize: '14px', color: '#333', marginRight: 'auto' }}>{entry.name}</span>
+                        <span style={{ fontSize: '14px', color: '#6c757d' }}>
+                          {leaveStats.total > 0 ? ((entry.value / leaveStats.total) * 100).toFixed(0) : 0}%
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               ) : (
                 <p style={{ textAlign: 'center' }}>No data available for Monthly Leave Distribution</p>
               )}

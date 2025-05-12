@@ -218,7 +218,7 @@ const AddEmployeeToDepartment = () => {
             <h3>Success!</h3>
             <p>Employees have been successfully added to the department.</p>
             <button
-              onClick={() => navigate('/department')}
+              onClick={() => navigate(`/department/edit-department/${departmentId}`)}
               style={{
                 marginTop: '20px',
                 padding: '10px 20px',
