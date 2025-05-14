@@ -8,7 +8,7 @@ const UserNavbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [employeeData, setEmployeeData] = useState(null); // To store employee data
   const [greeting, setGreeting] = useState(""); // For greeting message based on time
-  const [unreadCount, setUnreadCount] = useState(6); // Example unread notification count
+  const [unreadCount, setUnreadCount] = useState(0); // Example unread notification count
 
   useEffect(() => {
     // Fetch employee profile data when the component mounts
@@ -42,7 +42,31 @@ const UserNavbar = () => {
       }
     };
 
+    // Fetch unread notifications count
+    const fetchUnreadCount = async () => {
+      const storedToken = localStorage.getItem('employeeAuthToken');
+      if (!storedToken) return;
+      const token = JSON.parse(storedToken).access_token;
+      if (!token) return;
+
+      try {
+        const response = await fetch('https://proximahr.onrender.com/api/v2/employee/notifications/', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Unread count on navbar load:', data); // <-- Add this
+          setUnreadCount(data.count); // Adjust this if your API returns a different key
+        }
+      } catch (err) {
+        console.error('Error fetching unread count:', err);
+      }
+    };
+
     fetchEmployeeProfile();
+    fetchUnreadCount();
 
     // Set greeting based on the time of day
     const hours = new Date().getHours();
@@ -60,7 +84,7 @@ const UserNavbar = () => {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%'}}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginTop: '-20px', marginLeft:'-10px'}}>
       {/* Left Side: User's Name and Greeting */}
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <div style={{ marginLeft: '20px' }}>
@@ -77,43 +101,41 @@ const UserNavbar = () => {
       <div style={{ display: 'flex', alignItems: 'center' }}>
         {/* Notification Icon */}
         <div
-          className="notification"
-          onClick={toggleDropdown}
-          style={{
-            position: 'relative',
-            cursor: 'pointer',
-            marginRight: '20px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '40px',
-            height: '40px',
-            borderRadius: '50%',
-            backgroundColor: '#f1f1f1',
-          }}
-        >
-          <FontAwesomeIcon icon={faBell} style={{ fontSize: '18px', color: '#6c757d' }} />
-          <span
+            className="notification"
+            onClick={toggleDropdown}
             style={{
-              fontSize: '12px',
-              color: '#fff',
-              fontWeight: 'bold',
-              backgroundColor: '#007bff',
-              borderRadius: '50%',
-              padding: '2px 6px',
-              position: 'absolute',
-              top: '5px',
-              right: '5px',
+              position: 'relative',
+              cursor: 'pointer',
+              marginRight: '15px',
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
-            {unreadCount}
-          </span>
-          {showDropdown && (
-            <div style={{ position: 'absolute', top: '100%', right: 0, zIndex: 1000 }}>
-              <NotificationDropdown />
-            </div>
-          )}
-        </div>
+            <FontAwesomeIcon icon={faBell} style={{ fontSize: '20px', color: '' }} />
+            <h6
+              style={{
+                position: 'absolute',
+                top: '',
+                right: '10px',
+                backgroundColor: '#007BFF',
+                color: '#fff',
+                borderRadius: '50%',
+                width: '16px',
+                height: '16px',
+                fontSize: '10px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              {unreadCount}
+            </h6>
+            {showDropdown && (
+              <div style={{ position: 'absolute', top: '100%', right: 0, zIndex: 1000 }}>
+                <NotificationDropdown setUnreadCount={setUnreadCount} /> {/* Pass setUnreadCount */}
+              </div>
+            )}
+          </div>
 
         {/* User Profile Section */}
         <div
