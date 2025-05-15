@@ -1,1379 +1,3 @@
-// // import {React,useState} from 'react'
-// // import Sidebar from '../components/Sidebar'
-// // import EmployeeNavbar from '../components/EmployeeNavbar.jsx'
-// // import './EmployeeDashboard.css'
-// // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// // import Test from '../assets/test.png' 
-
-// // const ProfileDashboard = () => {
-
-// //   const [activeSection, setActiveSection] = useState('personalInfo');
-
-// //   return (
-// //       <div>
-// //         <div>
-// //         <div className="main-dashboard">
-// //           <Sidebar/>
-// //           <div className="dashboard">
-          
-// //           <EmployeeNavbar/>
-
-// //             <hr className="horizontal" />
-
-// //             <div className="employee-dashboard-info" style={{display:'flex', justifyContent:'space-between', width: '1000px'}}>
-              
-// //               <div className="profile-info" style={{display:'flex', }}>
-// //                 <div className="profile-image">
-// //                   <img src={Test} alt="" style={{ width: '100px' , height: '100px' }} />
-// //                 </div>
-// //                 <div className="dashboard-details" style={{flexDirection:'column', alignItems:'flex-start', height:'40px'}}>
-// //                   <h5>David Kim</h5>
-// //                   <h6>HRMS Admnistrator</h6>
-// //                   <h6>davidkim@proxima.com</h6>
-// //                 </div>
-// //               </div>
-              
-// //               <div className="employee-dashboard-info" style={{display:'flex', flexDirection:'column', marginLeft:'-200px'}}>
-// //                 <h1>Working Hours</h1>
-// //                 <div className="clock" style={{display:'flex', alignItems:'center', marginTop:'-20px'}} >
-// //                   <div className="timer" 
-// //                   style={{
-// //                     width: '100px',
-// //                       height: '38px',
-// //                       padding: '8px',
-// //                       marginTop:'10px',
-// //                       borderRadius: '4px',
-// //                       border: '1px solid #F8F8F8',
-// //                       background:'#D9D9D9'
-// //                   }}>00:00:00</div>
-// //                   <button style={{width:'100px'}}> <FontAwesomeIcon icon="fa-solid fa-right-from-bracket" />Clock Out</button>
-// //                 </div>
-// //               </div>
-
-// //             </div>
-            
-// //             <div className="dashboard-details-1">
-// //               <div className="first-grid">
-// //               <FontAwesomeIcon icon="fa-solid fa-clock" className="dashboard-icon"/>
-// //                 <div>
-// //                   <h6>Attendance</h6>
-// //                   <h5>90%</h5>
-// //                 </div>
-// //               </div>
-  
-// //               <div className="first-grid">
-// //               <FontAwesomeIcon icon="fa-solid fa-calendar" className="dashboard-icon" />
-// //                 <div>
-// //                   <h6>Leave Balance</h6>
-// //                   <h5>0 Days</h5>
-// //                 </div>
-// //               </div>
-  
-// //               <div className="first-grid">
-// //               <FontAwesomeIcon icon="fa-solid fa-calendar" className="dashboard-icon" />
-// //                 <div>
-// //                   <h6>Net Pay</h6>
-// //                   <h5>Salary :Dec 25</h5>
-// //                 </div>
-// //               </div>
-  
-// //               <div className="first-grid">
-// //               <FontAwesomeIcon icon="fa-solid fa-users" className="dashboard-icon" />
-// //                 <div>
-// //                   <h6>Overtime Hours</h6>
-// //                   <h5>15 Hours</h5>
-// //                 </div>
-// //               </div>
-// //             </div>
-
-// //             {/* Subnav Buttons */}
-// //       <div className="employee-profile-info">
-// //                   <div>
-// //                     <button
-// //                       onClick={() => setActiveSection('personalInfo')}
-// //                       className={activeSection === 'personalInfo' ? 'active' : ''}
-// //                     >
-// //                       <FontAwesomeIcon icon="fa-building" className="icon" />
-// //                       Account Setting
-// //                     </button>
-// //                   </div>
-// //                   <div>
-// //                     <button
-// //                       onClick={() => setActiveSection('compensation')}
-// //                       className={activeSection === 'compensation' ? 'active' : ''}
-// //                     >
-// //                       <FontAwesomeIcon icon="fa-solid fa-money-bill" className="icon" />
-// //                       Pesonal Information
-// //                     </button>
-// //                   </div>
-// //                   <div>
-// //                     <button
-// //                       onClick={() => setActiveSection('employeeDetails')}
-// //                       className={activeSection === 'employeeDetails' ? 'active' : ''}
-// //                     >
-// //                       <FontAwesomeIcon icon="fa-solid fa-list-check" className="icon" />
-// //                       Employment Details
-// //                     </button>
-// //                   </div>
-// //                   <div>
-// //                     <button
-// //                       onClick={() => setActiveSection('performanceMetrics')}
-// //                       className={activeSection === 'performanceMetrics' ? 'active' : ''}
-// //                     >
-// //                       <FontAwesomeIcon icon="fa-solid fa-chart-simple" className="icon" />
-// //                       Compensation
-// //                     </button>
-// //                   </div>
-// //                 </div>
-
-// //                 {/* Account Section */}
-// //                 <div
-// //                   style={{ display: activeSection === 'personalInfo' ? 'block' : 'none' }}
-// //                 >
-// //                   <div className="dashboard-detail">
-// //                     <div className="header">
-// //                       <h1>Account Setting</h1>
-// //                     </div>
-// //                     <div className="dashboard-details-2-1">
-// //                       <div className="row-1" style={{flexDirection:'column'}} >
-// //                         <div style={{marginTop:'10px', marginBottom:'30px'}}>
-// //                           <label htmlFor="">Email</label>
-// //                           <div className="input-div" style={{display:'flex',  width:'950px', border:'2px solid #D9D9D9', alignItems:'center', borderRadius:'8px', marginBottom:'20px'}} >
-// //                             <input type="text" placeholder='Michael Chen@robotec.com'  style={{width:'900px', height:'40px', outline:'none', padding:'20px'}}/>
-// //                             <h3>Edit</h3>
-// //                           </div>
-// //                         </div> 
-// //                         <div style={{marginTop:'30px', marginBottom:'30px'}}>
-// //                           <label htmlFor="">Emergency contact Name</label>
-// //                           <div className="input-div" style={{display:'flex',  width:'950px', border:'2px solid #D9D9D9', alignItems:'center', borderRadius:'8px', marginBottom:'20px'}} >
-// //                             <input type="text" placeholder='Sarah Owen'  style={{width:'900px', height:'40px', outline:'none', padding:'20px'}}/>
-// //                             <h3>Edit</h3>
-// //                           </div>
-// //                         </div>
-// //                         <div style={{marginTop:'30px', marginBottom:'30px', width:'300px'}}>
-// //                           <label htmlFor="">Choose Relationship to Employee</label>
-// //                           <div className="input-div" style={{display:'flex',  width:'950px', border:'2px solid #D9D9D9', alignItems:'center', borderRadius:'8px', marginBottom:'20px'}} >
-// //                             <input type="text" placeholder=''  style={{width:'900px', height:'40px', outline:'none', padding:'20px'}}/>
-// //                             <h3>Edit</h3>
-// //                           </div>
-// //                         </div>   
-// //                         <div style={{marginTop:'30px', marginBottom:'30px', width:'300px'}}>
-// //                           <label htmlFor="">Emergency contact Phone Number </label>
-// //                           <div className="input-div" style={{display:'flex',  width:'950px', border:'2px solid #D9D9D9', alignItems:'center', borderRadius:'8px', marginBottom:'20px'}} >
-// //                             <input type="text" placeholder='903-406-8577'  style={{width:'900px', height:'40px', outline:'none', padding:'20px'}}/>
-// //                             <h3>Edit</h3>
-// //                           </div>
-// //                         </div>
-// //                         <div style={{marginTop:'30px', marginBottom:'30px'}}>
-// //                           <label htmlFor="">Password</label>
-// //                           <div className="input-div" style={{display:'flex',  width:'950px', border:'2px solid #D9D9D9', alignItems:'center', borderRadius:'8px', marginBottom:'20px'}} >
-// //                             <input type="password"  style={{width:'900px', height:'40px', outline:'none', padding:'20px'}}/>
-// //                             <h3>Edit</h3>
-// //                           </div>
-// //                         </div>              
-                                                                    
- 
-// //                       </div>
-
-// //                     </div>
-// //                   </div>
-// //                 </div>
-
-// //                 {/* Peresonal Information Section */}
-// //                 <div
-// //                   style={{ display: activeSection === 'compensation' ? 'block' : 'none' }}
-// //                 >
-// //                   <div className="dashboard-detail">
-// //                     <div className="header">
-// //                       <h1>Personal Details</h1>
-// //                     </div>
-// //                     <div className="dashboard-details-2-1">
-// //                       <div className="row-1">
-// //                         <div>
-// //                           <h2>Name</h2>
-// //                           <h3>David Kim</h3>
-// //                         </div>
-// //                         <div>
-// //                           <h2>Job Title</h2>
-// //                           <h3>Software Engineer</h3>
-// //                         </div>
-// //                         <div>
-// //                           <h2>Email</h2>
-// //                           <h3>davidkim@proxima.com</h3>
-// //                         </div>
-// //                         <div>
-// //                           <h2>Department</h2>
-// //                           <h3>Engineering</h3>
-// //                         </div>
-// //                       </div>
-// //                       <div className="row-1">
-// //                       <div>
-// //                         <h2>Address</h2>
-// //                         <h3>No 34 Adamu Michaels Street</h3>
-// //                       </div>
-// //                       {/* <div>
-// //                         <h2>Work Mode</h2>
-// //                         <h3>On site</h3>
-// //                       </div>
-// //                       <div>
-// //                         <h2>Work Location</h2>
-// //                         <h3>Kaduna Office Floor 5v</h3>
-// //                       </div>
-// //                       <div>
-// //                         <h2>Role</h2>
-// //                         <h3>Full Time</h3>
-// //                       </div> */}
-// //                     </div>
-
-// //                     </div>
-// //                   </div>
-// //                 </div>
-
-// //                           {/* Employee Details */}
-// //                           <div
-// //                   style={{ display: activeSection === 'employeeDetails' ? 'block' : 'none' }}
-// //                 >
-// //                   <div className="dashboard-detail">
-// //                     <div className="header">
-// //                       <h1>Employee Details</h1>
-// //                     </div>
-// //                     <div className="dashboard-details-2-1">
-// //                       <div className="row-1">
-// //                         <div>
-// //                           <h2>Job Title</h2>
-// //                           <h3>Michael Chen</h3>
-// //                         </div>
-// //                         <div>
-// //                           <h2>Employee ID</h2>
-// //                           <h3>Tue Nov 12 1998</h3>
-// //                         </div>
-// //                         <div>
-// //                           <h2>Employment Date</h2>
-// //                           <h3>March 15, 2021</h3>
-// //                         </div>
-// //                         <div>
-// //                           <h2>Department</h2>
-// //                           <h3>Design</h3>
-// //                         </div>
-// //                       </div>
-// //                       <div className="row-1">
-// //                       <div>
-// //                         <h2>Head of Department</h2>
-// //                         <h3>David Wilson</h3>
-// //                       </div>
-// //                       <div>
-// //                         <h2>Work Mode</h2>
-// //                         <h3>On site</h3>
-// //                       </div>
-// //                       <div>
-// //                         <h2>Work Location</h2>
-// //                         <h3>Kaduna Office Floor 5v</h3>
-// //                       </div>
-// //                       <div>
-// //                         <h2>Role</h2>
-// //                         <h3>Full Time</h3>
-// //                       </div>
-// //                     </div>
-
-// //                     <div className="row-1">
-// //                       <div>
-// //                         <h2>working Hours</h2>
-// //                         <h3>8 Hours</h3>
-// //                       </div>
-// //                       <div>
-// //                         <h2>Vacation Days</h2>
-// //                         <h3>30 Days</h3>
-// //                       </div>
-// //                       <div>
-// //                         {/* <h2>Employee Date</h2>
-// //                         <h3>March 15,2021</h3> */}
-// //                       </div>
-// //                       <div>
-// //                         {/* <h2>Department</h2>
-// //                         <h3>Design</h3> */}
-// //                       </div>
-// //                     </div>
-
-// //                     </div>
-// //                   </div>
-// //                 </div>
-
-// //                         {/* Compensation */}
-// //                           <div
-// //                   style={{ display: activeSection === 'performanceMetrics' ? 'block' : 'none' }}
-// //                 >
-// // <div className="dashboard-detail">
-// //               <div className="header">
-// //                 <h1>Compensation</h1>
-// //               </div>
-// //               <div className="dashboard-details-2-2">
-// //                 <div className="row-1">
-// //                   <div>
-// //                     <h2>Basic Salary</h2>
-// //                     <h3 className="green">750,000/month</h3>
-// //                   </div>
-// //                   <div>
-// //                     <h2>Bonuses</h2>
-// //                     <h3>Status: <span className="green">Eligible</span></h3>
-// //                     <h3>Performance Bonus: <span className="green">150,000/year</span></h3>
-// //                   </div>
-// //                   <div>
-// //                     <h2>Allowances</h2>
-// //                     <h3>Housing: <span className="green">N60,000</span></h3>
-// //                     <h3>Medical: <span className="green">40,000</span></h3>
-// //                     <h3>Transport: <span className="green">N30,000</span></h3>
-// //                   </div>
-// //                   <div>
-// //                     <h2>Deductions</h2>
-// //                     <h3>Tax: <div className="red">N45,000</div></h3>
-// //                     <h3>Retirement Fund: <div className="red">N22,500</div></h3>
-// //                   </div>
-// //                 </div>
-// //                 <div className="row-1">
-// //                   <div>
-// //                     <h2>Pension Plan</h2>
-// //                     <h3>Employee: <span className="green">5%</span></h3>
-// //                     <h3>Employer: <span className="green">7.5%</span></h3>
-// //                     <h3>Annual Contribution: <span className="green">N720,000</span></h3>
-// //                   </div>
-// //                   <div>
-// //                     <h2>Health Insurance</h2>
-// //                     <h3>Coverage: Comprehensive (Employee + spouse and child)</h3>
-// //                     <h3>Provider: LeadWay Health Insurance</h3>
-// //                   </div>
-// //                   <div>
-// //                     <h2>Net Pay</h2>
-// //                     <h3>N822,500/month <span>(after allowances and deductions)</span></h3>
-// //                   </div>
-// //                   <div className="empty-div"></div>
-// //                 </div>
-// //               </div>
-// //             </div>
-                  
-// //                 </div>
-// //           </div>
-// //         </div>
-// //         </div>
-// //     </div>
-// //   )
-// // }
-
-// // export default ProfileDashboard
-
-// import React, { useState, useEffect } from 'react';
-// import Sidebar from '../components/Sidebar';
-// import EmployeeNavbar from '../components/EmployeeNavbar.jsx';
-// import './EmployeeDashboard.css';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import Test from '../assets/test.png'; // Placeholder image
-
-// const ProfileDashboard = () => {
-//   const [activeSection, setActiveSection] = useState('personalInfo');
-//   const [employeeData, setEmployeeData] = useState(null); // To store employee data
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-
-//   // Fetch employee profile data from the API
-//   useEffect(() => {
-//     const fetchEmployeeProfile = async () => {
-//       const storedToken = localStorage.getItem('employeeAuthToken'); // Retrieve token from localStorage as 'employeeAuthToken'
-      
-//       if (!storedToken) {
-//         setError('Authentication required');
-//         setLoading(false);
-//         return;
-//       }
-
-//       const token = JSON.parse(storedToken).token; // Parse the stored token object to get the actual token
-//       if (!token) {
-//         setError('Token not found');
-//         setLoading(false);
-//         return;
-//       }
-
-//       try {
-//         const response = await fetch('https://proximahr.onrender.com/employee/profile', {
-//           headers: {
-//             'Authorization': `Bearer ${token}`, // Send token in the Authorization header
-//           },
-//         });
-
-//         if (!response.ok) {
-//           throw new Error('Failed to fetch employee data');
-//         }
-
-//         const data = await response.json();
-//         console.log("API Response:", data); // Log the API response in the console
-
-//         // Ensure data is under response.data, and set the employee data
-//         setEmployeeData(data.data); // Update here to access the correct 'data' object from the API response
-//       } catch (err) {
-//         setError(err.message);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchEmployeeProfile();
-//   }, []); // Empty dependency array ensures this runs only once on component mount
-
-//   return (
-//     <div>
-//       <div className="main-dashboard">
-//         <Sidebar />
-//         <div className="dashboard">
-//           <EmployeeNavbar />
-
-//           <hr className="horizontal" />
-
-//           {/* Employee Profile Section */}
-//           <div className="employee-dashboard-info" style={{ display: 'flex', justifyContent: 'space-between', width: '1000px' }}>
-//             <div className="profile-info" style={{ display: 'flex' }}>
-//               <div className="profile-image">
-//                 <img src={employeeData && employeeData.profile_image ? employeeData.profile_image : Test} alt="Profile" style={{ width: '100px', height: '100px' }} />
-//               </div>
-//               <div className="dashboard-details" style={{ flexDirection: 'column', alignItems: 'flex-start', height: '40px' }}>
-//                 <h5>{employeeData ? `${employeeData.first_name} ${employeeData.last_name}` : 'Loading...'}</h5>
-//                 <h6>{employeeData ? employeeData.job_title : 'Loading...'}</h6>
-//                 <h6>{employeeData ? employeeData.email : 'Loading...'}</h6>
-//               </div>
-//             </div>
-
-//             <div className="employee-dashboard-info" style={{ display: 'flex', flexDirection: 'column', marginLeft: '-200px' }}>
-//               <h1>Working Hours</h1>
-//               <div className="clock" style={{ display: 'flex', alignItems: 'center', marginTop: '-20px' }}>
-//                 <div className="timer" style={{ width: '100px', height: '38px', padding: '8px', marginTop: '10px', borderRadius: '4px', border: '1px solid #F8F8F8', background: '#D9D9D9' }}>
-//                   {employeeData ? employeeData.working_hours : 0}
-//                 </div>
-//                 <button style={{ width: '100px' }}> <FontAwesomeIcon icon="fa-solid fa-right-from-bracket" /> Clock Out</button>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Dashboard Summary */}
-//           <div className="dashboard-details-1">
-//             <div className="first-grid">
-//               <FontAwesomeIcon icon="fa-solid fa-clock" className="dashboard-icon" />
-//               <div>
-//                 <h6>Attendance</h6>
-//                 <h5>{employeeData ? `${employeeData.attendance || 0}%` : 0}%</h5>
-//               </div>
-//             </div>
-
-//             <div className="first-grid">
-//               <FontAwesomeIcon icon="fa-solid fa-calendar" className="dashboard-icon" />
-//               <div>
-//                 <h6>Leave Balance</h6>
-//                 <h5>{employeeData ? `${employeeData.leave_balance || 0} Days` : 0} Days</h5>
-//               </div>
-//             </div>
-
-//             <div className="first-grid">
-//               <FontAwesomeIcon icon="fa-solid fa-calendar" className="dashboard-icon" />
-//               <div>
-//                 <h6>Net Pay</h6>
-//                 <h5>{employeeData ? `Salary: ${employeeData.net_pay || 0}` : 0}</h5>
-//               </div>
-//             </div>
-
-//             <div className="first-grid">
-//               <FontAwesomeIcon icon="fa-solid fa-users" className="dashboard-icon" />
-//               <div>
-//                 <h6>Overtime Hours</h6>
-//                 <h5>{employeeData ? `${employeeData.overtime_hours || 0} Hours` : 0} Hours</h5>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Subnav Buttons */}
-//           <div className="employee-profile-info">
-//             <div>
-//               <button
-//                 onClick={() => setActiveSection('personalInfo')}
-//                 className={activeSection === 'personalInfo' ? 'active' : ''}
-//               >
-//                 <FontAwesomeIcon icon="fa-building" className="icon" />
-//                 Account Setting
-//               </button>
-//             </div>
-//             <div>
-//               <button
-//                 onClick={() => setActiveSection('compensation')}
-//                 className={activeSection === 'compensation' ? 'active' : ''}
-//               >
-//                 <FontAwesomeIcon icon="fa-solid fa-money-bill" className="icon" />
-//                 Personal Information
-//               </button>
-//             </div>
-//             <div>
-//               <button
-//                 onClick={() => setActiveSection('employeeDetails')}
-//                 className={activeSection === 'employeeDetails' ? 'active' : ''}
-//               >
-//                 <FontAwesomeIcon icon="fa-solid fa-list-check" className="icon" />
-//                 Employment Details
-//               </button>
-//             </div>
-//             <div>
-//               <button
-//                 onClick={() => setActiveSection('performanceMetrics')}
-//                 className={activeSection === 'performanceMetrics' ? 'active' : ''}
-//               >
-//                 <FontAwesomeIcon icon="fa-solid fa-chart-simple" className="icon" />
-//                 Compensation
-//               </button>
-//             </div>
-//           </div>
-
-//           {/* Account Setting Section */}
-//           <div style={{ display: activeSection === 'personalInfo' ? 'block' : 'none' }}>
-//             <div className="dashboard-detail">
-//               <div className="header">
-//                 <h1>Account Setting</h1>
-//               </div>
-//               <div className="dashboard-details-2-1">
-//                 <div className="row-1" style={{ flexDirection: 'column' }}>
-//                   <div style={{ marginTop: '10px', marginBottom: '30px' }}>
-//                     <label>Email</label>
-//                     <div className="input-div" style={{ display: 'flex', width: '950px', border: '2px solid #D9D9D9', alignItems: 'center', borderRadius: '8px', marginBottom: '20px' }} >
-//                       <input type="text" placeholder={employeeData ? employeeData.email : 'Loading...'} style={{ width: '900px', height: '40px', outline: 'none', padding: '20px' }} />
-//                       <h3>Edit</h3>
-//                     </div>
-//                   </div>
-//                   {/* More input fields like Emergency Contact, Address, etc. */}
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Personal Information Section */}
-//           <div style={{ display: activeSection === 'compensation' ? 'block' : 'none' }}>
-//             <div className="dashboard-detail">
-//               <div className="header">
-//                 <h1>Personal Details</h1>
-//               </div>
-//               <div className="dashboard-details-2-1">
-//                 <div className="row-1">
-//                   <div>
-//                     <h2>Name</h2>
-//                     <h3>{employeeData ? `${employeeData.first_name} ${employeeData.last_name}` : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Job Title</h2>
-//                     <h3>{employeeData ? employeeData.job_title : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Email</h2>
-//                     <h3>{employeeData ? employeeData.email : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Department</h2>
-//                     <h3>{employeeData ? employeeData.department : 'Loading...'}</h3>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Employee Details Section */}
-//           <div style={{ display: activeSection === 'employeeDetails' ? 'block' : 'none' }}>
-//             <div className="dashboard-detail">
-//               <div className="header">
-//                 <h1>Employee Details</h1>
-//               </div>
-//               <div className="dashboard-details-2-1">
-//                 <div className="row-1">
-//                   <div>
-//                     <h2>Employee ID</h2>
-//                     <h3>{employeeData ? employeeData.employee_id : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Work Mode</h2>
-//                     <h3>{employeeData ? employeeData.work_mode : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Work Location</h2>
-//                     <h3>{employeeData ? employeeData.work_location : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Employment Date</h2>
-//                     <h3>{employeeData ? new Date(employeeData.employment_date).toDateString() : 'Loading...'}</h3>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Compensation Section */}
-//           <div style={{ display: activeSection === 'performanceMetrics' ? 'block' : 'none' }}>
-//             <div className="dashboard-detail">
-//               <div className="header">
-//                 <h1>Compensation</h1>
-//               </div>
-//               <div className="dashboard-details-2-1">
-//                 <div className="row-1">
-//                   <div>
-//                     <h2>Basic Salary</h2>
-//                     <h3>{employeeData ? `₦${employeeData.base_salary}` : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Overtime Hours Allowance</h2>
-//                     <h3>{employeeData ? `₦${employeeData.overtime_hours_allowance}/Hour` : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Deductions</h2>
-//                     <h3>{employeeData ? `PAYE: ₦${employeeData.paye_deduction}` : 'Loading...'}</h3>
-//                   </div>
-//                 </div>
-//                 <div className="row-1">
-//                   <div>
-//                     <h2>Net Pay</h2>
-//                     <h3>{employeeData ? `₦${employeeData.net_pay}/month` : 'Loading...'}</h3>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ProfileDashboard;
-
-// import React, { useState, useEffect } from 'react';
-// import Sidebar from '../components/Sidebar';
-// import EmployeeNavbar from '../components/EmployeeNavbar.jsx';
-// import './EmployeeDashboard.css';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import Test from '../assets/test.png'; // Placeholder image
-
-// const ProfileDashboard = () => {
-//   const [activeSection, setActiveSection] = useState('personalInfo');
-//   const [employeeData, setEmployeeData] = useState(null); // To store employee data
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const [updatedData, setUpdatedData] = useState({
-//     email: '',
-//     emergencyContactName: '',
-//     emergencyContactPhone: '',
-//     relationshipToEmployee: '',
-//   });
-//   const [profileUpdated, setProfileUpdated] = useState(false);
-
-//   // Fetch employee profile data from the API
-//   useEffect(() => {
-//     const fetchEmployeeProfile = async () => {
-//       const storedToken = localStorage.getItem('employeeAuthToken');
-      
-//       if (!storedToken) {
-//         setError('Authentication required');
-//         setLoading(false);
-//         return;
-//       }
-  
-//       const token = JSON.parse(storedToken).token;
-//       if (!token) {
-//         setError('Token not found');
-//         setLoading(false);
-//         return;
-//       }
-  
-//       try {
-//         const response = await fetch('https://proximahr.onrender.com/employee/profile', {
-//           headers: { 'Authorization': `Bearer ${token}` },
-//         });
-  
-//         if (!response.ok) {
-//           throw new Error('Failed to fetch employee data');
-//         }
-  
-//         const data = await response.json();
-//         console.log("API Response:", data);
-  
-//         setEmployeeData(data.data); // Store fetched employee data
-//         setUpdatedData({
-//           email: data.data.email,
-//           emergencyContactName: data.data.emergency_contact_name,
-//           emergencyContactPhone: data.data.emergency_contact_phone,
-//           relationshipToEmployee: data.data.relationship_to_employee,
-//         });
-//       } catch (err) {
-//         setError(err.message);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-  
-//     fetchEmployeeProfile();
-//   }, [profileUpdated]); // Re-fetch when profileUpdated changes
-  
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     const storedToken = localStorage.getItem('employeeAuthToken');
-//     const token = JSON.parse(storedToken).token;
-  
-//     if (!token) {
-//       setError('Token not found');
-//       return;
-//     }
-  
-//     try {
-//       const response = await fetch('https://proximahr.onrender.com/employee/update-profile', {
-//         method: 'PUT',
-//         headers: {
-//           'Authorization': `Bearer ${token}`,
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({
-//           email: updatedData.email,
-//           emergency_contact: {
-//             name: updatedData.emergencyContactName,
-//             phone: updatedData.emergencyContactPhone,
-//             relationship: updatedData.relationshipToEmployee,
-//           },
-//         }),
-//       });
-  
-//       if (!response.ok) {
-//         throw new Error('Failed to update profile');
-//       }
-  
-//       const result = await response.json();
-//       console.log('Profile updated:', result);
-//       alert('Profile updated successfully!');
-      
-//       // Trigger re-fetch by updating the state
-//       setProfileUpdated(!profileUpdated);
-//     } catch (error) {
-//       console.error('Error submitting profile update:', error.message);
-//       setError('Error updating profile. Please try again.');
-//     }
-//   };
-  
-
-//   return (
-//     <div>
-//       <div className="main-dashboard">
-//         <Sidebar />
-//         <div className="dashboard">
-//           <EmployeeNavbar />
-
-//           <hr className="horizontal" />
-
-//           {/* Employee Profile Section */}
-//           <div className="employee-dashboard-info" style={{ display: 'flex', justifyContent: 'space-between', width: '1000px' }}>
-//             <div className="profile-info" style={{ display: 'flex' }}>
-//               <div className="profile-image">
-//                 <img src={employeeData && employeeData.profile_image ? employeeData.profile_image : Test} alt="Profile" style={{ width: '100px', height: '100px' }} />
-//               </div>
-//               <div className="dashboard-details" style={{ flexDirection: 'column', alignItems: 'flex-start', height: '40px' }}>
-//                 <h5>{employeeData ? `${employeeData.first_name} ${employeeData.last_name}` : 'Loading...'}</h5>
-//                 <h6>{employeeData ? employeeData.job_title : 'Loading...'}</h6>
-//                 <h6>{employeeData ? employeeData.email : 'Loading...'}</h6>
-//               </div>
-//             </div>
-
-//             <div className="employee-dashboard-info" style={{ display: 'flex', flexDirection: 'column', marginLeft: '-200px' }}>
-//               <h1>Working Hours</h1>
-//               <div className="clock" style={{ display: 'flex', alignItems: 'center', marginTop: '-20px' }}>
-//                 <div className="timer" style={{ width: '100px', height: '38px', padding: '8px', marginTop: '10px', borderRadius: '4px', border: '1px solid #F8F8F8', background: '#D9D9D9' }}>
-//                   {employeeData ? employeeData.working_hours : 0}
-//                 </div>
-//                 <button style={{ width: '100px' }}> <FontAwesomeIcon icon="fa-solid fa-right-from-bracket" /> Clock Out</button>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Dashboard Summary */}
-//           <div className="dashboard-details-1">
-//             <div className="first-grid">
-//               <FontAwesomeIcon icon="fa-solid fa-clock" className="dashboard-icon" />
-//               <div>
-//                 <h6>Attendance</h6>
-//                 <h5>{employeeData ? `${employeeData.attendance || 0}%` : 0}%</h5>
-//               </div>
-//             </div>
-
-//             <div className="first-grid">
-//               <FontAwesomeIcon icon="fa-solid fa-calendar" className="dashboard-icon" />
-//               <div>
-//                 <h6>Leave Balance</h6>
-//                 <h5>{employeeData ? `${employeeData.leave_balance || 0} Days` : 0} Days</h5>
-//               </div>
-//             </div>
-
-//             <div className="first-grid">
-//               <FontAwesomeIcon icon="fa-solid fa-calendar" className="dashboard-icon" />
-//               <div>
-//                 <h6>Net Pay</h6>
-//                 <h5>{employeeData ? `Salary: ${employeeData.net_pay || 0}` : 0}</h5>
-//               </div>
-//             </div>
-
-//             <div className="first-grid">
-//               <FontAwesomeIcon icon="fa-solid fa-users" className="dashboard-icon" />
-//               <div>
-//                 <h6>Overtime Hours</h6>
-//                 <h5>{employeeData ? `${employeeData.overtime_hours || 0} Hours` : 0} Hours</h5>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Subnav Buttons */}
-//           <div className="employee-profile-info">
-//             <div>
-//               <button
-//                 onClick={() => setActiveSection('personalInfo')}
-//                 className={activeSection === 'personalInfo' ? 'active' : ''}
-//               >
-//                 <FontAwesomeIcon icon="fa-building" className="icon" />
-//                 Account Setting
-//               </button>
-//             </div>
-//             <div>
-//               <button
-//                 onClick={() => setActiveSection('compensation')}
-//                 className={activeSection === 'compensation' ? 'active' : ''}
-//               >
-//                 <FontAwesomeIcon icon="fa-solid fa-money-bill" className="icon" />
-//                 Personal Information
-//               </button>
-//             </div>
-//             <div>
-//               <button
-//                 onClick={() => setActiveSection('employeeDetails')}
-//                 className={activeSection === 'employeeDetails' ? 'active' : ''}
-//               >
-//                 <FontAwesomeIcon icon="fa-solid fa-list-check" className="icon" />
-//                 Employment Details
-//               </button>
-//             </div>
-//             <div>
-//               <button
-//                 onClick={() => setActiveSection('performanceMetrics')}
-//                 className={activeSection === 'performanceMetrics' ? 'active' : ''}
-//               >
-//                 <FontAwesomeIcon icon="fa-solid fa-chart-simple" className="icon" />
-//                 Compensation
-//               </button>
-//             </div>
-//           </div>
-
-//           {/* Account Setting Section */}
-//           <div style={{ display: activeSection === 'personalInfo' ? 'block' : 'none' }}>
-//             <div className="dashboard-detail">
-//               <div className="header">
-//                 <h1>Account Setting</h1>
-//               </div>
-//               <div className="dashboard-details-2-1">
-//                 <div className="row-1" style={{ flexDirection: 'column' }}>
-//                   <div style={{ marginTop: '10px', marginBottom: '30px' }}>
-//                     <label>Email</label>
-//                     <div className="input-div" style={{ display: 'flex', width: '950px', border: '2px solid #D9D9D9', alignItems: 'center', borderRadius: '8px', marginBottom: '20px' }} >
-//                       <input type="text" placeholder={employeeData ? employeeData.email : 'Loading...'} value={updatedData.email} name="email" onChange={handleChange} style={{ width: '900px', height: '40px', outline: 'none', padding: '20px' }} />
-//                       <h3>Edit</h3>
-//                     </div>
-//                   </div>
-//                   <div style={{ marginTop: '30px', marginBottom: '30px' }}>
-//                     <label>Emergency Contact Name</label>
-//                     <div className="input-div" style={{ display: 'flex', width: '950px', border: '2px solid #D9D9D9', alignItems: 'center', borderRadius: '8px', marginBottom: '20px' }} >
-//                       <input type="text" placeholder={employeeData ? employeeData.emergency_contact_name : 'Loading...'} value={updatedData.emergencyContactName} name="emergencyContactName" onChange={handleChange} style={{ width: '900px', height: '40px', outline: 'none', padding: '20px' }} />
-//                       <h3>Edit</h3>
-//                     </div>
-//                   </div>
-//                   <div style={{ marginTop: '30px', marginBottom: '30px' }}>
-//                     <label>Emergency Contact Phone Number</label>
-//                     <div className="input-div" style={{ display: 'flex', width: '950px', border: '2px solid #D9D9D9', alignItems: 'center', borderRadius: '8px', marginBottom: '20px' }} >
-//                       <input type="text" placeholder={employeeData ? employeeData.emergency_contact_phone : 'Loading...'} value={updatedData.emergencyContactPhone} name="emergencyContactPhone" onChange={handleChange} style={{ width: '900px', height: '40px', outline: 'none', padding: '20px' }} />
-//                       <h3>Edit</h3>
-//                     </div>
-//                   </div>
-//                   <div style={{ marginTop: '30px', marginBottom: '30px' }}>
-//                     <label>Relationship to Employee</label>
-//                     <div className="input-div" style={{ display: 'flex', width: '950px', border: '2px solid #D9D9D9', alignItems: 'center', borderRadius: '8px', marginBottom: '20px' }} >
-//                       <input type="text" placeholder={employeeData ? employeeData.relationship_to_employee : 'Loading...'} value={updatedData.relationshipToEmployee} name="relationshipToEmployee" onChange={handleChange} style={{ width: '900px', height: '40px', outline: 'none', padding: '20px' }} />
-//                       <h3>Edit</h3>
-//                     </div>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//             <button onClick={handleSubmit} style={{ marginTop: '20px' }}>Save Changes</button>
-//           </div>
-
-//           {/* Personal Information Section */}
-//           <div style={{ display: activeSection === 'compensation' ? 'block' : 'none' }}>
-//             <div className="dashboard-detail">
-//               <div className="header">
-//                 <h1>Personal Details</h1>
-//               </div>
-//               <div className="dashboard-details-2-1">
-//                 <div className="row-1">
-//                   <div>
-//                     <h2>Name</h2>
-//                     <h3>{employeeData ? `${employeeData.first_name} ${employeeData.last_name}` : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Job Title</h2>
-//                     <h3>{employeeData ? employeeData.job_title : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Email</h2>
-//                     <h3>{employeeData ? employeeData.email : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Department</h2>
-//                     <h3>{employeeData ? employeeData.department : 'Loading...'}</h3>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Employee Details Section */}
-//           <div style={{ display: activeSection === 'employeeDetails' ? 'block' : 'none' }}>
-//             <div className="dashboard-detail">
-//               <div className="header">
-//                 <h1>Employee Details</h1>
-//               </div>
-//               <div className="dashboard-details-2-1">
-//                 <div className="row-1">
-//                   <div>
-//                     <h2>Employee ID</h2>
-//                     <h3>{employeeData ? employeeData.employee_id : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Work Mode</h2>
-//                     <h3>{employeeData ? employeeData.work_mode : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Work Location</h2>
-//                     <h3>{employeeData ? employeeData.work_location : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Employment Date</h2>
-//                     <h3>{employeeData ? new Date(employeeData.employment_date).toDateString() : 'Loading...'}</h3>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Compensation Section */}
-//           <div style={{ display: activeSection === 'performanceMetrics' ? 'block' : 'none' }}>
-//             <div className="dashboard-detail">
-//               <div className="header">
-//                 <h1>Compensation</h1>
-//               </div>
-//               <div className="dashboard-details-2-1">
-//                 <div className="row-1">
-//                   <div>
-//                     <h2>Basic Salary</h2>
-//                     <h3>{employeeData ? `₦${employeeData.base_salary}` : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Overtime Hours Allowance</h2>
-//                     <h3>{employeeData ? `₦${employeeData.overtime_hours_allowance}/Hour` : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Deductions</h2>
-//                     <h3>{employeeData ? `PAYE: ₦${employeeData.paye_deduction}` : 'Loading...'}</h3>
-//                   </div>
-//                 </div>
-//                 <div className="row-1">
-//                   <div>
-//                     <h2>Net Pay</h2>
-//                     <h3>{employeeData ? `₦${employeeData.net_pay}/month` : 'Loading...'}</h3>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ProfileDashboard;
-
-
-// import React, { useState, useEffect } from 'react';
-// import Sidebar from '../components/Sidebar';
-// import EmployeeNavbar from '../components/EmployeeNavbar.jsx';
-// import './EmployeeDashboard.css';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import Test from '../assets/test.png'; // Placeholder image
-
-// const ProfileDashboard = () => {
-//   const [activeSection, setActiveSection] = useState('personalInfo');
-//   const [employeeData, setEmployeeData] = useState(null); // To store employee data
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const [updatedData, setUpdatedData] = useState({
-//     email: '',
-//     emergencyContactName: '',
-//     emergencyContactPhone: '',
-//     relationshipToEmployee: '',
-//   });
-
-//   // Fetch employee profile data from the API
-//   useEffect(() => {
-//     const fetchEmployeeProfile = async () => {
-//       const storedToken = localStorage.getItem('employeeAuthToken'); // Retrieve token from localStorage as 'employeeAuthToken'
-      
-//       if (!storedToken) {
-//         setError('Authentication required');
-//         setLoading(false);
-//         return;
-//       }
-
-//       const token = JSON.parse(storedToken).token; // Parse the stored token object to get the actual token
-//       if (!token) {
-//         setError('Token not found');
-//         setLoading(false);
-//         return;
-//       }
-
-//       try {
-//         const response = await fetch('https://proximahr.onrender.com/employee/profile', {
-//           headers: {
-//             'Authorization': `Bearer ${token}`, // Send token in the Authorization header
-//           },
-//         });
-
-//         if (!response.ok) {
-//           throw new Error('Failed to fetch employee data');
-//         }
-
-//         const data = await response.json();
-//         console.log("API Response:", data); // Log the API response in the console
-
-//         // Ensure data is under response.data, and set the employee data
-//         setEmployeeData(data.data); // Update here to access the correct 'data' object from the API response
-//         setUpdatedData({
-//           email: data.data.email,
-//           emergencyContactName: data.data.emergency_contact_name,
-//           emergencyContactPhone: data.data.emergency_contact_phone,
-//           relationshipToEmployee: data.data.relationship_to_employee,
-//         });
-//       } catch (err) {
-//         setError(err.message);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchEmployeeProfile();
-//   }, []); // Empty dependency array ensures this runs only once on component mount
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setUpdatedData({
-//       ...updatedData,
-//       [name]: value,
-//     });
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     const storedToken = localStorage.getItem('employeeAuthToken');
-//     const token = JSON.parse(storedToken).token;
-
-//     if (!token) {
-//       setError('Token not found');
-//       return;
-//     }
-
-//     try {
-//       const response = await fetch('https://proximahr.onrender.com/employee/update-profile', {
-//         method: 'PUT',
-//         headers: {
-//           'Authorization': `Bearer ${token}`,
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({
-//           email: updatedData.email,
-//           emergency_contact: {
-//             name: updatedData.emergencyContactName,
-//             phone: updatedData.emergencyContactPhone,
-//             relationship: updatedData.relationshipToEmployee,
-//           },
-//         }),
-//       });
-
-//       if (!response.ok) {
-//         throw new Error('Failed to update profile');
-//       }
-
-//       const result = await response.json();
-//       console.log('Profile updated:', result);
-//       alert('Profile updated successfully!');
-//     } catch (error) {
-//       console.error('Error submitting profile update:', error.message);
-//       setError('Error updating profile. Please try again.');
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <div className="main-dashboard">
-//         <Sidebar />
-//         <div className="dashboard">
-//           <EmployeeNavbar />
-
-//           <hr className="horizontal" />
-
-//           {/* Employee Profile Section */}
-//           <div className="employee-dashboard-info" style={{ display: 'flex', justifyContent: 'space-between', width: '1000px' }}>
-//             <div className="profile-info" style={{ display: 'flex' }}>
-//               <div className="profile-image">
-//                 <img src={employeeData && employeeData.profile_image ? employeeData.profile_image : Test} alt="Profile" style={{ width: '100px', height: '100px' }} />
-//               </div>
-//               <div className="dashboard-details" style={{ flexDirection: 'column', alignItems: 'flex-start', height: '40px' }}>
-//                 <h5>{employeeData ? `${employeeData.first_name} ${employeeData.last_name}` : 'Loading...'}</h5>
-//                 <h6>{employeeData ? employeeData.job_title : 'Loading...'}</h6>
-//                 <h6>{employeeData ? employeeData.email : 'Loading...'}</h6>
-//               </div>
-//             </div>
-
-//             <div className="employee-dashboard-info" style={{ display: 'flex', flexDirection: 'column', marginLeft: '-200px' }}>
-//               <h1>Working Hours</h1>
-//               <div className="clock" style={{ display: 'flex', alignItems: 'center', marginTop: '-20px' }}>
-//                 <div className="timer" style={{ width: '100px', height: '38px', padding: '8px', marginTop: '10px', borderRadius: '4px', border: '1px solid #F8F8F8', background: '#D9D9D9' }}>
-//                   {employeeData ? employeeData.working_hours : 0}
-//                 </div>
-//                 <button style={{ width: '100px' }}> <FontAwesomeIcon icon="fa-solid fa-right-from-bracket" /> Clock Out</button>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Dashboard Summary */}
-//           <div className="dashboard-details-1">
-//             <div className="first-grid">
-//               <FontAwesomeIcon icon="fa-solid fa-clock" className="dashboard-icon" />
-//               <div>
-//                 <h6>Attendance</h6>
-//                 <h5>{employeeData ? `${employeeData.attendance || 0}%` : 0}%</h5>
-//               </div>
-//             </div>
-
-//             <div className="first-grid">
-//               <FontAwesomeIcon icon="fa-solid fa-calendar" className="dashboard-icon" />
-//               <div>
-//                 <h6>Leave Balance</h6>
-//                 <h5>{employeeData ? `${employeeData.leave_balance || 0} Days` : 0} Days</h5>
-//               </div>
-//             </div>
-
-//             <div className="first-grid">
-//               <FontAwesomeIcon icon="fa-solid fa-calendar" className="dashboard-icon" />
-//               <div>
-//                 <h6>Net Pay</h6>
-//                 <h5>{employeeData ? `Salary: ${employeeData.net_pay || 0}` : 0}</h5>
-//               </div>
-//             </div>
-
-//             <div className="first-grid">
-//               <FontAwesomeIcon icon="fa-solid fa-users" className="dashboard-icon" />
-//               <div>
-//                 <h6>Overtime Hours</h6>
-//                 <h5>{employeeData ? `${employeeData.overtime_hours || 0} Hours` : 0} Hours</h5>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Subnav Buttons */}
-//           <div className="employee-profile-info">
-//             <div>
-//               <button
-//                 onClick={() => setActiveSection('personalInfo')}
-//                 className={activeSection === 'personalInfo' ? 'active' : ''}
-//               >
-//                 <FontAwesomeIcon icon="fa-building" className="icon" />
-//                 Account Setting
-//               </button>
-//             </div>
-//             <div>
-//               <button
-//                 onClick={() => setActiveSection('compensation')}
-//                 className={activeSection === 'compensation' ? 'active' : ''}
-//               >
-//                 <FontAwesomeIcon icon="fa-solid fa-money-bill" className="icon" />
-//                 Personal Information
-//               </button>
-//             </div>
-//             <div>
-//               <button
-//                 onClick={() => setActiveSection('employeeDetails')}
-//                 className={activeSection === 'employeeDetails' ? 'active' : ''}
-//               >
-//                 <FontAwesomeIcon icon="fa-solid fa-list-check" className="icon" />
-//                 Employment Details
-//               </button>
-//             </div>
-//             <div>
-//               <button
-//                 onClick={() => setActiveSection('performanceMetrics')}
-//                 className={activeSection === 'performanceMetrics' ? 'active' : ''}
-//               >
-//                 <FontAwesomeIcon icon="fa-solid fa-chart-simple" className="icon" />
-//                 Compensation
-//               </button>
-//             </div>
-//           </div>
-
-//           {/* Account Setting Section */}
-//           <div style={{ display: activeSection === 'personalInfo' ? 'block' : 'none' }}>
-//             <div className="dashboard-detail">
-//               <div className="header">
-//                 <h1>Account Setting</h1>
-//               </div>
-//               <div className="dashboard-details-2-1">
-//                 <div className="row-1" style={{ flexDirection: 'column' }}>
-//                   <div style={{ marginTop: '10px', marginBottom: '30px' }}>
-//                     <label>Email</label>
-//                     <div className="input-div" style={{ display: 'flex', width: '950px', border: '2px solid #D9D9D9', alignItems: 'center', borderRadius: '8px', marginBottom: '20px' }} >
-//                       <input type="text" placeholder={employeeData ? employeeData.email : 'Loading...'} value={updatedData.email} name="email" onChange={handleChange} style={{ width: '900px', height: '40px', outline: 'none', padding: '20px' }} />
-//                       <h3>Edit</h3>
-//                     </div>
-//                   </div>
-//                   <div style={{ marginTop: '30px', marginBottom: '30px' }}>
-//                     <label>Emergency Contact Name</label>
-//                     <div className="input-div" style={{ display: 'flex', width: '950px', border: '2px solid #D9D9D9', alignItems: 'center', borderRadius: '8px', marginBottom: '20px' }} >
-//                       <input type="text" placeholder={employeeData ? employeeData.emergency_contact_name : 'Loading...'} value={updatedData.emergencyContactName} name="emergencyContactName" onChange={handleChange} style={{ width: '900px', height: '40px', outline: 'none', padding: '20px' }} />
-//                       <h3>Edit</h3>
-//                     </div>
-//                   </div>
-//                   <div style={{ marginTop: '30px', marginBottom: '30px' }}>
-//                     <label>Emergency Contact Phone Number</label>
-//                     <div className="input-div" style={{ display: 'flex', width: '950px', border: '2px solid #D9D9D9', alignItems: 'center', borderRadius: '8px', marginBottom: '20px' }} >
-//                       <input type="text" placeholder={employeeData ? employeeData.emergency_contact_phone : 'Loading...'} value={updatedData.emergencyContactPhone} name="emergencyContactPhone" onChange={handleChange} style={{ width: '900px', height: '40px', outline: 'none', padding: '20px' }} />
-//                       <h3>Edit</h3>
-//                     </div>
-//                   </div>
-//                   <div style={{ marginTop: '30px', marginBottom: '30px' }}>
-//                     <label>Relationship to Employee</label>
-//                     <div className="input-div" style={{ display: 'flex', width: '950px', border: '2px solid #D9D9D9', alignItems: 'center', borderRadius: '8px', marginBottom: '20px' }} >
-//                       <input type="text" placeholder={employeeData ? employeeData.relationship_to_employee : 'Loading...'} value={updatedData.relationshipToEmployee} name="relationshipToEmployee" onChange={handleChange} style={{ width: '900px', height: '40px', outline: 'none', padding: '20px' }} />
-//                       <h3>Edit</h3>
-//                     </div>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//             <button onClick={handleSubmit} style={{ marginTop: '20px' }}>Save Changes</button>
-//           </div>
-
-//           {/* Personal Information Section */}
-//           <div style={{ display: activeSection === 'compensation' ? 'block' : 'none' }}>
-//             <div className="dashboard-detail">
-//               <div className="header">
-//                 <h1>Personal Details</h1>
-//               </div>
-//               <div className="dashboard-details-2-1">
-//                 <div className="row-1">
-//                   <div>
-//                     <h2>Name</h2>
-//                     <h3>{employeeData ? `${employeeData.first_name} ${employeeData.last_name}` : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Job Title</h2>
-//                     <h3>{employeeData ? employeeData.job_title : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Email</h2>
-//                     <h3>{employeeData ? employeeData.email : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Department</h2>
-//                     <h3>{employeeData ? employeeData.department : 'Loading...'}</h3>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Employee Details Section */}
-//           <div style={{ display: activeSection === 'employeeDetails' ? 'block' : 'none' }}>
-//             <div className="dashboard-detail">
-//               <div className="header">
-//                 <h1>Employee Details</h1>
-//               </div>
-//               <div className="dashboard-details-2-1">
-//                 <div className="row-1">
-//                   <div>
-//                     <h2>Employee ID</h2>
-//                     <h3>{employeeData ? employeeData.employee_id : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Work Mode</h2>
-//                     <h3>{employeeData ? employeeData.work_mode : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Work Location</h2>
-//                     <h3>{employeeData ? employeeData.work_location : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Employment Date</h2>
-//                     <h3>{employeeData ? new Date(employeeData.employment_date).toDateString() : 'Loading...'}</h3>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Compensation Section */}
-//           <div style={{ display: activeSection === 'performanceMetrics' ? 'block' : 'none' }}>
-//             <div className="dashboard-detail">
-//               <div className="header">
-//                 <h1>Compensation</h1>
-//               </div>
-//               <div className="dashboard-details-2-1">
-//                 <div className="row-1">
-//                   <div>
-//                     <h2>Basic Salary</h2>
-//                     <h3>{employeeData ? `₦${employeeData.base_salary}` : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Overtime Hours Allowance</h2>
-//                     <h3>{employeeData ? `₦${employeeData.overtime_hours_allowance}/Hour` : 'Loading...'}</h3>
-//                   </div>
-//                   <div>
-//                     <h2>Deductions</h2>
-//                     <h3>{employeeData ? `PAYE: ₦${employeeData.paye_deduction}` : 'Loading...'}</h3>
-//                   </div>
-//                 </div>
-//                 <div className="row-1">
-//                   <div>
-//                     <h2>Net Pay</h2>
-//                     <h3>{employeeData ? `₦${employeeData.net_pay}/month` : 'Loading...'}</h3>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ProfileDashboard;
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import EmployeeNavbar from '../components/EmployeeNavbar.jsx';
@@ -1383,6 +7,9 @@ import Test from '../assets/test.png'; // Placeholder image
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useTimer } from '../../../context/TimerContext.jsx'; // Importing the useTimer hook from TimerContext
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'; // Add faEye and faEyeSlash here
 
 
 const ProfileDashboard = () => {
@@ -1395,6 +22,17 @@ const ProfileDashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // To manage modal visibility
   const [isSaving, setIsSaving] = useState(false); // To track if the image is being uploaded
   const [submitting, setSubmitting] = useState(false);  // Add this line to manage the submitting state
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false); // State for current password visibility
+  const [showNewPassword, setShowNewPassword] = useState(false); // State for new password visibility
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State for confirm password visibility
+
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  });
+  const [passwordSubmitting, setPasswordSubmitting] = useState(false);
   const {
         workingHours,
         breakTime,
@@ -1640,11 +278,63 @@ const ProfileDashboard = () => {
           [name]: value,  // Update the specific field in formData
         }));
       };
+
+      // Password modal handlers
+      const handlePasswordInputChange = (e) => {
+        const { name, value } = e.target;
+        setPasswordForm((prev) => ({
+          ...prev,
+          [name]: value,
+        }));
+      };
+
+      const handlePasswordSubmit = async (e) => {
+        e.preventDefault();
+        if (!passwordForm.currentPassword || !passwordForm.newPassword || !passwordForm.confirmPassword) {
+          toast.error('All fields are required');
+          return;
+        }
+        if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+          toast.error('New passwords do not match');
+          return;
+        }
+        setPasswordSubmitting(true);
+        try {
+          const storedToken = localStorage.getItem('employeeAuthToken');
+          const token = JSON.parse(storedToken).access_token;
+          await axios.post(
+            'https://proximahr.onrender.com/api/v2/company/auth/change-password',
+            {
+              current_password: passwordForm.currentPassword,
+              new_password: passwordForm.newPassword,
+              confirm_password: passwordForm.confirmPassword,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+          toast.success('Password changed successfully!');
+          setShowPasswordModal(false);
+          setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
+        } catch (err) {
+          toast.error(
+            err.response?.data?.message ||
+            err.response?.data?.error ||
+            'Failed to change password'
+          );
+        } finally {
+          setPasswordSubmitting(false);
+        }
+      };
       
       
 
   return (
     <div>
+      <ToastContainer />
       <div className="main-dashboard">
         <Sidebar />
         <div className="dashboard">
@@ -1653,39 +343,110 @@ const ProfileDashboard = () => {
           <hr className="horizontal" />
 
           {/* Employee Profile Section */}
-          <div className="employee-dashboard-info" style={{ display: 'flex', justifyContent: 'space-between', width: '1000px' }}>
-            <div className="profile-info" style={{ display: 'flex', position: 'relative' }}>
-            <div className="profile-image" style={{ position: 'relative' }}>
-              <img 
-                src={employeeData && employeeData.profile_image ? employeeData.profile_image : profileImage || Test} 
-                alt="Profile" 
-                style={{ width: '100px', height: '100px', borderRadius: '50%' }} 
-              />
-              <FontAwesomeIcon 
-                icon={faCamera} 
-                style={{
-                  position: 'absolute', 
-                  bottom: '5px', 
-                  right: '5px', 
-                  backgroundColor: 'white', 
-                  borderRadius: '50%', 
-                  fontSize: '20px', 
-                  padding: '5px', 
-                  cursor: 'pointer',
-                  border: '2px solid #007BFF',
-                }} 
-                onClick={() => setIsModalOpen(true)} 
-              />
-            </div>
+          <div
+  className="employee-dashboard-info"
+  style={{
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: 32,
+    marginTop: 8,
+  }}
+>
+  {/* Profile Info */}
+  <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+    <div style={{ position: 'relative', width: 100, height: 100 }}>
+      <img
+        src={employeeData && employeeData.profile_image ? employeeData.profile_image : profileImage || Test}
+        alt="Profile"
+        style={{
+          width: 100,
+          height: 100,
+          borderRadius: '50%',
+          objectFit: 'cover',
+        }}
+      />
+      <FontAwesomeIcon
+        icon={faCamera}
+        style={{
+          position: 'absolute',
+          bottom: 6,
+          right: 6,
+          backgroundColor: '#fff',
+          borderRadius: '50%',
+          fontSize: 22,
+          padding: 6,
+          cursor: 'pointer',
+          border: '2px solid #007BFF',
+          color: '#007BFF',
+        }}
+        onClick={() => setIsModalOpen(true)}
+      />
+    </div>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+      <h5 style={{ fontSize: 22, fontWeight: 600, margin: 0, color: '#222' }}>
+        {employeeData ? `${employeeData.first_name} ${employeeData.last_name}` : 'Loading...'}
+      </h5>
+      <h6 style={{ fontSize: 16, color: '#444', margin: '4px 0 0 0', fontWeight: 400 }}>
+        {employeeData ? employeeData.job_title : 'Loading...'}
+      </h6>
+      <h6 style={{ fontSize: 15, color: '#888', margin: '2px 0 0 0', fontWeight: 400 }}>
+        {employeeData ? employeeData.email : 'Loading...'}
+      </h6>
+    </div>
+  </div>
 
-              <div className="dashboard-details" style={{ flexDirection: 'column', alignItems: 'flex-start', height: '40px' }}>
-                <h5>{employeeData ? `${employeeData.first_name} ${employeeData.last_name}` : 'Loading...'}</h5>
-                <h6>{employeeData ? employeeData.job_title : 'Loading...'}</h6>
-                <h6>{employeeData ? employeeData.email : 'Loading...'}</h6>
-              </div>
-            </div>
+  {/* Working Hours */}
+  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+    <span style={{ fontSize: 15, color: '#888', marginBottom: 4 }}>Working Hours</span>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+      <input
+        type="text"
+        value={formatTime(workingHours)}
+        readOnly
+        style={{
+          width: 110,
+          height: 36,
+          background: "#FAFAFA",
+          border: "1px solid #E5E5E5",
+          borderRadius: 6,
+          textAlign: "center",
+          fontSize: 18,
+          fontWeight: 600,
+          color: "#222",
+          fontFamily: "monospace",
+          letterSpacing: 2,
+          marginRight: 8
+        }}
+      />
+      <button
+        style={{
+          background: isTimerRunning ? "#fff" : "#007BFF",
+          color: isTimerRunning ? "#007BFF" : "#fff",
+          border: isTimerRunning ? "2px solid #007BFF" : "none",
+          borderRadius: 6,
+          fontWeight: 500,
+          fontSize: 16,
+          height: 36,
+          minWidth: 110,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 8,
+          cursor: "pointer",
+          transition: "background 0.2s, color 0.2s, border 0.2s"
+        }}
+        onClick={isTimerRunning ? stopTimer : startTimer}
+      >
+        <FontAwesomeIcon icon="fa-solid fa-right-from-bracket" />
+        {isTimerRunning ? "Clock Out" : "Clock In"}
+      </button>
+    </div>
+  </div>
+</div>
 
-            {isModalOpen && (
+          {isModalOpen && (
   <div 
     style={{
       position: 'fixed',
@@ -1718,7 +479,16 @@ const ProfileDashboard = () => {
           padding: '30px',
           marginBottom: '20px',
           color: '#6C757D',
+          position: 'relative',
+          cursor: 'pointer'
         }}
+        onDragOver={e => e.preventDefault()}
+        onDrop={e => {
+          e.preventDefault();
+          const file = e.dataTransfer.files[0];
+          if (file) handleProfileImageChange({ target: { files: [file] } });
+        }}
+        onClick={() => document.getElementById('profileImageInput').click()}
       >
         <input 
           type="file" 
@@ -1727,15 +497,34 @@ const ProfileDashboard = () => {
           id="profileImageInput" 
           accept="image/*"
         />
-        <label 
-          htmlFor="profileImageInput"
-          style={{ cursor: 'pointer', color: '#007BFF', fontSize: '16px' }}
-        >
-          Drag and drop or browse files
-        </label>
-        <p style={{ fontSize: '12px', color: '#6C757D' }}>
-          Max 5MB, JPEG, PNG
-        </p>
+        {!profileImage ? (
+          <>
+            <label 
+              htmlFor="profileImageInput"
+              style={{ cursor: 'pointer', color: '#007BFF', fontSize: '16px' }}
+            >
+              Drag and drop or browse files
+            </label>
+            <p style={{ fontSize: '12px', color: '#6C757D' }}>
+              Max 5MB, JPEG, PNG
+            </p>
+          </>
+        ) : (
+          <div>
+            <img
+              src={profileImage}
+              alt="Preview"
+              style={{ width: 80, height: 80, borderRadius: '50%', objectFit: 'cover', marginBottom: 8 }}
+            />
+            <div style={{ color: '#22C55E', fontWeight: 500, marginBottom: 4 }}>
+              <FontAwesomeIcon icon="fa-solid fa-circle-check" style={{ color: '#22C55E', marginRight: 6 }} />
+              Image selected
+            </div>
+            <div style={{ fontSize: 12, color: '#888' }}>
+              Click to change image
+            </div>
+          </div>
+        )}
       </div>
       <div>
         <button 
@@ -1761,11 +550,10 @@ const ProfileDashboard = () => {
             cursor: 'pointer', 
             marginLeft: '10px'
           }}
-          disabled={isSaving} // Disable the button while saving
+          disabled={isSaving || !profileImage}
         >
-          {isSaving ? 'Saving...' : 'Save Photo'} {/* Show 'Saving...' while uploading */}
+          {isSaving ? 'Saving...' : 'Save Photo'}
         </button>
-
       </div>
     </div>
   </div>
@@ -1774,26 +562,13 @@ const ProfileDashboard = () => {
 
 
 
-            <div className="employee-dashboard-info" style={{ display: 'flex', flexDirection: 'column', marginLeft: '-300px' }}>
-              <h1>Working Hours</h1>
-              <div className="clock" style={{ display: 'flex', alignItems: 'center', marginTop: '-20px' }}>
-                <div className="timer" style={{ width: '100px', height: '38px', padding: '8px', marginTop: '10px', borderRadius: '4px', border: '1px solid #F8F8F8', background: '#D9D9D9' }}>
-                {formatTime(workingHours)} {/* Displaying formatted working hours */}
-                </div>
-              <button style={{ width: '100px' }} onClick={isTimerRunning ? stopTimer : startTimer}>
-                  <FontAwesomeIcon icon="fa-solid fa-right-from-bracket" /> {isTimerRunning ? 'Clock Out' : 'Clock In'}
-              </button>
-              </div>
-            </div>
-          </div>
-
           {/* Dashboard Summary */}
           <div className="dashboard-details-1">
             <div className="first-grid">
               <FontAwesomeIcon icon="fa-solid fa-clock" className="dashboard-icon" />
               <div>
                 <h6>Attendance</h6>
-                <h5>{employeeData ? `${employeeData.attendance || 0}%` : 0}</h5>
+                <h5 style={{fontSize:'20px'}}>{employeeData ? `${employeeData.attendance || 0}%` : 0}</h5>
               </div>
             </div>
 
@@ -1801,7 +576,7 @@ const ProfileDashboard = () => {
               <FontAwesomeIcon icon="fa-solid fa-calendar" className="dashboard-icon" />
               <div>
                 <h6>Leave Balance</h6>
-                <h5>{employeeData ? `${employeeData.leave_balance || 0} Days` : 0} </h5>
+                <h5 style={{fontSize:'20px'}}>{employeeData ? `${employeeData.leave_balance || 0} Days` : 0} </h5>
               </div>
             </div>
 
@@ -1809,7 +584,11 @@ const ProfileDashboard = () => {
               <FontAwesomeIcon icon="fa-solid fa-calendar" className="dashboard-icon" />
               <div>
                 <h6>Net Pay</h6>
-                <h5>{employeeData ? `Salary: ${employeeData.net_pay || 0}` : 0}</h5>
+                <h5 style={{fontSize:'20px'}}>
+                  {employeeData
+                    ? `Salary: ₦${Number(employeeData.net_pay || 0).toLocaleString()}`
+                    : 0}
+                </h5>
               </div>
             </div>
 
@@ -1817,290 +596,865 @@ const ProfileDashboard = () => {
               <FontAwesomeIcon icon="fa-solid fa-users" className="dashboard-icon" />
               <div>
                 <h6>Overtime Hours</h6>
-                <h5>{employeeData ? `${employeeData.overtime_hours || 0} Hours` : 0} </h5>
+                <h5 style={{fontSize:'20px'}}>{employeeData ? `${employeeData.overtime_hours || 0} Hours` : 0} </h5>
               </div>
             </div>
           </div>
 
           {/* Subnav Buttons */}
-          <div className="employee-profile-info">
-            <div>
-              <button
-                onClick={() => setActiveSection('personalInfo')}
-                className={activeSection === 'personalInfo' ? 'active' : ''}
-              >
-                <FontAwesomeIcon icon="fa-building" className="icon" />
-                Account Setting
-              </button>
-            </div>
-            <div>
-              <button
-                onClick={() => setActiveSection('compensation')}
-                className={activeSection === 'compensation' ? 'active' : ''}
-              >
-                <FontAwesomeIcon icon="fa-solid fa-money-bill" className="icon" />
-                Personal Information
-              </button>
-            </div>
-            <div>
-              <button
-                onClick={() => setActiveSection('employeeDetails')}
-                className={activeSection === 'employeeDetails' ? 'active' : ''}
-              >
-                <FontAwesomeIcon icon="fa-solid fa-list-check" className="icon" />
-                Employment Details
-              </button>
-            </div>
-            <div>
-              <button
-                onClick={() => setActiveSection('performanceMetrics')}
-                className={activeSection === 'performanceMetrics' ? 'active' : ''}
-              >
-                <FontAwesomeIcon icon="fa-solid fa-chart-simple" className="icon" />
-                Compensation
-              </button>
-            </div>
-          </div>
+          <div className="employee-profile-info" style={{ display: 'flex', gap: 12, margin: '24px 0 18px 0' }}>
+  <button
+    onClick={() => setActiveSection('personalInfo')}
+    className={activeSection === 'personalInfo' ? 'active' : ''}
+    style={{
+      background: activeSection === 'personalInfo' ? '#007BFF' : '#fff',
+      color: activeSection === 'personalInfo' ? '#fff' : '#222',
+      border: activeSection === 'personalInfo' ? '1.5px solid #007BFF' : '1.5px solid #E5E5E5',
+      borderRadius: 8,
+      padding: '8px 18px',
+      fontWeight: 500,
+      fontSize: 15,
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      transition: 'background 0.2s, color 0.2s, border 0.2s'
+    }}
+  >
+    <FontAwesomeIcon icon="fa-building" className="icon" />
+    Account Setting
+  </button>
+  <button
+    onClick={() => setActiveSection('compensation')}
+    className={activeSection === 'compensation' ? 'active' : ''}
+    style={{
+      background: activeSection === 'compensation' ? '#007BFF' : '#fff',
+      color: activeSection === 'compensation' ? '#fff' : '#222',
+      border: activeSection === 'compensation' ? '1.5px solid #007BFF' : '1.5px solid #E5E5E5',
+      borderRadius: 8,
+      padding: '8px 18px',
+      fontWeight: 500,
+      fontSize: 15,
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      transition: 'background 0.2s, color 0.2s, border 0.2s'
+    }}
+  >
+    <FontAwesomeIcon icon="fa-solid fa-money-bill" className="icon" />
+    Personal Information
+  </button>
+  <button
+    onClick={() => setActiveSection('employeeDetails')}
+    className={activeSection === 'employeeDetails' ? 'active' : ''}
+    style={{
+      background: activeSection === 'employeeDetails' ? '#007BFF' : '#fff',
+      color: activeSection === 'employeeDetails' ? '#fff' : '#222',
+      border: activeSection === 'employeeDetails' ? '1.5px solid #007BFF' : '1.5px solid #E5E5E5',
+      borderRadius: 8,
+      padding: '8px 18px',
+      fontWeight: 500,
+      fontSize: 15,
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      transition: 'background 0.2s, color 0.2s, border 0.2s'
+    }}
+  >
+    <FontAwesomeIcon icon="fa-solid fa-list-check" className="icon" />
+    Employment Details
+  </button>
+  <button
+    onClick={() => setActiveSection('performanceMetrics')}
+    className={activeSection === 'performanceMetrics' ? 'active' : ''}
+    style={{
+      background: activeSection === 'performanceMetrics' ? '#007BFF' : '#fff',
+      color: activeSection === 'performanceMetrics' ? '#fff' : '#222',
+      border: activeSection === 'performanceMetrics' ? '1.5px solid #007BFF' : '1.5px solid #E5E5E5',
+      borderRadius: 8,
+      padding: '8px 18px',
+      fontWeight: 500,
+      fontSize: 15,
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      transition: 'background 0.2s, color 0.2s, border 0.2s'
+    }}
+  >
+    <FontAwesomeIcon icon="fa-solid fa-chart-simple" className="icon" />
+    Compensation
+  </button>
+</div>
 
-          <div style={{ display: activeSection === 'personalInfo' ? 'block' : 'none' }}>
-    <div className="dashboard-detail">
-      <div className="header">
-        <h1>Account Settings</h1>
+{/* Account Setting Card */}
+{activeSection === 'personalInfo' && (
+  <div
+    style={{
+      background: '#fff',
+      border: '1.5px solid #E5E5E5',
+      borderRadius: 16,
+      boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+      padding: '32px 24px',
+      marginTop: 12,
+      width: '100%', // Make the card full width
+      maxWidth: '100%' // Remove maxWidth limit
+    }}
+  >
+    <h2 style={{ fontSize: 20, fontWeight: 600, marginBottom: 24 }}>Account Setting</h2>
+    {/* Email */}
+    <div style={{ display: 'flex', alignItems: 'center', marginBottom: 18 }}>
+      <div style={{ flex: 1 }}>
+        <label htmlFor="email" style={{ fontSize: 14, color: '#888' }}>Email</label>
+        <input
+          type="text"
+          id="email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+          disabled={!editableFields.email}
+          style={{
+            width: '100%',
+            padding: '12px',
+            borderRadius: 8,
+            border: '1.5px solid #E5E5E5',
+            background: '#FAFAFA',
+            fontSize: 15,
+            marginTop: 4
+          }}
+        />
       </div>
-      <div className="dashboard-details-2-1">
-        {/* Email Section */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-          <div style={{ width: '45%' }}>
-            <label htmlFor="email">Email</label>
-            <input
-              type="text"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              disabled={!editableFields.email} // Make input editable or not
-              style={inputStyle}
-            />
-          </div>
-          <div style={{ width: '45%' }}>
-            {!editableFields.email ? (
-              <button style={editButtonStyle} onClick={() => handleEditClick('email')}>
-                Edit
-              </button>
-            ) : (
-              <button style={saveButtonStyle} onClick={handleSaveChanges} disabled={submitting}>
-                {submitting ? 'Saving...' : 'Save Changes'}
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Emergency Contact Name */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-          <div style={{ width: '45%' }}>
-            <label htmlFor="emergencyContactName">Emergency Contact Name</label>
-            <input
-              type="text"
-              id="emergencyContactName"
-              name="emergencyContactName"
-              value={formData.emergencyContactName}
-              onChange={handleInputChange}
-              disabled={!editableFields.emergencyContactName}
-              style={inputStyle}
-            />
-          </div>
-          <div style={{ width: '45%' }}>
-            {!editableFields.emergencyContactName ? (
-              <button style={editButtonStyle} onClick={() => handleEditClick('emergencyContactName')}>
-                Edit
-              </button>
-            ) : (
-              <button style={saveButtonStyle} onClick={handleSaveChanges} disabled={submitting}>
-                {submitting ? 'Saving...' : 'Save Changes'}
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Relationship to Employee */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-          <div style={{ width: '45%' }}>
-            <label htmlFor="relationshipToEmployee">Relationship to Employee</label>
-            <input
-              type="text"
-              id="relationshipToEmployee"
-              name="relationshipToEmployee"
-              value={formData.relationshipToEmployee}
-              onChange={handleInputChange}
-              disabled={!editableFields.relationshipToEmployee}
-              style={inputStyle}
-            />
-          </div>
-          <div style={{ width: '45%' }}>
-            {!editableFields.relationshipToEmployee ? (
-              <button style={editButtonStyle} onClick={() => handleEditClick('relationshipToEmployee')}>
-                Edit
-              </button>
-            ) : (
-              <button style={saveButtonStyle} onClick={handleSaveChanges} disabled={submitting}>
-                {submitting ? 'Saving...' : 'Save Changes'}
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Emergency Contact Phone Number */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-          <div style={{ width: '45%' }}>
-            <label htmlFor="emergencyContactPhone">Emergency Contact Phone Number</label>
-            <input
-              type="text"
-              id="emergencyContactPhone"
-              name="emergencyContactPhone"
-              value={formData.emergencyContactPhone}
-              onChange={handleInputChange}
-              disabled={!editableFields.emergencyContactPhone}
-              style={inputStyle}
-            />
-          </div>
-          <div style={{ width: '45%' }}>
-            {!editableFields.emergencyContactPhone ? (
-              <button style={editButtonStyle} onClick={() => handleEditClick('emergencyContactPhone')}>
-                Edit
-              </button>
-            ) : (
-              <button style={saveButtonStyle} onClick={handleSaveChanges} disabled={submitting}>
-                {submitting ? 'Saving...' : 'Save Changes'}
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Password */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-          <div style={{ width: '45%' }}>
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
-              disabled={!editableFields.password}
-              style={inputStyle}
-            />
-          </div>
-          <div style={{ width: '45%' }}>
-            {!editableFields.password ? (
-              <button style={editButtonStyle} onClick={() => handleEditClick('password')}>
-                Edit
-              </button>
-            ) : (
-              <button style={saveButtonStyle} onClick={handleSaveChanges} disabled={submitting}>
-                {submitting ? 'Saving...' : 'Save Changes'}
-              </button>
-            )}
-          </div>
-        </div>
-
+      <div>
+        {!editableFields.email ? (
+          <button style={{
+            background: '#fff',
+            color: '#007BFF',
+            border: '1.5px solid #E5E5E5',
+            borderRadius: 8,
+            padding: '8px 18px',
+            fontWeight: 500,
+            fontSize: 15,
+            marginLeft: 18,
+            cursor: 'pointer'
+          }} onClick={() => handleEditClick('email')}>
+            Edit
+          </button>
+        ) : (
+          <button style={{
+            background: '#22C55E',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 8,
+            padding: '8px 18px',
+            fontWeight: 500,
+            fontSize: 15,
+            marginLeft: 18,
+            cursor: 'pointer'
+          }} onClick={handleSaveChanges} disabled={submitting}>
+            {submitting ? 'Saving...' : 'Save Changes'}
+          </button>
+        )}
+      </div>
+    </div>
+    {/* Emergency Contact Name */}
+    <div style={{ display: 'flex', alignItems: 'center', marginBottom: 18 }}>
+      <div style={{ flex: 1 }}>
+        <label htmlFor="emergencyContactName" style={{ fontSize: 14, color: '#888' }}>Emergency Contact Name</label>
+        <input
+          type="text"
+          id="emergencyContactName"
+          name="emergencyContactName"
+          value={formData.emergencyContactName}
+          onChange={handleInputChange}
+          disabled={!editableFields.emergencyContactName}
+          style={{
+            width: '100%',
+            padding: '12px',
+            borderRadius: 8,
+            border: '1.5px solid #E5E5E5',
+            background: '#FAFAFA',
+            fontSize: 15,
+            marginTop: 4
+          }}
+        />
+      </div>
+      <div>
+        {!editableFields.emergencyContactName ? (
+          <button style={{
+            background: '#fff',
+            color: '#007BFF',
+            border: '1.5px solid #E5E5E5',
+            borderRadius: 8,
+            padding: '8px 18px',
+            fontWeight: 500,
+            fontSize: 15,
+            marginLeft: 18,
+            cursor: 'pointer'
+          }} onClick={() => handleEditClick('emergencyContactName')}>
+            Edit
+          </button>
+        ) : (
+          <button style={{
+            background: '#22C55E',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 8,
+            padding: '8px 18px',
+            fontWeight: 500,
+            fontSize: 15,
+            marginLeft: 18,
+            cursor: 'pointer'
+          }} onClick={handleSaveChanges} disabled={submitting}>
+            {submitting ? 'Saving...' : 'Save Changes'}
+          </button>
+        )}
+      </div>
+    </div>
+    {/* Relationship to Employee */}
+    <div style={{ display: 'flex', alignItems: 'center', marginBottom: 18 }}>
+      <div style={{ flex: 1 }}>
+        <label htmlFor="relationshipToEmployee" style={{ fontSize: 14, color: '#888' }}>Choose Relationship to Employee</label>
+        {!editableFields.relationshipToEmployee ? (
+          <input
+            type="text"
+            id="relationshipToEmployee"
+            name="relationshipToEmployee"
+            value={formData.relationshipToEmployee}
+            onChange={handleInputChange}
+            disabled
+            style={{
+              width: '100%',
+              padding: '12px',
+              borderRadius: 8,
+              border: '1.5px solid #E5E5E5',
+              background: '#FAFAFA',
+              fontSize: 15,
+              marginTop: 4
+            }}
+          />
+        ) : (
+          <select
+            id="relationshipToEmployee"
+            name="relationshipToEmployee"
+            value={formData.relationshipToEmployee}
+            onChange={handleInputChange}
+            style={{
+              width: '100%',
+              padding: '12px',
+              borderRadius: 8,
+              border: '1.5px solid #E5E5E5',
+              background: '#FAFAFA',
+              fontSize: 15,
+              marginTop: 4
+            }}
+          >
+            <option value="">Select Relationship</option>
+            <option value="Spouse">Spouse</option>
+            <option value="Parent">Parent</option>
+            <option value="Sibling">Sibling</option>
+            <option value="Friend">Friend</option>
+            <option value="Other">Other</option>
+          </select>
+        )}
+      </div>
+      <div>
+        {!editableFields.relationshipToEmployee ? (
+          <button style={{
+            background: '#fff',
+            color: '#007BFF',
+            border: '1.5px solid #E5E5E5',
+            borderRadius: 8,
+            padding: '8px 18px',
+            fontWeight: 500,
+            fontSize: 15,
+            marginLeft: 18,
+            cursor: 'pointer'
+          }} onClick={() => handleEditClick('relationshipToEmployee')}>
+            Edit
+          </button>
+        ) : (
+          <button style={{
+            background: '#22C55E',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 8,
+            padding: '8px 18px',
+            fontWeight: 500,
+            fontSize: 15,
+            marginLeft: 18,
+            cursor: 'pointer'
+          }} onClick={handleSaveChanges} disabled={submitting}>
+            {submitting ? 'Saving...' : 'Save Changes'}
+          </button>
+        )}
+      </div>
+    </div>
+    {/* Emergency Contact Phone Number */}
+    <div style={{ display: 'flex', alignItems: 'center', marginBottom: 18 }}>
+      <div style={{ flex: 1 }}>
+        <label htmlFor="emergencyContactPhone" style={{ fontSize: 14, color: '#888' }}>Emergency Contact Phone Number</label>
+        <input
+          type="text"
+          id="emergencyContactPhone"
+          name="emergencyContactPhone"
+          value={formData.emergencyContactPhone}
+          onChange={handleInputChange}
+          disabled={!editableFields.emergencyContactPhone}
+          style={{
+            width: '100%',
+            padding: '12px',
+            borderRadius: 8,
+            border: '1.5px solid #E5E5E5',
+            background: '#FAFAFA',
+            fontSize: 15,
+            marginTop: 4
+          }}
+        />
+      </div>
+      <div>
+        {!editableFields.emergencyContactPhone ? (
+          <button style={{
+            background: '#fff',
+            color: '#007BFF',
+            border: '1.5px solid #E5E5E5',
+            borderRadius: 8,
+            padding: '8px 18px',
+            fontWeight: 500,
+            fontSize: 15,
+            marginLeft: 18,
+            cursor: 'pointer'
+          }} onClick={() => handleEditClick('emergencyContactPhone')}>
+            Edit
+          </button>
+        ) : (
+          <button style={{
+            background: '#22C55E',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 8,
+            padding: '8px 18px',
+            fontWeight: 500,
+            fontSize: 15,
+            marginLeft: 18,
+            cursor: 'pointer'
+          }} onClick={handleSaveChanges} disabled={submitting}>
+            {submitting ? 'Saving...' : 'Save Changes'}
+          </button>
+        )}
+      </div>
+    </div>
+    {/* Password */}
+    <div style={{ display: 'flex', alignItems: 'center', marginBottom: 0 }}>
+      <div style={{ flex: 1 }}>
+        <label htmlFor="password" style={{ fontSize: 14, color: '#888' }}>Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          value={formData.password}
+          onChange={handleInputChange}
+          disabled
+          style={{
+            width: '100%',
+            padding: '12px',
+            borderRadius: 8,
+            border: '1.5px solid #E5E5E5',
+            background: '#FAFAFA',
+            fontSize: 15,
+            marginTop: 4
+          }}
+        />
+      </div>
+      <div>
+        <button
+          style={{
+            background: '#fff',
+            color: '#007BFF',
+            border: '1.5px solid #E5E5E5',
+            borderRadius: 8,
+            padding: '8px 18px',
+            fontWeight: 500,
+            fontSize: 15,
+            marginLeft: 18,
+            cursor: 'pointer'
+          }}
+          onClick={() => setShowPasswordModal(true)}
+        >
+          Edit
+        </button>
       </div>
     </div>
   </div>
+)}
 
-
-
-
+{/* Password Change Modal */}
+{showPasswordModal && (
+  <div
+    style={{
+      position: 'fixed',
+      top: 0, left: 0, right: 0, bottom: 0,
+      backgroundColor: 'rgba(0,0,0,0.5)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 2000,
+    }}
+  >
+    <form
+      onSubmit={handlePasswordSubmit}
+      style={{
+        background: '#fff',
+        borderRadius: 12,
+        padding: 32,
+        width: 420,
+        boxShadow: '0 2px 16px rgba(0,0,0,0.08)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 18,
+      }}
+    >
+      <div>
+        <label style={{ fontWeight: 600, fontSize: 18, marginBottom: 6, display: 'block' }}>Current Password</label> {/* Updated label */}
+        <div style={{ position: 'relative' }}> {/* Container for input and icon */}
+          <input
+            type={showCurrentPassword ? 'text' : 'password'} // Toggle type
+            name="currentPassword"
+            placeholder="Enter Current Password"
+            value={passwordForm.currentPassword}
+            onChange={handlePasswordInputChange}
+            style={{
+              width: '100%',
+              padding: '12px',
+              paddingRight: '40px', // Add padding for icon
+              borderRadius: 8,
+              border: '1.5px solid #E5E5E5',
+              background: '#FAFAFA',
+              fontSize: 15,
+              marginTop: 6,
+              marginBottom: 8,
+            }}
+          />
+          <FontAwesomeIcon
+            icon={showCurrentPassword ? faEyeSlash : faEye} // Toggle icon
+            onClick={() => setShowCurrentPassword(!showCurrentPassword)} // Toggle state
+            style={{
+              position: 'absolute',
+              right: '15px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              cursor: 'pointer',
+              color: '#888',
+            }}
+          />
+        </div>
+      </div>
+      <div>
+        <label style={{ fontWeight: 600, fontSize: 18, marginBottom: 6, display: 'block' }}>New Password</label>
+         <div style={{ position: 'relative' }}> {/* Container for input and icon */}
+          <input
+            type={showNewPassword ? 'text' : 'password'} // Toggle type
+            name="newPassword"
+            placeholder="Enter New Password"
+            value={passwordForm.newPassword}
+            onChange={handlePasswordInputChange}
+             style={{
+              width: '100%',
+              padding: '12px',
+              paddingRight: '40px', // Add padding for icon
+              borderRadius: 8,
+              border: '1.5px solid #E5E5E5',
+              background: '#FAFAFA',
+              fontSize: 15,
+              marginTop: 6,
+              marginBottom: 8,
+            }}
+          />
+           <FontAwesomeIcon
+            icon={showNewPassword ? faEyeSlash : faEye} // Toggle icon
+            onClick={() => setShowNewPassword(!showNewPassword)} // Toggle state
+            style={{
+              position: 'absolute',
+              right: '15px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              cursor: 'pointer',
+              color: '#888',
+            }}
+          />
+        </div>
+      </div>
+      <div>
+        <label style={{ fontWeight: 600, fontSize: 18, marginBottom: 6, display: 'block' }}>Re-Enter New Password</label>
+         <div style={{ position: 'relative' }}> {/* Container for input and icon */}
+          <input
+            type={showConfirmPassword ? 'text' : 'password'} // Toggle type
+            name="confirmPassword"
+            placeholder="Re-Enter New Password"
+            value={passwordForm.confirmPassword}
+            onChange={handlePasswordInputChange}
+             style={{
+              width: '100%',
+              padding: '12px',
+              paddingRight: '40px', // Add padding for icon
+              borderRadius: 8,
+              border: '1.5px solid #E5E5E5',
+              background: '#FAFAFA',
+              fontSize: 15,
+              marginTop: 6,
+              marginBottom: 8,
+            }}
+          />
+           <FontAwesomeIcon
+            icon={showConfirmPassword ? faEyeSlash : faEye} // Toggle icon
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)} // Toggle state
+            style={{
+              position: 'absolute',
+              right: '15px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              cursor: 'pointer',
+              color: '#888',
+            }}
+          />
+        </div>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 8 }}>
+        <button
+          type="button"
+          onClick={() => {
+            setShowPasswordModal(false);
+            setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
+             // Reset visibility states when closing modal
+            setShowCurrentPassword(false);
+            setShowNewPassword(false);
+            setShowConfirmPassword(false);
+          }}
+          style={{
+            background: '#fff',
+            color: '#222',
+            border: '1.5px solid #E5E5E5',
+            borderRadius: 6,
+            padding: '8px 18px',
+            fontWeight: 500,
+            fontSize: 15,
+            cursor: 'pointer'
+          }}
+          disabled={passwordSubmitting}
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          style={{
+            background: '#007BFF',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 6,
+            padding: '8px 18px',
+            fontWeight: 500,
+            fontSize: 15,
+            cursor: 'pointer'
+          }}
+          disabled={passwordSubmitting}
+        >
+          {passwordSubmitting ? 'Changing...' : 'Change Password'}
+        </button>
+      </div>
+    </form>
+  </div>
+)}
 
 
 
           {/* Personal Information Section */}
           <div style={{ display: activeSection === 'compensation' ? 'block' : 'none' }}>
-            <div className="dashboard-detail">
-              <div className="header">
-                <h1>Personal Details</h1>
-              </div>
-              <div className="dashboard-details-2-1">
-                <div className="row-1">
-                  <div>
-                    <h2>Name</h2>
-                    <h3>{employeeData ? `${employeeData.first_name} ${employeeData.last_name}` : 'Loading...'}</h3>
-                  </div>
-                  <div>
-                    <h2>Job Title</h2>
-                    <h3>{employeeData ? employeeData.job_title : 'Loading...'}</h3>
-                  </div>
-                  <div>
-                    <h2>Email</h2>
-                    <h3>{employeeData ? employeeData.email : 'Loading...'}</h3>
-                  </div>
-                  <div>
-                    <h2>Department</h2>
-                    <h3>{employeeData ? employeeData.department : 'Loading...'}</h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+  <div
+    style={{
+      background: '#fff',
+      border: '1.5px solid #E5E5E5',
+      borderRadius: 16,
+      boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+      padding: '32px 24px',
+      marginTop: 12,
+      width: '100%',
+      maxWidth: '100%',
+    }}
+  >
+    <div className="header" style={{ marginBottom: 16 }}>
+      <h2 style={{ fontSize: 18, fontWeight: 600, margin: 0 }}>Personal Details</h2>
+    </div>
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 0,
+        marginBottom: 12,
+      }}
+    >
+      <div style={{ flex: 1, minWidth: 180 }}>
+        <div style={{ fontSize: 14, color: '#888' }}>Name</div>
+        <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>
+          {employeeData ? `${employeeData.first_name} ${employeeData.last_name}` : 'Loading...'}
+        </div>
+      </div>
+      <div style={{ flex: 1, minWidth: 180 }}>
+        <div style={{ fontSize: 14, color: '#888' }}>Job Title</div>
+        <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>
+          {employeeData ? employeeData.job_title : 'Loading...'}
+        </div>
+      </div>
+      <div style={{ flex: 1, minWidth: 180 }}>
+        <div style={{ fontSize: 14, color: '#888' }}>Email</div>
+        <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>
+          {employeeData ? employeeData.email : 'Loading...'}
+        </div>
+      </div>
+      <div style={{ flex: 1, minWidth: 180 }}>
+        <div style={{ fontSize: 14, color: '#888' }}>Department</div>
+        <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>
+          {employeeData ? employeeData.department : 'Loading...'}
+        </div>
+      </div>
+    </div>
+    <div style={{ marginTop: 12 }}>
+      <div style={{ fontSize: 14, color: '#888' }}>Address</div>
+      <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>
+        {employeeData ? employeeData.home_address || 'N/A' : 'Loading...'}
+      </div>
+    </div>
+  </div>
+</div>
 
           {/* Employee Details Section */}
           <div style={{ display: activeSection === 'employeeDetails' ? 'block' : 'none' }}>
-            <div className="dashboard-detail">
-              <div className="header">
-                <h1>Employee Details</h1>
-              </div>
-              <div className="dashboard-details-2-1">
-                <div className="row-1">
-                  <div>
-                    <h2>Employee ID</h2>
-                    <h3>{employeeData ? employeeData.employee_id : 'Loading...'}</h3>
-                  </div>
-                  <div>
-                    <h2>Work Mode</h2>
-                    <h3>{employeeData ? employeeData.work_mode : 'Loading...'}</h3>
-                  </div>
-                  <div>
-                    <h2>Work Location</h2>
-                    <h3>{employeeData ? employeeData.work_location : 'Loading...'}</h3>
-                  </div>
-                  <div>
-                    <h2>Employment Date</h2>
-                    <h3>{employeeData ? new Date(employeeData.employment_date).toDateString() : 'Loading...'}</h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+  <div
+    style={{
+      background: '#fff',
+      border: '1.5px solid #E5E5E5',
+      borderRadius: 16,
+      boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+      padding: '32px 24px',
+      marginTop: 12,
+      width: '100%',
+      maxWidth: '100%',
+    }}
+  >
+    <div className="header" style={{ marginBottom: 16 }}>
+      <h2 style={{ fontSize: 18, fontWeight: 600, margin: 0 }}>Employment Details</h2>
+    </div>
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 0,
+        marginBottom: 12,
+      }}
+    >
+      <div style={{ flex: 1, minWidth: 180 }}>
+        <div style={{ fontSize: 14, color: '#888' }}>Job Title</div>
+        <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>
+          {employeeData ? employeeData.job_title : 'Loading...'}
+        </div>
+      </div>
+      <div style={{ flex: 1, minWidth: 180 }}>
+        <div style={{ fontSize: 14, color: '#888' }}>Employee ID</div>
+        <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>
+          {employeeData ? employeeData.employee_id : 'Loading...'}
+        </div>
+      </div>
+      <div style={{ flex: 1, minWidth: 180 }}>
+        <div style={{ fontSize: 14, color: '#888' }}>Employment Date</div>
+        <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>
+          {employeeData && employeeData.employment_date
+            ? new Date(employeeData.employment_date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })
+            : 'Loading...'}
+        </div>
+      </div>
+      <div style={{ flex: 1, minWidth: 180 }}>
+        <div style={{ fontSize: 14, color: '#888' }}>Department</div>
+        <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>
+          {employeeData ? employeeData.department : 'Loading...'}
+        </div>
+      </div>
+    </div>
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 0,
+        marginBottom: 12,
+      }}
+    >
+      <div style={{ flex: 1, minWidth: 180 }}>
+        <div style={{ fontSize: 14, color: '#888' }}>Head of Department</div>
+        <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>
+          {employeeData && employeeData.head_of_department
+            ? employeeData.head_of_department
+            : 'N/A'}
+        </div>
+      </div>
+      <div style={{ flex: 1, minWidth: 180 }}>
+        <div style={{ fontSize: 14, color: '#888' }}>Work Mode</div>
+        <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>
+          {employeeData ? employeeData.work_mode : 'Loading...'}
+        </div>
+      </div>
+      <div style={{ flex: 1, minWidth: 180 }}>
+        <div style={{ fontSize: 14, color: '#888' }}>Work Location</div>
+        <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>
+          {employeeData ? employeeData.work_location : 'Loading...'}
+        </div>
+      </div>
+      <div style={{ flex: 1, minWidth: 180 }}>
+        <div style={{ fontSize: 14, color: '#888' }}>Role</div>
+        <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>
+          {employeeData ? employeeData.role : 'Loading...'}
+        </div>
+      </div>
+    </div>
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 0,
+        marginBottom: 0,
+      }}
+    >
+      <div style={{ flex: 1, minWidth: 180 }}>
+        <div style={{ fontSize: 14, color: '#888' }}>Working Hours</div>
+        <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>
+          {employeeData && employeeData.working_hours
+            ? `${employeeData.working_hours} Hours`
+            : 'N/A'}
+        </div>
+      </div>
+      <div style={{ flex: 1, minWidth: 180 }}>
+        <div style={{ fontSize: 14, color: '#888' }}>Vacation Days</div>
+        <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>
+          {employeeData && employeeData.annual_leave_days
+            ? `${employeeData.annual_leave_days} Days`
+            : 'N/A'}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
           {/* Compensation Section */}
           <div style={{ display: activeSection === 'performanceMetrics' ? 'block' : 'none' }}>
-            <div className="dashboard-detail">
-              <div className="header">
-                <h1>Compensation</h1>
-              </div>
-              <div className="dashboard-details-2-1">
-                <div className="row-1">
-                  <div>
-                    <h2>Basic Salary</h2>
-                    <h3>{employeeData ? `₦${employeeData.base_salary}` : 'Loading...'}</h3>
-                  </div>
-                  <div>
-                    <h2>Overtime Hours Allowance</h2>
-                    <h3>{employeeData ? `₦${employeeData.overtime_hours_allowance}/Hour` : 'Loading...'}</h3>
-                  </div>
-                  <div>
-                    <h2>Deductions</h2>
-                    <h3>{employeeData ? `PAYE: ₦${employeeData.paye_deduction}` : 'Loading...'}</h3>
-                  </div>
-                </div>
-                <div className="row-1">
-                  <div>
-                    <h2>Net Pay</h2>
-                    <h3>{employeeData ? `₦${employeeData.net_pay}/month` : 'Loading...'}</h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+  <div
+    style={{
+      background: '#fff',
+      border: '1.5px solid #E5E5E5',
+      borderRadius: 16,
+      boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+      padding: '32px 24px',
+      marginTop: 12,
+      width: '100%',
+      maxWidth: '100%',
+    }}
+  >
+    <div className="header" style={{ marginBottom: 16 }}>
+      <h2 style={{ fontSize: 22, fontWeight: 600, margin: 0 }}>Compensation</h2>
+    </div>
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 0,
+        marginBottom: 12,
+      }}
+    >
+      {/* Basic Salary */}
+      <div style={{ flex: 1, minWidth: 200, marginBottom: 18 }}>
+        <div style={{ fontSize: 15, color: '#888' }}>Basic Salary</div>
+        <div style={{ fontSize: 16, color: '#222', fontWeight: 500 }}>
+          {employeeData ? `₦${Number(employeeData.base_salary || 0).toLocaleString()}/month` : 'Loading...'}
+        </div>
+      </div>
+      {/* Overtime Hours Allowance */}
+      <div style={{ flex: 1, minWidth: 200, marginBottom: 18 }}>
+        <div style={{ fontSize: 15, color: '#888' }}>Overtime Hours Allowance</div>
+        <div style={{ fontSize: 16, color: '#222', fontWeight: 500 }}>
+          {employeeData ? `₦${Number(employeeData.overtime_hours_allowance || 0).toLocaleString()}/Hour` : 'Loading...'}
+        </div>
+      </div>
+      {/* Deductions */}
+      <div style={{ flex: 1, minWidth: 200, marginBottom: 18 }}>
+        <div style={{ fontSize: 15, color: '#888' }}>Deductions</div>
+        <div style={{ fontSize: 16, color: '#222', fontWeight: 500 }}>
+          {employeeData ? `PAYE: ₦${Number(employeeData.paye_deduction || 0).toLocaleString()}` : 'Loading...'}
+        </div>
+      </div>
+      {/* Allowances */}
+      <div style={{ flex: 1, minWidth: 200, marginBottom: 18 }}>
+        <div style={{ fontSize: 15, color: '#888' }}>Allowances</div>
+        <div style={{ fontSize: 16, color: '#222', fontWeight: 500 }}>
+          Housing: ₦{employeeData ? Number(employeeData.housing_allowance || 0).toLocaleString() : 'Loading...'}<br />
+          Medical: ₦{employeeData ? Number(employeeData.medical_allowance || 0).toLocaleString() : 'Loading...'}<br />
+          Transport: ₦{employeeData ? Number(employeeData.transport_allowance || 0).toLocaleString() : 'Loading...'}
+        </div>
+      </div>
+    </div>
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 0,
+        marginBottom: 12,
+      }}
+    >
+      {/* Pension Plan */}
+      <div style={{ flex: 1, minWidth: 200, marginBottom: 18 }}>
+        <div style={{ fontSize: 15, color: '#888' }}>Pension Plan</div>
+        <div style={{ fontSize: 16, color: '#222', fontWeight: 500 }}>
+          Contribution<br />
+          Employee Contribution : {employeeData ? `₦${Number(employeeData.employee_contribution || 0).toLocaleString()}` : 'Loading...'}<br />
+          Company match : {employeeData ? `₦${Number(employeeData.company_match || 0).toLocaleString()}` : 'Loading...'}
+        </div>
+      </div>
+      {/* Insurance */}
+      <div style={{ flex: 1, minWidth: 200, marginBottom: 18 }}>
+        <div style={{ fontSize: 15, color: '#888' }}>Insurance</div>
+        <div style={{ fontSize: 16, color: '#222', fontWeight: 500 }}>
+          Health Insurance Plans<br />
+          Provider: {employeeData ? (employeeData.insurance_provider || 'N/A') : 'Loading...'}<br />
+          Leadway Health Insurance: {employeeData ? (employeeData.leadway_insurance || 'N/A') : 'Loading...'}
+        </div>
+      </div>
+      {/* Net Pay */}
+      <div style={{ flex: 1, minWidth: 200, marginBottom: 18 }}>
+        <div style={{ fontSize: 15, color: '#888' }}>Net Pay</div>
+        <div style={{ fontSize: 16, color: '#222', fontWeight: 600 }}>
+          {employeeData ? `₦${Number(employeeData.net_pay || 0).toLocaleString()}/month` : 'Loading...'}
+        </div>
+        <div style={{ fontSize: 13, color: '#888' }}>
+          (after allowances and deductions)
+        </div>
+      </div>
+      {/* Next Salary Date */}
+      <div style={{ flex: 1, minWidth: 200, marginBottom: 18 }}>
+        <div style={{ fontSize: 15, color: '#888' }}>Next Salary Date</div>
+        <div style={{ fontSize: 16, color: '#222', fontWeight: 500 }}>
+          {/* Replace with actual field if available */}
+          {employeeData && employeeData.next_salary_date
+            ? new Date(employeeData.next_salary_date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })
+            : '31,December 2024'}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
         </div>
       </div>
