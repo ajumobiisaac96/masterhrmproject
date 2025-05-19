@@ -26,6 +26,8 @@ const ProfileDashboard = () => {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false); // State for current password visibility
   const [showNewPassword, setShowNewPassword] = useState(false); // State for new password visibility
   const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State for confirm password visibility
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth() + 1;
 
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: '',
@@ -33,6 +35,14 @@ const ProfileDashboard = () => {
     confirmPassword: '',
   });
   const [passwordSubmitting, setPasswordSubmitting] = useState(false);
+
+  const [attendanceStats, setAttendanceStats] = useState({
+    attendance_percentage: 0,
+    annual_leave_balance: 0,
+    net_pay: 0,
+    total_overtime_hours: 0,
+  });
+
   const {
         workingHours,
         breakTime,
@@ -50,6 +60,40 @@ const ProfileDashboard = () => {
 
   // Fetch employee profile data from the API
   useEffect(() => {
+  
+  const authData = JSON.parse(localStorage.getItem('employeeAuthToken'));
+    const token = authData?.access_token;
+    console.log("Token:", token);
+    if (!token) {
+      console.error('No token found. Redirecting to login.');
+      window.location.href = '/login'; 
+      return;
+    }
+
+
+    const fetchMonthlyStats = async () => {
+      try {
+        const response = await fetch(`https://proximahr.onrender.com/api/v2/attendance/employee/monthly-stats?month=${currentMonth}&year=${currentYear}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+        console.log('Employee Monthly Stats Response:', data);
+        setAttendanceStats({
+          attendance_percentage: data.attendance_percentage || 0,
+          annual_leave_balance: data.annual_leave_balance || 0,
+          net_pay: data.net_pay || 0,
+          total_overtime_hours: data.total_overtime_hours || 0,
+        });
+        setLoading(false);  // Set loading to false once data is fetched
+      } catch (error) {
+        console.error('Error fetching employee stats:', error);
+        setLoading(false);  // Set loading to false even if an error occurs
+      }
+    };
+
+
     const fetchEmployeeProfile = async () => {
       const storedToken = localStorage.getItem('employeeAuthToken'); // Retrieve token from localStorage as 'employeeAuthToken'
       
@@ -79,9 +123,11 @@ const ProfileDashboard = () => {
 
         const data = await response.json();
         console.log("API Response:", data); // Log the API response in the console
+        console.log("Employee Data:", data.data.base_salary); // 
 
         // Ensure data is under response.data, and set the employee data
-        setEmployeeData(data.data); // Update here to access the correct 'data' object from the API response
+        setEmployeeData(data.data); 
+        console.log("Employee Data:", employeeData.annual_leave_days); // Log the.data); // Update here to access the correct 'data' object from the API response
       } catch (err) {
         setError(err.message);
       } finally {
@@ -90,7 +136,8 @@ const ProfileDashboard = () => {
     };
 
     fetchEmployeeProfile();
-  }, []); // Empty dependency array ensures this runs only once on component mount
+    fetchMonthlyStats();
+  }, [currentMonth, currentYear]); // Empty dependency array ensures this runs only once on component mount
 
       const handleProfileImageChange = (event) => {
         const selectedFile = event.target.files[0];
@@ -446,7 +493,7 @@ const ProfileDashboard = () => {
   </div>
 </div>
 
-          {isModalOpen && (
+{isModalOpen && (
   <div 
     style={{
       position: 'fixed',
@@ -554,8 +601,10 @@ const ProfileDashboard = () => {
         >
           {isSaving ? 'Saving...' : 'Save Photo'}
         </button>
+        
       </div>
     </div>
+    
   </div>
 )}
 
@@ -568,7 +617,10 @@ const ProfileDashboard = () => {
               <FontAwesomeIcon icon="fa-solid fa-clock" className="dashboard-icon" />
               <div>
                 <h6>Attendance</h6>
-                <h5 style={{fontSize:'20px'}}>{employeeData ? `${employeeData.attendance || 0}%` : 0}</h5>
+                <h5 style={{fontSize:'20px'}}>
+                {loading ? 'Loading...' : `${attendanceStats.attendance_percentage || 0}%`}
+              </h5>
+
               </div>
             </div>
 
@@ -576,7 +628,10 @@ const ProfileDashboard = () => {
               <FontAwesomeIcon icon="fa-solid fa-calendar" className="dashboard-icon" />
               <div>
                 <h6>Leave Balance</h6>
-                <h5 style={{fontSize:'20px'}}>{employeeData ? `${employeeData.leave_balance || 0} Days` : 0} </h5>
+               <h5 style={{fontSize:'20px'}}>
+                {loading ? 'Loading...' : `${attendanceStats.annual_leave_balance || 0} Days`}
+              </h5>
+
               </div>
             </div>
 
@@ -596,7 +651,10 @@ const ProfileDashboard = () => {
               <FontAwesomeIcon icon="fa-solid fa-users" className="dashboard-icon" />
               <div>
                 <h6>Overtime Hours</h6>
-                <h5 style={{fontSize:'20px'}}>{employeeData ? `${employeeData.overtime_hours || 0} Hours` : 0} </h5>
+                <h5 style={{fontSize:'20px'}}>
+                  {loading ? 'Loading...' : `${attendanceStats.total_overtime_hours || 0} Hours`}
+                </h5>
+
               </div>
             </div>
           </div>
@@ -621,7 +679,7 @@ const ProfileDashboard = () => {
       transition: 'background 0.2s, color 0.2s, border 0.2s'
     }}
   >
-    <FontAwesomeIcon icon="fa-building" className="icon" />
+    <FontAwesomeIcon icon="fa-gear" className="icon" />
     Account Setting
   </button>
   <button
@@ -642,7 +700,7 @@ const ProfileDashboard = () => {
       transition: 'background 0.2s, color 0.2s, border 0.2s'
     }}
   >
-    <FontAwesomeIcon icon="fa-solid fa-money-bill" className="icon" />
+    <FontAwesomeIcon icon="fa-solid fa-building" className="icon" />
     Personal Information
   </button>
   <button
@@ -663,7 +721,7 @@ const ProfileDashboard = () => {
       transition: 'background 0.2s, color 0.2s, border 0.2s'
     }}
   >
-    <FontAwesomeIcon icon="fa-solid fa-list-check" className="icon" />
+    <FontAwesomeIcon icon="fa-solid fa-user" className="icon" />
     Employment Details
   </button>
   <button
@@ -684,7 +742,7 @@ const ProfileDashboard = () => {
       transition: 'background 0.2s, color 0.2s, border 0.2s'
     }}
   >
-    <FontAwesomeIcon icon="fa-solid fa-chart-simple" className="icon" />
+    <FontAwesomeIcon icon="fa-solid fa-money-bill" className="icon" />
     Compensation
   </button>
 </div>
@@ -1294,8 +1352,8 @@ const ProfileDashboard = () => {
       <div style={{ flex: 1, minWidth: 180 }}>
         <div style={{ fontSize: 14, color: '#888' }}>Head of Department</div>
         <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>
-          {employeeData && employeeData.head_of_department
-            ? employeeData.head_of_department
+          {employeeData && employeeData.hod
+            ? employeeData.hod
             : 'N/A'}
         </div>
       </div>
@@ -1441,16 +1499,13 @@ const ProfileDashboard = () => {
       {/* Next Salary Date */}
       <div style={{ flex: 1, minWidth: 200, marginBottom: 18 }}>
         <div style={{ fontSize: 15, color: '#888' }}>Next Salary Date</div>
-        <div style={{ fontSize: 16, color: '#222', fontWeight: 500 }}>
-          {/* Replace with actual field if available */}
-          {employeeData && employeeData.next_salary_date
-            ? new Date(employeeData.next_salary_date).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })
-            : '31,December 2024'}
-        </div>
+          <div style={{ fontSize: 16, color: '#222', fontWeight: 500 }}>
+            {new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </div>
       </div>
     </div>
   </div>

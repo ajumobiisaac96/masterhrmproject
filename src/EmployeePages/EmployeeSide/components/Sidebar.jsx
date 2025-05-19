@@ -31,7 +31,8 @@ const Sidebar = () => {
   // Handle logout confirmation
   const handleLogoutConfirm = () => {
     // Remove token from localStorage
-    localStorage.removeItem('authData');
+    localStorage.removeItem('employeeAuthToken');
+    localStorage.removeItem('employeeTimerState');
 
     // Close the modal
     setShowLogoutModal(false);

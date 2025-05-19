@@ -437,7 +437,7 @@ const EditDepartment = () => {
                     )}
 
                     <div className="dashboard-detail-1">
-                        <Link to={`/department/${departmentId}`}>
+                        <Link to={`/department/add-employee-department/${departmentId}`}>
                             <h1 className="employee-profile" disabled={!departmentId} style={{ marginTop: '20px', fontSize: '28px' }}>
                                 <FontAwesomeIcon icon="fa-solid fa-arrow-left" className="left-arrow" style={{ marginRight: '20px' }} />
                                 Edit Department

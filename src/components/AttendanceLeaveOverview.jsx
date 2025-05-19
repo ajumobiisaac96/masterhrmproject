@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import ColorLegend from './ColorLegend'; // Assuming you have a ColorLegend component
 
 const AttendanceLeaveOverview = () => {
   const [attendanceData, setAttendanceData] = useState([]);
@@ -70,13 +71,15 @@ const AttendanceLeaveOverview = () => {
       if (!accessToken) return;
       try {
         const leaveResponse = await axios.get(
-          `https://proximahr.onrender.com/api/v2/leave-management/`,
+          `https://proximahr.onrender.com/api/v2/employee-management/employee/${selectedEmployeeId}/leave-history`,
           {
+            params: { employee_id: selectedEmployeeId },
             headers: { Authorization: `Bearer ${accessToken}` },
           }
         );
         console.log('Leave Management API Response:', leaveResponse.data);
-        setLeaveHistory(Array.isArray(leaveResponse.data.leave_data) ? leaveResponse.data.leave_data : []);
+        console.log('Leave Data:', leaveResponse.data.leave_history);
+        setLeaveHistory(Array.isArray(leaveResponse.data.leave_history) ? leaveResponse.data.leave_history : []);
         setLoading(false);
       } catch (err) {
         setError('Failed to fetch leave history');
@@ -150,6 +153,7 @@ const AttendanceLeaveOverview = () => {
                   <p style={{ textAlign: 'center' }}>No attendance data available for this employee in {new Date(0, selectedMonth - 1).toLocaleString('en', { month: 'long' })}.</p>
                 )}
               </div>
+            <ColorLegend />
             </div>
 
             {/* Right Section: Leave Overview and Recent Leave History */}
@@ -216,6 +220,7 @@ const AttendanceLeaveOverview = () => {
                 ) : (
                   <p style={{ textAlign: 'center' }}>No leave history available.</p>
                 )}
+
               </div>
             </div>
           </div>
