@@ -162,7 +162,7 @@ const ReportAndAnalysis = () => {
     <div>
       <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>Total Workforce</div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '4px 0' }}>
-        <span style={{ fontSize: 20, fontWeight: 500, color:'#2E2E2E' }}>
+        <span style={{ fontSize: 20, fontWeight: 700, color:'#2E2E2E' }}>
           {workforceData?.current_workforce ?? 0}
         </span>
         <span style={{
@@ -197,7 +197,7 @@ const ReportAndAnalysis = () => {
     <div>
       <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>Attendance Rate</div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '4px 0' }}>
-        <span style={{ fontSize: 20, fontWeight: 500, color:'#2E2E2E' }}>
+        <span style={{ fontSize: 20, fontWeight: 700, color:'#2E2E2E' }}>
           {attendanceRate?.current_month_attendance_rate ?? 0}%
         </span>
         <span style={{
@@ -232,7 +232,7 @@ const ReportAndAnalysis = () => {
     <div>
       <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>Leave Utilization</div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '4px 0' }}>
-        <span style={{ fontSize: 20, fontWeight: 500, color:'#2E2E2E' }}>
+        <span style={{ fontSize: 20, fontWeight: 700, color:'#2E2E2E' }}>
           {leaveUtilization?.current_month_leave_utilization ?? 0}%
         </span>
         <span style={{
@@ -267,7 +267,7 @@ const ReportAndAnalysis = () => {
     <div>
       <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>Payroll Cost</div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '4px 0' }}>
-        <span style={{ fontSize: 20, fontWeight: 500, color:'#2E2E2E' }}>
+        <span style={{ fontSize: 20, fontWeight: 700, color:'#2E2E2E' }}>
           ₦{payrollCost?.payroll_cost ? Number(payrollCost.payroll_cost).toLocaleString() : 0}
         </span>
         <span style={{
