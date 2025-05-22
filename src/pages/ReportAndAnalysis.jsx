@@ -19,6 +19,31 @@ import {
   getLeaveUtilization,
   getPayrollCost,
 } from '../utils/api';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { 
+  faUsers, 
+  faArrowUp, 
+  faArrowDown, 
+  faCalendar, 
+  faDollarSign 
+} from '@fortawesome/free-solid-svg-icons';
+import { 
+  faCircleCheck, 
+  faClock, 
+  faMoneyBill1 
+} from '@fortawesome/free-regular-svg-icons';
+
+// Add icons to the library
+library.add(
+  faUsers, 
+  faArrowUp, 
+  faArrowDown, 
+  faCalendar, 
+  faDollarSign, 
+  faCircleCheck, 
+  faClock, 
+  faMoneyBill1
+);
 
 const ReportAndAnalysis = () => {
   const [overtimeData, setOvertimeData] = useState({});
@@ -116,55 +141,152 @@ const ReportAndAnalysis = () => {
 
         {/* Cards Layout */}
         <div className="dashboard-details-1">
-          <div className="card-container">
-            {/* Total Workforce */}
-            <div className="card-item">
-              <FontAwesomeIcon icon="fa-circle-check" className="dashboard-icon-1" style={{ color: '#22C55E' }} />
-              <div>
-                <h6>Total workforce</h6>
-                <h5>{workforceData ? workforceData.current_workforce : 'No data available'}</h5>
-                <h6 style={{ color: getTrendColor(workforceData?.trend) }}>
-                  {workforceData?.trend !== undefined ? `${workforceData.trend}%` : 'No trend available'}
-                </h6>
-              </div>
-            </div>
+          <div className="card-container" style={{
+  display: 'flex',
+  gap: '20px',
+  margin: '-10px -30px',
+  justifyContent: 'flex-start'
+}}>
+  {/* Total Workforce */}
+  <div className="card-item" style={{
+    flex: 1,
+    background: '#fff',
+    border: '1px solid #E5E7EB',
+    borderRadius: '16px',
+    padding: '10px 5px',
+    display: 'flex',
+    alignItems: 'center',
+    minWidth: 200
+  }}>
+    <FontAwesomeIcon icon={['fas', 'users']} style={{ fontSize: 32, color: '#22C55E', marginRight: 18 }} />
+    <div>
+      <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>Total Workforce</div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '4px 0' }}>
+        <span style={{ fontSize: 20, fontWeight: 500, color:'#2E2E2E' }}>
+          {workforceData?.current_workforce ?? 0}
+        </span>
+        <span style={{
+          fontSize: 13,
+          background: (workforceData?.trend ?? 0) >= 0 ? '#E6F9ED' : '#FDEDED',
+          color: (workforceData?.trend ?? 0) >= 0 ? '#22C55E' : '#FF6464',
+          borderRadius: 8,
+          padding: '2px 8px',
+          fontWeight: 600,
+          display: 'flex',
+          alignItems: 'center'
+        }}>
+          <FontAwesomeIcon icon={ (workforceData?.trend ?? 0) >= 0 ? ['fas', 'arrow-up'] : ['fas', 'arrow-down'] } style={{ marginRight: 4, fontSize: 14 }} />
+          {(workforceData?.trend ?? 0) >= 0 ? '+' : ''}{workforceData?.trend ?? 0}%
+        </span>
+      </div>
+    </div>
+  </div>
 
-            {/* Attendance Rate */}
-            <div className="card-item">
-              <FontAwesomeIcon icon="fa-solid fa-calendar" className="dashboard-icon-2" style={{ color: '#007BFF' }} />
-              <div>
-                <h6>Attendance Rate</h6>
-                <h5>{attendanceRate ? `${attendanceRate.current_month_attendance_rate}%` : 'No data available'}</h5>
-                <h6 style={{ color: getTrendColor(attendanceRate?.attendance_trend) }}>
-                  {attendanceRate?.attendance_trend !== undefined ? `${attendanceRate.attendance_trend}%` : 'No trend available'}
-                </h6>
-              </div>
-            </div>
+  {/* Attendance Rate */}
+  <div className="card-item" style={{
+    flex: 1,
+    background: '#fff',
+    border: '1px solid #E5E7EB',
+    borderRadius: '16px',
+    padding: '10px 5px',
+    display: 'flex',
+    alignItems: 'center',
+    minWidth: 200
+  }}>
+    <FontAwesomeIcon icon={['far', 'circle-check']} style={{ fontSize: 32, color: '#22C55E', marginRight: 18 }} />
+    <div>
+      <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>Attendance Rate</div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '4px 0' }}>
+        <span style={{ fontSize: 20, fontWeight: 500, color:'#2E2E2E' }}>
+          {attendanceRate?.current_month_attendance_rate ?? 0}%
+        </span>
+        <span style={{
+          fontSize: 13,
+          background: (attendanceRate?.attendance_trend ?? 0) >= 0 ? '#E6F9ED' : '#FDEDED',
+          color: (attendanceRate?.attendance_trend ?? 0) >= 0 ? '#22C55E' : '#FF6464',
+          borderRadius: 8,
+          padding: '2px 8px',
+          fontWeight: 600,
+          display: 'flex',
+          alignItems: 'center'
+        }}>
+          <FontAwesomeIcon icon={ (attendanceRate?.attendance_trend ?? 0) >= 0 ? ['fas', 'arrow-up'] : ['fas', 'arrow-down'] } style={{ marginRight: 4, fontSize: 14 }} />
+          {(attendanceRate?.attendance_trend ?? 0) >= 0 ? '+' : ''}{attendanceRate?.attendance_trend ?? 0}%
+        </span>
+      </div>
+    </div>
+  </div>
 
-            {/* Leave Utilization */}
-            <div className="card-item">
-              <FontAwesomeIcon icon="fa-solid fa-leaf" className="dashboard-icon-3" style={{ color: '#6F42C1' }} />
-              <div>
-                <h6>Leave Utilization</h6>
-                <h5>{leaveUtilization ? `${leaveUtilization.current_month_leave_utilization}%` : 'No data available'}</h5>
-                <h6 style={{ color: getTrendColor(leaveUtilization?.leave_trend) }}>
-                  {leaveUtilization?.leave_trend !== undefined ? `${leaveUtilization.leave_trend}%` : 'No trend available'}
-                </h6>
-              </div>
-            </div>
+  {/* Leave Utilization */}
+  <div className="card-item" style={{
+    flex: 1,
+    background: '#fff',
+    border: '1px solid #E5E7EB',
+    borderRadius: '16px',
+    padding: '10px 5px',
+    display: 'flex',
+    alignItems: 'center',
+    minWidth: 200
+  }}>
+    <FontAwesomeIcon icon={['far', 'clock']} style={{ fontSize: 32, color: '#FFD600', marginRight: 18 }} />
+    <div>
+      <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>Leave Utilization</div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '4px 0' }}>
+        <span style={{ fontSize: 20, fontWeight: 500, color:'#2E2E2E' }}>
+          {leaveUtilization?.current_month_leave_utilization ?? 0}%
+        </span>
+        <span style={{
+          fontSize: 13,
+          background: (leaveUtilization?.leave_trend ?? 0) >= 0 ? '#E6F9ED' : '#FDEDED',
+          color: (leaveUtilization?.leave_trend ?? 0) >= 0 ? '#22C55E' : '#FF6464',
+          borderRadius: 8,
+          padding: '2px 8px',
+          fontWeight: 600,
+          display: 'flex',
+          alignItems: 'center'
+        }}>
+          <FontAwesomeIcon icon={ (leaveUtilization?.leave_trend ?? 0) >= 0 ? ['fas', 'arrow-up'] : ['fas', 'arrow-down'] } style={{ marginRight: 4, fontSize: 14 }} />
+          {(leaveUtilization?.leave_trend ?? 0) >= 0 ? '+' : ''}{leaveUtilization?.leave_trend ?? 0}%
+        </span>
+      </div>
+    </div>
+  </div>
 
-            {/* Payroll Cost */}
-            <div className="card-item">
-              <FontAwesomeIcon icon="fa-solid fa-dollar-sign" className="dashboard-icon-4" style={{ color: '#FF6464' }} />
-              <div>
-                <h6>Payroll Cost</h6>
-                <h5>{payrollCost ? `N${Number(payrollCost.payroll_cost).toLocaleString()}` : 'No data available'}</h5>
-                <h6 style={{ color: getTrendColor(payrollCost?.trend) }}>
-                  {payrollCost?.trend !== undefined ? `${payrollCost.trend}%` : 'No trend available'}
-                </h6>
-              </div>
-            </div>
-          </div>
+  {/* Payroll Cost */}
+  <div className="card-item" style={{
+    flex: 1,
+    background: '#fff',
+    border: '1px solid #E5E7EB',
+    borderRadius: '16px',
+    padding: '20px 30px',
+    display: 'flex',
+    alignItems: 'center',
+    minWidth: 200
+  }}>
+    <FontAwesomeIcon icon={['far', 'money-bill-1']} style={{ fontSize: 32, color: '#6F42C1', marginRight: 18 }} />
+    <div>
+      <div style={{ fontSize: 15, color: '#222', fontWeight: 500 }}>Payroll Cost</div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '4px 0' }}>
+        <span style={{ fontSize: 20, fontWeight: 500, color:'#2E2E2E' }}>
+          ₦{payrollCost?.payroll_cost ? Number(payrollCost.payroll_cost).toLocaleString() : 0}
+        </span>
+        <span style={{
+          fontSize: 13,
+          background: (payrollCost?.trend ?? 0) >= 0 ? '#E6F9ED' : '#FDEDED',
+          color: (payrollCost?.trend ?? 0) >= 0 ? '#22C55E' : '#FF6464',
+          borderRadius: 8,
+          padding: '2px 8px',
+          fontWeight: 600,
+          display: 'flex',
+          alignItems: 'center'
+        }}>
+          <FontAwesomeIcon icon={ (payrollCost?.trend ?? 0) >= 0 ? ['fas', 'arrow-up'] : ['fas', 'arrow-down'] } style={{ marginRight: 4, fontSize: 14 }} />
+          {(payrollCost?.trend ?? 0) >= 0 ? '+' : ''}{payrollCost?.trend ?? 0}%
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
         </div>
 
         {/* Graphs and Achievers */}
@@ -184,27 +306,80 @@ const ReportAndAnalysis = () => {
 
 
         {/* Top Attendance Achievers */}
-        <div className="graph-item"  style={{ width: '35%'}}>
-          <h4>Top Attendance Achievers</h4>
-          {topAttendanceAchievers && topAttendanceAchievers.length > 0 ? (
+        <div className="graph-item" style={{ width: '35%' }}>
+  <h4>Top Attendance Achievers</h4>
+  {topAttendanceAchievers && topAttendanceAchievers.length > 0 ? (
+    <div>
+      {topAttendanceAchievers.map((achiever, index) => (
+        <div
+          key={index}
+          className="achiever-card"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            background: '#fff',
+            borderRadius: 12,
+            padding: '10px 0',
+            marginBottom: 2,
+          }}
+        >
+          {/* Profile initials */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div
+              style={{
+                width: 38,
+                height: 38,
+                borderRadius: '50%',
+                background: '#F3F4F6',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 600,
+                fontSize: 16,
+                color: '#555',
+                overflow: 'hidden',
+              }}
+            >
+              {`${achiever.first_name?.[0] ?? ''}${achiever.last_name?.[0] ?? ''}`.toUpperCase()}
+            </div>
             <div>
-              {topAttendanceAchievers.map((achiever, index) => (
-                <div key={index} className="achiever-card">
-                  <h5>{achiever.name}</h5>
-                  <p>{achiever.job_title}</p>
-                  <div className="rating">
-                    <span>{'⭐'.repeat(achiever.rating)} </span>
-                    <span>{achiever.rating}/5</span>
-                  </div>
-                </div>
-              ))}
+              <div style={{ fontWeight: 600, color: '#222', fontSize: 15 }}>
+                {achiever.first_name} {achiever.last_name}
+              </div>
+              <div style={{ color: '#888', fontSize: 13 }}>{achiever.job_title}</div>
             </div>
-          ) : (
-            <div className="no-data-message">
-              <p>No top attendance achievers found. Please check back later.</p>
-            </div>
-          )}
+          </div>
+          {/* Rating pill */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              background: '#FFF9E6',
+              color: '#FFD600',
+              borderRadius: 8,
+              padding: '4px 12px',
+              fontWeight: 600,
+              fontSize: 15,
+              minWidth: 54,
+              justifyContent: 'center',
+              gap: 6,
+            }}
+          >
+            <FontAwesomeIcon icon={['fas', 'star']} style={{ color: '#FFD600', fontSize: 16 }} />
+            <span style={{ color: '#222', fontWeight: 600 }}>
+              {(achiever.attendance_rating ?? 0).toFixed(1)}
+            </span>
+          </div>
         </div>
+      ))}
+    </div>
+  ) : (
+    <div className="no-data-message">
+      <p>No top attendance achievers found. Please check back later.</p>
+    </div>
+  )}
+</div>
       </div>
 
 

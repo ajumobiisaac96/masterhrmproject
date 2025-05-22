@@ -135,7 +135,7 @@ const AttendanceLeaveOverview = () => {
                             ? '#A2FAC3'
                             : item.attendance_status === 'absent'
                             ? '#FD9292'
-                            : item.attendance_status === 'leave'
+                            : item.attendance_status === 'on_leave'
                             ? '#FAFC8B'
                             : item.attendance_status === 'undertime'
                             ? '#7EB1FF'

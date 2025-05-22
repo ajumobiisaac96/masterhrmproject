@@ -106,7 +106,7 @@ const HRlogin = () => {
       exit="exit"
     >
       <motion.div style={{ flex: 1, padding: '20px' }} {...fadeInLeft}>
-        <div className="logo" style={{ marginBottom: '5px', textAlign: 'left', marginLeft: '-190px', marginBottom: '20px' }}>
+        <div className="logo" style={{textAlign: 'left', marginLeft: '-190px', marginBottom: '20px' }}>
           <Link to={'/LandingPage'}><img src={hrmLogo} alt="HRM Logo" style={{ width: '25px', height: 'auto' }} /></Link>
           <h1>Proxima HR</h1>
         </div>

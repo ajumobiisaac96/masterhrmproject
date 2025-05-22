@@ -286,12 +286,21 @@ console.log("leaveData:", leaveData);
 
                   <div className="TaskProgress" style={{ marginTop: "15px" }}>
                     <h5 style={{ fontSize: "14px" }}>Attendance Rate</h5>
-                    <div className="progress-bar" style={{ height: "6px", backgroundColor: "#e0e0e0" }}>
-                      <div style={{
-                        width: `${attendanceRate}%`, 
-                        backgroundColor: "#4caf50", 
-                        transition: "width 0.3s ease-in-out"
-                      }}></div>
+                    <div className="progress-bar" style={{ height: "6px", backgroundColor: "#e0e0e0", borderRadius: "5px", overflow: "hidden" }}>
+                      <div
+                        style={{
+                          width: `${attendanceRate}%`,
+                          height: "100%",
+                          backgroundColor:
+                            attendanceRate <= 40
+                              ? "red"
+                              : attendanceRate <= 69
+                              ? "yellow"
+                              : "#22C55E",
+                          transition: "width 0.3s ease-in-out",
+                          borderRadius: "5px"
+                        }}
+                      ></div>
                     </div>
                     <p style={{ fontSize: "14px", marginTop: "5px" }}>{attendanceRate}% Attendance</p>
                   </div>
