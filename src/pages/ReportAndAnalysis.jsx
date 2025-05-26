@@ -898,7 +898,7 @@ const getMonthlyAttendanceGraphData = (rawData) => {
             )}
           </div>
           {/* Top Monthly Attendance by Department */}
-          <div className="graph-item" style={{ width: '35%' }}>
+          <div className="graph-item" style={{ width: '35%' , height:'100%' }}>
             <h4>Top Monthly Attendance by Department</h4>
             {Array.isArray(currentMonthAttendance) && currentMonthAttendance.length > 0 ? (
               <div>

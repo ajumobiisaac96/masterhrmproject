@@ -229,7 +229,7 @@ const LeaveManagment = () => {
                 <p style={{ textAlign: 'center' }}>No data available for Monthly Leave Distribution</p>
               )}
             </div>
-            <div style={{ width: '48%', padding: '10px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: '#fff' }}>
+            <div style={{ width: '48%', height:'100%', padding: '10px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: '#fff' }}>
               <h3 style={{ textAlign: 'center', marginBottom: '10px' }}>Leave Type Distribution</h3>
               {horizontalBarChartData.length > 0 ? (
                 <ResponsiveContainer width="100%" height={300}>
