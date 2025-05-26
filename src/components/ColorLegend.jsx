@@ -1,12 +1,12 @@
 import React from 'react';
 
 
-const ColorLegend = () => {
+const ColorLegend = ({ statusCounts = {} }) => {
   const legendItems = [
-    { color: '#A2FAC3', label: 'present' },
-    { color: '#FD9292', label: 'absent' },
-    { color: '#FAFC8B', label: 'Leave' },
-    { color: '#7EB1FF', label: 'Undertime' },
+    { color: '#A2FAC3', label: 'present', key: 'present' },
+    { color: '#FD9292', label: 'absent', key: 'absent' },
+    { color: '#FAFC8B', label: 'Leave', key: 'on_leave' },
+    { color: '#7EB1FF', label: 'Undertime', key: 'undertime' },
   ];
 
   return (
@@ -23,7 +23,9 @@ const ColorLegend = () => {
               display: 'inline-block',
             }}
           />
-          <span style={{ fontSize: '16px', color: '#333', whiteSpace: 'nowrap' }}>{item.label}</span>
+          <span style={{ fontSize: '16px', color: '#333', whiteSpace: 'nowrap' }}>
+            {item.label}: {statusCounts[item.key] ?? 0}
+          </span>
         </div>
       ))}
     </div>

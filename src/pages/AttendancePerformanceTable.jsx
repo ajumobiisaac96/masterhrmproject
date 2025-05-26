@@ -5,18 +5,18 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from '../components/Sidebar';
 import { Link, useNavigate } from 'react-router-dom';
 import EmployerNavbar from "../components/EmployerNavbar";
-import './AttendancePerformance.css'; // Import your CSS file for styling
+import './AttendancePerformance.css';
 
 const AttendancePerformanceTable = ({ onBack }) => {
   const [isMonthOpen, setIsMonthOpen] = useState(false);
   const [isDepartmentOpen, setIsDepartmentOpen] = useState(false);
   const [overtimeData, setOvertimeData] = useState([]);
-  const [departments, setDepartments] = useState([]); // Dynamic departments
-  const [selectedMonth, setSelectedMonth] = useState('January'); // Default to January
+  const [departments, setDepartments] = useState([]);
+  const [selectedMonth, setSelectedMonth] = useState('January');
   const [selectedDepartment, setSelectedDepartment] = useState('All Department');
   const [error, setError] = useState(null);
 
-  const navigate = useNavigate(); // Hook to navigate to the previous page
+  const navigate = useNavigate();
 
   const toggleMonthDropdown = () => {
     setIsMonthOpen(!isMonthOpen);
@@ -38,7 +38,6 @@ const AttendancePerformanceTable = ({ onBack }) => {
     setIsDepartmentOpen(false);
   };
 
-  // Fetch the list of departments dynamically
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
@@ -65,7 +64,7 @@ const AttendancePerformanceTable = ({ onBack }) => {
         console.log('Departments:', data);
 
         if (data && data.departments) {
-          setDepartments(['All Department', ...data.departments]); // Add "All Department" as the default option
+          setDepartments(['All Department', ...data.departments]);
         } else {
           setError('No departments found');
         }
@@ -77,7 +76,6 @@ const AttendancePerformanceTable = ({ onBack }) => {
     fetchDepartments();
   }, []);
 
-  // Fetch the data from the API based on selected month and department
   useEffect(() => {
     const fetchOvertimeData = async () => {
       try {
@@ -90,7 +88,7 @@ const AttendancePerformanceTable = ({ onBack }) => {
         }
 
         const response = await fetch(
-          `https://proximahr.onrender.com/api/v2/analytics/overtime/by-department?month=${selectedMonth}&year=2024&department=${selectedDepartment !== 'All Department' ? selectedDepartment : ''}`,
+          `https://proximahr.onrender.com/api/v2/analytics/overtime/by-department?month=${getMonthNumber(selectedMonth)}&year=2024&department=${selectedDepartment !== 'All Department' ? selectedDepartment : ''}`,
           {
             method: 'GET',
             headers: {
@@ -103,10 +101,13 @@ const AttendancePerformanceTable = ({ onBack }) => {
         const data = await response.json();
         console.log('Overtime Data:', data);
 
-        if (data && data.overtime_by_department && data.overtime_by_department.length > 0) {
-          setOvertimeData(data.overtime_by_department);
+        // Handle the nested structure
+        if (data && data.data && data.data.data && data.data.data.length > 0) {
+          setOvertimeData(data.data.data);
+          setError(null);
         } else {
-          setError('No overtime data found for the selected month and year');
+          setOvertimeData([]);
+          setError('No overtime data found for the selected month and year.');
         }
       } catch (err) {
         setError('Error fetching data');
@@ -115,6 +116,14 @@ const AttendancePerformanceTable = ({ onBack }) => {
 
     fetchOvertimeData();
   }, [selectedMonth, selectedDepartment]);
+
+  const getMonthNumber = (monthName) => {
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    return months.indexOf(monthName) + 1;
+  };
 
   return (
     <div>
@@ -125,7 +134,6 @@ const AttendancePerformanceTable = ({ onBack }) => {
 
           <hr className="horizontal" />
 
-          {/* Back Arrow and Heading */}
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
             <FontAwesomeIcon
               icon={faArrowLeft}
@@ -135,7 +143,7 @@ const AttendancePerformanceTable = ({ onBack }) => {
             <h5 style={{ marginBottom: '0', fontFamily:'Inter', fontWeight:'400' }}>Report and Analysis</h5>
           </div>
 
-          <h6 style={{fontSize:'16px', fontWeight:'400'}} >{new Date().toLocaleDateString('en-GB', { day: '2-digit', weekday: 'long', month: 'long', year: 'numeric' })}</h6>
+          <h6 style={{fontSize:'16px', fontWeight:'400'}}>{new Date().toLocaleDateString('en-GB', { day: '2-digit', weekday: 'long', month: 'long', year: 'numeric' })}</h6>
 
           <div className="number-of-employee" style={{ marginBottom: '30px', marginTop: '30px', display: 'flex', gap: '20px' }}>
             <div className="new-div-1" style={{ flex: 1 }}>
@@ -209,8 +217,13 @@ const AttendancePerformanceTable = ({ onBack }) => {
                     <tr key={index}>
                       <td>{data.department}</td>
                       <td>{data.total_overtime_hours}</td>
-                      <td>{data.average_overtime_per_employee}</td>
-                      <td>{data.top_contributor}</td>
+                      <td>{data.average_overtime_hours}</td>
+                      <td>
+                        {data.employee_with_max_overtime?.name || 'N/A'}
+                        {typeof data.employee_with_max_overtime?.hours !== 'undefined' && (
+                          <> ({data.employee_with_max_overtime.hours} hrs)</>
+                        )}
+                      </td>
                     </tr>
                   ))
                 ) : (

@@ -77,6 +77,7 @@ export const getYearlyAttendanceTrend = async (year) => {
   }
 };
 
+
 // Function to get Department Attendance Percentage
 export const getDepartmentAttendancePercentage = async () => {
   const token = getTokenFromLocalStorage();

@@ -99,6 +99,14 @@ const AttendanceLeaveOverview = () => {
     return month === selectedMonth;
   });
 
+  // Calculate counts for each status in the filtered month
+  const statusCounts = {
+    present: filteredAttendance.filter(item => item.attendance_status === 'present').length,
+    absent: filteredAttendance.filter(item => item.attendance_status === 'absent').length,
+    on_leave: filteredAttendance.filter(item => item.attendance_status === 'on_leave').length,
+    undertime: filteredAttendance.filter(item => item.attendance_status === 'undertime').length,
+  };
+
   return (
     <div>
       {loading ? (
@@ -122,7 +130,7 @@ const AttendanceLeaveOverview = () => {
           {/* Flex Container for Calendar and Leave Overview */}
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             {/* Left Section: Calendar */}
-            <div style={{ width: '65%', borderRight: '2px solid #ddd', paddingRight: '20px' }}>
+            <div style={{ width: '65%', borderRight: '2px solid #ddd', paddingRight: '20px', display: 'flex', flexDirection: 'column', minHeight: 500 }}>
               <h3 style={{ textAlign: 'center', marginBottom: '20px' }}>Monthly Attendance</h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '10px' }}>
                 {filteredAttendance.length > 0 ? (
@@ -153,7 +161,9 @@ const AttendanceLeaveOverview = () => {
                   <p style={{ textAlign: 'center' }}>No attendance data available for this employee in {new Date(0, selectedMonth - 1).toLocaleString('en', { month: 'long' })}.</p>
                 )}
               </div>
-            <ColorLegend />
+              <div style={{ marginTop: 'auto', alignSelf: 'flex-start' }}>
+                <ColorLegend statusCounts={statusCounts} />
+              </div>
             </div>
 
             {/* Right Section: Leave Overview and Recent Leave History */}
