@@ -185,3 +185,23 @@ export const getPayrollCost = async (year) => {
   }
 };
 
+export const getCurrentMonthAttendanceByDepartment = async (token) => {
+  try {
+    const response = await fetch(
+      'https://proximahr.onrender.com/api/v2/analytics/attendance/current-month',
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    const data = await response.json();
+    console.log('Current Month Attendance By Department:', data);
+    return data;
+  } catch (error) {
+    console.error('Error fetching current month attendance by department:', error);
+    return [];
+  }
+};
+

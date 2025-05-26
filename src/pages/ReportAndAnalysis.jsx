@@ -474,6 +474,7 @@ import {
   getAttendanceRate,
   getLeaveUtilization,
   getPayrollCost,
+  getCurrentMonthAttendanceByDepartment,
 } from '../utils/api';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { 
@@ -512,6 +513,7 @@ const ReportAndAnalysis = () => {
   const [progressBarData, setProgressBarData] = useState([]);
   const [error, setError] = useState(null);
   const [token, setToken] = useState(null);
+  const [currentMonthAttendance, setCurrentMonthAttendance] = useState([]);
 
   useEffect(() => {
     const authData = JSON.parse(localStorage.getItem('authData'));
@@ -563,6 +565,10 @@ const fetchData = async () => {
     // Fetch Payroll Cost (object)
     const payrollResponse = await getPayrollCost(year, token);
     setPayrollCost(payrollResponse || {});
+
+    // Fetch Current Month Attendance by Department (array)
+    const currentMonthAttendanceData = await getCurrentMonthAttendanceByDepartment(token);
+    setCurrentMonthAttendance(currentMonthAttendanceData || []);
   } catch (error) {
     console.error('Error fetching data:', error);
     setError('Error fetching data.');
@@ -892,10 +898,42 @@ const getMonthlyAttendanceGraphData = (rawData) => {
             )}
           </div>
           {/* Top Monthly Attendance by Department */}
-          <div className="graph-item" style={{ width: '35%'}}>
+          <div className="graph-item" style={{ width: '35%' }}>
             <h4>Top Monthly Attendance by Department</h4>
-            {Array.isArray(monthlyAttendanceData) && monthlyAttendanceData.length > 0 ? (
-              <LineGraph data={getMonthlyAttendanceGraphData(monthlyAttendanceData)} type="attendance" />
+            {Array.isArray(currentMonthAttendance) && currentMonthAttendance.length > 0 ? (
+              <div>
+                {currentMonthAttendance.map((item, idx) => {
+                  // Color logic
+                  let barColor = '#22C55E', bgColor = '#E6F9ED';
+                  if (item.attendance_percentage < 60) {
+                    barColor = '#FFD600';
+                    bgColor = '#FFF9E6';
+                  }
+                  return (
+                    <div key={idx} style={{ marginBottom: 18 }}>
+                      <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 2 }}>
+                        {`${item.attendance_percentage}% ${item.department}`}
+                      </div>
+                      <div style={{
+                        background: bgColor,
+                        borderRadius: 6,
+                        height: 7,
+                        width: '100%',
+                        position: 'relative',
+                        overflow: 'hidden'
+                      }}>
+                        <div style={{
+                          width: `${item.attendance_percentage}%`,
+                          background: barColor,
+                          height: '100%',
+                          borderRadius: 6,
+                          transition: 'width 0.5s'
+                        }} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             ) : (
               <div className="no-data-message">
                 <p>No data available.</p>
