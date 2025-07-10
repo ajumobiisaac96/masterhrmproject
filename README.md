@@ -1,68 +1,81 @@
 # Master HRM Project
 
-A full-stack web app to manage employees and employers within a company. This system covers payroll management, attendance, leave management, and provides report analytics—all in one digital workspace.
+A comprehensive full-stack web app for managing employee and employer roles within a company. This platform handles Payroll, Attendance, Leave management, and provides actionable HR analytics—all in one place.
 
 ---
 
-![HRM Banner](https://via.placeholder.com/1200x300?text=Master+HRM+Project)
+![HRM Banner](./others/banner.gif)
 
 ## 🚀 Features
 
-- **Employee & Employer Management**: Centralized database for all staff roles and details.
-- **Payroll Management**: Automate salary calculations, deductions, and payslip generation.
-- **Attendance Tracking**: Record clock-ins/outs, absences, and generate attendance reports.
-- **Leave Management**: Request, approve, and track leaves with custom policies.
-- **Analytics Dashboard**: Visualize key HR metrics to guide business decisions.
-- **Secure Authentication**: Protect sensitive HR data with robust access controls.
+- **Employee & Employer Management:** Centralized records for all staff and roles.
+- **Payroll Automation:** Salary calculations, deductions, and payslip generation.
+- **Attendance Tracking:** Accurate clock-in/out, absence logs, and reporting.
+- **Leave Management:** Easy request, approval, and tracking of employee leave.
+- **Analytics Dashboard:** Visual HR metrics for smarter decisions.
+- **Secure Authentication:** Protects company data with robust access controls.
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: JavaScript, HTML, CSS
-- **Backend**: (Specify if applicable)
-- **Database**: (Specify if applicable)
-- **Other Tools**: (e.g. Node.js, Express, etc.)
+- **Frontend:** React, Vite, JavaScript, HTML, CSS
+- **Backend:** python, django
+- **Other Tools:** Redux, Axios
 
 ---
 
-## 📦 Installation
+## 📦 Installation & Setup
 
-1. Clone the repository:
+1. **Clone the repository:**
     ```bash
     git clone https://github.com/ajumobiisaac96/masterhrmproject.git
     cd masterhrmproject
     ```
-2. Install dependencies:
+2. **Install dependencies:**
     ```bash
     npm install
     ```
-3. Start the development server:
+3. **Start the development server:**
     ```bash
-    npm start
+    npm run dev
     ```
+4. **Open your browser and visit** `http://localhost:5173` (or as indicated in your terminal).
 
 ---
 
 ## 💡 Usage
 
-- Navigate to the dashboard after login to manage employees and employers.
-- Use the sidebar to access Payroll, Attendance, Leave, and Reports.
+- Log in to access the dashboard and manage employees or employers.
+- Use the sidebar to navigate Payroll, Attendance, Leave, and Reports.
 - Explore analytics for actionable HR insights.
 
 ---
 
-## 📸 Screenshots
+## 📸 Demo Screenshots
 
-> _Add screenshots or GIFs here to showcase the app UI!_
->
-> ![Demo Screenshot](https://via.placeholder.com/800x400?text=App+Screenshot)
+> Below are some screenshots and a demo GIF showing key sections of the HRM dashboard and user experience:
+
+### App Walkthrough
+![App Walkthrough](./others/proxima5.jpg)
+
+### Admin Dashboard
+![Admin Dashboard](./others/proxima6.jpg)
+
+### HR Dashboard
+![HR Dashboard](./others/proxima1.jpg)
+
+### Personal Dashboard
+![Personal Dashboard](./others/proxima2.jpg)
+
+### Profile Section
+![Profile Section](./others/proxima3.jpg)
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please fork the repository and open a pull request with your changes. For major changes, open an issue first to discuss what you’d like to change.
+Contributions are welcome! Please fork the repository and open a pull request with your changes. For major changes, open an issue first to discuss your proposal.
 
 ---
 
