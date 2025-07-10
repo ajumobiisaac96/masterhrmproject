@@ -71,6 +71,7 @@ A comprehensive full-stack web app for managing employee and employer roles with
 ### Profile Section
 ![Profile Section](./others/proxima3.JPG)
 
+![Profile Section](./others/proxima4.JPG)
 ---
 
 ## 🤝 Contributing
