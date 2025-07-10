@@ -57,19 +57,19 @@ A comprehensive full-stack web app for managing employee and employer roles with
 > Below are some screenshots and a demo GIF showing key sections of the HRM dashboard and user experience:
 
 ### App Walkthrough
-![App Walkthrough](./others/proxima5.jpg)
+![App Walkthrough](./others/proxima 5.JPG)
 
 ### Admin Dashboard
-![Admin Dashboard](./others/proxima6.jpg)
+![Admin Dashboard](./others/proxima 6.JPG)
 
 ### HR Dashboard
-![HR Dashboard](./others/proxima1.jpg)
+![HR Dashboard](./others/proxima 1.JPG)
 
 ### Personal Dashboard
-![Personal Dashboard](./others/proxima2.jpg)
+![Personal Dashboard](./others/proxima 2.JPG)
 
 ### Profile Section
-![Profile Section](./others/proxima3.jpg)
+![Profile Section](./others/proxima 3.JPG)
 
 ---
 
