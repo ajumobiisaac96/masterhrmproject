@@ -59,7 +59,7 @@ A comprehensive full-stack web app for managing employee and employer roles with
 ### App Walkthrough
 ![App Walkthrough](./others/proxima5.JPG)
 
-### Admin Dashboard
+### Auth Process
 ![Admin Dashboard](./others/proxima6.JPG)
 
 ### HR Dashboard
